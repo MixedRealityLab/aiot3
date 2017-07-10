@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  //h1= title
+  //p Welcome to #{title}
+  .container
+      h1 Home Essentials
+      p
+      p
+        //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
+      ul.nav.nav-tabs
+        li
+          a(data-toggle='tab', href='#scanIn')
+           | SCAN IN 
+        li
+          a(data-toggle='tab', href='#scanOut') SCAN OUT
+        li.active
+          a(data-toggle='tab', href='#inStock') IN STOCK
+        li
+          a(data-toggle='tab', href='#calendar') CALENDAR
+        li
+          a(data-toggle='tab', href='#inbox')
+           | INBOX    
+           span.badge 5
+
+      .tab-content
+        #scanIn.tab-pane.fade
+          h3 SCAN IN
+          p
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        #scanOut.tab-pane.fade
+          h3 SCAN OUT
+          p
+            | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        #inStock.tab-pane.fade.in.active
+          h3 IN STOCK
+          p
+            | Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+        #calendar.tab-pane.fade
+          h3 CALENDAR
+          p
+            | Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+        #inbox.tab-pane.fade
+          h3 INBOX
+          p
+            | INBOX
+
+
