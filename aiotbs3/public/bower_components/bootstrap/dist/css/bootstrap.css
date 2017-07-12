@@ -6754,4 +6754,13 @@ button.close {
     display: none !important;
   }
 }
+.table-fit {
+  width: 250px;
+}
+.panel-fit0 {
+  width: 223px;
+}
+.panel-fit1 {
+  width: 220px;
+}
 /*# sourceMappingURL=bootstrap.css.map */

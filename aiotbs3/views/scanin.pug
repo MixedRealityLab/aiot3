@@ -1,0 +1,82 @@
+append head
+  script(src='/bower_components/bootstrap/dist/js/wizard2.js')
+  link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/wizard2.css')
+
+.container
+  br
+  br
+  .stepwizard
+    .stepwizard-row.setup-panel
+      .stepwizard-step
+        a.btn.btn-primary.btn-circle(href='#step-1', type='button') 1
+        //p Step 1
+      .stepwizard-step
+        a.btn.btn-default.btn-circle(href='#step-2', type='button', disabled='disabled') 2
+        //p Step 2
+      .stepwizard-step
+        a.btn.btn-default.btn-circle(href='#step-3', type='button', disabled='disabled') 3
+        //p Step 3
+      .stepwizard-step
+        a.btn.btn-default.btn-circle(href='#step-4', type='button', disabled='disabled') 4
+        //p Step 4
+      .stepwizard-step
+        a.btn.btn-default.btn-circle(href='#step-5', type='button', disabled='disabled') 5
+        //p Step 5
+
+  form(role='form')
+    #step-1.row.setup-content
+      .col-xs-12
+        .col-md-12
+          .text-center
+            .row.spacer
+              br
+              br
+              br 
+              br
+              p
+                h2
+                  | Internet Connection    
+                  i.fa.fa-spinner.fa-spin(style='font-size:28px')
+              br
+              br
+              p
+                h2
+                  | Barcode Scanner      
+                  i.fa.fa-spinner.fa-spin(style='font-size:28px')
+              br
+              br
+              br
+          //.form-group
+            label.control-label First Name
+            input.form-control(maxlength='100', type='text', required='required', placeholder='Enter First Name')
+          //.form-group
+            label.control-label Last Name
+            input.form-control(maxlength='100', type='text', required='required', placeholder='Enter Last Name')
+          button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
+    #step-2.row.setup-content
+      .col-xs-12
+        .col-md-12
+          h3  Step 2
+          //.form-group
+            label.control-label Company Name
+            input.form-control(maxlength='200', type='text', required='required', placeholder='Enter Company Name')
+          //.form-group
+            label.control-label Company Address
+            input.form-control(maxlength='200', type='text', required='required', placeholder='Enter Company Address')
+          button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
+    #step-3.row.setup-content
+      .col-xs-12
+        .col-md-12
+          h3  Step 3
+          button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
+    #step-4.row.setup-content
+      .col-xs-12
+        .col-md-12
+          h3  Step 4
+          button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
+    #step-5.row.setup-content
+      .col-xs-12
+        .col-md-12
+          h3  Step 5
+          //button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
+          button.btn.btn-success.btn-lg.pull-right(type='submit') Finish!
