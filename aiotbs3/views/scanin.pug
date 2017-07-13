@@ -22,6 +22,18 @@ append head
       .stepwizard-step
         a.btn.btn-default.btn-circle(href='#step-5', type='button', disabled='disabled') 5
         //p Step 5
+      .stepwizard-step
+        a.btn.btn-default.btn-circle(href='#step-6', type='button', disabled='disabled') 6
+        //p Step 6
+      .stepwizard-step
+        a.btn.btn-default.btn-circle(href='#step-7', type='button', disabled='disabled') 7
+        //p Step 7
+      .stepwizard-step
+        a.btn.btn-default.btn-circle(href='#step-8', type='button', disabled='disabled') 8
+        //p Step 8
+      .stepwizard-step
+        a.btn.btn-default.btn-circle(href='#step-9', type='button', disabled='disabled') 9
+        //p Step 9
 
   form(role='form')
     #step-1.row.setup-content
@@ -77,6 +89,205 @@ append head
     #step-5.row.setup-content
       .col-xs-12
         .col-md-12
-          h3  Step 5
-          //button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
-          button.btn.btn-success.btn-lg.pull-right(type='submit') Finish!
+          .container
+            br
+            .row
+              .col-lg-11.col-md-11.col-sm-11
+                .panel.panel-default
+                  .panel-body
+                    .text-center
+                      .row.spacer
+                        br
+                        br
+                        br
+                        br
+                        br
+                        br
+                        h2 Now ready to scan 
+                        br
+                        br
+                        br
+                        br
+                        br
+                        br
+                        br
+                        br
+          button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
+          //button#btnFinish.btn.btn-success.btn-lg.pull-right(type='submit') Finish!
+    #step-6.row.setup-content
+      .container
+        br
+        .row
+          .col-lg-3.col-md-3.col-sm-3
+            .panel.panel-default
+              .panel-heading
+                h4 Last Essentials
+              .panel-body
+                h4 Product 1
+                h4 Product 2 Product 2
+                h4 Product 3
+                h4 Product 4
+                h4 Product 5
+                h4 Product 6
+          .col-lg-8.col-md-8.col-sm-8
+            .panel.panel-default
+              .panel-body
+                .text-center
+                  .row.spacer
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+                    h2
+                      |Item added  
+                      span.glyphicon.glyphicon-ok-circle 
+                    h4 Product Name
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+          button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
+
+    #step-7.row.setup-content
+      .container
+        br
+        .row
+          .col-lg-3.col-md-3.col-sm-3
+            .panel.panel-default
+              .panel-heading
+                h4 Last Essentials
+              .panel-body
+                h4 Product 1
+                h4 Product 2 Product 2
+                h4 Product 3
+                h4 Product 4
+                h4 Product 5
+                h4 Product 6
+          .col-lg-8.col-md-8.col-sm-8
+            .panel.panel-default
+              .panel-body
+                .text-center
+                  .row.spacer
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+                    h2 Ready to scan 
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+          button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
+
+    #step-8.row.setup-content
+      .container
+        br
+        .row
+          .col-lg-3.col-md-3.col-sm-3
+            .panel.panel-default
+              .panel-heading
+                h4 Last Essentials
+              .panel-body
+                h4 
+                  strong Waiting data
+                h4 Product 2 Product 2
+                h4 Product 3
+                h4 Product 4
+                h4 Product 5
+                h4 Product 6
+          .col-lg-8.col-md-8.col-sm-8
+            .panel.panel-default
+              .panel-body
+                .text-center
+                  .row.spacer
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+                    h2
+                      | Unknown Item   
+                      span.glyphicon.glyphicon-remove-circle
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+                    br
+          button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
+    #step-9.row.setup-content
+      .container
+        br
+        .row
+          .col-lg-3.col-md-3.col-sm-3
+            .panel.panel-default
+              .panel-heading
+                h4 Last Essentials
+              .panel-body
+                h4 
+                  strong Waiting data
+                h4 Product 2 Product 2
+                h4 Product 3
+                h4 Product 4
+                h4 Product 5
+                h4 Product 6
+          .col-lg-8.col-md-8.col-sm-8
+            .panel.panel-default
+              .panel-body
+                  .row.spacer
+                    .container
+                      .col-md-4.col-md-offset-2
+                        #productForm.form-area
+                          form(role='form')
+                            br(style='clear:both')
+                            //h4(style='margin-bottom: 25px; text-align: left;') Code: 52652532536
+                            .form-group.text-center
+                              input#productBarcode.form-control(type='text', name='productBarcode', placeholder='Barcode: 52652532536', required='', readonly='')
+                            .form-group
+                              input#productDescription.form-control(type='text', name='productDescription', placeholder='Description', required='')
+                            .form-group
+                              input#productBrand.form-control(type='text', name='productBrand', placeholder='Brand', required='')
+                            .form-group
+                              input#productAmount.form-control(type='text', name='productAmount', placeholder='Amount', required='')
+
+                            //.form-group
+                              textarea#message.form-control(type='textarea', placeholder='Message', maxlength='140', rows='7')
+                              span.help-block
+                                p#characterLeft.help-block You have reached the limit
+                            .form-group
+                              .col-md-4
+                                input#comparison.form-control(name='comparison')
+                                  option(value='kg') Kg.
+                                  option(value='g') G.
+                                  option(value='lt') Lt.
+                                  option(value='ml') Ml.
+                            br
+                            br
+
+                            button#submit.btn.btn-primary.center-block(type='button', name='submit') Save
+                    br
+                    br
+
+      
+                    
+                  
+
+ 
+
+
+

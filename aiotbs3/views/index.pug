@@ -7,7 +7,7 @@ block content
       .container-fluid
         .navbar-header
           //h1 Home Essentials
-          a.navbar-brand(href='#') Home Essentials
+          a.navbar-brand(href='#') 
         ul.nav.navbar-nav.navbar-right
           li
             a(href='#')
@@ -29,7 +29,7 @@ block content
         li
           a(data-toggle='tab', href='#scanOut') SCAN OUT
         li.active
-          a(data-toggle='tab', href='#inStock') IN STOCK
+          a(data-toggle='tab', href='#inStock') ESSENTIALS
         li
           a(data-toggle='tab', href='#calendar') CALENDAR
         li
@@ -45,7 +45,7 @@ block content
           include scanout
 
         #inStock.tab-pane.fade.in.active
-          include instock
+          include essentials_instock
 
         #calendar.tab-pane.fade
           include calendar
