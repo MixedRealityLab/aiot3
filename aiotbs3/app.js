@@ -8,6 +8,7 @@ var db = require('./model/db');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var instock = require('./routes/instock');
+var addedItem= require('./routes/addedItem');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/addedItem', addedItem);
 app.use('/instock', instock);
 
 // catch 404 and forward to error handler
