@@ -1,0 +1,121 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.css')
+		link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/bower_components/smartwizard/dist/css/smart_wizard.css')
+		link(rel='stylesheet', href='/bower_components/smartwizard/dist/css/smart_wizard_theme_arrows.css')
+		link(rel='stylesheet', href='/bower_components/smartwizard/dist/css/smart_wizard_theme_dots.css')
+		link(rel='stylesheet', href='/bower_components/smartwizard/dist/css/smart_wizard_theme_circles.css')
+		script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+		script(src='/bower_components/jquery/dist/jquery.min.js')
+		script(src='/bower_components/smartwizard/dist/js/jquery.smartWizard.min.js')
+		//script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+		//script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+		script(src='/javascripts/wizardExample.js')
+		
+
+	body
+	block content
+		.container
+			form.form-inline
+				br
+				//.form-group
+					label Choose Theme:
+					select#theme_selector.form-control
+						option(value='default') default
+						option(value='circles') circles
+						//option(value='arrows') arrows
+						//option(value='dots') dots
+				label External Buttons:
+				.btn-group.navbar-btn(role='group')
+					button#prev-btn.btn.btn-default(type='button') Go Previous
+					button#next-btn.btn.btn-default(type='button') Go Next
+					button#reset-btn.btn.btn-danger(type='button') Reset Wizard
+			//events box
+			#message-box.alert.alert-info(role='alert')
+				strong Event Log : 
+			// SmartWizard html
+			br
+			#smartwizard
+				ul
+					li
+						a(href='#step-1')
+							| Step 1
+							br
+							//small This is tab's description
+					li
+						a(href='#step-2')
+							| Step 2
+							br
+							//small 
+					li
+						a(href='#step-3')
+							| Step 3
+							br
+							//small This is tab's description
+					li
+						a(href='#step-4')
+							| Step 4
+							br
+							//small This is tab's description
+					li
+						a(href='#step-5')
+							| Step 5
+							br
+							//small This is tab's description
+					li
+						a(href='#step-6', style='display: none;') 
+						//a(href='#step-6', style='display: none;', data-content-url='index') *** redirect to the server 
+							//| Step 5
+							//br
+							//small This is tab's description
+					li
+						a(href='#step-7', style='display: none;')
+					li
+						a(href='#step-8', style='display: none;')
+				div
+					#step-1
+						h2#id01_0 Internet Connection ***
+
+						br
+						h2#id01_1 Barcode Scanner ***
+						
+						
+					#step-2
+						h2#id02_0 
+						br
+						h2#id02_1
+						
+					#step-3
+						h2#id03_0 
+						br
+						h2#id03_1
+					
+					#step-4
+						h2 Step 4: Internet Connection and Barcode Scanner OK
+						//.panel.panel-default
+							.panel-heading My Details
+							table.table
+								tbody
+									tr
+										th Name:
+										td Tim Smith
+									tr
+										th Email:
+										td example@example.com
+					#step-5
+						h2#id05_0 Step 5: Ready to scan
+												
+
+					#step-6
+						h2 Step 6: Item added into user essentials DB. Load #5 last essentials scanned in
+						//include added_item 
+					#step-7
+						h2 Step 7: Unknown Item
+					#step-8
+						h2 Step 7.1: Essential basic data Form, then back to step 6
+
+
