@@ -12,4 +12,6 @@ var db = {
     }
 };
 
+console.log("dummy database connection is active");
+
 module.exports = db;

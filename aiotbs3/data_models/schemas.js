@@ -48,6 +48,7 @@ var schemas = {
     
     products: {
     	id: null, // PK
+    	EAN: null,
     	brand_name: null,
     	description: null,
     	multipack: null,
