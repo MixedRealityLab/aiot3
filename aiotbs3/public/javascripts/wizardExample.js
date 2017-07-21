@@ -29,7 +29,7 @@
                    
                 }
 
-                if (stepNumber==3) {
+                if (stepNumber==3) { 
                     setTimeout(myTimeout1,6000); //move to step-5
 
                 }
@@ -40,6 +40,15 @@
                     barcodeScanning();
 
                 };
+
+                if (stepNumber==6){
+                    setTimeout(myTimeout1,6000); //move to step-8
+                }
+
+                if (stepNumber==7){
+                    //alert('test**');
+                    document.getElementById("lineModalLabel").innerHTML = "Details Barcode xxx";
+                }
 
 
             });
@@ -77,12 +86,21 @@
 
 
                 toolbarSettings: {
-                    toolbarPosition: 'bottom',
-                    toolbarExtraButtons: [btnFinish, btnCancel]
+                    showNextButton: false, 
+                    showPreviousButton: false
+                    //toolbarPosition: 'bottom',
+                    //toolbarExtraButtons: [btnFinish, btnCancel]
+            },
+            anchorSettings: {
+                    anchorClickable: true,
+                    enableAllAnchors: true
             }
         });           
             
-            // External Button Events
+
+
+
+            // External Button Events 
             $("#reset-btn").on("click", function() {
                 // Reset wizard
                 $('#smartwizard').smartWizard("reset");
@@ -128,8 +146,17 @@
                         else{
                             alert('unknown code')  //the barcode is not available in db and tesco api, we need to ask the user
                             // run smartwizard specific step - step-7 is about unkownitem
-                            //$("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {});
-                            //$('#smartwizard').smartWizard(5);
+                            //$('#wizard').smartWizard('goToStep', 7);
+                           $('#smartwizard').smartWizard({selected: 7});
+                            var hash = window.location.hash;
+                            alert(hash);
+                            step7='#step-7';
+                            var elm = $("a[href*='" + step7 + "']", this.nav);
+                            var curTab = this.steps.eq(this.current_index);
+                            //var id = this.steps.index(elm);
+                            //this.steps.eq(idx).parent('li').prevAll().addClass("done");
+                            alert(elm[0]);
+                            alert(curTab);
                             barcode="";
                         }
 

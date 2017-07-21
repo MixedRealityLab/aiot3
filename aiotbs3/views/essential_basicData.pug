@@ -1,0 +1,46 @@
+#addItemModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modalLabel', aria-hidden='true')
+		.modal-dialog.modal-m
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal')
+						span(aria-hidden='true') ×
+						span.sr-only Close
+					h4#lineModalLabel.modal-title Details Barcode 52652532536
+					//h6#barcodeScannerLabel.modal-title Code: 52652532536
+				.modal-body
+					// content goes here
+					
+					form#addUnknownItem(name='addUnknownItem', method='post', action='addUnknownItem')
+						.form-group
+							label(for='productDescription') Description
+							input#productDescription.form-control(type='text', name='productDescription', placeholder='Description', required='')
+						.form-group
+							label(for='productBrand') Brand
+							input#productBrand.form-control(type='text', name='productBrand', placeholder='Brand', required='')
+						
+						.form-group
+							label(for='id') Amount
+							.input-group
+								span.input-group-btn
+									input#productAmount.form-control(type='text', name='productAmount', placeholder='Amount', required='')
+								span.input-group-btn
+									select#unit.form-control(name='unit')
+										option(value='kg') Select Unit.
+										option(value='kg') Kg.
+										option(value='g') G.
+										option(value='lt') Lt.
+										option(value='ml') Ml.
+						.form-group
+							label(for='Items') Items
+							.input-group
+								.checkbox
+									label
+										input(type='checkbox')
+										|  Multipack
+										input#productItems.form-control(type='text', name='productItems', placeholder='Items', required='')
+								
+						button.btn.btn-default.btn-hover(type='submit') Save
+						//button(onclick='addItem()') Save
+				
+				.modal-footer
+

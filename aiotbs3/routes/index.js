@@ -17,7 +17,7 @@ router.post('/addUnknownItem', function(req, res) {
     //var collectionDocument = connectTesco(eanSelected);
     console.log('added_item *** added_item');
     //res.render('wizard#step-5');
-    res.redirect('wizard#step-5');
+    res.redirect('wizard#step-6');
 });
 
 /* GET New wizard page. */
