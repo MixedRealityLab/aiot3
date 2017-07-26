@@ -25,4 +25,13 @@ router.get('/wizard', function(req, res) {
     res.render('wizard');
 });
 
+router.get('/barcodeScanner', function(req, res) {
+    res.render('barcodeScanner');
+});
+
+router.get('/webScanner', function(req, res) {
+    res.render('webScanner');
+});
+
+
 module.exports = router;

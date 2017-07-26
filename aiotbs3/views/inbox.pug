@@ -1,0 +1,130 @@
+//append head
+	link(rel='stylesheet', href='/bower_components/smartwizard/dist/css/smart_wizard.css')
+	link(rel='stylesheet', href='/bower_components/smartwizard/dist/css/smart_wizard_theme_arrows.css')
+	script(src='/bower_components/jquery-code-scanner/jquery-code-scanner.js')
+	//script(src='/bower_components/smartwizard/dist/js/jquery.smartWizard2.min.js')
+	script(src='/bower_components/smartwizard/dist/js/jquery.smartWizard2.js')
+	script(src='/javascripts/wizardExample.js')
+
+//.container
+	br
+	#smartwizard
+		ul
+			li
+				a(href='#step-1')
+					| Step 1
+					br
+					//small This is tab's description
+			li
+				a(href='#step-2')
+					| Step 2
+					br
+					//small 
+			li
+				a(href='#step-3')
+					| Step 3
+					br
+					//small This is tab's description
+			li
+				a(href='#step-4')
+					| Step 4
+					br
+					//small This is tab's description
+			li
+				a(href='#step-5')
+					| Step 5
+					br
+					//small This is tab's description
+			li
+				a(href='#step-6', style='display: none;') 
+
+			li
+				a(href='#step-7', style='display: none;')
+			li
+				a(href='#step-8', style='display: none;')
+		div
+			#step-1
+				h2#id01_0 Internet Connection ***
+
+				br
+				h2#id01_1 Barcode Scanner ****
+				
+				
+			#step-2
+				h2#id02_0 
+				br
+				h2#id02_1
+				
+			#step-3
+				h2#id03_0 
+				br
+				h2#id03_1
+			
+			#step-4
+				h2 Step 4: Internet Connection and Barcode Scanner OK
+
+			#step-5
+				h2#id05_0 Step 5: Ready to scan
+				.col-xs-6
+					input#code-scan(type='text', style='visibility: hidden')
+										
+
+			#step-6
+				h2#id06_0
+				//include added_item 
+			#step-7
+				h2 Step 7: Unknown Itemc
+
+			#step-8
+				//h2 Step 7.1: Essential basic data Form, then back to step 6
+				.panel.panel-default
+					.modal-dialog.modal-m
+						.modal-content
+							.modal-header
+								button.close(type='button', data-dismiss='modal')
+									span(aria-hidden='true') ×
+									span.sr-only Close
+								h4#lineModalLabel.modal-title 
+								//h6#barcodeScannerLabel.modal-title Code: 52652532536
+							.modal-body
+								// content goes here
+								
+								form#addUnknownItem(name='addUnknownItem', method='post', action='addUnknownItem')
+									.form-group
+										label(for='productDescription') Description
+										input#productDescription.form-control(type='text', name='productDescription', placeholder='Description', required='')
+									.form-group
+										label(for='productBrand') Brand
+										input#productBrand.form-control(type='text', name='productBrand', placeholder='Brand', required='')
+									
+									.form-group
+										label(for='id') Amount
+										.input-group
+											span.input-group-btn
+												input#productAmount.form-control(type='text', name='productAmount', placeholder='Amount', required='')
+											span.input-group-btn
+												select#unit.form-control(name='unit')
+													option(value='kg') Select Unit.
+													option(value='kg') Kg.
+													option(value='g') G.
+													option(value='lt') Lt.
+													option(value='ml') Ml.
+									.form-group
+										label(for='Items') Items
+										.input-group
+											.checkbox
+												label
+													input(type='checkbox')
+													|  Multipack
+													input#productItems.form-control(type='text', name='productItems', placeholder='Items', required='')
+											
+									button.btn.btn-default.btn-hover(type='submit') Save
+									//button(onclick='addItem()') Save
+							
+							.modal-footer
+
+
+				//include item_data
+
+				//h2 Step 7.1: Essential basic data Form, then back to step 6
+				

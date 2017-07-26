@@ -9,9 +9,12 @@ html
 		link(rel='stylesheet', href='/bower_components/smartwizard/dist/css/smart_wizard_theme_arrows.css')
 		link(rel='stylesheet', href='/bower_components/smartwizard/dist/css/smart_wizard_theme_dots.css')
 		link(rel='stylesheet', href='/bower_components/smartwizard/dist/css/smart_wizard_theme_circles.css')
-		script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
 		script(src='/bower_components/jquery/dist/jquery.min.js')
-		script(src='/bower_components/smartwizard/dist/js/jquery.smartWizard.min.js')
+		script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+		script(src='/bower_components/jquery-code-scanner/jquery-code-scanner.js')
+
+		script(src='/bower_components/smartwizard/dist/js/jquery.smartWizard2.min.js')
+		script(src='/bower_components/smartwizard/dist/js/jquery.smartWizard2.js')
 		//script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
 		//script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
 		script(src='/javascripts/wizardExample.js')
@@ -68,10 +71,7 @@ html
 							//small This is tab's description
 					li
 						a(href='#step-6', style='display: none;') 
-						//a(href='#step-6', style='display: none;', data-content-url='index') *** redirect to the server 
-							//| Step 5
-							//br
-							//small This is tab's description
+
 					li
 						a(href='#step-7', style='display: none;')
 					li
@@ -108,13 +108,15 @@ html
 										td example@example.com
 					#step-5
 						h2#id05_0 Step 5: Ready to scan
+						.col-xs-6
+							input#code-scan(type='text', style='visibility: hidden')
 												
 
 					#step-6
-						h2 Step 6: Item added into user essentials DB.
+						h2#id06_0
 						//include added_item 
 					#step-7
-						h2 Step 7: Unknown Item
+						h2 Step 7: Unknown Itemc
 
 					#step-8
 						//h2 Step 7.1: Essential basic data Form, then back to step 6
