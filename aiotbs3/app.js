@@ -4,7 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+<<<<<<< HEAD
 //var db = require('./model/db');
+=======
+var db = require('./db/db');
+>>>>>>> 190b55dc8207c6147fcd35c5ec099ffa622118c3
 var index = require('./routes/index');
 var users = require('./routes/users');
 var instock = require('./routes/instock');
