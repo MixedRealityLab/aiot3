@@ -1,6 +1,8 @@
-var db = require("./../db.js");
+var db = require("../db/db.js");
 var schemas = require("./schemas.js");
 var _ = require("lodash");
+var bcrypt = require('bcryptjs');
+
 
 var User = function (data) {
     this.data = this.sanitize(data);
@@ -48,14 +50,15 @@ User.createNew = function (username, password) {
         return ({"status": "fail", "error": "username alredy exists"});
     }
     else {
-        return ({"status": "userId": 1,});
+        //return ({"status": "userId": 1,});
+        return ({"status":"success", "userId": "1"});
     }
 }
 
 User.login = function (username, password) {
     if(username == 'test') {
         if(password == 'test') {
-            return ({"status": "sucess", "session_id": "diofughspidfughpdaiushg2324"});
+            return ({"status": "success", "session_id": "diofughspidfughpdaiushg2324"});
         }
         else {
             return ({"status": "fail", "error": "password incorrect"});
@@ -65,5 +68,6 @@ User.login = function (username, password) {
         return ({"status": "fail", "error": "user does not exist"});
     }
 }
+
 
 module.exports = User;

@@ -3,7 +3,7 @@ var schemas = {
         id: null,
         name: null,
         password: null
-    },
+    }/*,
     inventory_mapping: {
     	id: null, //CPK
     	product_id: null, //FK UK
@@ -58,7 +58,7 @@ var schemas = {
     	metadata: null
     }
 
-
+*/
 }
 
 module.exports = schemas;

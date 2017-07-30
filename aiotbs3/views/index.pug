@@ -1,56 +1,61 @@
 extends layout
 
 block content
-  //h1= title
-  //p Welcome to #{title}
-  nav.navbar.navbar-inverse
-      .container-fluid
-        .navbar-header
-          //h1 Home Essentials
-          a.navbar-brand(href='#') 
-        ul.nav.navbar-nav.navbar-right
-          li
-            a(href='#')
-              span.glyphicon.glyphicon-user
-              |  Sign Up
-          li
-            a(href='#')
-              span.glyphicon.glyphicon-log-in
-              |  Login
-  .container
-      //h1 Home Essentials
-      p
-      p
-        //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
-      ul.nav.nav-tabs
-        li
-          a(data-toggle='tab', href='#scanIn')
-           | SCAN IN 
-        li
-          a(data-toggle='tab', href='#scanOut') SCAN OUT
-        li.active
-          a(data-toggle='tab', href='#inStock') ESSENTIALS
-        li
-          a(data-toggle='tab', href='#calendar') CALENDAR
-        li
-          a(data-toggle='tab', href='#inbox')
-           | INBOX    
-           span.badge 5
+    if success
+        section.success
+            //h2 Successful Validation!
+            //include index
 
-      .tab-content
-        #scanIn.tab-pane.fade
-          include scanin
+            nav.navbar.navbar-inverse
+                .container-fluid
+                    .navbar-header
+                        //h1 Home Essentials
+                        a.navbar-brand(href='#')
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            a(href='#')
+                                span.glyphicon.glyphicon-user
+                                | #{username}
+                        li
+                            a(href='/users/logout')
+                                span.glyphicon.glyphicon-log-in
+                                |  Logout
+            .container
+                //h1 Home Essentials
+                p
+                p
+                    //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
+                ul.nav.nav-tabs
+                    li
+                        a(data-toggle='tab', href='#scanIn')
+                            | SCAN IN
+                    li
+                        a(data-toggle='tab', href='#scanOut') SCAN OUT
+                    li.active
+                        a(data-toggle='tab', href='#inStock') ESSENTIALS
+                    li
+                        a(data-toggle='tab', href='#calendar') CALENDAR
+                    li
+                        a(data-toggle='tab', href='#inbox')
+                            | INBOX
+                            span.badge 5
 
-        #scanOut.tab-pane.fade
-          include scanout
+                .tab-content
+                    #scanIn.tab-pane.fade
+                        include scanin
 
-        #inStock.tab-pane.fade.in.active
-          include essentials_instock
+                    #scanOut.tab-pane.fade
+                        include scanout
 
-        #calendar.tab-pane.fade
-          include calendar
+                    #inStock.tab-pane.fade.in.active
+                        include essentials_instock
 
-        #inbox.tab-pane.fade
-          include inbox
+                    #calendar.tab-pane.fade
+                        include calendar
 
+                    #inbox.tab-pane.fade
+                        include inbox
+
+    else
+        section
 
