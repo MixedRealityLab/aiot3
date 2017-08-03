@@ -5,7 +5,6 @@ var router = express.Router();
 /* GET home page. */
 //router.get('/',ensureAuthenticated, function(req, res, next)
 router.get('/',ensureAuthenticated ,function(req, res, next) {
-    res.header('Cache-Control', 'no-cache');
     res.render('index', { username: req.body.username, success: req.session.success, errors: req.session.errors });
     //if (!req.session.success)
     //res.redirect('login');
@@ -13,15 +12,23 @@ router.get('/',ensureAuthenticated ,function(req, res, next) {
     //req.session.success = false;
     req.session.errors = null;
     //res.redirect('login');
-    var nn= req.session.success;
-    console.log('***' +  nn);
 
 
 });
 
 
-/* GET User page */
+/*  PRODUCTS  */
+router.get('/getProduct', function (req,res,next) {
 
+});
+
+router.post('/insertProduct', function (req,res,next) {
+
+});
+
+router.post('/deleteProduct', function (req,res,next) {
+
+});
 
 
 

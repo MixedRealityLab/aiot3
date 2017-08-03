@@ -6,7 +6,7 @@ block content
             //h2 Successful Validation!
             //include index
 
-            nav.navbar.navbar-inverse
+            nav.navbar.navbar-default
                 .container-fluid
                     .navbar-header
                         //h1 Home Essentials
@@ -25,7 +25,7 @@ block content
                 p
                 p
                     //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
-                ul.nav.nav-tabs
+                ul.nav.nav-tabs(style={'font-size': '18px'})
                     li
                         a(data-toggle='tab', href='#scanIn')
                             | SCAN IN
@@ -38,7 +38,7 @@ block content
                     li
                         a(data-toggle='tab', href='#inbox')
                             | INBOX
-                            span.badge 5
+                            //span.badge 5
 
                 .tab-content
                     #scanIn.tab-pane.fade

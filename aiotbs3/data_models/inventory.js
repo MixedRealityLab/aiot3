@@ -2,7 +2,7 @@ var db = require("./../db.js");
 var schemas = require("./schemas.js");
 var _ = require("lodash");
 
-var Invetory = function (data) {
+var Inventory = function (data) {
     this.data = this.sanitize(data);
 }
 

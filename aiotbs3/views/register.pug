@@ -1,4 +1,5 @@
 extends layout
+
 block content
     nav.navbar.navbar-inverse
         .container-fluid
@@ -6,36 +7,39 @@ block content
                 //h1 Home Essentials
                 a.navbar-brand(href='#')
             ul.nav.navbar-nav.navbar-right
-    if success
-        section.success
-            //h2 Successful Validation!
-            //include login
-    else
-        if errors
-            section.errors
-            ul
-                //each errors
-                li #{this.msg}
+        //if success
+            section.success
+                //h2 Successful Validation!
+                //include login
+        //else
+            if errors
+                section.errors
+                ul
+                    //each errors
+                    li #{this.msg}
 
-                | {{/each}}
+                    | {{/each}}
 
 
-        h2.page-header.text-center Essentials Sign Up
-        .modal-body.modal-sm.center-block
-            form(method='post', action='/users/register')
-                //.form-group
-                    label Name
-                    input.form-control(type='text', placeholder='Name', name='name')
-                .form-group
-                    label Username
-                    input.form-control(type='text', placeholder='Username', name='username', required='')
-                //.form-group
-                    label Email
-                    input.form-control(type='email', placeholder='Email', name='email')
-                .form-group
-                    label Password
-                    input.form-control(type='password', placeholder='Password', name='password',required='')
-                .form-group
-                    label Confirm Password
-                    input.form-control(type='password', placeholder='Password', name='password2', required='')
-                button.btn.btn-primary(type='submit') Submit
+    h2.page-header.text-center Essentials Sign Up
+    .modal-body.modal-sm.center-block
+        form(method='post', action='/users/register')
+            //.form-group
+                label Name
+                input.form-control(type='text', placeholder='Name', name='name')
+            .form-group
+                label Username
+                input.form-control(type='text', placeholder='Username', name='username', required='')
+            //.form-group
+                label Email
+                input.form-control(type='email', placeholder='Email', name='email')
+            .form-group
+                label Password
+                input.form-control(type='password', placeholder='Password', name='password',required='')
+            .form-group
+                label Confirm Password
+                input.form-control(type='password', placeholder='Password', name='password2', required='')
+            button.btn.btn-primary(type='submit') Submit
+        br
+        a(href='/users/login')   Login
+

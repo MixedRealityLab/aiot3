@@ -4,6 +4,8 @@ $(document).ready(function(){
 	//$("#bCode").scannerDetection();
 
 	console.log('all is well');
+
+
 	
 	$(document).scannerDetection();
 	$(document).bind('scannerDetectionComplete',function(e,data){
