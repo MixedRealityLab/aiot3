@@ -1,4 +1,4 @@
-var db = require("./../db.js");
+var db = require("../db/db.js");
 var schemas = require("./schemas.js");
 var _ = require("lodash");
 
@@ -25,11 +25,12 @@ Product.getProductByEan = function (ean) {
 
 Product.addNewProduct = function (ean, productData) {
 	if(ean == '1234567890') {
-		return ({"status": "fail", "error code": 102, "error message": "product EAN already in the system"});
+		return ({"status": "fail", "error code": 102, "error_message": "product EAN already in the system"});
 	}
 	else {
-		return ({"status": "success", "message": "product with EAN " + ean " has been added to the system"});
+		return ({"status": "success", "message": "product with EAN " + ean +" has been added to the system"});
 	}
 }
 
 
+module.exports = Product;

@@ -3,7 +3,18 @@ var schemas = {
         id: null,
         name: null,
         password: null
-    }/*,
+    },
+    products: {
+        id: null, // PK
+        EAN: null,
+        brand_name: null,
+        description: null,
+        multipack: null,
+        multipack_amount: null,
+        quantity: null,
+        quanitiy_unit: null,
+        metadata: null
+    }/*
     inventory_mapping: {
     	id: null, //CPK
     	product_id: null, //FK UK
@@ -44,19 +55,9 @@ var schemas = {
     	user_id: null, // FK
     	category: null,
     	timestamp  
-    },
-    
-    products: {
-    	id: null, // PK
-    	EAN: null,
-    	brand_name: null,
-    	description: null,
-    	multipack: null,
-    	multipack_amount: null,
-    	quantity: null,
-    	quanitiy_unit: null,
-    	metadata: null
     }
+    
+
 
 */
 }

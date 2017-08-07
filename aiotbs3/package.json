@@ -28,6 +28,8 @@
     "passport-local": "^1.0.0",
     "pug": "~2.0.0-beta11",
     "redis-server": "^1.1.0",
+    "request": "^2.81.0",
+    "save": "^2.3.1",
     "serve-favicon": "~2.4.2"
   }
 }

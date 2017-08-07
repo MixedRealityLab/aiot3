@@ -8,6 +8,7 @@ var Inventory = function (data) {
 
 Inventory.getProductsForUser = function (userId) {
 	if(userId == 1) {
+		console.log('loading all product from userId == 1');
 
 	}
 	else {

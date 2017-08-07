@@ -1,11 +1,17 @@
 var express = require('express');
 var router = express.Router();
+var request = require('request');
+
+
+var Product = require('../data_models/products');
 
 
 /* GET home page. */
-//router.get('/',ensureAuthenticated, function(req, res, next)
-router.get('/',ensureAuthenticated ,function(req, res, next) {
-    res.render('index', { username: req.body.username, success: req.session.success, errors: req.session.errors });
+//router.get('/',ensureAuthenticated, function(req, res, next){
+router.get('/' ,function(req, res, next) {
+    //res.render('index', { username: req.body.username, success: req.session.success, errors: req.session.errors });
+    res.render('index', { username: req.body.username, success: 'success', errors: req.session.errors });
+
     //if (!req.session.success)
     //res.redirect('login');
     //res.redirect('/users/login');
@@ -18,9 +24,38 @@ router.get('/',ensureAuthenticated ,function(req, res, next) {
 
 
 /*  PRODUCTS  */
-router.get('/getProduct', function (req,res,next) {
+//check if the basic data of a product is on db
+router.post('/checkBarcode', function (req,res, next) {
+    var codeProduct = req.body.codeProduct;
+    console.log('Im here with code:'+ codeProduct );
+
+    codeProduct = '1234567890'; //just for test
+    var eanCode = Product.getProductByEan(codeProduct);
+
+
+    console.log(eanCode.status);
+
+    if(eanCode.status == 'success'){
+        //if the code is in the db, add new code to db and return to 'added item' view without require data from user
+        //send description to render view
+        var description = eanCode.data.description;
+        console.log(codeProduct);
+        var addNewProduct = Product.addNewProduct(codeProduct,eanCode.data);
+        console.log('status:' + addNewProduct.status + ' message:'+ addNewProduct.error_message);
+
+    }
+    else {
+        // if the code isn't in the db, load tesco api to get data
+        //var data = connectTesco(eanSelected); // to connect tesco api and get data
+
+    }
+
+    //res.render('index', {username: req.body.username, success: req.session.success, errors: req.session.errors });
+    res.redirect('/#scanIn'); //http://localhost:3000/#scanIn
 
 });
+
+
 
 router.post('/insertProduct', function (req,res,next) {
 
@@ -41,14 +76,12 @@ router.post('/addUnknownItem', function(req, res) {
     //var eanSelected = eanCode;//'0'+ eanCode;
     //var collectionDocument = connectTesco(eanSelected);
     console.log('added_item *** added_item');
-    //res.render('wizard#step-5');
-    res.redirect('wizard#step-6');
+    //res.redirect('wizard#step-6');
+    res.redirect('/#scanIn');
 });
 
 /* GET New wizard page. */
 router.get('/wizard', function(req, res,next) {
-    //res.render('wizard',{success: req.session.success, errors: req.session.errors});
-    //req.session.errors = null;
     res.render('wizard');
 });
 
@@ -60,9 +93,12 @@ router.get('/webScanner', function(req, res) {
     res.render('webScanner');
 });
 
+
+//******************** functions **************************
+
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
-        //res.render('index', { username: 'logeado', success: req.session.success, errors: req.session.errors });
+        res.render('index', { username: req.session.username, success: req.session.success, errors: req.session.errors });
         //res.redirect('/users/login');
         return next();
     } else {
@@ -71,5 +107,54 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
+/* function to connect and consume TESCO API. */
+function connectTesco(eanSelected){
+
+    eanSelected1 = '0'+ eanSelected;
+    var options = {
+        method: 'GET',
+        hostname: 'dev.tescolabs.com',
+        //url: 'https://dev.tescolabs.com/product/?gtin=04548736003446', //05022996000135',
+        url: 'https://dev.tescolabs.com/product/?gtin='+eanSelected1, //05022996000135',
+        headers: {
+            'Ocp-Apim-Subscription-Key': 'd00f3cbe704e4aec8aa8fb91b94d43f0'
+        },
+        rejectUnauthorized: false
+    };
+
+    request(options, function (error, response, body) {
+        if (!error) {
+            console.log('*statusCode:', response && response.statusCode); // Print the response status code if a response was received
+            //var productsTesco = JSON.parse(body);
+            var productsTesco = body;
+            console.log('** detalle producto:**'+productsTesco);
+            if (Object.keys(productsTesco).length==22) {
+                //console.log('valor nulo');
+                var jsonObj = { 'products': [ { 'description': 'N/A', 'brand': 'N/A' } ] };
+                var jsonObj = JSON.stringify(jsonObj);
+                console.log(jsonObj);
+                //storeData2(eanSelected,jsonObj,req,res);
+                storeData(eanSelected,jsonObj);
+
+            }else{
+                //storeData2(eanSelected,body,req,res);
+                storeData(eanSelected,body);
+            }
+            //console.log('valor:'+Object.keys(productsTesco).length);
+
+
+        }else{
+            console.log('error:', error);
+            console.log('statusCode:', response && response.statusCode);
+            var jsonObj = { 'products': [ { 'description': 'N/IC', 'brand': 'N/A' } ] };
+            var jsonObj = JSON.stringify(jsonObj);
+            storeData(eanSelected,jsonObj); /* store data when internet connection is not available*/
+            console.log('body:', body);
+            return false;
+
+        }
+
+    });
+}
 
 module.exports = router;

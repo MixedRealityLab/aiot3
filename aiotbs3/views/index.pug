@@ -1,6 +1,9 @@
 extends layout
 
 block content
+
+
+
     if success
         section.success
             //h2 Successful Validation!
@@ -25,13 +28,13 @@ block content
                 p
                 p
                     //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
-                ul.nav.nav-tabs(style={'font-size': '18px'})
+                ul#maintab.nav.nav-tabs(style={'font-size': '18px'})
                     li
                         a(data-toggle='tab', href='#scanIn')
                             | SCAN IN
                     li
                         a(data-toggle='tab', href='#scanOut') SCAN OUT
-                    li.active
+                    li
                         a(data-toggle='tab', href='#inStock') ESSENTIALS
                     li
                         a(data-toggle='tab', href='#calendar') CALENDAR
@@ -39,7 +42,6 @@ block content
                         a(data-toggle='tab', href='#inbox')
                             | INBOX
                             //span.badge 5
-
                 .tab-content
                     #scanIn.tab-pane.fade
                         include scanin
@@ -47,7 +49,7 @@ block content
                     #scanOut.tab-pane.fade
                         include scanout
 
-                    #inStock.tab-pane.fade.in.active
+                    #inStock.tab-pane.fade
                         include essentials_instock
 
                     #calendar.tab-pane.fade
@@ -55,7 +57,3 @@ block content
 
                     #inbox.tab-pane.fade
                         include inbox
-
-    else
-        section
-

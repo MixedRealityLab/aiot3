@@ -1,42 +1,15 @@
 append head
-  //script(src='/javascripts/wizard2.js')
+  script(src='/javascripts/wizard2.js')
   script(src='/bower_components/scanner-detection/jquery.scannerdetection.js')
   script(src='/javascripts/barcodeScanner.js')
 
-  //link(rel='stylesheet', href='/stylesheets/wizard2.css')
+  link(rel='stylesheet', href='/stylesheets/wizard2.css')
 
 
-.container#readyScan
-    br
-    .row
-        .col-lg-11.col-md-11.col-sm-11
-            .text-center
-                .row.spacer
-                    br
-                    br
-                    br
-                    br
-                    br
-                    br
-                    h2 Now Ready to scan
-                    label
-                    br
-                    br
-                    //input#bCode(type='text', name='productCode',required='', hidden='')
-                    form#codeForm(method='POST', action='/checkBarcode')
-                        .form-group
-                            input#codeProduct.form-control(name='codeProduct', type='hidden',required='')
-                        //.form-group
-                            //input#codeProduct.form-control(name='codeProduct', type='hidden',required='')
-                            //input#codeProduct
-                        br
-                        //input.btn.btn-primary.center-block(type='submit',value='send')
-                    h3#bCodeMessage
-                    br
-                    br
-                    br
-
-//.stepwizard
+.container
+  br
+  br
+  .stepwizard
     .stepwizard-row.setup-panel
       .stepwizard-step
         a.btn.btn-primary.btn-circle(href='#step-1', type='button')
@@ -71,8 +44,8 @@ append head
         a.btn.btn-default.btn-circle(href='#step-9', type='button', disabled='disabled') 9
         p Step 9
 
-
-// #step-1.row.setup-content
+  //form(role='form')
+  #step-1.row.setup-content
     .col-xs-12
       .col-md-12
         .text-center
@@ -95,7 +68,7 @@ append head
             br
             br
         button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
-// #step-2.row.setup-content
+  #step-2.row.setup-content
     .col-xs-12
       .col-md-12
         .text-center
@@ -120,7 +93,7 @@ append head
             br
           button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
 
-// #step-3.row.setup-content
+  #step-3.row.setup-content
     .col-xs-12
       .col-md-12
         .text-center
@@ -144,12 +117,38 @@ append head
             br
             br
           button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
-// #step-4.row.setup-content
+  #step-4.row.setup-content
     .col-xs-12
       .col-md-12
-
+        .container
+          br
+          .row
+            .col-lg-11.col-md-11.col-sm-11
+              .text-center
+                .row.spacer
+                  br
+                  br
+                  br
+                  br
+                  h2 Now Ready to scan
+                  label
+                  br
+                  br
+                  //input#bCode(type='text', name='productCode',required='', hidden='')
+                  form#codeForm(method='POST', action='/getProduct')
+                      input#codeProduct.form-control(name='codeProduct', type='hidden',required='')
+                      input#routeHash(name='routeHash', type='hidden')
+                      //.form-group
+                          //input#codeProduct.form-control(name='codeProduct', type='hidden',required='')
+                          //input#codeProduct
+                      br
+                      //input.btn.btn-primary.center-block(type='submit',value='send')
+                  h3#bCodeMessage
+                  br
+                  br
+                  br
           //button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
-//#step-5.row.setup-content
+  #step-5.row.setup-content
     //h1#bCode
       if codeKnown == true
         h2 add item
@@ -171,7 +170,7 @@ append head
                       br
           button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
         //button#btnFinish.btn.btn-success.btn-lg.pull-right(type='submit') Finish!
-//#step-6.row.setup-content
+  //#step-6.row.setup-content
     //.container
     //h1#bCode
     //if codeKnown == true
@@ -185,7 +184,7 @@ append head
 
 
       
-//#step-7.row.setup-content
+  //#step-7.row.setup-content
     .container
       br
       .row
@@ -213,7 +212,7 @@ append head
                       br
           button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
 
-//#step-8.row.setup-content
+  //#step-8.row.setup-content
     .container
       br
       include unknown_item
