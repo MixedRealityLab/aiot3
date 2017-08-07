@@ -1,13 +1,12 @@
+var activeTab2='';
+var hash = window.location.hash;
 
 $(document).ready(function(){
-    var activeTab2='';
-    var hash = window.location.hash;
-
 
     console.log('all is well');
-    //load essentials tab as active
-    $('#maintab a[href="#inStock"]').tab('show');   //$('#maintab a[href="#inbox"]').tab('show'); // change to an specific tab
 
+    //load essentials tab as active
+    $('#maintab a[href="#inStock"]').tab('show');
 
     //get activated and previous tabs access
     $('#maintab').on('shown.bs.tab', function (e) {
@@ -15,19 +14,22 @@ $(document).ready(function(){
         //console.log(e.relatedTarget); // previous active tab
     })
 
+
     //***********************************************************
     // get hash & tab access by url
-    /*
-        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
 
-        $('.nav-tabs a').click(function (e) {
-            $(this).tab('show');
-            var scrollmem = $('body').scrollTop();
-            window.location.hash = this.hash;
-            $('html,body').scrollTop(scrollmem);
+    console.log('url hash enabled');
 
-        });
-    */
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+        $(this).tab('show');
+        var scrollmem = $('body').scrollTop();
+        window.location.hash = this.hash;
+        $('html,body').scrollTop(scrollmem);
+
+    });
+
     //***********************************************************
 
 
@@ -50,7 +52,6 @@ $(document).ready(function(){
                     document.getElementById("codeProduct").value = data.string;
                     document.getElementById("codeForm").submit();
 
-                    //$('#maintab a[href="#scanIn"]').tab('show');
                     activeTab2='';
                 }
             })
@@ -74,3 +75,7 @@ $(document).ready(function(){
     })
 
 });
+
+
+
+// ******  main

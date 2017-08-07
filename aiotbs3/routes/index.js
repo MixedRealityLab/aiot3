@@ -7,7 +7,7 @@ var Product = require('../data_models/products');
 
 
 /* GET home page. */
-//router.get('/',ensureAuthenticated, function(req, res, next){
+//router.get('/',ensureAuthenticated, function(req, res, next){ // this authentication fail :(
 router.get('/' ,function(req, res, next) {
     //res.render('index', { username: req.body.username, success: req.session.success, errors: req.session.errors });
     res.render('index', { username: req.body.username, success: 'success', errors: req.session.errors });
@@ -108,6 +108,8 @@ function ensureAuthenticated(req, res, next){
 }
 
 /* function to connect and consume TESCO API. */
+
+
 function connectTesco(eanSelected){
 
     eanSelected1 = '0'+ eanSelected;
@@ -127,14 +129,14 @@ function connectTesco(eanSelected){
             console.log('*statusCode:', response && response.statusCode); // Print the response status code if a response was received
             //var productsTesco = JSON.parse(body);
             var productsTesco = body;
-            console.log('** detalle producto:**'+productsTesco);
+            console.log('** product details:**'+productsTesco);
             if (Object.keys(productsTesco).length==22) {
                 //console.log('valor nulo');
                 var jsonObj = { 'products': [ { 'description': 'N/A', 'brand': 'N/A' } ] };
                 var jsonObj = JSON.stringify(jsonObj);
                 console.log(jsonObj);
                 //storeData2(eanSelected,jsonObj,req,res);
-                storeData(eanSelected,jsonObj);
+                storeData(eanSelected,jsonObj); // this store data needs to connect with db
 
             }else{
                 //storeData2(eanSelected,body,req,res);
@@ -155,6 +157,24 @@ function connectTesco(eanSelected){
         }
 
     });
+}
+
+
+/* function to store data into mysql collection .*/
+function storeData(eancode,jsonBody) {
+    //connect this with mysql data_models
+
+    /*var eanCode = eancode;
+    var eanCollection = db.get('eanCollection');
+    var collectionDocument = JSON.parse(jsonBody);
+    console.log('**collection body' + collectionDocument);
+    var dataCollection = {
+        "codenumber": eanCode,
+        "codetype": 'EAN-13',
+        "timestamp": [new Date()], // original
+        //"timestamp": [new ISODate()],
+        "products": collectionDocument.products[0]
+    };*/
 }
 
 module.exports = router;
