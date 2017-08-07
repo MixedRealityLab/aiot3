@@ -20,6 +20,7 @@ var schemas = {
     	product_id: null, //FK UK
     	user_id: null, //FK UK
     	stock_level: null,
+        stock_unit: null,
     	predicted_need_date: null,
     	stock_delta_day: null, 
     	need_trigger_stock_level: null
