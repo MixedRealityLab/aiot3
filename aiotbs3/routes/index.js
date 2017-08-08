@@ -10,7 +10,7 @@ var Product = require('../data_models/products');
 //router.get('/',ensureAuthenticated, function(req, res, next){ // this authentication fail :(
 router.get('/' ,function(req, res, next) {
     //res.render('index', { username: req.body.username, success: req.session.success, errors: req.session.errors });
-    res.render('index', { username: req.body.username, success: 'success', errors: req.session.errors });
+    res.render('index', { username: req.body.username, success: 'success', errors: req.session.errors, messageItem : 0 });
 
     //if (!req.session.success)
     //res.redirect('login');
@@ -28,8 +28,6 @@ router.get('/' ,function(req, res, next) {
 router.post('/checkBarcode', function (req,res, next) {
     var codeProduct = req.body.codeProduct;
     console.log('Im here with code:'+ codeProduct );
-
-    codeProduct = '1234567890'; //just for test
     var eanCode = Product.getProductByEan(codeProduct);
 
 
@@ -42,18 +40,20 @@ router.post('/checkBarcode', function (req,res, next) {
         console.log(codeProduct);
         var addNewProduct = Product.addNewProduct(codeProduct,eanCode.data);
         console.log('status:' + addNewProduct.status + ' message:'+ addNewProduct.error_message);
-
+        res.render('checkBarcode',{messageItem : 1});
     }
     else {
         // if the code isn't in the db, load tesco api to get data
         //var data = connectTesco(eanSelected); // to connect tesco api and get data
-
+        res.render('checkBarcode',{messageItem : 2});
     }
 
     //res.render('index', {username: req.body.username, success: req.session.success, errors: req.session.errors });
-    res.redirect('/#scanIn'); //http://localhost:3000/#scanIn
+    //res.redirect('/#scanIn'); //http://localhost:3000/#scanIn
 
 });
+
+
 
 
 

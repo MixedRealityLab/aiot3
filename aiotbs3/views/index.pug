@@ -2,12 +2,20 @@ extends layout
 
 block content
 
+    if messageItem == 0
+        h1 'this is the first load of index view
+
+    else if messageItem == 1
+        h1 'there is a known item,redirecting to added item view'
+        script.
+            $('#maintab a[href="#scanIn"]').tab('show');
 
 
-    //if success
-        section.success
-            //h2 Successful Validation!
-            //include index
+    else if messageItem == 2
+        h1 'unknown item, redirecting to add new item'
+
+
+
 
     nav.navbar.navbar-default
         .container-fluid
@@ -34,7 +42,7 @@ block content
                     | SCAN IN
             li
                 a(data-toggle='tab', href='#scanOut') SCAN OUT
-            li
+            li.active
                 a(data-toggle='tab', href='#inStock') ESSENTIALS
             li
                 a(data-toggle='tab', href='#calendar') CALENDAR
@@ -49,7 +57,7 @@ block content
             #scanOut.tab-pane.fade
                 include scanout
 
-            #inStock.tab-pane.fade
+            #inStock.tab-pane.fade.in.active
                 include essentials_instock
 
             #calendar.tab-pane.fade

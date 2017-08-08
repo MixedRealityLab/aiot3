@@ -1,0 +1,116 @@
+extends layout
+
+
+block content
+
+    nav.navbar.navbar-default
+        .container-fluid
+            .navbar-header
+                //h1 Home Essentials
+                a.navbar-brand(href='#')
+            ul.nav.navbar-nav.navbar-right
+                li
+                    a(href='#')
+                        span.glyphicon.glyphicon-user
+                        | #{username}
+                li
+                    a(href='/users/logout')
+                        span.glyphicon.glyphicon-log-in
+                        |  Logout
+
+
+    if messageItem == 1
+        h1 'I know the item :), redirecting to added item view'
+        .container
+            //h1 Home Essentials
+            p
+            p
+                //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
+            ul#maintab.nav.nav-tabs(style={'font-size': '18px'})
+                li.active
+                    a(data-toggle='tab', href='#scanIn')
+                        | SCAN IN
+                li
+                    a(data-toggle='tab', href='#scanOut') SCAN OUT
+                li
+                    a(data-toggle='tab', href='#inStock') ESSENTIALS
+                li
+                    a(data-toggle='tab', href='#calendar') CALENDAR
+                li
+                    a(data-toggle='tab', href='#inbox')
+                        | INBOX
+                        //span.badge 5
+            .tab-content
+                #scanIn.tab-pane.fade.in.active
+                    include scanin
+
+                #scanOut.tab-pane.fade
+                    include scanout
+
+                #inStock.tab-pane.fade
+                    include essentials_instock
+
+                #calendar.tab-pane.fade
+                    include calendar
+
+                #inbox.tab-pane.fade
+                    include inbox
+
+
+    else if messageItem == 2
+        h1 'this is a unknown item, redirecting to add new item'
+
+        .container
+            //h1 Home Essentials
+            p
+            p
+                //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
+            ul#maintab.nav.nav-tabs(style={'font-size': '18px'})
+                li.active
+                    a(data-toggle='tab', href='#scanIn')
+                        | SCAN IN
+                li
+                    a(data-toggle='tab', href='#scanOut') SCAN OUT
+                li
+                    a(data-toggle='tab', href='#inStock') ESSENTIALS
+                li
+                    a(data-toggle='tab', href='#calendar') CALENDAR
+                li
+                    a(data-toggle='tab', href='#inbox')
+                        | INBOX
+            .tab-content
+                #scanIn.tab-pane.fade.in.active
+                    br
+                    .row
+                        .col-lg-11.col-md-11.col-sm-11
+                            .text-center
+                                .row.spacer
+                                    br
+                                    br
+                                    br
+                                    br
+                                    br
+                                    br
+                                    h2#unknowMessage Unknown Item ... redirecting to add new item
+                                    script.
+                                        script(src="/javascripts/barcodeScanner.js")
+                                        setTimeout(changeMessage,4000);
+                                        //setTimeout(myTimeout2,3000);
+                                    br
+                                    br
+                                    br
+                                    br
+
+                #scanOut.tab-pane.fade
+                    include scanout
+
+                #inStock.tab-pane.fade
+                    include essentials_instock
+
+                #calendar.tab-pane.fade
+                    include calendar
+
+                #inbox.tab-pane.fade
+                    include inbox
+
+

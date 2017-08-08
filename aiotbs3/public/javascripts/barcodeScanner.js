@@ -6,7 +6,7 @@ $(document).ready(function(){
     console.log('all is well');
 
     //load essentials tab as active
-    $('#maintab a[href="#inStock"]').tab('show');
+    //$('#maintab a[href="#inStock"]').tab('show');
 
     //get activated and previous tabs access
     $('#maintab').on('shown.bs.tab', function (e) {
@@ -17,7 +17,7 @@ $(document).ready(function(){
 
     //***********************************************************
     // get hash & tab access by url
-
+    /*
     console.log('url hash enabled');
 
     hash && $('ul.nav a[href="' + hash + '"]').tab('show');
@@ -29,7 +29,7 @@ $(document).ready(function(){
         $('html,body').scrollTop(scrollmem);
 
     });
-
+    */
     //***********************************************************
 
 
@@ -74,8 +74,16 @@ $(document).ready(function(){
 
     })
 
+
+
+
 });
 
+
+function changeMessage(){
+    document.getElementById("unknowMessage").innerHTML = 'add details of this uknowm product';
+
+}
 
 
 // ******  main
