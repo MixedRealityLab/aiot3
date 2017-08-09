@@ -1,0 +1,104 @@
+extends layout
+
+
+block content
+
+    nav.navbar.navbar-default
+        .container-fluid
+            .navbar-header
+                //h1 Home Essentials
+                a.navbar-brand(href='#')
+            ul.nav.navbar-nav.navbar-right
+                li
+                    a(href='#')
+                        span.glyphicon.glyphicon-user
+                        | #{username}
+                li
+                    a(href='/users/logout')
+                        span.glyphicon.glyphicon-log-in
+                        |  Logout
+
+
+    if messageItem == 3
+        h1 'I know the item :), redirecting to added item view'
+        .container
+            //h1 Home Essentials
+            p
+            p
+                //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
+            ul#maintab.nav.nav-tabs(style={'font-size': '18px'})
+                li.active
+                    a(data-toggle='tab', href='#scanIn')
+                        | SCAN IN
+                li
+                    a(data-toggle='tab', href='#scanOut') SCAN OUT
+                li
+                    a(data-toggle='tab', href='#inStock') ESSENTIALS
+                li
+                    a(data-toggle='tab', href='#calendar') CALENDAR
+                li
+                    a(data-toggle='tab', href='#inbox')
+                        | INBOX
+                        //span.badge 5
+            .tab-content
+                #scanIn.tab-pane.fade.in.active
+                    br
+                    br
+                    .row
+                        .col-lg-3.col-md-3.col-sm-3
+                            .panel.panel-default
+                                .panel-heading
+                                    h4 Last Essentials
+                                .panel-body
+                                    h4 #{description}
+                                    h4 Product 2
+                                    h4 Product 3
+                                    h4 Product 4
+                                    h4 Product 5
+                                    h4 Product 6
+                        .col-lg-8.col-md-8.col-sm-8
+                            .panel.panel-default
+                                .panel-body
+                                    .text-center
+                                        .row.spacer
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+                                            h2
+                                                | Item added #{'    '}
+                                                span(style='font-size:32px;color:green').glyphicon.glyphicon-ok-circle
+                                            h4 Product: #{description}
+                                            br
+                                            br
+                                            br
+                                            script.
+                                                setTimeout(scanAgain, 4000);
+                                                function scanAgain() {
+                                                    document.location.href="http://localhost:3000";
+
+                                                }
+                                            //form#scanAgainForm(method='POST', action='/scanAgain')
+                                                .form-group
+                                                    input#scanAgainInput.form-control(name='scanAgainInput', type='hidden',required='')
+                                                //button.btn.btn-default.btn-hover(type='submit') Save
+                                                button#scanAgainButton.btn.btn-info.btn-lg(type='submit') scan again
+                                            br
+                                            br
+                                            br
+                                            br
+
+
+                #scanOut.tab-pane.fade
+                    include scanout
+
+                #inStock.tab-pane.fade
+                    include essentials_instock
+
+                #calendar.tab-pane.fade
+                    include calendar
+
+                #inbox.tab-pane.fade
+                    include inbox

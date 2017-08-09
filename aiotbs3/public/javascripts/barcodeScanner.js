@@ -76,14 +76,14 @@ $(document).ready(function(){
 
 
 
+    //function changeMessage(){
+      //  document.getElementById("unknowMessage").innerHTML = 'add details of this uknowm product';
 
+    //}
 });
 
 
-function changeMessage(){
-    document.getElementById("unknowMessage").innerHTML = 'add details of this uknowm product';
 
-}
 
 
 // ******  main

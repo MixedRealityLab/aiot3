@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
-
+var sleep = require('sleep');
 
 var Product = require('../data_models/products');
 
@@ -24,8 +24,10 @@ router.get('/' ,function(req, res, next) {
 
 
 /*  PRODUCTS  */
+
 //check if the basic data of a product is on db
 router.post('/checkBarcode', function (req,res, next) {
+    sleep.msleep(5000);
     var codeProduct = req.body.codeProduct;
     console.log('Im here with code:'+ codeProduct );
     var eanCode = Product.getProductByEan(codeProduct);
@@ -40,24 +42,35 @@ router.post('/checkBarcode', function (req,res, next) {
         console.log(codeProduct);
         var addNewProduct = Product.addNewProduct(codeProduct,eanCode.data);
         console.log('status:' + addNewProduct.status + ' message:'+ addNewProduct.error_message);
-        res.render('checkBarcode',{messageItem : 1});
+        res.render('insertProduct',{messageItem : 3, description: description});
     }
     else {
         // if the code isn't in the db, load tesco api to get data
         //var data = connectTesco(eanSelected); // to connect tesco api and get data
-        res.render('checkBarcode',{messageItem : 2});
+        res.render('checkBarcode',{messageItem : 2, eancode: codeProduct});
     }
-
-    //res.render('index', {username: req.body.username, success: req.session.success, errors: req.session.errors });
-    //res.redirect('/#scanIn'); //http://localhost:3000/#scanIn
 
 });
 
 
 
-
-
 router.post('/insertProduct', function (req,res,next) {
+    //var addNewProduct = Product.addNewProduct(codeProduct,eanCode.data);
+    console.log(req.body);
+    var description = req.body.productDescription;
+    console.log('insert data from product'); // we will add into the global? inventoryu or both?
+    //ask to db
+    //if product is added successfuly to the db, then go to added item view
+    res.render('insertProduct',{messageItem : 3, description: description });
+
+
+});
+
+
+router.post('/scanAgain', function (req,res,next) {
+    //this is just for render again scan in process
+    console.log('ready to scan in again');
+    res.render('scanAgain',{messageItem: 3});
 
 });
 
@@ -69,6 +82,7 @@ router.post('/deleteProduct', function (req,res,next) {
 
 /* POST to adding minimum data from unknown items */
 router.post('/addUnknownItem', function(req, res) {
+
     // Set our internal DB variable
     //var db = req.db;
     //var eanCode = req.body.eancode;
@@ -106,6 +120,7 @@ function ensureAuthenticated(req, res, next){
         res.redirect('/users/login');
     }
 }
+
 
 /* function to connect and consume TESCO API. */
 

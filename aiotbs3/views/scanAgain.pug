@@ -1,0 +1,75 @@
+extends layout
+
+block content
+
+    if messageItem == 0
+        h1 'this is the first load of index view
+
+    else if messageItem == 1
+        h1 'there is a known item,redirecting to added item view'
+        script.
+            $('#maintab a[href="#scanIn"]').tab('show');
+
+
+    else if messageItem == 2
+        h1 'unknown item, redirecting to add new item'
+
+    else if messageItem == 3
+        h1 'this is the second load of index view'
+
+
+
+
+        nav.navbar.navbar-default
+            .container-fluid
+                .navbar-header
+                    //h1 Home Essentials
+                    a.navbar-brand(href='#')
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href='#')
+                            span.glyphicon.glyphicon-user
+                            | #{username}
+                    li
+                        a(href='/users/logout')
+                            span.glyphicon.glyphicon-log-in
+                            |  Logout
+        .container
+            //h1 Home Essentials
+            p
+            p
+                //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
+            ul#maintab.nav.nav-tabs(style={'font-size': '18px'})
+                li.active
+                    a(data-toggle='tab', href='#scanIn')
+                        | SCAN IN
+                li
+                    a(data-toggle='tab', href='#scanOut') SCAN OUT
+                li
+                    a(data-toggle='tab', href='#inStock') ESSENTIALS
+                li
+                    a(data-toggle='tab', href='#calendar') CALENDAR
+                li
+                    a(data-toggle='tab', href='#inbox')
+                        | INBOX
+                        //span.badge 5
+            .tab-content
+                #scanIn.tab-pane.fade.in.active
+                    script.
+                        //$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+                            activeTab2 = $('.nav-tabs .active').text();
+                            console.log('TAB CHANGED to: ' + $('.nav-tabs .active').text());//})
+
+                    include scanin
+
+                #scanOut.tab-pane.fade
+                    include scanout
+
+                #inStock.tab-pane.fade
+                    include essentials_instock
+
+                #calendar.tab-pane.fade
+                    include calendar
+
+                #inbox.tab-pane.fade
+                    include inbox

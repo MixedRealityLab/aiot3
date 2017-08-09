@@ -91,11 +91,18 @@ block content
                                     br
                                     br
                                     br
-                                    h2#unknowMessage Unknown Item ... redirecting to add new item
+                                    h2#unknownMessage Unknown Item ... redirecting to "Add New Item"
+                                    button#buttonNewItem.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-backdrop='static', data-target='#addItemModal')
+
                                     script.
-                                        script(src="/javascripts/barcodeScanner.js")
-                                        setTimeout(changeMessage,4000);
-                                        //setTimeout(myTimeout2,3000);
+                                        //src="/javascripts/barcodeScanner.js";
+                                        document.getElementById("buttonNewItem").style.visibility = 'hidden';
+                                        setTimeout(changeMessage,6000);
+                                        function changeMessage(){
+                                            //document.getElementById("unknownMessage").innerHTML = 'add details of this uknowm product';
+                                            document.getElementById("buttonNewItem").click();
+                                        }
+                                    include item_data
                                     br
                                     br
                                     br

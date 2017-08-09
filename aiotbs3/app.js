@@ -7,8 +7,8 @@ var bodyParser = require('body-parser');
 var db = require('./db/db');
 var index = require('./routes/index');
 var users = require('./routes/users');
-var instock = require('./routes/instock');
-var addedItem= require('./routes/addedItem');
+var instock = require('./not used/instock');
+var addedItem= require('./not used/addedItem');
 var wizard= require('./routes/wizard');
 
 
