@@ -2,19 +2,19 @@ extends layout
 
 block content
 
-    if messageItem == 0
+    //if messageItem == 0
         h1 'this is the first load of index view
 
-    else if messageItem == 1
+    //else if messageItem == 1
         h1 'there is a known item,redirecting to added item view'
         script.
             $('#maintab a[href="#scanIn"]').tab('show');
 
 
-    else if messageItem == 2
+    //else if messageItem == 2
         h1 'unknown item, redirecting to add new item'
 
-    else if messageItem == 3
+    //else if messageItem == 3
         h1 'this is the second load of index view'
 
 

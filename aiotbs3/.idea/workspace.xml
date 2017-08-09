@@ -2,25 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/insertProduct.pug" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/scanAgain.pug" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/public/javascripts/barcodeScanner2.js" afterPath="$PROJECT_DIR$/not used/barcodeScanner2.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/public/javascripts/item_data.js" afterPath="$PROJECT_DIR$/not used/item_data.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/routes/addedItem.js" afterPath="$PROJECT_DIR$/not used/addedItem.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/routes/essentials.js" afterPath="$PROJECT_DIR$/not used/essentials.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/routes/instock.js" afterPath="$PROJECT_DIR$/not used/instock.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/views/scaninBkup.pug" afterPath="$PROJECT_DIR$/not used/scaninBkup.pug" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/views/unknown_item.pug" afterPath="$PROJECT_DIR$/not used/unknown_item.pug" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/scannedOutProduct.pug" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/barcodeScanner.js" afterPath="$PROJECT_DIR$/public/javascripts/barcodeScanner.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/checkBarcode.pug" afterPath="$PROJECT_DIR$/views/checkBarcode.pug" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.pug" afterPath="$PROJECT_DIR$/views/index.pug" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/insertProduct.pug" afterPath="$PROJECT_DIR$/views/insertProduct.pug" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/item_data.pug" afterPath="$PROJECT_DIR$/views/item_data.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/scanin.pug" afterPath="$PROJECT_DIR$/views/scanin.pug" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/scanout.pug" afterPath="$PROJECT_DIR$/views/scanout.pug" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -41,8 +30,38 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="323">
+              <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scannedOutProduct.pug" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/scannedOutProduct.pug">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="489">
+              <caret line="51" column="38" lean-forward="true" selection-start-line="51" selection-start-column="38" selection-end-line="51" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scanout.pug" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/scanout.pug">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="14" column="32" lean-forward="true" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="barcodeScanner.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/barcodeScanner.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="125">
+              <caret line="80" column="44" lean-forward="false" selection-start-line="80" selection-start-column="44" selection-end-line="80" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -58,31 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="barcodeScanner.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/barcodeScanner.js">
+      <file leaf-file-name="insertProduct.pug" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/insertProduct.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-413">
-              <caret line="36" column="73" lean-forward="true" selection-start-line="36" selection-start-column="73" selection-end-line="36" selection-end-column="73" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="checkBarcode.pug" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/checkBarcode.pug">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
-              <caret line="60" column="52" lean-forward="false" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.pug" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/index.pug">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="22" column="29" lean-forward="true" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+            <state relative-caret-position="240">
+              <caret line="72" column="70" lean-forward="true" selection-start-line="69" selection-start-column="44" selection-end-line="72" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -91,38 +90,8 @@
       <file leaf-file-name="scanin.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/scanin.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="26" column="60" lean-forward="false" selection-start-line="26" selection-start-column="60" selection-end-line="26" selection-end-column="60" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="insertProduct.pug" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/insertProduct.pug">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1482">
-              <caret line="78" column="36" lean-forward="false" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="addedItem.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/not used/addedItem.js">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="item_data.pug" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/item_data.pug">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="710">
-              <caret line="44" column="24" lean-forward="false" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="76" />
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="2" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -187,16 +156,18 @@
         <option value="$PROJECT_DIR$/views/unknown_item.pug" />
         <option value="$PROJECT_DIR$/views/inbox.pug" />
         <option value="$PROJECT_DIR$/routes/users.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/barcodeScanner.js" />
         <option value="$PROJECT_DIR$/not used/unknown_item.pug" />
         <option value="$PROJECT_DIR$/views/scanin.pug" />
-        <option value="$PROJECT_DIR$/views/scanout.pug" />
+        <option value="$PROJECT_DIR$/views/scanAgain.pug" />
+        <option value="$PROJECT_DIR$/views/index.pug" />
         <option value="$PROJECT_DIR$/views/checkBarcode.pug" />
         <option value="$PROJECT_DIR$/views/item_data.pug" />
-        <option value="$PROJECT_DIR$/views/index.pug" />
-        <option value="$PROJECT_DIR$/views/scanAgain.pug" />
+        <option value="$PROJECT_DIR$/views/scanout.pug" />
+        <option value="$PROJECT_DIR$/public/javascripts/barcodeScanner.js" />
         <option value="$PROJECT_DIR$/views/insertProduct.pug" />
+        <option value="$PROJECT_DIR$/views/scanOutProduct.pug" />
         <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/views/scannedOutProduct.pug" />
       </list>
     </option>
   </component>
@@ -275,6 +246,11 @@
             <path>
               <item name="aiotbs3" type="b2602c69:ProjectViewProjectNode" />
               <item name="aiotbs3" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aiotbs3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aiotbs3" type="462c0819:PsiDirectoryNode" />
+              <item name="data_models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="aiotbs3" type="b2602c69:ProjectViewProjectNode" />
@@ -370,12 +346,12 @@
       <workItem from="1501930040324" duration="50870000" />
       <workItem from="1502097400658" duration="6191000" />
       <workItem from="1502114867670" duration="23109000" />
-      <workItem from="1502282717137" duration="6338000" />
+      <workItem from="1502282717137" duration="15234000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="189824000" />
+    <option name="totallyTimeSpent" value="198720000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -422,13 +398,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/test.pug" />
     <entry file="file://$PROJECT_DIR$/views/index_template1.pug" />
     <entry file="file://$PROJECT_DIR$/views/webScanner.pug">
@@ -528,13 +497,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/barcodeScanner.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/wizardExample.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-6336">
@@ -589,13 +551,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
           <caret line="2" column="26" lean-forward="true" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_models/products.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="5" column="36" lean-forward="true" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
         </state>
       </provider>
     </entry>
@@ -676,13 +631,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/scanout.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/messageFlow.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
@@ -714,14 +662,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/checkBarcode.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="60" column="52" lean-forward="false" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/inbox.pug">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -746,26 +686,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/item_data.pug">
+    <entry file="file://$PROJECT_DIR$/views/index.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="710">
-          <caret line="44" column="24" lean-forward="false" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="76" />
+        <state relative-caret-position="-312">
+          <caret line="16" column="6" lean-forward="false" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.pug">
+    <entry file="file://$PROJECT_DIR$/data_models/products.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="22" column="29" lean-forward="true" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        <state relative-caret-position="-13">
+          <caret line="5" column="36" lean-forward="true" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/checkBarcode.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="69" column="31" lean-forward="false" selection-start-line="69" selection-start-column="31" selection-end-line="69" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/item_data.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="24" lean-forward="true" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/barcodeScanner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/barcodeScanner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-413">
-          <caret line="36" column="73" lean-forward="true" selection-start-line="36" selection-start-column="73" selection-end-line="36" selection-end-column="73" />
+        <state relative-caret-position="125">
+          <caret line="80" column="44" lean-forward="false" selection-start-line="80" selection-start-column="44" selection-end-line="80" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/scanin.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="2" selection-end-column="46" />
           <folding />
         </state>
       </provider>
@@ -778,26 +750,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/scanin.pug">
+    <entry file="file://$PROJECT_DIR$/views/insertProduct.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="26" column="60" lean-forward="false" selection-start-line="26" selection-start-column="60" selection-end-line="26" selection-end-column="60" />
+        <state relative-caret-position="240">
+          <caret line="72" column="70" lean-forward="true" selection-start-line="69" selection-start-column="44" selection-end-line="72" selection-end-column="70" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/insertProduct.pug">
+    <entry file="file://$PROJECT_DIR$/views/scanout.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1482">
-          <caret line="78" column="36" lean-forward="false" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
+        <state relative-caret-position="105">
+          <caret line="14" column="32" lean-forward="true" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/scannedOutProduct.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="51" column="38" lean-forward="true" selection-start-line="51" selection-start-column="38" selection-end-line="51" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        <state relative-caret-position="323">
+          <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
           <folding />
         </state>
       </provider>

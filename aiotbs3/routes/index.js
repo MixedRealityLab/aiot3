@@ -55,15 +55,16 @@ router.post('/checkBarcode', function (req,res, next) {
 
 
 router.post('/insertProduct', function (req,res,next) {
-    //var addNewProduct = Product.addNewProduct(codeProduct,eanCode.data);
-    console.log(req.body);
+    //Post unknown item details to global product database
+    var addNewProduct = Product.addNewProduct(req.body.productEan,req.body);
     var description = req.body.productDescription;
-    console.log('insert data from product'); // we will add into the global? inventoryu or both?
-    //ask to db
-    //if product is added successfuly to the db, then go to added item view
-    res.render('insertProduct',{messageItem : 3, description: description });
-
-
+    console.log(addNewProduct.status); //we will add into the global? inventory or both?
+    if(addNewProduct.status){
+        res.render('insertProduct',{messageItem : 3, description: description });
+    }
+    else{
+        console.log('error'); // design a render view for this??
+    }
 });
 
 
@@ -78,6 +79,13 @@ router.post('/deleteProduct', function (req,res,next) {
 
 });
 
+
+router.post('/scanOutProduct',function (req,res,next) {
+    var eanProduct= req.body.codeProduct;
+    console.log('scanning out code:'+ eanProduct);
+    res.render('scannedOutProduct',{messageScanOut:0, eanProduct:eanProduct});
+
+});
 
 
 /* POST to adding minimum data from unknown items */

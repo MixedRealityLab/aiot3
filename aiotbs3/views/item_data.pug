@@ -14,8 +14,9 @@
 					
 					form#insertProduct(name='insertProduct', method='post', action='/insertProduct')
 						.form-group
+							input#productEan.form-control(type='hidden', name='productEan', value=eancode)
+						.form-group
 							label(for='productDescription') Description
-							input#barcodeScanned(type='hidden')
 							input#productDescription.form-control(type='text', name='productDescription', placeholder='Description', required='')
 						.form-group
 							label(for='productBrand') Brand

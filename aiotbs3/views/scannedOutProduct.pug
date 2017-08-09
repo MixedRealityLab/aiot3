@@ -1,0 +1,58 @@
+extends layout
+
+
+block content
+
+    nav.navbar.navbar-default
+        .container-fluid
+            .navbar-header
+                //h1 Home Essentials
+                a.navbar-brand(href='#')
+            ul.nav.navbar-nav.navbar-right
+                li
+                    a(href='#')
+                        span.glyphicon.glyphicon-user
+                        | #{username}
+                li
+                    a(href='/users/logout')
+                        span.glyphicon.glyphicon-log-in
+                        |  Logout
+
+    if messageScanOut == 0
+        .container
+            br
+            br
+            .row
+                .col-lg-3.col-md-4.col-sm-3
+                    .panel.panel-default
+                        .panel-heading
+                            h4 Essentials scanned out
+                        .panel-body
+                            h4 Product xxxx
+                            h4 Product 2
+                            h4 Product 3
+                            h4 Product 4
+                            h4 Product 5
+                            h4 Product 6
+                .col-lg-8.col-md-8.col-sm-8
+                    .panel.panel-default
+                        .panel-body
+                            .text-center
+                                .row.spacer
+                                    br
+                                    br
+                                    br
+                                    br
+                                    br
+                                    br
+                                    h2
+                                        | Item Scanned Out #{'    '}
+                                        span(style='font-size:32px;color:green').glyphicon.glyphicon-ok-circle
+                                    h4 Product: #{eanProduct}
+                                    br
+                                    br
+                                    br
+                                    br
+                                    br
+                                    br
+                                    br

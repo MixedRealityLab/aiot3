@@ -20,7 +20,7 @@ block content
 
 
     if messageItem == 1
-        h1 'I know the item :), redirecting to added item view'
+        //h1 'I know the item :), redirecting to added item view'
         .container
             //h1 Home Essentials
             p
@@ -58,8 +58,7 @@ block content
 
 
     else if messageItem == 2
-        h1 'this is a unknown item, redirecting to add new item'
-
+        //h1 'this is a unknown item, redirecting to add new item'
         .container
             //h1 Home Essentials
             p
@@ -95,11 +94,9 @@ block content
                                     button#buttonNewItem.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-backdrop='static', data-target='#addItemModal')
 
                                     script.
-                                        //src="/javascripts/barcodeScanner.js";
                                         document.getElementById("buttonNewItem").style.visibility = 'hidden';
                                         setTimeout(changeMessage,6000);
                                         function changeMessage(){
-                                            //document.getElementById("unknownMessage").innerHTML = 'add details of this uknowm product';
                                             document.getElementById("buttonNewItem").click();
                                         }
                                     include item_data

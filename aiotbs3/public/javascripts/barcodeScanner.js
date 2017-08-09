@@ -68,6 +68,36 @@ $(document).ready(function(){
                 })
 
         }
+        if (activeTab2 == 'SCAN OUT'){
+            console.log('TAB CHANGED to: '+ $('.nav-tabs .active').text()); // check if user change to SCAN IN tab
+
+            //just execute scan in process if the active tab is 'scan in'. It's need it to do the same with scan out
+            $(document).scannerDetection();
+            $(document).bind('scannerDetectionComplete',function(e,data){
+                console.log('complete: '+data.string);
+                document.getElementById("bCodeMessage").innerHTML = 'Scanning code: '+data.string;
+
+                if(data.string){
+                    console.log('scanning out');
+                    document.getElementById("codeProduct").value = data.string;
+                    document.getElementById("scanoutForm").submit();
+
+                    activeTab2='';
+                }
+            })
+
+
+
+                .bind('scannerDetectionError',function(e,data){
+                    console.log('detection error '+data.string);
+                    codeKnown = false;
+                })
+                .bind('scannerDetectionReceive',function(e,data){
+                    console.log('Received');
+                    console.log(data.evt.which);
+                })
+
+        }
         activeTab2='';
         console.log('TAB CHANGED to: '+ $('.nav-tabs .active').text());
 
@@ -75,15 +105,5 @@ $(document).ready(function(){
     })
 
 
-
-    //function changeMessage(){
-      //  document.getElementById("unknowMessage").innerHTML = 'add details of this uknowm product';
-
-    //}
 });
 
-
-
-
-
-// ******  main
