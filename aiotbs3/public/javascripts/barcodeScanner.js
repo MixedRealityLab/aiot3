@@ -75,11 +75,11 @@ $(document).ready(function(){
             $(document).scannerDetection();
             $(document).bind('scannerDetectionComplete',function(e,data){
                 console.log('complete: '+data.string);
-                document.getElementById("bCodeMessage").innerHTML = 'Scanning code: '+data.string;
+                document.getElementById("bCodeMessageOut").innerHTML = 'Scanning code: '+data.string;
 
                 if(data.string){
                     console.log('scanning out');
-                    document.getElementById("codeProduct").value = data.string;
+                    document.getElementById("codeProductOut").value = data.string;
                     document.getElementById("scanoutForm").submit();
 
                     activeTab2='';

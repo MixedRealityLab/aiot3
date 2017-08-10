@@ -4,6 +4,7 @@ var request = require('request');
 var sleep = require('sleep');
 
 var Product = require('../data_models/products');
+var Inventory = require('../data_models/inventory');
 
 
 /* GET home page. */
@@ -25,29 +26,34 @@ router.get('/' ,function(req, res, next) {
 
 /*  PRODUCTS  */
 
-//check if the basic data of a product is on db
+//after scan, check if the basic data of a product is on db
 router.post('/checkBarcode', function (req,res, next) {
     sleep.msleep(5000);
     var codeProduct = req.body.codeProduct;
-    console.log('Im here with code:'+ codeProduct );
     var eanCode = Product.getProductByEan(codeProduct);
-
-
+    var userInventory = getInventoryUser(1); //get last 5 products from user=1 and send them back to inserted products
     console.log(eanCode.status);
 
     if(eanCode.status == 'success'){
-        //if the code is in the db, add new code to db and return to 'added item' view without require data from user
-        //send description to render view
+        //if the code is in the products, add new code to inventory
+        //and render /insertProduct view without require data from user
+        //send description and user inventory to render view
         var description = eanCode.data.description;
-        console.log(codeProduct);
-        var addNewProduct = Product.addNewProduct(codeProduct,eanCode.data);
+        var addNewProduct = Product.addNewProduct(codeProduct,eanCode.data); // add new product to the global db
         console.log('status:' + addNewProduct.status + ' message:'+ addNewProduct.error_message);
-        res.render('insertProduct',{messageItem : 3, description: description});
+
+        res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory});
     }
     else {
-        // if the code isn't in the db, load tesco api to get data
+        // if the code isn't in the db, load tesco api to get data first
+        // if I get data from tesco then add information to global db and inventory
+            // then render /insertProduct view with messageItem : 3
+        // if data is not available from tesco api
+            // then go to checkBarcode with messageItem : 2
         //var data = connectTesco(eanSelected); // to connect tesco api and get data
-        res.render('checkBarcode',{messageItem : 2, eancode: codeProduct});
+
+
+        res.render('checkBarcode',{messageItem : 2, eancode: codeProduct, userInventory: userInventory});
     }
 
 });
@@ -59,8 +65,14 @@ router.post('/insertProduct', function (req,res,next) {
     var addNewProduct = Product.addNewProduct(req.body.productEan,req.body);
     var description = req.body.productDescription;
     console.log(addNewProduct.status); //we will add into the global? inventory or both?
+
+    //get last 5 products from user=1 and send them back to inserted products
+    var userInventory = getInventoryUser(1);
+
     if(addNewProduct.status){
-        res.render('insertProduct',{messageItem : 3, description: description });
+        //update stock level
+
+        res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory});
     }
     else{
         console.log('error'); // design a render view for this??
@@ -68,6 +80,48 @@ router.post('/insertProduct', function (req,res,next) {
 });
 
 
+
+router.post('/scanOutProduct',function (req,res,next) {
+    sleep.msleep(4000); //this is for show the barcode scanned
+    console.log(req.body);
+    var eanProduct= req.body.codeProductOut;
+
+    //var eanCode = Inventory.getProductForUser(1);
+    //if(eanCode.status == 'success'){ //if barcode is on inventory
+
+    var inventoryForUser = Inventory.getProductForUser(1,eanProduct); //if barcode is on user inventory
+    if (inventoryForUser.status == 'sucess'){ //barcode on user inventory
+        //get stock level and product details from user inventory
+        var producDetails = Product.getProductByEan(eanProduct);
+        //var stock_level = Inventory.
+
+
+
+        //res.render('scanningOutProduct', )
+    }
+    //get code from scanout
+    //if barcode is on inventory
+        //get stock level and product details from user inventory
+        //ask about stock level to confirm
+        //Ask user if item was “used up or wasted” - where store in the model
+        //Confirm item details and new inventory stock level
+        // (inventory means the households local listing of items)
+        //Update inventory (same method as scan in)
+        //then render scannedOutProduct view
+
+    //if barcode is not in the inventory
+        //do something
+        //render to scannedOutProduct with message 1
+
+
+    console.log('scanning out code:'+ eanProduct);
+    res.render('scannedOutProduct',{messageScanOut:0, eanProduct:eanProduct});
+
+});
+
+
+
+//******************* NOT FOR NOW **********************************************
 router.post('/scanAgain', function (req,res,next) {
     //this is just for render again scan in process
     console.log('ready to scan in again');
@@ -78,15 +132,6 @@ router.post('/scanAgain', function (req,res,next) {
 router.post('/deleteProduct', function (req,res,next) {
 
 });
-
-
-router.post('/scanOutProduct',function (req,res,next) {
-    var eanProduct= req.body.codeProduct;
-    console.log('scanning out code:'+ eanProduct);
-    res.render('scannedOutProduct',{messageScanOut:0, eanProduct:eanProduct});
-
-});
-
 
 /* POST to adding minimum data from unknown items */
 router.post('/addUnknownItem', function(req, res) {
@@ -129,10 +174,19 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
+//function to retrieve product inventory listing if exists for user
+
+function getInventoryUser(user){
+    var lastInventory = Inventory.getProductsForUser(user);
+    //console.log(lastInventory["data"]);
+    lastInventory = lastInventory["data"];
+    return lastInventory;
+}
+
+
+
 
 /* function to connect and consume TESCO API. */
-
-
 function connectTesco(eanSelected){
 
     eanSelected1 = '0'+ eanSelected;

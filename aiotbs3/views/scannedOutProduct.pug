@@ -50,7 +50,12 @@ block content
                                         span(style='font-size:32px;color:green').glyphicon.glyphicon-ok-circle
                                     h4 Product: #{eanProduct}
                                     br
-                                    br
+                                    script.
+                                        setTimeout(scanOutReload, 4000);
+                                        function scanOutReload() {
+                                            document.location.href = "http://localhost:3000";
+
+                                        }
                                     br
                                     br
                                     br

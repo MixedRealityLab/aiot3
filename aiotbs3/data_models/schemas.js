@@ -14,7 +14,7 @@ var schemas = {
         quantity: null,
         quanitiy_unit: null,
         metadata: null
-    }/*
+    },
     inventory_mapping: {
     	id: null, //CPK
     	product_id: null, //FK UK
@@ -24,7 +24,7 @@ var schemas = {
     	predicted_need_date: null,
     	stock_delta_day: null, 
     	need_trigger_stock_level: null
-    },
+    }/*
     
     in_events: {
     	id: null, // PK

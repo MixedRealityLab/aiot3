@@ -1,4 +1,4 @@
-var db = require("./../db.js");
+var db = require("../db/db.js");
 var schemas = require("./schemas.js");
 var _ = require("lodash");
 
@@ -9,6 +9,7 @@ var Inventory = function (data) {
 Inventory.getProductsForUser = function (userId) {
 	if(userId == 1) {
 		console.log('loading all product from userId == 1');
+		// how do I know about date/timestamp, I need the last 5 products added to the inventory.
 		return ({
 				  "data": [
 				  { Description : "heinz",
@@ -64,4 +65,4 @@ Inventory.updateProductForUser = function (userId, EAN, new_stock_level) {
 	}
 }
 
-module.exports = Inventory
+module.exports = Inventory;
