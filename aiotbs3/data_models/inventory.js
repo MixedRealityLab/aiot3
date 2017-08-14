@@ -61,7 +61,7 @@ Inventory.updateProductForUser = function (userId, EAN, new_stock_level) {
 	    	stock_unit: 'tins'}});
 	}
 	else {
-		return ({"status": "fail", "error code": 101, "error message": "inventory item product does not exist"});
+		return ({"status": "fail", "error code": 101, "error_message": "inventory item product does not exist"});
 	}
 }
 
