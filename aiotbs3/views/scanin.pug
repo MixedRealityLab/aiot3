@@ -1,9 +1,12 @@
 append head
   script(src='/bower_components/scanner-detection/jquery.scannerdetection.js')
   script(src='/javascripts/barcodeScanner.js')
+  link(rel='stylesheet', href='/stylesheets/loader.css')
 
 
 .container#readyScan
+    br
+    br
     br
     .row
         .col-lg-11.col-md-11.col-sm-11
@@ -15,8 +18,7 @@ append head
                     br
                     br
                     br
-                    h2 Now Ready to scan
-                    label
+                    h2 Ready to Scan In essentials
                     br
                     br
                     //input#bCode(type='text', name='productCode',required='', hidden='')

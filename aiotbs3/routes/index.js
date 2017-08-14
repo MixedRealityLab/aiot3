@@ -157,6 +157,7 @@ router.post('/insertProduct', function (req,res,next) {
 
 
 router.post('/scanOutProduct',function (req,res,next) {
+    var userId=1;
     sleep.msleep(4000); //this is for show the barcode scanned
     console.log(req.body);
     var eanProduct= req.body.codeProductOut;
@@ -164,18 +165,31 @@ router.post('/scanOutProduct',function (req,res,next) {
     //var eanCode = Inventory.getProductForUser(1);
     //if(eanCode.status == 'success'){ //if barcode is on inventory
 
-    var inventoryForUser = Inventory.getProductForUser(1,eanProduct); //if barcode is on user inventory
-    if (inventoryForUser.status == 'sucess'){ //barcode on user inventory
+    var inventoryForUser = Inventory.getProductForUser(userId,eanProduct); //if barcode is on user inventory
+    if (inventoryForUser.status == 'success'){ //barcode on user inventory
+
         //get stock level and product details from user inventory
         var producDetails = Product.getProductByEan(eanProduct);
         //var stock_level = Inventory.
         //res.render('scanningOutProduct', )
+        //ask about stock level to confirm
+        //Ask user if item was “used up or wasted” - where store in the model
+        //Confirm item details and new inventory stock level
+        // (inventory means the households local listing of items)
+        //update stock_level (-1)
+        //then render scannedOutProduct view with messageScanOut=0
+        res.render('scannedOutProduct',{messageScanOut:0, eanProduct:eanProduct});
+
+    }
+    else{ //if barcode isn't on user inventory
+        //do something
+        //render to scannedOutProduct with message 1
+        res.render('scannedOutProduct',{messageScanOut:1, eanProduct:eanProduct});
+
     }
 
 
-
     console.log('scanning out code:'+ eanProduct);
-    res.render('scannedOutProduct',{messageScanOut:0, eanProduct:eanProduct});
 
 });
 

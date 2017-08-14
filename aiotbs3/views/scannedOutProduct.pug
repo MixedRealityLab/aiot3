@@ -20,23 +20,110 @@ block content
 
     if messageScanOut == 0
         .container
-            br
-            br
-            .row
-                .col-lg-3.col-md-4.col-sm-3
-                    .panel.panel-default
-                        .panel-heading
-                            h4 Essentials scanned out
-                        .panel-body
-                            h4 Product xxxx
-                            h4 Product 2
-                            h4 Product 3
-                            h4 Product 4
-                            h4 Product 5
-                            h4 Product 6
-                .col-lg-8.col-md-8.col-sm-8
-                    .panel.panel-default
-                        .panel-body
+            //h1 Home Essentials
+            p
+            p
+                //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
+            ul#maintab.nav.nav-tabs(style={'font-size': '18px'})
+                li
+                    a(data-toggle='tab', href='#scanIn')
+                        | SCAN IN
+                li.active
+                    a(data-toggle='tab', href='#scanOut') SCAN OUT
+                li
+                    a(data-toggle='tab', href='#inStock') ESSENTIALS
+                li
+                    a(data-toggle='tab', href='#calendar') CALENDAR
+                li
+                    a(data-toggle='tab', href='#inbox')
+                        | INBOX
+                        //span.badge 5
+            .tab-content
+                #scanIn.tab-pane.fade
+                    include scanin
+
+                #scanOut.tab-pane.fade.in.active
+                    br
+                    br
+                    .row
+                        .col-lg-3.col-md-4.col-sm-3
+                            .panel.panel-default
+                                .panel-heading
+                                    h4 Essentials scanned out
+                                .panel-body
+                                    h4 Product #{eanProduct}
+                                    h4 Product 2
+                                    h4 Product 3
+                                    h4 Product 4
+                                    h4 Product 5
+                                    h4 Product 6
+                        .col-lg-8.col-md-8.col-sm-8
+                            .panel.panel-default
+                                .panel-body
+                                    .text-center
+                                        .row.spacer
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+                                            h2
+                                                | Item Scanned Out #{'    '}
+                                                span(style='font-size:32px;color:green').glyphicon.glyphicon-ok-circle
+                                            h4 Product: #{eanProduct}
+                                            br
+                                            script.
+                                                setTimeout(scanOutReload, 4000);
+                                                function scanOutReload() {
+                                                    document.location.href = "http://localhost:3000";
+
+                                                }
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+
+                #inStock.tab-pane.fade
+                    include essentials_instock
+
+                #calendar.tab-pane.fade
+                    include calendar
+
+                #inbox.tab-pane.fade
+                    include inbox
+
+
+    else if messageScanOut == 1
+        .container
+            //h1 Home Essentials
+            p
+            p
+                //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.
+            ul#maintab.nav.nav-tabs(style={'font-size': '18px'})
+                li
+                    a(data-toggle='tab', href='#scanIn')
+                        | SCAN IN
+                li.active
+                    a(data-toggle='tab', href='#scanOut') SCAN OUT
+                li
+                    a(data-toggle='tab', href='#inStock') ESSENTIALS
+                li
+                    a(data-toggle='tab', href='#calendar') CALENDAR
+                li
+                    a(data-toggle='tab', href='#inbox')
+                        | INBOX
+                        //span.badge 5
+            .tab-content
+                #scanIn.tab-pane.fade
+                    include scanin
+
+                #scanOut.tab-pane.fade.in.active
+                    br
+                    br
+                    .row
+                        .col-lg-11.col-md-11.col-sm-11
                             .text-center
                                 .row.spacer
                                     br
@@ -46,18 +133,28 @@ block content
                                     br
                                     br
                                     h2
-                                        | Item Scanned Out #{'    '}
-                                        span(style='font-size:32px;color:green').glyphicon.glyphicon-ok-circle
-                                    h4 Product: #{eanProduct}
+                                        | Unknown Item to scan out #{'    '}
+                                        span(style='font-size:32px;color:red').glyphicon.glyphicon-remove-circle
                                     br
                                     script.
-                                        setTimeout(scanOutReload, 4000);
+                                        setTimeout(scanOutReload, 6000);
                                         function scanOutReload() {
                                             document.location.href = "http://localhost:3000";
 
                                         }
+                                    //include scanOutUnknown
                                     br
                                     br
                                     br
                                     br
-                                    br
+
+                #inStock.tab-pane.fade
+                    include essentials_instock
+
+                #calendar.tab-pane.fade
+                    include calendar
+
+                #inbox.tab-pane.fade
+                    include inbox
+
+

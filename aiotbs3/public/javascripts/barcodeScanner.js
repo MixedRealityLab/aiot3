@@ -45,8 +45,8 @@ $(document).ready(function(){
             $(document).scannerDetection();
             $(document).bind('scannerDetectionComplete',function(e,data){
                 console.log('complete: '+data.string);
-                document.getElementById("bCodeMessage").innerHTML = 'Scanning code: '+data.string;
-
+                document.getElementById("bCodeMessage").innerHTML = 'Scanning code: '+data.string; //+ '<div class="loader"></div>' ;
+                //document.getElementById("bCodeMessage").innerHTML = '<p> Scanning code <span class="fa fa-spinner fa-spin"></span></p>'+data.string;
                 if(data.string){
                     console.log('scanning in');
                     document.getElementById("codeProduct").value = data.string;

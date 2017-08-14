@@ -90,7 +90,13 @@ block content
                                     br
                                     br
                                     br
-                                    h2#unknownMessage Unknown Item ... redirecting to "Add New Item"
+                                    h2#unknownMessage
+                                        | Unknown Item #{'    '}
+                                        span(style='font-size:32px;color:red').glyphicon.glyphicon-remove-circle
+                                        //span(style='font-size:32px;color:red').glyphicon.glyphicon-refresh.glyphicon-refresh-animate
+                                    br
+                                    h3 Redirecting to "Add new item"...
+                                    //h2#unknownMessage Unknown Item ... redirecting to "Add New Item"
                                     button#buttonNewItem.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-backdrop='static', data-target='#addItemModal')
 
                                     script.
