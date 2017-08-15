@@ -195,6 +195,108 @@ router.post('/scanOutProduct',function (req,res,next) {
 
 
 
+router.post('/getInventoryData',function (req,res,next) {
+    console.log(req.body);
+    // create json and render to the main view
+
+    var data1 = {
+        "data": [
+            [
+                "Tiger Nixon",
+                "System Architect",
+                "Edinburgh"
+            ],
+            [
+                "Product 2",
+                "200 g",
+                "xxxx"
+            ],
+            [
+                "Product 3",
+                "200 g",
+                "xxxx"
+            ],
+
+            [
+                "Product 4",
+                "200 g",
+                "xxxx"
+            ],
+            [
+                "Product 5",
+                "200 g",
+                "xxxx"
+            ],
+            [
+                "Product 6",
+                "200 g",
+                "xxxx"
+            ],
+
+            [
+                "Product 7",
+                "200 g",
+                "xxxx"
+            ],
+
+
+            [
+                "Product 8",
+                "200 g",
+                "xxxx"
+            ],
+
+            [
+                "Product 9",
+                "200 g",
+                "xxxx"
+            ],
+
+            [
+                "Product 10",
+                "200 g",
+                "xxxx"
+            ],
+            [
+                "Product 11",
+                "200 g",
+                "xxxx"
+            ]
+
+
+        ]
+    };
+
+    var data={"data": [
+        { Description : "heinz",
+            stock_amount: 4,
+            stock_unit: "tins"
+
+        },
+        { Description : "heinz 2",
+            stock_amount: 4,
+            stock_unit: "tins",
+            predicted_need_date : "27/09/2017"
+        },
+        { Description : "heinz 3",
+            stock_amount: 4,
+            stock_unit: "tins",
+            predicted_need_date : "27/04/2017"
+        },
+        {   Description : "heinz 4",
+            stock_amount: 4,
+            stock_unit: "tins",
+            predicted_need_date : "27/07/2017"
+        }
+    ]};
+
+
+    console.log(data);
+    console.log('request by dataTable ajax');
+    res.json(data);
+
+});
+
 //******************************** NOT USED FOR NOW **********************************************
 
 router.post('/scanAgain', function (req,res,next) {

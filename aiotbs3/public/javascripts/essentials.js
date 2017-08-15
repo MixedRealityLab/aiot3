@@ -5,20 +5,58 @@ $(document).ready(function(){
 });
 */
 
-
+//******************************************** without server **********************************************************
+/*
 //using click button
 $(document).ready(function() {
+        var table = $('#products_data').DataTable( {
+            //"ajax": "/data.txt",
+            "ajax": '/javascripts/data.txt',
+            "lengthChange": false,
+            "length": 10,
+            "columnDefs": [ {
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button type='buttonEspecial'>icon</button>" //<img src='/img/three.png' width='35%' height='25%' id='dagger' onclick='myFunction()'>"
+                //"defaultContent":"  <input id='buttonDots' type='image' src='/img/three.png' width='32' height='32'>"
+            } ]
+
+        } );
+*/
+//**********************************************************************************************************************
+/*var data= [
+    { "Description" : "heinz",
+        "stock_amount": "4",
+        "stock_unit": "tins"
+
+    }
+];*/
+
+$(document).ready(function() {
     var table = $('#products_data').DataTable( {
-        //"ajax": "/data.txt",
-        "ajax": '/javascripts/data.txt',
+        //"processing": true,
+        //"serverSide": true,
+        "ajax": {
+            url: '/getInventoryData',
+            type: 'POST'
+
+        },
+        "columns":[
+            {data: "Description"},
+            {data: "stock_amount"},
+            {data: "stock_unit"},
+            {data: null,
+                defaultContent: "<button type='buttonEspecial'>icon</button>"}
+
+        ],
         "lengthChange": false,
-        "length": 10,
-        "columnDefs": [ {
-            "targets": -1,
-            "data": null,
-            "defaultContent": "<button type='buttonEspecial'>icon</button>" //<img src='/img/three.png' width='35%' height='25%' id='dagger' onclick='myFunction()'>"
+        "length": 10//,
+        //"columnDefs": [ {
+           // "targets": -1,
+           // "data": null,
+           // "defaultContent": "<button type='buttonEspecial'>icon</button>" //<img src='/img/three.png' width='35%' height='25%' id='dagger' onclick='myFunction()'>"
             //"defaultContent":"  <input id='buttonDots' type='image' src='/img/three.png' width='32' height='32'>"
-        } ]
+        //} ]
 
     } );
 
@@ -27,7 +65,9 @@ $(document).ready(function() {
     $('#products_data tbody').on('click', 'button', function () {
         var data = table.row( $(this).parents('tr') ).data();
         $('#myModal').modal('show');
-        document.getElementById("descriptionModal").innerHTML = "Details :"+data[0];
+        //document.getElementById("descriptionModal").innerHTML = "Details :"+data[0];
+        document.getElementById("descriptionModal").innerHTML = "Details :"+data.Description;
+
         // initializes and invokes show immediately
         //alert( data[0] +"'s salary is: "+ data[ 2] );
     } );
