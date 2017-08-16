@@ -38,13 +38,14 @@ $(document).ready(function() {
         //"serverSide": true,
         "ajax": {
             url: '/getInventoryData',
-            type: 'POST'
+            type: 'POST',
+            data: {userId: 1}
 
         },
         "columns":[
             {data: "Description"},
             {data: "stock_amount"},
-            {data: "stock_unit"},
+            {data: "predicted_need_date"},
             {data: null,
                 defaultContent: "<button type='buttonEspecial'>icon</button>"}
 
@@ -62,6 +63,15 @@ $(document).ready(function() {
 
 
 
+
+    var tableOut = $('#products_dataOut').DataTable( {
+        "ajax": '/javascripts/data.txt',
+       "lengthChange": false,
+        "length": 10
+    } );
+
+
+
     $('#products_data tbody').on('click', 'button', function () {
         var data = table.row( $(this).parents('tr') ).data();
         $('#myModal').modal('show');
@@ -71,6 +81,26 @@ $(document).ready(function() {
         // initializes and invokes show immediately
         //alert( data[0] +"'s salary is: "+ data[ 2] );
     } );
+
+
+
+    document.getElementById('outStockLabel').onclick = function (e) {
+        document.getElementById('inStockLabel').style.color = 'Grey';
+        document.getElementById('inStockLabel').style.textDecorationColor = 'White';
+        document.getElementById('outStockLabel').style.color='Blue';
+        document.getElementById('outStockLabel').style.textDecorationColor='underline';
+        //active essentials out stock tab
+        //document.getElementById('EssentialsOutStock').setAttribute(activaTab())
+
+    }
+
+
+    document.getElementById('inStockLabel').onclick = function (e) {
+        document.getElementById('outStockLabel').style.color='Grey';
+        document.getElementById('inStockLabel').style.textDecorationColor = 'Blue';
+        document.getElementById('inStockLabel').style.color='Blue';
+
+    }
 
 
 } );

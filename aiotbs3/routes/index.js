@@ -94,22 +94,22 @@ router.post('/checkBarcode', function (req,res, next) {
 
 //checkbarcode logic
 //get barcode
-//if the barcode in the product db
+//if the barcode in the product/global db
     //add the product to the user inventory
-    //update the inventory
+    //update the inventory(+1)
     //render to add item view
 //else (the barcode isn't the product database)
     //if the barcode is in tesco api?
         //get data from tesco api
-        //add data to the product db
+        //add data to the product/global db
         //add the product to the user inventory
-        //update the inventory
+        //update the inventory(+1)
         //render to add item view
     //else (the barcode isn't in tesco api)
         //render to checkBarcode view
         //ask user for basic data
-        //store data in product db
-        //update user inventory
+        //store data in product/global db
+        //update user inventory(+1)
         //render added item view
 
 
@@ -141,11 +141,11 @@ router.post('/insertProduct', function (req,res,next) {
 
 
 //**** scan out logic *******
-//get barcode from scanout
+//get barcode from scanout view
 //if barcode is on user inventory
     //get stock level and products details from user inventory
     //ask about stock level to confirm
-    //Ask user if item was “used up or wasted” - where store in the model
+    //Ask user if item was “used up or wasted” - where store in the model?
     //Confirm item details and new inventory stock level
     // (inventory means the households local listing of items)
     //update stock_level (-1)
@@ -197,99 +197,9 @@ router.post('/scanOutProduct',function (req,res,next) {
 
 router.post('/getInventoryData',function (req,res,next) {
     console.log(req.body);
+    var userId=req.body.userId;
+    var data = Inventory.getProductsForUser(userId);
     // create json and render to the main view
-
-    var data1 = {
-        "data": [
-            [
-                "Tiger Nixon",
-                "System Architect",
-                "Edinburgh"
-            ],
-            [
-                "Product 2",
-                "200 g",
-                "xxxx"
-            ],
-            [
-                "Product 3",
-                "200 g",
-                "xxxx"
-            ],
-
-            [
-                "Product 4",
-                "200 g",
-                "xxxx"
-            ],
-            [
-                "Product 5",
-                "200 g",
-                "xxxx"
-            ],
-            [
-                "Product 6",
-                "200 g",
-                "xxxx"
-            ],
-
-            [
-                "Product 7",
-                "200 g",
-                "xxxx"
-            ],
-
-
-            [
-                "Product 8",
-                "200 g",
-                "xxxx"
-            ],
-
-            [
-                "Product 9",
-                "200 g",
-                "xxxx"
-            ],
-
-            [
-                "Product 10",
-                "200 g",
-                "xxxx"
-            ],
-            [
-                "Product 11",
-                "200 g",
-                "xxxx"
-            ]
-
-
-        ]
-    };
-
-    var data={"data": [
-        { Description : "heinz",
-            stock_amount: 4,
-            stock_unit: "tins"
-
-        },
-        { Description : "heinz 2",
-            stock_amount: 4,
-            stock_unit: "tins",
-            predicted_need_date : "27/09/2017"
-        },
-        { Description : "heinz 3",
-            stock_amount: 4,
-            stock_unit: "tins",
-            predicted_need_date : "27/04/2017"
-        },
-        {   Description : "heinz 4",
-            stock_amount: 4,
-            stock_unit: "tins",
-            predicted_need_date : "27/07/2017"
-        }
-    ]};
-
 
     console.log(data);
     console.log('request by dataTable ajax');

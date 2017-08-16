@@ -15,12 +15,12 @@ block content
         br
         ul.list-inline
             li.active
-                a(data-toggle='tab', href='#EssentialsInStock', style={'font-size': '20px' }) In Stock
+                a#inStockLabel(data-toggle='tab', href='#EssentialsInStock', style={'font-size': '20px' , 'text-decoration': 'underline'}) In Stock
             li
             li
             li
             li
-                a(data-toggle='tab', href='#EssentialsOutStock', style={'font-size': '20px' }) Out of Stock
+                a#outStockLabel(data-toggle='tab', href='#EssentialsOutStock', style={'font-size': '20px', 'color': 'Grey' }) Out of Stock
 
         .tab-content
             #EssentialsInStock.tab-pane.fade.in.active
@@ -52,9 +52,23 @@ block content
 
 
             #EssentialsOutStock.tab-pane.fade
-                h3 out of stock
-                p
-                    | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                .table-responsive
+                    table#products_dataOut.table.table-hover(style={'text-align': 'center'})
+                        thead
+                            tr(style={'font-size': '22px', 'font-weight': 'bold', 'text-align': 'center'})
+                                td Description
+                                td xx
+                                td xx
+                        td '.$row["productDescription"].'
+                        td '.$row["productStock"].'
+                        td '.$row["productPrediction"].'
+                        |
+                        |
+                        tr
+                            td test
+                            td Current stock
+                            td Not available
+
         // Modal
         #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
             .modal-dialog.modal-lg(role='document')
@@ -95,38 +109,6 @@ block content
                         button.btn.btn-default(type='button') Stop Track
                         button.btn.btn-default(type='button') Bin
 
-                        //button.btn.btn-primary(type='button') Save changes
-
-            // style.css
-
-
-//block content
-    ul.list-inline
-        li
-            h4
-                u
-                    strong In stock
-        li
-        li
-        li
-            h4
-                u Out of stock
-    br
-    .container
-        .table-responsive
-            table#products_data.table.table-striped.table-bordered
-                thead
-                    tr
-                        td Description
-                        td Current stock
-                        td Prediction
-                        td Run Out
-                td '.$row["name"].'
-                td '.$row["address"].'
-                td '.$row["designation"].'
-                td '.$row["age"].'
-                |
-                |
 
 
 
