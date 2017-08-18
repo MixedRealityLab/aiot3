@@ -6,7 +6,7 @@ var In_event = function (data) {
     //this.data = this.sanitize(data);
 }
 
-In_event.add_event = function (inventory_id, old_stock_level, new_stock_level, timestamp) {
+In_event.add_event = function (inventory_id, old_stock_level, new_stock_level) {
 	if(inventory_id == '0') {
 		return({"status": "success"});
 	}
