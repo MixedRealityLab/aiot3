@@ -60,8 +60,10 @@ router.post('/checkBarcode', function (req,res, next) {
                 if(addNewProduct.status == 'success'){ // if product was succesfully added to the global db then upgrade inventory
 
                     // add the product to the user inventory
-                    //**** USE in_events ???? *****
-                    var updateInventoryUser = updateInventory(userId,codeProduct);
+                    //**** USE in_events ???? ***** THIS NEED TO BE FIXED *****
+                    //var updateInventoryUser = updateInventory(userId,codeProduct);
+                    updateInventoryUser == 'success';
+
                     if(updateInventoryUser.status == 'success'){
                         // render to add item view
                         var description = tescoApiData.data.description.substring(0,25);
@@ -286,12 +288,14 @@ function getInventoryUser(user){
 function updateInventory(userId,eanCode){
     //update the inventory
     //var getStockLevel =  Inventory.getProductForUser(userId,eanCode);
-    var getStockLevel =  Inventory.getProductForUser(userId);
-
+    //var getStockLevel =  Inventory.getProductForUser(userId);
+    var getInventory = Inventory.getInventoryListing(userId,eanCode);
+    console.log(getInventory);
+    var getStockLevel = getInventory.data.stock_level;
     var newStockLevel = getStockLevel +1 ;
 
     var inventoryData = Inventory.getInventoryListing(userId,eanCode);
-    var inventoryId = inventoryData.inventory_id;
+    var inventoryId = inventoryData.data.inventory_id;
     //var updateInventoryUser = Inventory.updateProductForUser(userId,eanCode,newStockLevel);
     var updateInventoryUser = Inventory.updateInventoryListingStock(inventoryId, newStockLevel)
     console.log('Inventory updated to:'+ updateInventoryUser);
