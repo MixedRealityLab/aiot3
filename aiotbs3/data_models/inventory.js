@@ -61,7 +61,8 @@ Inventory.getProductForInventoryId = function(inventory_id) {
 Inventory.getProductForUser = function (userId, EAN) {
 	if(userId == 1 && EAN == "1234567890") {
 		return({"status": "success", "data": {
-			EAN: '1234567890',
+		inventory_id: 0,
+		EAN: '1234567890',
 	    	stock_level: '4',
 	    	stock_unit: 'tins'}});
 	}
