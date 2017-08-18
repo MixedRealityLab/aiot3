@@ -6,7 +6,7 @@ var Out_event = function (data) {
     //this.data = this.sanitize(data);
 }
 
-Out_event.add_event = function (inventory_id, old_stock_level, new_stock_level) {
+Out_event.add_event = function (inventory_id, old_stock_level, new_stock_level, wasted) {
 	if(inventory_id == '0') {
 		return({"status": "success"});
 	}
