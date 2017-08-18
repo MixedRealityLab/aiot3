@@ -21,26 +21,31 @@ In_event.get_most_recent_for_user = function (user_id, number_of_products) {
 		// how do I know about date/timestamp, I need the last 5 products added to the inventory.
 		return ({
 				  "data": [
-				  { inventory_id: 0,
-				  	old_stock_level : "4",
+				  { 	inventory_id: 0,
+				  	description: "heinz beans",
+				    	old_stock_level : "4",
 				  	new_stock_level : "5",
-				    timestamp: "2017-04-11 08:40:05" 
+				    	timestamp: "2017-04-11 08:40:05" 
 				  },
 				  { 
 				  	inventory_id: 0,
+					description: "tomatoe ketchup",
 				  	old_stock_level : "5",
 				  	new_stock_level : "6",
-				    timestamp: "2017-04-11 08:42:05" 
+				    	timestamp: "2017-04-11 08:42:05" 
 				  },
-				  { inventory_id: 1,
+				  { 	
+					inventory_id: 1,
+				   	description: "tea",
 				  	old_stock_level : "3",
 				  	new_stock_level : "4",
-				    timestamp: "2017-04-11 08:43:05" 
+				    	timestamp: "2017-04-11 08:43:05" 
 				  },
-				  { inventory_id: 2,
+				  { 	inventory_id: 2,
+				   	description: "coffee",
 				  	old_stock_level : "1",
 				  	new_stock_level : "2",
-				    timestamp: "2017-04-11 08:44:05" 
+				    	timestamp: "2017-04-11 08:44:05" 
 				  }
 				  ]
 				});
