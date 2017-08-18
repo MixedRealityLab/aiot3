@@ -22,26 +22,30 @@ Out_event.get_most_recent_for_user = function (user_id, number_of_products) {
 		// TODO: Ask carolina which data she wants back here to prevent mutiple queries
 		return ({
 				  "data": [
-				  { inventory_id: 0,
-				  	old_stock_level : "5",
+				  { 	inventory_id: 0,
+				  	description: "lemon tea",
+				   	old_stock_level : "5",
 				  	new_stock_level : "4",
-				    timestamp: "2017-04-11 08:40:05" 
+				    	timestamp: "2017-04-11 08:40:05" 
 				  },
 				  { 
 				  	inventory_id: 0,
+					description: "coffee",
 				  	old_stock_level : "4",
 				  	new_stock_level : "3",
-				    timestamp: "2017-04-11 08:42:05" 
+				    	timestamp: "2017-04-11 08:42:05" 
 				  },
-				  { inventory_id: 1,
+				  { 	inventory_id: 1,
+				   	description: "lemon tea",
 				  	old_stock_level : "4",
 				  	new_stock_level : "3",
-				    timestamp: "2017-04-11 08:43:05" 
+				    	timestamp: "2017-04-11 08:43:05" 
 				  },
-				  { inventory_id: 2,
-				  	old_stock_level : "2",
+				  { 	inventory_id: 2,
+				  	description: "lemon tea",
+				   	old_stock_level : "2",
 				  	new_stock_level : "1",
-				    timestamp: "2017-04-11 08:44:05" 
+				    	timestamp: "2017-04-11 08:44:05" 
 				  }
 				  ]
 				});
