@@ -3,7 +3,7 @@ var schemas = require("./schemas.js");
 var _ = require("lodash");
 
 var Product = function (data) {
-    this.data = this.sanitize(data);
+    //this.data = this.sanitize(data);
 }
 
 Product.getProductByEan = function (ean) {
