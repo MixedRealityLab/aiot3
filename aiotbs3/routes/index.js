@@ -284,10 +284,16 @@ function getInventoryUser(user){
 
 
 function updateInventory(userId,eanCode){
-    // update the inventory
-    var getStockLevel =  Inventory.getProductForUser(userId,eanCode);
+    //update the inventory
+    //var getStockLevel =  Inventory.getProductForUser(userId,eanCode);
+    var getStockLevel =  Inventory.getProductForUser(userId);
+
     var newStockLevel = getStockLevel +1 ;
-    var updateInventoryUser = Inventory.updateProductForUser(userId,eanCode,newStockLevel);
+
+    var inventoryData = Inventory.getInventoryListing(userId,eanCode);
+    var inventoryId = inventoryData.inventory_id;
+    //var updateInventoryUser = Inventory.updateProductForUser(userId,eanCode,newStockLevel);
+    var updateInventoryUser = Inventory.updateInventoryListingStock(inventoryId, newStockLevel)
     console.log('Inventory updated to:'+ updateInventoryUser);
     if (updateInventoryUser.status){
 
