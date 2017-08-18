@@ -10,6 +10,19 @@ var Inventory = function (data) {
     //this.data = this.sanitize(data);
 }
 
+Inventory.addNewInventoryListing = function (userId, EAN) {
+	if(userId == 1 && EAN == "1111111111") {
+		return({"status": "success", "data": {
+		inventory_id: 1,
+		EAN: '1111111111',
+	    	stock_level: '1',
+	    	stock_unit: 'tins'}});
+	}
+	else {
+		return ({"status": "fail", "error code": 101, "error message": "userdoes not exist / product does not exist / invetory listing already exists"});
+	}
+}
+
 Inventory.getProductsForUser = function (userId) {
 	if(userId == 1) {
 		console.log('loading all product from userId == 1');
