@@ -39,6 +39,7 @@ var schemas = {
     	inventory_id: null, // FK
     	old_stock_level: null,
     	new_stock_level: null,
+        wasted: null,
     	timestamp: null
     },
     
