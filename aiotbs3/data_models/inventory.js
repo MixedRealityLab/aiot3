@@ -74,6 +74,15 @@ Inventory.getProductForInventoryId = function(inventory_id) {
 	// return product information from ean
 }
 
+Inventory.stopTracking = function(inventory_id) {
+	if(inventory_id == 0) {
+		return({"status": "success"});
+	}
+	else {
+		return ({"status": "fail", "error code": 101, "error_message": "inventory listing does not exist"});
+	}
+}
+
 Inventory.getInventoryListing = function (userId, EAN) {
 	if(userId == 1 && EAN == "1234567890") {
 		return({"status": "success", "data": {
