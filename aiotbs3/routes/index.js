@@ -5,6 +5,9 @@ var sleep = require('sleep');
 
 var Product = require('../data_models/products');
 var Inventory = require('../data_models/inventory');
+var InEvent = require('../data_models/in_events');
+var OutEvent = require('../data_models/out_events');
+
 
 
 /* GET home page. */
@@ -199,8 +202,6 @@ router.post('/getInventoryData',function (req,res,next) {
     console.log(req.body);
     var userId=req.body.userId;
     var data = Inventory.getProductsForUser(userId);
-    // create json and render to the main view
-
     console.log(data);
     console.log('request by dataTable ajax');
     res.json(data);
@@ -273,8 +274,11 @@ function ensureAuthenticated(req, res, next){
 function getInventoryUser(user){
     //this function retrieve all inventory from a specific user
     //fix to sent just the 5 most recent
-    var lastInventory = Inventory.getProductsForUser(user);
+    //var lastInventory = Inventory.getProductsForUser(user);
+
+    var lastInventory = InEvent.get_most_recent_for_user(user,5);
     lastInventory = lastInventory["data"];
+    console.log('***last inventory:'+ lastInventory);
     return lastInventory;
 }
 

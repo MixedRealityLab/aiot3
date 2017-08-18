@@ -43,7 +43,7 @@ $(document).ready(function() {
 
         },
         "columns":[
-            {data: "Description"},
+            {data: "description"},
             {data: "stock_amount"},
             {data: "predicted_need_date"},
             {data: null,
@@ -76,8 +76,7 @@ $(document).ready(function() {
         var data = table.row( $(this).parents('tr') ).data();
         $('#myModal').modal('show');
         //document.getElementById("descriptionModal").innerHTML = "Details :"+data[0];
-        document.getElementById("descriptionModal").innerHTML = "Details :"+data.Description;
-
+        document.getElementById("descriptionModal").innerHTML = "Details :"+data.description;
         // initializes and invokes show immediately
         //alert( data[0] +"'s salary is: "+ data[ 2] );
     } );

@@ -24,7 +24,7 @@ var schemas = {
     	predicted_need_date: null,
     	stock_delta_day: null, 
     	need_trigger_stock_level: null
-    }/*
+    },
     
     in_events: {
     	id: null, // PK
@@ -35,7 +35,7 @@ var schemas = {
     },
     
     out_events: {
-    	id: null // PK
+    	id: null, // PK
     	inventory_id: null, // FK
     	old_stock_level: null,
     	new_stock_level: null,
@@ -44,7 +44,7 @@ var schemas = {
     },
     
     inventory_usage_events: {
-    	id: null // PK
+    	id: null, // PK
     	inventory_id: null, // FK
     	trigger_description: null,
     	old_stock_level: null,
@@ -53,15 +53,14 @@ var schemas = {
     },
     
     user_event_log: {
-    	id: null // PK
+    	id: null, // PK
     	user_id: null, // FK
     	category: null,
-    	timestamp  
+    	timestamp: null
     }
     
 
 
-*/
 }
 
 module.exports = schemas;

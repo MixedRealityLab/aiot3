@@ -1,4 +1,6 @@
-var db = require("./../db.js");
+//var db = require("./../db.js");
+var db = require("../db/db.js");
+
 var schemas = require("./schemas.js");
 var _ = require("lodash");
 
@@ -15,7 +17,7 @@ Out_event.add_event = function (inventory_id, old_stock_level, new_stock_level, 
 	}
 }
 
-Out_event.get_most_recent_for_user = function (user_id, number_of_products) {
+Out_event.get_most_recent_for_user = function (userId, number_of_products) {
 	if(userId == 1) {
 		console.log('loading most recent scan in events from userId == 1');
 		// how do I know about date/timestamp, I need the last 5 products added to the inventory.
