@@ -1,6 +1,15 @@
-var activeTab2='';
-var hash = window.location.hash;
 
+$(document).ready(function(){
+    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+        activeTab2 = $('.nav-tabs .active').text();
+        console.log('TAB CHANGED to: ' + $('.nav-tabs .active').text());
+    });
+});
+
+
+//var activeTab2='';
+//var hash = window.location.hash;
+/*
 $(document).ready(function(){
 
     console.log('all is well');
@@ -32,14 +41,15 @@ $(document).ready(function(){
     */
     //***********************************************************
 
-
+/*
 
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
         activeTab2 = $('.nav-tabs .active').text();
         console.log('TAB CHANGED to: '+ $('.nav-tabs .active').text());
-
+        activeTab2 = $('.nav-tabs .active').text();
         if (activeTab2 == 'SCAN IN'){
             console.log('TAB CHANGED to: '+ $('.nav-tabs .active').text()); // check if user change to SCAN IN tab
+            activeTab2 = $('.nav-tabs .active').text();
 
             //just execute scan in process if the active tab is 'scan in'. It's need it to do the same with scan out
             $(document).scannerDetection();
@@ -66,6 +76,8 @@ $(document).ready(function(){
                     console.log('Received');
                     console.log(data.evt.which);
                 })
+            activeTab2 = $('.nav-tabs .active').text();
+
 
         }
         if (activeTab2 == 'SCAN OUT'){
@@ -98,12 +110,14 @@ $(document).ready(function(){
                 })
 
         }
-        activeTab2='';
+        //activeTab2='';
         console.log('TAB CHANGED to: '+ $('.nav-tabs .active').text());
-
+        activeTab2 = $('.nav-tabs .active').text();
+        console.log(activeTab2);
 
     })
 
 
 });
 
+*/

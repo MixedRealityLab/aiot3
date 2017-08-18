@@ -49,7 +49,7 @@ block content
                             .panel.panel-default
                                 .panel-heading
                                     h4 Last Essentials
-                                .panel-body
+                                #panelBodyScanIn.panel-body
                                     h4 #{description}
                                     each key in userInventory
                                         h4 !{key.Description}
@@ -65,28 +65,73 @@ block content
                                             br
                                             br
                                             br
-                                            h2
+                                            h2#itemAddedMessage
                                                 | Item added #{'    '}
                                                 span(style='font-size:32px;color:green').glyphicon.glyphicon-ok-circle
-                                            h4 Product: #{description}
+                                            h4#itemAddedDesc Product: #{description}
                                             br
                                             br
                                             br
                                             script.
-                                                setTimeout(scanAgain, 6000);
+                                                setTimeout(scanAgain, 5000);
                                                 function scanAgain() {
-                                                    document.location.href="http://localhost:3000";
+                                                    //document.location.href="http://localhost:3000";
+                                                    activeTab2 = $('.nav-tabs .active').text();
+                                                    console.log(activeTab2);
+                                                    $.ajax({
+                                                        url: '/scanInAgain',
+                                                        type: 'POST',
+                                                        success: function (response) {
+                                                            //getData[name] = response;
+                                                            console.log(response);
+                                                            document.getElementById('itemAddedMessage').innerHTML = 'Ready to Scan In essentials';
+                                                            document.getElementById('itemAddedDesc').innerHTML = '';
+                                                            document.getElementById('panelBodyScanIn').innerHTML = response.messageItem;
+
+                                                            //*********************** just scan when  'SCAN IN TAB' is active NOT WORKING *********************
+                                                            //$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+                                                                activeTab2 = $('.nav-tabs .active').text();
+                                                                //if ($('.nav-tabs .active').text() == 'SCAN IN') {
+                                                                console.log(activeTab2);
+                                                                $(document).scannerDetection();
+                                                                $(document).bind('scannerDetectionComplete', function (e, data) {
+                                                                    console.log('complete: ' + data.string);
+                                                                    //alert(data.string);
+
+                                                                    if ($('.nav-tabs .active').text() == 'SCAN IN' && response.messageItem == 4) {
+                                                                        console.log('scanning in');
+                                                                        document.getElementById("bCodeMessage").innerHTML = 'Scanning code: ' + data.string;
+                                                                        document.getElementById("codeProduct").value = data.string;
+                                                                        document.getElementById("codeForm").submit();
+
+
+                                                                    } else {
+                                                                        //alert('What do you want to do with this code? :'+ data.string );
+                                                                        alert('to scan a essential please go to "scan in" or "scan out"');
+                                                                        document.location.href = "http://localhost:3000";
+                                                                        //ask user what he want to do with barcode scanned
+                                                                        //case 1: go to scan in
+                                                                        //case 2: go to scan out
+                                                                        //case 3: nothing back to essential.
+                                                                    }
+                                                                activeTab2 = $('.nav-tabs .active').text();
+
+
+                                                            })
+                                                            //*************************************************************************************
+                                                        }
+                                                    });
 
                                                 }
-                                            //form#scanAgainForm(method='POST', action='/scanAgain')
+                                            br
+                                            br
+                                            br
+                                            br
+                                            form#codeForm(method='POST', action='/checkBarcode')
                                                 .form-group
-                                                    input#scanAgainInput.form-control(name='scanAgainInput', type='hidden',required='')
-                                                //button.btn.btn-default.btn-hover(type='submit') Save
-                                                button#scanAgainButton.btn.btn-info.btn-lg(type='submit') scan again
-                                            br
-                                            br
-                                            br
-                                            br
+                                                    input#codeProduct.form-control(name='codeProduct', type='hidden',required='')
+                                                br
+                                            h3#bCodeMessage
 
 
                 #scanOut.tab-pane.fade

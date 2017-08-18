@@ -1,12 +1,49 @@
 append head
   script(src='/bower_components/scanner-detection/jquery.scannerdetection.js')
-  script(src='/javascripts/barcodeScanner.js')
+  //script(src='/javascripts/barcodeScanner.js')
   link(rel='stylesheet', href='/stylesheets/loader.css')
 
 
 .container#readyScan
     br
     br
+    script.
+        //*********************** just scan when  'SCAN IN TAB' is active *********************
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+        activeTab2 = $('.nav-tabs .active').text();
+        //if ($('.nav-tabs .active').text() == 'SCAN IN') {
+            console.log(activeTab2);
+            $(document).scannerDetection();
+            $(document).bind('scannerDetectionComplete', function (e, data) {
+                console.log('complete: ' + data.string);
+                //alert(data.string);
+
+                if ($('.nav-tabs .active').text() == 'SCAN IN') {
+                    console.log('scanning in');
+                    document.getElementById("bCodeMessage").innerHTML = 'Scanning code: ' + data.string;
+                    document.getElementById("codeProduct").value = data.string;
+                    document.getElementById("codeForm").submit();
+
+
+                } else {
+                    //alert('What do you want to do with this code? :'+ data.string );
+                    alert('to scan a essential please go to "scan in" or "scan out"');
+                    document.location.href="http://localhost:3000";
+                    //ask user what he want to do with barcode scanned
+                    //case 1: go to scan in
+                    //case 2: go to scan out
+                    //case 3: nothing back to essential.
+                }
+
+            })
+
+
+            activeTab2 = $('.nav-tabs .active').text();
+        //}
+
+        })
+        //*************************************************************************************
+
     br
     .row
         .col-lg-11.col-md-11.col-sm-11
@@ -34,6 +71,7 @@ append head
                     br
                     br
                     br
+
 
 //.stepwizard
     .stepwizard-row.setup-panel

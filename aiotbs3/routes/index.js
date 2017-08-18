@@ -207,14 +207,20 @@ router.post('/getInventoryData',function (req,res,next) {
 
 });
 
-//******************************** NOT USED FOR NOW **********************************************
-
-router.post('/scanAgain', function (req,res,next) {
+router.post('/scanInAgain', function (req,res,next) {
     //this is just for render again scan in process
     console.log('ready to scan in again');
-    res.render('scanAgain',{messageItem: 3});
+    console.log('get data from user and send it back')
+    //res.render('scanInAgain',{messageItem: 3});
+    var data = {messageItem:4};
+    res.send(data);
 
 });
+
+
+//******************************** NOT USED FOR NOW **********************************************
+
+
 
 router.post('/deleteProduct', function (req,res,next) {
 

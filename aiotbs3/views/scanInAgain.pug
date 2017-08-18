@@ -2,13 +2,12 @@ extends layout
 
 block content
 
+
     if messageItem == 0
         h1 'this is the first load of index view
 
     else if messageItem == 1
         h1 'there is a known item,redirecting to added item view'
-        script.
-            $('#maintab a[href="#scanIn"]').tab('show');
 
 
     else if messageItem == 2
