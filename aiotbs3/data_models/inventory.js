@@ -18,30 +18,33 @@ Inventory.getProductsForUser = function (userId) {
 		// TODO: For each of the below, need to map invetory data to product data before returning
 		return ({
 				  "data": [
-				  { inventory_id: 0,
-				  	Description : "heinz",
-				    stock_amount: 4,
-				    stock_unit: "tins",
-				    predicted_need_date : "27/08/2017"
+				  { 
+					inventory_id: 0,
+				  	description : "heinz",
+				    	stock_amount: 4,
+				    	stock_unit: "tins",
+				    	predicted_need_date : "27/08/2017"
 				  },
 				  { 
 				  	inventory_id: 1,
-				  	Description : "heinz 2",
-				    stock_amount: 4,
-				    stock_unit: "tins",
-				    predicted_need_date : "27/09/2017"
+				  	description : "heinz 2",
+				    	stock_amount: 4,
+				    	stock_unit: "tins",
+				    	predicted_need_date : "27/09/2017"
 				  },
-				  { inventory_id: 2,
-				  	Description : "heinz 3",
-				    stock_amount: 4,
-				    stock_unit: "tins",
-				    predicted_need_date : "27/04/2017"
+				  { 
+					inventory_id: 2,
+				  	description : "heinz 3",
+				    	stock_amount: 4,
+				    	stock_unit: "tins",
+				    	predicted_need_date : "27/04/2017"
 				  },
-				  { inventory_id: 3,
-				  	Description : "heinz 4",
-				    stock_amount: 4,
-				    stock_unit: "tins",
-				    predicted_need_date : "27/07/2017"
+				  { 	
+					inventory_id: 3,
+				  	description : "heinz 4",
+				    	stock_amount: 4,
+				    	stock_unit: "tins",
+				    	predicted_need_date : "27/07/2017"
 				  }
 				  ]
 				});
@@ -58,7 +61,7 @@ Inventory.getProductForInventoryId = function(inventory_id) {
 	// return product information from ean
 }
 
-Inventory.getProductForUser = function (userId, EAN) {
+Inventory.getInventoryListing = function (userId, EAN) {
 	if(userId == 1 && EAN == "1234567890") {
 		return({"status": "success", "data": {
 		inventory_id: 0,
@@ -71,15 +74,15 @@ Inventory.getProductForUser = function (userId, EAN) {
 	}
 }
 
-Inventory.updateProductForUser = function (userId, EAN, new_stock_level) {
-	if(userId == 1 && EAN == "1234567890") {
+Inventory.updateInventoryListingStock = function (inventory_id, new_stock_level) {
+	if(inventory_id == 0) {
 		return({"status": "success", "data": {
 			EAN: '1234567890',
 	    	updated_stock_level: '5',
 	    	stock_unit: 'tins'}});
 	}
 	else {
-		return ({"status": "fail", "error code": 101, "error_message": "inventory item product does not exist"});
+		return ({"status": "fail", "error code": 101, "error_message": "inventory listing does not exist"});
 	}
 }
 
