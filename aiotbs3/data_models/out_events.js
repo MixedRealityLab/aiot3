@@ -1,4 +1,3 @@
-//var db = require("./../db.js");
 var db = require("../db/db.js");
 
 var schemas = require("./schemas.js");
@@ -13,7 +12,7 @@ Out_event.add_event = function (inventory_id, old_stock_level, new_stock_level, 
 		return({"status": "success"});
 	}
 	else {
-		return ({"status": "fail", "error code": 101, "error message": "inventory entry does not exist"});	
+		return ({"status": "fail", "error_code": 101, "error_message": "inventory entry does not exist"});
 	}
 }
 
@@ -54,7 +53,7 @@ Out_event.get_most_recent_for_user = function (userId, number_of_products) {
 
 	}
 	else {
-		return ({"status": "fail", "error code": 101, "error message": "user does not exist"});
+		return ({"status": "fail", "error_code": 101, "error_message": "user does not exist"});
 	}
 }
 

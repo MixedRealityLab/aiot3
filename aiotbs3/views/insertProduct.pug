@@ -73,7 +73,7 @@ block content
                                             br
                                             br
                                             script.
-                                                setTimeout(scanAgain, 5000);
+                                                setTimeout(scanAgain, 6000);
                                                 function scanAgain() {
                                                     //document.location.href="http://localhost:3000";
                                                     activeTab2 = $('.nav-tabs .active').text();
@@ -100,7 +100,7 @@ block content
 
                                                                     if ($('.nav-tabs .active').text() == 'SCAN IN' && response.messageItem == 4) {
                                                                         console.log('scanning in');
-                                                                        document.getElementById("bCodeMessage").innerHTML = 'Scanning code: ' + data.string;
+                                                                        document.getElementById("bCodeMessage").innerHTML = 'Scanning code: ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';;
                                                                         document.getElementById("codeProduct").value = data.string;
                                                                         document.getElementById("codeForm").submit();
 

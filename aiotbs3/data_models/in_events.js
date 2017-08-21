@@ -12,7 +12,7 @@ In_event.add_event = function (inventory_id, old_stock_level, new_stock_level) {
 		return({"status": "success"});
 	}
 	else {
-		return ({"status": "fail", "error code": 101, "error message": "inventory entry does not exist"});	
+		return ({"status": "fail", "error_code": 101, "error_message": "inventory entry does not exist"});
 	}
 }
 

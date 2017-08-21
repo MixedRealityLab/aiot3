@@ -11,16 +11,23 @@ var Inventory = function (data) {
 }
 
 Inventory.addNewInventoryListing = function (userId, EAN) {
-	if(userId == 1 && EAN == "1111111111") {
-		return({"status": "success", "data": {
-		inventory_id: 1,
-		EAN: '1111111111',
-	    	stock_level: '1',
-	    	stock_unit: 'tins'}});
-	}
-	else {
-		return ({"status": "fail", "error code": 101, "error message": "userdoes not exist / product does not exist / invetory listing already exists"});
-	}
+    if (userId == 1 && EAN == "1111111111") {
+        return ({
+            "status": "success", "data": {
+                inventory_id: 1,
+                EAN: '1111111111',
+                stock_level: '1',
+                stock_unit: 'tins'
+            }
+        });
+    }
+    else {
+        return ({
+            "status": "fail",
+            "error_code": 101,
+            "error_message": "userdoes not exist / product does not exist / invetory listing already exists"
+        });
+    }
 }
 
 Inventory.getProductsForUser = function (userId) {
@@ -85,14 +92,14 @@ Inventory.stopTracking = function(inventory_id) {
 
 Inventory.getInventoryListing = function (userId, EAN) {
 	if(userId == 1 && EAN == "1234567890") {
-		return({"status": "success", "data": {
-		inventory_id: 0,
-		EAN: '1234567890',
-	    	stock_level: '4',
-	    	stock_unit: 'tins'}});
-	}
+        return({"status": "success", "data": {
+            inventory_id: 0,
+            EAN: '1234567890',
+            stock_level: '4',
+            stock_unit: 'tins'}});
+    }
 	else {
-		return ({"status": "fail", "error code": 101, "error message": "inventory item does not exist"});
+		return ({"status": "fail", "error code": 101, "error_message": "inventory item does not exist"});
 	}
 }
 

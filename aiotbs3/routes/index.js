@@ -34,15 +34,25 @@ router.post('/checkBarcode', function (req,res, next) {
     var userId=1;
     sleep.msleep(5000);
     var codeProduct = req.body.codeProduct; //barcode from client side
-    var eanCode = Product.getProductByEan(codeProduct);
+    var eanCodeProducts = Product.getProductByEan(codeProduct);
     var userInventory = getInventoryUser(userId); //get all products from user=1 and send them back to inserted products
-    console.log(eanCode.status);
 
-    if(eanCode.status == 'success'){ //if barcode is in product db
-        //add product to the user inventory (where)
+    if(eanCodeProducts.status == 'success'){ //if barcode is in product db
+        var eanCode = eanCodeProducts.data.EAN;
+
+        //****** update inventory using  Inventory.updateInventoryListingStock and In_event.add_event ******************
         //update the inventory stock(I don't need to update product data)
-        var description = eanCode.data.description;
-        res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory});
+        var userInventoryUpdated =updateInventory2(userId,eanCode);
+        console.log('userInventoryUpdated:'+ userInventoryUpdated.status);
+        //**************************************************************************************************************
+
+        if (userInventoryUpdated.status == 'success') {
+            var description = eanCodeProducts.data.description;
+            res.render('insertProduct', {messageItem: 3, description: description, userInventory: userInventory});
+        }
+        else{
+            res.render('insertProduct', {messageItem: 3, description: 'something wrong', userInventory: userInventory});
+        }
     }
     else { //the barcode isn't the product database
 
@@ -59,12 +69,14 @@ router.post('/checkBarcode', function (req,res, next) {
                 var addNewProduct = Product.addNewProduct(codeProduct, tescoApiData.data);
                 if(addNewProduct.status == 'success'){ // if product was succesfully added to the global db then upgrade inventory
 
+                    //****** update inventory **************************************************************************
                     // add the product to the user inventory
-                    //**** USE in_events ???? ***** THIS NEED TO BE FIXED *****
-                    //var updateInventoryUser = updateInventory(userId,codeProduct);
-                    updateInventoryUser == 'success';
+                    var userInventoryUpdated = updateInventory2(userId,codeProduct);
+                    console.log('***check***'+userInventoryUpdated.status + ':'+userInventoryUpdated.msg);
+                    //**************************************************************************************************
 
-                    if(updateInventoryUser.status == 'success'){
+
+                    if(userInventoryUpdated.status == 'success'){
                         // render to add item view
                         var description = tescoApiData.data.description.substring(0,25);
                         // then render view /insertProduct view with messageItem : 3
@@ -72,21 +84,23 @@ router.post('/checkBarcode', function (req,res, next) {
 
                     }
                     else{
-                        res.render('error',{errorMessage:updateInventoryUser.msg});
+                        res.render('insertProduct',{messageItem : 3, description: userInventoryUpdated.msg, userInventory: userInventory});
+
                     }
 
 
                 }
                 else{
-                    res.render('error',{errorMessage:addNewProduct.error_message});
+                    res.render('insertProduct',{messageItem : 3, description: addNewProduct.error_message, userInventory: userInventory});
+
+                    //res.render('error',{errorMessage:addNewProduct.error_message});
                 }
 
             }
 
             else{ //the barcode isn't in tesco api
-                //ask user for basic data
-                //go to item_data view
-                //item_data view will submit to insert data function
+                //ask user for basic data using item_data view
+                //item_data view will submit to /insertProduct
                 res.render('checkBarcode',{messageItem : 2, eancode: codeProduct, userInventory: userInventory});
 
 
@@ -96,51 +110,149 @@ router.post('/checkBarcode', function (req,res, next) {
 
 });
 
+//**************************************************************************************************
+function updateInventory2(userId,eanCode){ //add item-using scan In
+    console.log('user Id:'+ userId);
+    console.log('ean:'+eanCode);
 
-//checkbarcode logic
+    var inventoryList = Inventory.getInventoryListing(userId,eanCode); // get inventory listing
+    console.log('***inventory listing:***'+ inventoryList.status);
+
+        if (inventoryList.status=='success') // there is an inventory listing known
+        {
+            var inventoryId =  inventoryList.data.inventory_id;    //get inventory id
+            var getStockLevel = inventoryList.data.stock_level;    //get actual stock level
+            var newStockLevel = getStockLevel + 1;                 //create new stock level
+            var updateInventoryListing = Inventory.updateInventoryListingStock(inventoryId,newStockLevel); //update inventory listing
+            var addToInventory = InEvent.add_event(inventoryId,getStockLevel,newStockLevel); //add to inventory
+            console.log('**addToInventory**'+addToInventory.status);
+
+            if (updateInventoryListing.status == 'success' && addToInventory.status == 'success')
+            {
+                return ({"status": "success"});
+
+            }
+            else
+            {
+                return ({"status": "fail", "msg":addToInventory.error_message});
+
+            }
+
+        }
+        else
+        {
+            //else if the product exists but there is no inventory listing for it
+            var newInventoryList = Inventory.addNewInventoryListing(userId,eanCode);
+
+            if (newInventoryList.status == 'success')
+            {
+                var inventoryId = newInventoryList.data.inventory_id;
+                var getStockLevel = 0;    //get actual stock level
+                var newStockLevel = newInventoryList.data.stock_level;
+                var updateInventoryListing = Inventory.updateInventoryListingStock(inventoryId,newStockLevel); //update inventory listing
+                var addToInventory = InEvent.add_event(inventoryId,getStockLevel,newStockLevel); //add to inventory
+                if (updateInventoryListing.status == 'success' && addToInventory.status == 'success')
+                {
+                    return ({"status": "success"})
+                }
+                else
+                {
+                    return ({"status": "fail", "msg":addToInventory.error_message});
+                }
+            }
+            else
+            {
+                return ({"status": "fail", "msg":newInventoryList.error_message});
+
+            }
+
+
+        }
+}
+//**************************************************************************************************
+
+//checkbarcode logic (just for scan in process)
 //get barcode
-//if the barcode in the product/global db
-    //add the product to the user inventory
-    //update the inventory(+1)
-    //render to add item view
-//else (the barcode isn't the product database)
+//if the barcode is in the product/global db
+    //if there is inventory listing known
+        //get inventory_id from Inventory.getInventoryListing
+        //get old and new stock level
+        //add the product to the user inventory
+        //use In_event.add_event to update the inventory(+1) (stock level)
+        //render to add item view
+    //else if the product exists but there is no inventory listing for it
+        //make an inventory list Inventory.addNewInventoryListing using barcode and userId
+        //get the inventory id
+        //get old and new stock level
+        //update the stock level using Inventory.updateInventoryListingStock
+        //use In_event.add_event to update the inventory(+1) (stock level)
+        //render to add item view
+
+//else (the barcode isn't the product database/ the product does not exist at all)
     //if the barcode is in tesco api?
         //get data from tesco api
-        //add data to the product/global db
-        //add the product to the user inventory
-        //update the inventory(+1)
+        //Use Product.addNewProduct to add the product to the global database
+        //make an inventory list Inventory.addNewInventoryListing using barcode and userId
+        //get the inventory id
+        //get old and new stock level
+        //update the stock level using Inventory.updateInventoryListingStock
+        //use In_event.add_event to update the inventory(+1) (stock level)
         //render to add item view
     //else (the barcode isn't in tesco api)
         //render to checkBarcode view
         //ask user for basic data
-        //store data in product/global db
-        //update user inventory(+1)
+        //Use Product.addNewProduct to add the product to the global database
+        //make an inventory list Inventory.addNewInventoryListing using barcode and userId
+        //get the inventory id
+        //get old and new stock level
+        //update the stock level using Inventory.updateInventoryListingStock
+        //use In_event.add_event to update the inventory(+1) (stock level)
         //render added item view
 
 
+
+
+
 //insert in the inventory and render to item added view
-router.post('/insertProduct', function (req,res,next) {
-    //user id
+router.post('/insertProduct', function (req,res,next) { //*** FIX THIS FIX THIS ******
     var userId = 1;
     //Post unknown item details to global product database
     var eanCode = req.body.productEan; // scanned barcode
     var addNewProduct = Product.addNewProduct(req.body.productEan,req.body);
     var description = req.body.productDescription;
     console.log(addNewProduct.status); //we will add into the global? inventory or both?
+    console.log(addNewProduct.message);
 
     //get last 5 products from user=1 and send them back to render view of inserted products
     var userInventory = getInventoryUser(userId);
 
     if(addNewProduct.status){
+
+        //After add new product to db, update inventory
+        //****** update inventory **************************************************************************
+            var userInventoryUpdated = updateInventory2(userId,eanCode);
+            console.log('***check***'+userInventoryUpdated.status + ':'+userInventoryUpdated.msg);
+
+        //**************************************************************************************************
+        if(userInventoryUpdated.status == 'success'){
+            res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory});
+
+        }
+        else{
+            res.render('insertProduct',{messageItem : 3, description: userInventoryUpdated.msg, userInventory: userInventory});
+
+        }
+
         //update stock level using Inventory.updateProductForUser
-        var getStockLevel =  Inventory.getProductForUser(userId,eanCode);
-        var newStockLevel = getStockLevel +1 ;
-        var updateInventoryUser = Inventory.updateProductForUser(userId,eanCode,newStockLevel);
-        console.log('Inventory updated to:'+ updateInventoryUser);
-        res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory});
+        //var getStockLevel =  Inventory.getProductForUser(userId,eanCode);
+        //var newStockLevel = getStockLevel +1 ;
+        //var updateInventoryUser = Inventory.updateProductForUser(userId,eanCode,newStockLevel);
+        //console.log('Inventory updated to:'+ updateInventoryUser);
     }
     else{
-        console.log('error'); // design a render view for this??
+        console.log('error'); // redirecting to added item view with error message
+        res.render('insertProduct',{messageItem : 3, description: addNewProduct.error_message, userInventory: userInventory});
+
     }
 });
 
@@ -214,7 +326,7 @@ router.post('/scanInAgain', function (req,res,next) {
     //this is just for render again scan in process
     console.log('ready to scan in again');
     console.log('get data from user and send it back')
-    //res.render('scanInAgain',{messageItem: 3});
+    //GET LAST 5 ITEMS AND SEND BACK TO INSERTPRODUCT VIEW
     var data = {messageItem:4};
     res.send(data);
 
@@ -222,7 +334,6 @@ router.post('/scanInAgain', function (req,res,next) {
 
 
 //******************************** NOT USED FOR NOW **********************************************
-
 
 
 router.post('/deleteProduct', function (req,res,next) {
@@ -274,9 +385,7 @@ function ensureAuthenticated(req, res, next){
 
 //function to retrieve product inventory listing if exists for user
 function getInventoryUser(user){
-    //this function retrieve all inventory from a specific user
-    //fix to sent just the 5 most recent
-    //var lastInventory = Inventory.getProductsForUser(user);
+    //this function retrieve 5 inventory from a specific user
 
     var lastInventory = InEvent.get_most_recent_for_user(user,5);
     lastInventory = lastInventory["data"];
@@ -309,6 +418,7 @@ function updateInventory(userId,eanCode){
     }
 
 }
+
 
 
 

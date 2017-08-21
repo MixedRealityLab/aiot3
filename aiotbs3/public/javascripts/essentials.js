@@ -51,22 +51,6 @@ $(document).ready(function() {
 
         ],
         "lengthChange": false,
-        "length": 10//,
-        //"columnDefs": [ {
-           // "targets": -1,
-           // "data": null,
-           // "defaultContent": "<button type='buttonEspecial'>icon</button>" //<img src='/img/three.png' width='35%' height='25%' id='dagger' onclick='myFunction()'>"
-            //"defaultContent":"  <input id='buttonDots' type='image' src='/img/three.png' width='32' height='32'>"
-        //} ]
-
-    } );
-
-
-
-
-    var tableOut = $('#products_dataOut').DataTable( {
-        "ajax": '/javascripts/data.txt',
-       "lengthChange": false,
         "length": 10
     } );
 
@@ -101,6 +85,29 @@ $(document).ready(function() {
 
     }
 
+
+    //******************* ESSENTIALS SCAN OUT DATATABLE ****************************************************************
+
+
+    var tableOut = $('#products_dataOut').DataTable( {
+        "ajax": '/javascripts/data.txt',
+        "lengthChange": false,
+        "length": 10,
+        "columnDefs": [ {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<button id='buttonOut' type='buttonEspecial'>icon</button>" //<img src='/img/three.png' width='35%' height='25%' id='dagger' onclick='myFunction()'>"
+        } ]
+    } );
+
+    $('#products_dataOut tbody').on('click', 'button', function () {
+        //var data = table.row( $(this).parents('tr') ).data(); //get data from scanned out inventory
+        $('#ModalOut').modal('show');
+        document.getElementById("ModalOutLabel").innerHTML = "Details :";//+data.description;
+    } );
+
+
+    //******************************************************************************************************************
 
 } );
 
