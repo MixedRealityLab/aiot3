@@ -177,7 +177,7 @@ function updateInventory2(userId,eanCode){ //add item-using scan In
     //if there is inventory listing known
         //get inventory_id from Inventory.getInventoryListing
         //get old and new stock level
-        //add the product to the user inventory
+        //add the product to the user inventory listing
         //use In_event.add_event to update the inventory(+1) (stock level)
         //render to add item view
     //else if the product exists but there is no inventory listing for it
@@ -214,7 +214,7 @@ function updateInventory2(userId,eanCode){ //add item-using scan In
 
 
 //insert in the inventory and render to item added view
-router.post('/insertProduct', function (req,res,next) { //*** FIX THIS FIX THIS ******
+router.post('/insertProduct', function (req,res,next) {
     var userId = 1;
     //Post unknown item details to global product database
     var eanCode = req.body.productEan; // scanned barcode
@@ -243,11 +243,6 @@ router.post('/insertProduct', function (req,res,next) { //*** FIX THIS FIX THIS 
 
         }
 
-        //update stock level using Inventory.updateProductForUser
-        //var getStockLevel =  Inventory.getProductForUser(userId,eanCode);
-        //var newStockLevel = getStockLevel +1 ;
-        //var updateInventoryUser = Inventory.updateProductForUser(userId,eanCode,newStockLevel);
-        //console.log('Inventory updated to:'+ updateInventoryUser);
     }
     else{
         console.log('error'); // redirecting to added item view with error message
@@ -270,6 +265,9 @@ router.post('/insertProduct', function (req,res,next) { //*** FIX THIS FIX THIS 
 //else if barcode isn't on user inventory
     //do something
     //render to scannedOutProduct with message 1
+
+
+
 
 
 
@@ -323,12 +321,16 @@ router.post('/getInventoryData',function (req,res,next) {
 });
 
 router.post('/scanInAgain', function (req,res,next) {
+    var userId = 1;
     //this is just for render again scan in process
     console.log('ready to scan in again');
     console.log('get data from user and send it back')
     //GET LAST 5 ITEMS AND SEND BACK TO INSERTPRODUCT VIEW
+    var userInventory = getInventoryUser(userId);
+
     var data = {messageItem:4};
-    res.send(data);
+    res.send({messageItem:4, userInventory:userInventory});
+    //res.send(userInventory);
 
 });
 

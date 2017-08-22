@@ -82,11 +82,18 @@ block content
                                                         url: '/scanInAgain',
                                                         type: 'POST',
                                                         success: function (response) {
-                                                            //getData[name] = response;
+                                                            //getData[name] = response; //
                                                             console.log(response);
                                                             document.getElementById('itemAddedMessage').innerHTML = 'Ready to Scan In essentials';
                                                             document.getElementById('itemAddedDesc').innerHTML = '';
-                                                            document.getElementById('panelBodyScanIn').innerHTML = response.messageItem;
+                                                            var x= ''; // when db will be connected check if this is showing data ok.
+                                                            for (i in response.userInventory) {
+                                                                x += response.userInventory[i].description + "<br>";
+                                                            }
+                                                            console.log(x);
+                                                            document.getElementById("panelBodyScanIn").innerHTML = "<h4>"+x;//response[0].description;
+                                                            //console.log(response.userInventory[0].description);
+
 
                                                             //*********************** just scan when  'SCAN IN TAB' is active NOT WORKING *********************
                                                             //$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
@@ -100,7 +107,7 @@ block content
 
                                                                     if ($('.nav-tabs .active').text() == 'SCAN IN' && response.messageItem == 4) {
                                                                         console.log('scanning in');
-                                                                        document.getElementById("bCodeMessage").innerHTML = 'Scanning code: ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';;
+                                                                        document.getElementById("bCodeMessage").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';;
                                                                         document.getElementById("codeProduct").value = data.string;
                                                                         document.getElementById("codeForm").submit();
 
