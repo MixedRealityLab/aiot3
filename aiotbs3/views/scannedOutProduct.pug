@@ -52,8 +52,7 @@ block content
                                     h4 Essentials scanned out
                                 #panelBodyScanOut.panel-body
                                     //h4 Product #{lastUserInventoryOut[0].description}
-                                    h4
-                                        each key in lastUserInventoryOut
+                                    each key in lastUserInventoryOut
                                             h4 !{key.description}
                         .col-lg-8.col-md-8.col-sm-8
                             .panel.panel-default
@@ -87,7 +86,7 @@ block content
                                                             document.getElementById('itemAddedDescOut').innerHTML = '';
                                                             var x = ''; // when db will be connected check if this is showing data ok.
                                                             for (i in response.userInventoryOut) {
-                                                                x += response.userInventoryOut[i].description + "<br>";
+                                                                x += response.userInventoryOut[i].description + "<h4>";
                                                             }
                                                             console.log(x);
                                                             document.getElementById("panelBodyScanOut").innerHTML = "<h4>" + x;//response[0].description;
@@ -240,7 +239,7 @@ block content
                                                             document.getElementById('itemAddedDescOut').innerHTML = '';
                                                             var x = ''; // when db will be connected check if this is showing data ok.
                                                             for (i in response.userInventoryOut) {
-                                                                x += response.userInventoryOut[i].description + "<br>";
+                                                                x += response.userInventoryOut[i].description + "<h4>";
                                                             }
                                                             console.log(x);
                                                             document.getElementById("panelBodyScanOut").innerHTML = "<h4>" + x;//response[0].description;
