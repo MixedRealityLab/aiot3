@@ -25,7 +25,7 @@ Inventory.addNewInventoryListing = function (userId, EAN) {
         return ({
             "status": "fail",
             "error_code": 101,
-            "error_message": "userdoes not exist / product does not exist / invetory listing already exists"
+            "error_message": "user does not exist / product does not exist / invetory listing already exists"
         });
     }
 }

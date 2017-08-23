@@ -267,6 +267,31 @@ router.post('/insertProduct', function (req,res,next) {
     //render to scannedOutProduct with message 1
 
 
+//scan out logic 2
+//if barcode is on user inventory and have description
+    //get stock level and products details from user inventory
+    //ask about stock level to confirm
+    //Ask user if item was “used up or wasted” - where store in the model?
+    //Confirm item details and new inventory stock level
+    // (inventory means the households local listing of items)
+    //update stock_level (-1)
+    //then render scannedOutProduct view
+// else if barcode is on user inventory but it doesn't have description
+    // get barcode
+    // prompt user to “add product details now”
+    ///Ask user if item was “used up or wasted” - where store in the model?
+    //Confirm item details and new inventory stock level
+    // (inventory means the households local listing of items)
+    //update stock_level (-1)
+    //then render scannedOutProduct view
+//else if barcode isn't on user inventory
+    //get barcode
+    //prompt user to add as "scanned in product"
+    //back end: add this product as scanned in
+    //Prompt user to “use up/wasted” product
+    //Go back to “ready to scan out” view with table of scanned out products
+    //render to scannedOutProduct with message 1
+
 
 
 
@@ -275,38 +300,104 @@ router.post('/scanOutProduct',function (req,res,next) {
     var userId=1;
     sleep.msleep(4000); //this is for show the barcode scanned
     console.log(req.body);
-    var eanProduct= req.body.codeProductOut;
-
-    //var eanCode = Inventory.getProductForUser(1);
-    //if(eanCode.status == 'success'){ //if barcode is on inventory
-
-    var inventoryForUser = Inventory.getProductForUser(userId,eanProduct); //if barcode is on user inventory
-    if (inventoryForUser.status == 'success'){ //barcode on user inventory
-
-        //get stock level and product details from user inventory
-        var producDetails = Product.getProductByEan(eanProduct);
-        //var stock_level = Inventory.
-        //res.render('scanningOutProduct', )
-        //ask about stock level to confirm
-        //Ask user if item was “used up or wasted” - where store in the model
-        //Confirm item details and new inventory stock level
-        // (inventory means the households local listing of items)
-        //update stock_level (-1)
-        //then render scannedOutProduct view with messageScanOut=0
-        res.render('scannedOutProduct',{messageScanOut:0, eanProduct:eanProduct});
+    var wasted = req.body.wastedProductOut;
+    var codeProduct = req.body.codeProductOut; //barcode from client side
+    var eanCodeProducts = Product.getProductByEan(codeProduct);
+    var descriptionOut='not found';
+    if (eanCodeProducts.status == 'success'){
+        var descriptionOut = eanCodeProducts.data.description;
 
     }
-    else{ //if barcode isn't on user inventory
-        //do something
-        //render to scannedOutProduct with message 1
-        res.render('scannedOutProduct',{messageScanOut:1, eanProduct:eanProduct});
+
+    var userInventoryOut = updateInventoryOut(userId,codeProduct,wasted);
+    var lastUserInventoryOut = getOutInventoryUser(userId);
+    console.log('**inventory out***'+lastUserInventoryOut[0].description);
+
+    if (userInventoryOut.status == 'success'){ //if barcode is on user inventory
+
+        //res.render('scannedOutProduct',{messageScanOut:0, eanProduct:codeProduct});
+        res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:descriptionOut, lastUserInventoryOut:lastUserInventoryOut});
+    }else{//barcode isn't on user inventory
+
+        res.render('scannedOutProduct',{messageScanOut:1,descriptionOut:userInventoryOut.msg, lastUserInventoryOut:lastUserInventoryOut});
 
     }
 
 
-    console.log('scanning out code:'+ eanProduct);
+
+
+    console.log('scanning out code:'+ codeProduct);
 
 });
+
+
+
+//********************************************* OUT OF INVENTORY *******************************************************
+function updateInventoryOut(userId,eanCode,wasted){ //add item-using scan In
+    console.log('user Id:'+ userId);
+    console.log('ean:'+eanCode);
+    console.log('wasted:'+wasted);
+
+
+
+    var inventoryList = Inventory.getInventoryListing(userId,eanCode); // get inventory listing
+    console.log('***inventory listing:***'+ inventoryList.status);
+
+    if (inventoryList.status=='success') // there is an inventory listing known
+    {
+        var inventoryId =  inventoryList.data.inventory_id;    //get inventory id
+        var getStockLevel = inventoryList.data.stock_level;    //get actual stock level
+        var newStockLevel = getStockLevel - 1;                 //decrease actual stock level
+        var updateInventoryListing = Inventory.updateInventoryListingStock(inventoryId,newStockLevel); //update inventory listing
+        var outOfInventory = OutEvent.add_event(inventoryId,getStockLevel,newStockLevel,wasted); //add Out to inventory
+        console.log('**Out of Inventory**'+outOfInventory.status);
+
+        if (updateInventoryListing.status == 'success' && outOfInventory.status == 'success')
+        {
+            return ({"status": "success"});
+
+        }
+        else
+        {
+            return ({"status": "fail", "msg":outOfInventory.error_message});
+
+        }
+
+    }
+    else
+    {
+        return ({"status": "fail", "msg":inventoryList.error_message});
+        /*
+        //else if the product exists but there is no inventory listing for it
+        var newInventoryList = Inventory.addNewInventoryListing(userId,eanCode);
+
+        if (newInventoryList.status == 'success')
+        {
+            var inventoryId = newInventoryList.data.inventory_id;
+            var getStockLevel = 0;    //get actual stock level
+            var newStockLevel = newInventoryList.data.stock_level;
+            var updateInventoryListing = Inventory.updateInventoryListingStock(inventoryId,newStockLevel); //update inventory listing
+            var outOfInventory = OutEvent.add_event(inventoryId,getStockLevel,newStockLevel); //add to inventory
+            if (updateInventoryListing.status == 'success' && outOfInventory.status == 'success')
+            {
+                return ({"status": "success"})
+            }
+            else
+            {
+                return ({"status": "fail", "msg":outOfInventory.error_message});
+            }
+        }
+        else
+        {
+            return ({"status": "fail", "msg":newInventoryList.error_message});
+
+        }
+        */
+
+    }
+}
+//**************************************************************************************************
+
 
 
 
@@ -335,15 +426,24 @@ router.post('/scanInAgain', function (req,res,next) {
 });
 
 
-//******************************** NOT USED FOR NOW **********************************************
-
-
-router.post('/deleteProduct', function (req,res,next) {
+router.post('/scanOutAgain', function(req,res,next){
+    var userId =  1;
+    console.log('ready to scan out again');
+    //GET LAST 5 ITEMS AND SEND BACK TO ****** VIEW
+    var userInventoryOut = getOutInventoryUser(userId);
+    res.send({messageItem:5, userInventoryOut:userInventoryOut});
 
 });
 
+//******************************** NOT USED FOR NOW **********************************************
+
+
+//router.post('/deleteProduct', function (req,res,next) {
+//
+//});
+
 /* POST to adding minimum data from unknown items */
-router.post('/addUnknownItem', function(req, res) {
+//router.post('/addUnknownItem', function(req, res) {
 
     // Set our internal DB variable
     //var db = req.db;
@@ -351,23 +451,23 @@ router.post('/addUnknownItem', function(req, res) {
     //var collection = db.get('eanCollection');
     //var eanSelected = eanCode;//'0'+ eanCode;
     //var collectionDocument = connectTesco(eanSelected);
-    console.log('added_item *** added_item');
+//    console.log('added_item *** added_item');
     //res.redirect('wizard#step-6');
-    res.redirect('/#scanIn');
-});
+//    res.redirect('/#scanIn');
+//});
 
 /* GET New wizard page. */
-router.get('/wizard', function(req, res,next) {
-    res.render('wizard');
-});
+//router.get('/wizard', function(req, res,next) {
+//    res.render('wizard');
+//});
 
-router.get('/barcodeScanner', function(req, res) {
-    res.render('barcodeScanner');
-});
+//router.get('/barcodeScanner', function(req, res) {
+//    res.render('barcodeScanner');
+//});
 
-router.get('/webScanner', function(req, res) {
-    res.render('webScanner');
-});
+//router.get('/webScanner', function(req, res) {
+//    res.render('webScanner');
+//});
 //************************************************************************************************
 
 
@@ -385,14 +485,20 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
-//function to retrieve product inventory listing if exists for user
+//function to get inventory listing if exists for user
 function getInventoryUser(user){
-    //this function retrieve 5 inventory from a specific user
-
     var lastInventory = InEvent.get_most_recent_for_user(user,5);
     lastInventory = lastInventory["data"];
     console.log('***last inventory:'+ lastInventory);
     return lastInventory;
+}
+
+
+function getOutInventoryUser(user){
+    var lastInventoryOut = OutEvent.get_most_recent_for_user(user,5);
+    lastInventoryOut = lastInventoryOut["data"];
+    console.log('***last inventory out:'+ lastInventoryOut);
+    return lastInventoryOut;
 }
 
 
@@ -423,8 +529,7 @@ function updateInventory(userId,eanCode){
 
 
 
-
-/* function to connect and consume TESCO API. */
+//function to connect and consume TESCO API.
 function connectTesco(eanSelected,callback){
 
     eanSelected1 = '0'+ eanSelected;

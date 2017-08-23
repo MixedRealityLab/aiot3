@@ -23,11 +23,11 @@ Out_event.get_most_recent_for_user = function (userId, number_of_products) {
 		// TODO: Ask carolina which data she wants back here to prevent mutiple queries
 		return ({
 				  "data": [
-				  { 	inventory_id: 0,
+				  { inventory_id: 0,
 				  	description: "lemon tea",
 				   	old_stock_level : "5",
 				  	new_stock_level : "4",
-				    	timestamp: "2017-04-11 08:40:05" 
+					timestamp: "2017-04-11 08:40:05"
 				  },
 				  { 
 				  	inventory_id: 0,

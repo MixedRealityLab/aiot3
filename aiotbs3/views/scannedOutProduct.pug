@@ -50,13 +50,11 @@ block content
                             .panel.panel-default
                                 .panel-heading
                                     h4 Essentials scanned out
-                                .panel-body
-                                    h4 Product #{eanProduct}
-                                    h4 Product 2
-                                    h4 Product 3
-                                    h4 Product 4
-                                    h4 Product 5
-                                    h4 Product 6
+                                #panelBodyScanOut.panel-body
+                                    //h4 Product #{lastUserInventoryOut[0].description}
+                                    h4
+                                        each key in lastUserInventoryOut
+                                            h4 !{key.description}
                         .col-lg-8.col-md-8.col-sm-8
                             .panel.panel-default
                                 .panel-body
@@ -68,22 +66,101 @@ block content
                                             br
                                             br
                                             br
-                                            h2
+                                            h2#itemAddedMessageOut
                                                 | Item Scanned Out #{'    '}
                                                 span(style='font-size:32px;color:green').glyphicon.glyphicon-ok-circle
-                                            h4 Product: #{eanProduct}
+                                            h4#itemAddedDescOut Product: #{descriptionOut}
                                             br
                                             script.
                                                 setTimeout(scanOutReload, 6000);
                                                 function scanOutReload() {
-                                                    document.location.href = "http://localhost:3000";
+                                                    //document.location.href = "http://localhost:3000";
+                                                    activeTab2 = $('.nav-tabs .active').text();
+                                                    console.log(activeTab2);
+                                                    $.ajax({
+                                                        url: '/scanOutAgain',
+                                                        type: 'POST',
+                                                        success: function (response) {
+                                                            //getData[name] = response; //
+                                                            console.log(response);
+                                                            document.getElementById('itemAddedMessageOut').innerHTML = 'Ready to Scan Out essentials';
+                                                            document.getElementById('itemAddedDescOut').innerHTML = '';
+                                                            var x = ''; // when db will be connected check if this is showing data ok.
+                                                            for (i in response.userInventoryOut) {
+                                                                x += response.userInventoryOut[i].description + "<br>";
+                                                            }
+                                                            console.log(x);
+                                                            document.getElementById("panelBodyScanOut").innerHTML = "<h4>" + x;//response[0].description;
+                                                            //console.log(response.userInventory[0].description);
+
+
+                                                            //*********************** just scan when  'SCAN IN TAB' is active NOT WORKING *********************
+                                                            //$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+                                                            activeTab2 = $('.nav-tabs .active').text();
+                                                            //if ($('.nav-tabs .active').text() == 'SCAN IN') {
+                                                            console.log(activeTab2);
+                                                            $(document).scannerDetection();
+                                                            $(document).bind('scannerDetectionComplete', function (e, data) {
+                                                                console.log('complete: ' + data.string);
+                                                                //alert(data.string);
+
+                                                                if ($('.nav-tabs .active').text() == 'SCAN OUT' && response.messageItem == 5) {
+                                                                    console.log('scanning OUT');
+                                                                    document.getElementById("bCodeMessageOut").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
+                                                                    document.getElementById("codeProductOut").value = data.string;
+
+                                                                    $('#myModalWasted').modal('show');
+                                                                    $('#myModalWasted').on('click', function (event) {
+                                                                        var idButton = event.target.id;
+                                                                        if (idButton == 'btnUsedUp') {
+                                                                            document.getElementById("wastedProductOut").value = 0;
+                                                                            document.getElementById("scanoutForm").submit();
+                                                                        }
+                                                                        else {
+                                                                            document.getElementById("wastedProductOut").value = 1;
+                                                                            document.getElementById("scanoutForm").submit();
+
+
+                                                                        }
+                                                                    });
+
+
+                                                                } else {
+                                                                    //alert('What do you want to do with this code? :'+ data.string );
+                                                                    alert('to scan a essential please go to "scan in" or "scan out"');
+                                                                    document.location.href = "http://localhost:3000";
+                                                                    //ask user what he want to do with barcode scanned
+                                                                    //case 1: go to scan in
+                                                                    //case 2: go to scan out
+                                                                    //case 3: nothing back to essential.
+                                                                }
+                                                                activeTab2 = $('.nav-tabs .active').text();
+
+
+                                                            })
+                                                            //*************************************************************************************
+                                                        }
+                                                    });
 
                                                 }
                                             br
                                             br
                                             br
                                             br
-                                            br
+                                            form#scanoutForm(method='POST', action='/scanOutProduct')
+                                                .form-group
+                                                    input#codeProductOut.form-control(name='codeProductOut', type='hidden',required='')
+                                                    input#wastedProductOut.form-control(name='wastedProductOut', type='hidden',required='')
+                                                br
+                                            h3#bCodeMessageOut
+                                            #myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
+                                                .modal-dialog.modal-sm
+                                                    .modal-content
+                                                        .modal-body
+                                                            p This product was:
+                                                            button#btnUsedUp.btn.btn-default(type='button', data-dismiss='modal') Used Up
+                                                            button#btnWasted.btn.btn-default(type='button', data-dismiss='modal') Wasted
+
 
                 #inStock.tab-pane.fade
                     include essentials_instock
@@ -94,8 +171,7 @@ block content
                 #inbox.tab-pane.fade
                     include inbox
 
-
-    else if messageScanOut == 1
+    if messageScanOut == 1
         .container
             //h1 Home Essentials
             p
@@ -123,30 +199,122 @@ block content
                     br
                     br
                     .row
-                        .col-lg-11.col-md-11.col-sm-11
-                            .text-center
-                                .row.spacer
-                                    br
-                                    br
-                                    br
-                                    br
-                                    br
-                                    br
-                                    h2
-                                        | Unknown Item to scan out #{'    '}
-                                        span(style='font-size:32px;color:red').glyphicon.glyphicon-remove-circle
-                                    br
-                                    script.
-                                        setTimeout(scanOutReload, 6000);
-                                        function scanOutReload() {
-                                            document.location.href = "http://localhost:3000";
+                        .col-lg-3.col-md-4.col-sm-3
+                            .panel.panel-default
+                                .panel-heading
+                                    h4 Essentials scanned out
+                                #panelBodyScanOut.panel-body
+                                    //h4 Product #{lastUserInventoryOut[0].description}
+                                    h4
+                                        each key in lastUserInventoryOut
+                                            h4 !{key.description}
+                        .col-lg-8.col-md-8.col-sm-8
+                            .panel.panel-default
+                                .panel-body
+                                    .text-center
+                                        .row.spacer
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+                                            br
+                                            h2#itemAddedMessageOut
+                                                | Sorry, something went wrong #{'    '}
+                                                span(style='font-size:32px;color:red').glyphicon.glyphicon-remove-circle
+                                            h4#itemAddedDescOut #{descriptionOut}
+                                            br
+                                            script.
+                                                setTimeout(scanOutReload, 6000);
+                                                function scanOutReload() {
+                                                    //document.location.href = "http://localhost:3000";
+                                                    activeTab2 = $('.nav-tabs .active').text();
+                                                    console.log(activeTab2);
+                                                    $.ajax({
+                                                        url: '/scanOutAgain',
+                                                        type: 'POST',
+                                                        success: function (response) {
+                                                            //getData[name] = response; //
+                                                            console.log(response);
+                                                            document.getElementById('itemAddedMessageOut').innerHTML = 'Ready to Scan Out essentials';
+                                                            document.getElementById('itemAddedDescOut').innerHTML = '';
+                                                            var x = ''; // when db will be connected check if this is showing data ok.
+                                                            for (i in response.userInventoryOut) {
+                                                                x += response.userInventoryOut[i].description + "<br>";
+                                                            }
+                                                            console.log(x);
+                                                            document.getElementById("panelBodyScanOut").innerHTML = "<h4>" + x;//response[0].description;
+                                                            //console.log(response.userInventory[0].description);
 
-                                        }
-                                    //include scanOutUnknown
-                                    br
-                                    br
-                                    br
-                                    br
+
+                                                            //*********************** just scan when  'SCAN IN TAB' is active NOT WORKING *********************
+                                                            //$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+                                                            activeTab2 = $('.nav-tabs .active').text();
+                                                            //if ($('.nav-tabs .active').text() == 'SCAN IN') {
+                                                            console.log(activeTab2);
+                                                            $(document).scannerDetection();
+                                                            $(document).bind('scannerDetectionComplete', function (e, data) {
+                                                                console.log('complete: ' + data.string);
+                                                                //alert(data.string);
+
+                                                                if ($('.nav-tabs .active').text() == 'SCAN OUT' && response.messageItem == 5) {
+                                                                    console.log('scanning OUT');
+                                                                    document.getElementById("bCodeMessageOut").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
+                                                                    document.getElementById("codeProductOut").value = data.string;
+
+                                                                    $('#myModalWasted').modal('show');
+                                                                    $('#myModalWasted').on('click', function (event) {
+                                                                        var idButton = event.target.id;
+                                                                        if (idButton == 'btnUsedUp') {
+                                                                            document.getElementById("wastedProductOut").value = 0;
+                                                                            document.getElementById("scanoutForm").submit();
+                                                                        }
+                                                                        else {
+                                                                            document.getElementById("wastedProductOut").value = 1;
+                                                                            document.getElementById("scanoutForm").submit();
+
+
+                                                                        }
+                                                                    });
+                                                                    document.getElementById("scanoutForm").submit(); // ADD THE FORM
+
+
+                                                                } else {
+                                                                    //alert('What do you want to do with this code? :'+ data.string );
+                                                                    alert('to scan a essential please go to "scan in" or "scan out"');
+                                                                    document.location.href = "http://localhost:3000";
+                                                                    //ask user what he want to do with barcode scanned
+                                                                    //case 1: go to scan in
+                                                                    //case 2: go to scan out
+                                                                    //case 3: nothing back to essential.
+                                                                }
+                                                                activeTab2 = $('.nav-tabs .active').text();
+
+
+                                                            })
+                                                            //*************************************************************************************
+                                                        }
+                                                    });
+
+                                                }
+                                            br
+                                            br
+                                            br
+                                            br
+                                            form#scanoutForm(method='POST', action='/scanOutProduct')
+                                                .form-group
+                                                    input#codeProductOut.form-control(name='codeProductOut', type='hidden',required='')
+                                                    input#wastedProductOut.form-control(name='wastedProductOut', type='hidden',required='')
+
+                                                br
+                                            h3#bCodeMessageOut
+                                            #myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
+                                                .modal-dialog.modal-sm
+                                                    .modal-content
+                                                        .modal-body
+                                                            p This product was:
+                                                            button#btnUsedUp.btn.btn-default(type='button', data-dismiss='modal') Used Up
+                                                            button#btnWasted.btn.btn-default(type='button', data-dismiss='modal') Wasted
 
                 #inStock.tab-pane.fade
                     include essentials_instock
@@ -156,5 +324,3 @@ block content
 
                 #inbox.tab-pane.fade
                     include inbox
-
-

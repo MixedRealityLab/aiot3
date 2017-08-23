@@ -1,11 +1,66 @@
 append head
     script(src='/bower_components/scanner-detection/jquery.scannerdetection.js')
-    script(src='/javascripts/barcodeScanner.js')
+    //script(src='/javascripts/barcodeScanner.js')
 
 .container
     br
     br
     br
+    script.
+        //*********************** just scan when  'SCAN IN TAB' is active *********************
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+            activeTab2 = $('.nav-tabs .active').text();
+            //if ($('.nav-tabs .active').text() == 'SCAN IN') {
+            console.log(activeTab2);
+            $(document).scannerDetection();
+            $(document).bind('scannerDetectionComplete', function (e, data) {
+                console.log('complete: ' + data.string);
+                //alert(data.string);
+
+                if ($('.nav-tabs .active').text() == 'SCAN OUT') {
+                    console.log('scanning OUT');
+                    document.getElementById("bCodeMessageOut").innerHTML = 'Scanning out code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
+                    document.getElementById("codeProductOut").value = data.string;
+
+                    $('#myModalWasted').modal('show');
+                    $('#myModalWasted').on('click', function (event) {
+                        var idButton = event.target.id;
+                        if (idButton == 'btnUsedUp'){
+                            document.getElementById("wastedProductOut").value = 0;
+                            document.getElementById("scanoutForm").submit();
+                        }
+                        else{
+                            document.getElementById("wastedProductOut").value = 1;
+                            document.getElementById("scanoutForm").submit();
+
+
+                        }
+                    });
+
+
+
+                } else {
+                    //alert('What do you want to do with this code? :'+ data.string );
+                   if ($('.nav-tabs .active').text() == 'ESSENTIALS' || $('.nav-tabs .active').text() == 'CALENDAR' || $('.nav-tabs .active').text() == 'INBOX')
+                   {
+                    alert('Go to "SCAN IN" or "SCAN OUT" tab to scan an essential');
+                    document.location.href = "http://localhost:3000";
+                    //ask user what he want to do with barcode scanned
+                    //case 1: go to scan in
+                    //case 2: go to scan out
+                    //case 3: nothing back to essential.
+                }
+            }
+
+            })
+
+
+            activeTab2 = $('.nav-tabs .active').text();
+            //}
+
+        })
+        //*************************************************************************************
+
     .row
         .col-lg-11.col-md-11.col-sm-11
             .text-center
@@ -23,7 +78,16 @@ append head
                     form#scanoutForm(method='POST', action='/scanOutProduct')
                         .form-group
                             input#codeProductOut.form-control(name='codeProductOut', type='hidden',required='')
+                            input#wastedProductOut.form-control(name='wastedProductOut', type='hidden',required='')
                         br
                     h3#bCodeMessageOut
+
+                    #myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
+                        .modal-dialog.modal-sm
+                            .modal-content
+                                .modal-body
+                                    p This product was:
+                                    button#btnUsedUp.btn.btn-default(type='button', data-dismiss='modal') Used Up
+                                    button#btnWasted.btn.btn-default(type='button', data-dismiss='modal') Wasted
 
 
