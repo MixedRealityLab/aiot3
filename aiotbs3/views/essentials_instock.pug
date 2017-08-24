@@ -60,18 +60,7 @@ block content
                                 td Last added
                                 td Used up
                                 td Details
-                        td '.$row["productDescription"].'
-                        td '.$row["productStock"].'
-                        td '.$row["productPrediction"].'
-                        td '.$row["productPrediction"].'
 
-                        |
-                        |
-                        tr
-                            td test
-                            td Current stock
-                            td Not available
-                            td Not available
 
         // Modal
         #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
@@ -87,10 +76,7 @@ block content
                         |
                         |
                         br
-                        br
-                        br
-                        br
-                        br
+                        h4#statusData
                         br
                         br
                         br
@@ -109,9 +95,9 @@ block content
 
                     .modal-footer
                         //button.btn.btn-default(type='button', data-dismiss='modal') Close
-                        button.btn.btn-default(type='button') Edit
-                        button.btn.btn-default(type='button') Stop Track
-                        button.btn.btn-default(type='button') Bin
+                        button#btnEdit.btn.btn-default(type='button') Edit
+                        button#btnStop.btn.btn-default(type='button') Stop Track
+                        button#btnBin.btn.btn-default(type='button') Bin
 
         #ModalOut.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
             .modal-dialog.modal-lg(role='document')

@@ -71,7 +71,7 @@ Inventory.getProductsForUser = function (userId) {
 
 	}
 	else {
-		return ({"status": "fail", "error code": 101, "error message": "user does not exist"});
+		return ({"status": "fail", "error code": 101, "error_message": "user does not exist"});
 	}
 }
 

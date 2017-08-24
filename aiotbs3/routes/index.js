@@ -405,9 +405,25 @@ router.post('/getInventoryData',function (req,res,next) {
     console.log(req.body);
     var userId=req.body.userId;
     var data = Inventory.getProductsForUser(userId);
+
+    // HERE I NEED TO USER Inventory.getProductFromInventoryId method
+    // get inventory id
+    //with inventory id get ean
+    //with ean get product details
+    //add to data
     console.log(data);
     console.log('request by dataTable ajax');
     res.json(data);
+
+});
+
+
+router.post('/getInventoryDataOut',function (req,res,next) {
+    var userId = req.body.userId;
+    var data = {description: "xxx", lastAdded: "07/07/27", usedUp: "16/08/17"};
+    console.log(data);
+    res.json(data);
+
 
 });
 
@@ -432,6 +448,56 @@ router.post('/scanOutAgain', function(req,res,next){
     //GET LAST 5 ITEMS AND SEND BACK TO ****** VIEW
     var userInventoryOut = getOutInventoryUser(userId);
     res.send({messageItem:5, userInventoryOut:userInventoryOut});
+
+});
+
+
+
+router.post('/editProduct',function(req,res,next){
+
+    var inventoryId = req.body.inventoryId;
+
+    var newStockLevel = req.body.newStockLevel;
+    var inventoryUpdate =  Inventory.updateInventoryListingStock(inventoryId,newStockLevel);
+
+    if (inventoryUpdate.status == 'success'){
+        //send to front data
+        console.log('inventoryID:'+inventoryId);
+        console.log(newStockLevel);
+        var data = {data:newStockLevel, msg:inventoryUpdate.status}
+        res.json(data);
+    }
+    else{
+        console.log('inventoryID:'+inventoryId);
+        var data = {data:newStockLevel, msg:inventoryUpdate.error_message}
+        res.json(data);
+
+    }
+
+});
+
+
+router.post('/stopTrack',function(req,res,next){
+    var inventoryId = req.body.inventoryId;
+    var stopTrack = Inventory.stopTracking(inventoryId);
+
+    if (stopTrack.status =='success'){
+        var data = {msg:stopTrack.status}
+        res.json(data);
+
+    }
+    else{
+        var data = {msg:stopTrack.error_message}
+        res.json(data);
+
+    }
+
+});
+
+router.post('/bin',function(req,res,next){
+    var data = req.body;
+    console.log(data);
+    res.json(data);
 
 });
 
