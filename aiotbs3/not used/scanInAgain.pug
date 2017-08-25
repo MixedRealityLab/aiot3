@@ -1,4 +1,4 @@
-extends layout
+extends ../views/layout
 
 block content
 
@@ -59,16 +59,16 @@ block content
                             activeTab2 = $('.nav-tabs .active').text();
                             console.log('TAB CHANGED to: ' + $('.nav-tabs .active').text());//})
 
-                    include scanin
+                    include ../views/scanin
 
                 #scanOut.tab-pane.fade
-                    include scanout
+                    include ../views/scanout
 
                 #inStock.tab-pane.fade
-                    include essentials_instock
+                    include ../views/essentials_instock
 
                 #calendar.tab-pane.fade
-                    include calendar
+                    include ../views/calendar
 
                 #inbox.tab-pane.fade
-                    include inbox
+                    include ../views/inbox

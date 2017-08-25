@@ -61,7 +61,7 @@ router.post('/checkBarcode', function (req,res, next) {
             var tescoApiData =  response;
             //console.log(tescoApiData.status);
             //console.log(tescoApiData.data.description);
-            console.log(tescoApiData);
+            console.log('TESCO DATA:'+tescoApiData);
 
 
             if (tescoApiData.status == 'success'){
@@ -84,7 +84,8 @@ router.post('/checkBarcode', function (req,res, next) {
 
                     }
                     else{
-                        res.render('insertProduct',{messageItem : 3, description: userInventoryUpdated.msg, userInventory: userInventory});
+                        var description = tescoApiData.data.description.substring(0,25);
+                        res.render('insertProduct',{messageItem : 3, description: description+ '' + '' +userInventoryUpdated.msg, userInventory: userInventory});
 
                     }
 
