@@ -43,6 +43,7 @@ Inventory.getProductsForUser = function (userId) {
 				  	description : "heinz",
 				    	stock_amount: 4,
 				    	stock_unit: "tins",
+					  	stock_current: "4 tins",
 				    	predicted_need_date : "27/08/2017"
 				  },
 				  { 
@@ -50,6 +51,7 @@ Inventory.getProductsForUser = function (userId) {
 				  	description : "heinz 2",
 				    	stock_amount: 4,
 				    	stock_unit: "tins",
+                      	stock_current: "4 tins",
 				    	predicted_need_date : "27/09/2017"
 				  },
 				  { 
@@ -57,6 +59,7 @@ Inventory.getProductsForUser = function (userId) {
 				  	description : "heinz 3",
 				    	stock_amount: 4,
 				    	stock_unit: "tins",
+                       stock_current: "4 tins",
 				    	predicted_need_date : "27/04/2017"
 				  },
 				  { 	
@@ -64,6 +67,7 @@ Inventory.getProductsForUser = function (userId) {
 				  	description : "heinz 4",
 				    	stock_amount: 4,
 				    	stock_unit: "tins",
+                      	stock_current: "4 tins",
 				    	predicted_need_date : "27/07/2017"
 				  }
 				  ]
