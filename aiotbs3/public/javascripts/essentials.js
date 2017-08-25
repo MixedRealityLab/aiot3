@@ -152,7 +152,7 @@ $(document).ready(function() {
     }
 
 
-
+    console.log('REF:'+window.location.href);
 
 
     //******************* ESSENTIALS SCAN OUT DATATABLE ****************************************************************
