@@ -420,7 +420,9 @@ router.post('/getInventoryData',function (req,res,next) {
 
 router.post('/getInventoryDataOut',function (req,res,next) {
     var userId = req.body.userId;
-    var data = {description: "xxx", lastAdded: "07/07/27", usedUp: "16/08/17"};
+    //var data = {description: "xxx", lastAdded: "07/07/27", usedUp: "16/08/17"};
+
+    var data = OutEvent.get_most_recent_for_user(userId,5);
     console.log(data);
     res.json(data);
 

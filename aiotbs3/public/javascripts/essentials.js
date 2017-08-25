@@ -174,8 +174,8 @@ $(document).ready(function() {
         },
         "columns":[
             {data: "description"},
-            {data: "lastAdded"},
-            {data: "usedUp"},
+            {data: "timestamp"},
+            {data: "timestamp"},
             {data: null,
                 defaultContent: "<button type='buttonEspecial'>icon</button>"}
 
