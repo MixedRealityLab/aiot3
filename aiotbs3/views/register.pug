@@ -23,16 +23,10 @@ block content
 
     h2.page-header.text-center Essentials Sign Up
     .modal-body.modal-sm.center-block
-        form(method='post', action='/users/register')
-            //.form-group
-                label Name
-                input.form-control(type='text', placeholder='Name', name='name')
+        form(method='post', action='/register')
             .form-group
                 label Username
                 input.form-control(type='text', placeholder='Username', name='username', required='')
-            //.form-group
-                label Email
-                input.form-control(type='email', placeholder='Email', name='email')
             .form-group
                 label Password
                 input.form-control(type='password', placeholder='Password', name='password',required='')
@@ -41,5 +35,5 @@ block content
                 input.form-control(type='password', placeholder='Password', name='password2', required='')
             button.btn.btn-primary(type='submit') Submit
         br
-        a(href='/users/login')   Login
+        a(href='/login')   Login
 

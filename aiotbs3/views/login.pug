@@ -22,7 +22,8 @@ block content
 
     h2.page-header.text-center Welcome Essentials Login
     .modal-body.modal-sm.center-block
-        form(method='POST', action='/users/login')
+        h4 #{message}
+        form(method='POST', action='/login')
                 .form-group
                     label Username:
                     input.form-control(name='username',type='text', required='')
@@ -34,4 +35,4 @@ block content
 
         br
         h3 New User?
-        a(href='/users/register') Sign Up
+        a(href='/register') Sign Up

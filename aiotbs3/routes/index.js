@@ -2,29 +2,68 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var sleep = require('sleep');
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+var session = require('express-session');
+
+
 
 var Product = require('../data_models/products');
 var Inventory = require('../data_models/inventory');
 var InEvent = require('../data_models/in_events');
 var OutEvent = require('../data_models/out_events');
+var User = require('../data_models/user');
 
+//**********************************************************************************************************************
+router.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+    //cookie: { secure: true }
+}));
+
+router.use(passport.initialize());
+router.use(passport.session());
+
+// Configure the local strategy for use by Passport.
+passport.use(new Strategy(
+    function(username, password, cb) {
+        User.findByUsername(username, function(err, user) {
+            if (err) { return cb(err); }
+            if (!user) { return cb(null, false); }
+            if (user.password != password) { return cb(null, false); }
+            return cb(null, user);
+        });
+    }));
+
+
+passport.serializeUser(function(user, cb) {
+    cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+    User.findById(id, function (err, user) {
+        if (err) { return cb(err); }
+        cb(null, user);
+    });
+});
+
+
+//**********************************************************************************************************************
 
 
 /* GET home page. */
-//router.get('/',ensureAuthenticated, function(req, res, next){ // this authentication fail :(
-router.get('/' ,function(req, res, next) {
-    //res.render('index', { username: req.body.username, success: req.session.success, errors: req.session.errors });
-    res.render('index', { username: req.body.username, success: 'success', errors: req.session.errors, messageItem : 0 });
+router.get('/', function(req, res, next){ // this authentication fail :(
+//router.get('/' ,function(req, res, next) {
+    console.log(req.user);
+    console.log(req.isAuthenticated());
+    res.render('index',{ user: req.user });
+    //res.render('index', { username: req.body.username, session: req.session.success, errors: req.session.errors, messageItem : 0 });
+    //res.render('index', { username: req.body.username, session: 'success', errors: req.session.errors, messageItem : 0 });
 
-    //if (!req.session.success)
-    //res.redirect('login');
-    //res.redirect('/users/login');
-    //req.session.success = false;
-    req.session.errors = null;
-    //res.redirect('login');
-
-
+    //req.session.errors = null;
 });
+
 
 
 /*  PRODUCTS  */
@@ -504,55 +543,10 @@ router.post('/bin',function(req,res,next){
 
 });
 
-//******************************** NOT USED FOR NOW **********************************************
-
-
-//router.post('/deleteProduct', function (req,res,next) {
-//
-//});
-
-/* POST to adding minimum data from unknown items */
-//router.post('/addUnknownItem', function(req, res) {
-
-    // Set our internal DB variable
-    //var db = req.db;
-    //var eanCode = req.body.eancode;
-    //var collection = db.get('eanCollection');
-    //var eanSelected = eanCode;//'0'+ eanCode;
-    //var collectionDocument = connectTesco(eanSelected);
-//    console.log('added_item *** added_item');
-    //res.redirect('wizard#step-6');
-//    res.redirect('/#scanIn');
-//});
-
-/* GET New wizard page. */
-//router.get('/wizard', function(req, res,next) {
-//    res.render('wizard');
-//});
-
-//router.get('/barcodeScanner', function(req, res) {
-//    res.render('barcodeScanner');
-//});
-
-//router.get('/webScanner', function(req, res) {
-//    res.render('webScanner');
-//});
-//************************************************************************************************
 
 
 
 //************************************ functions *************************************************
-
-function ensureAuthenticated(req, res, next){
-    if(req.isAuthenticated()){
-        res.render('index', { username: req.session.username, success: req.session.success, errors: req.session.errors });
-        //res.redirect('/users/login');
-        return next();
-    } else {
-        //req.flash('error_msg','You are not logged in');
-        res.redirect('/users/login');
-    }
-}
 
 //function to get inventory listing if exists for user
 function getInventoryUser(user){
@@ -568,32 +562,6 @@ function getOutInventoryUser(user){
     lastInventoryOut = lastInventoryOut["data"];
     console.log('***last inventory out:'+ lastInventoryOut);
     return lastInventoryOut;
-}
-
-
-function updateInventory(userId,eanCode){
-    //update the inventory
-    //var getStockLevel =  Inventory.getProductForUser(userId,eanCode);
-    //var getStockLevel =  Inventory.getProductForUser(userId);
-    var getInventory = Inventory.getInventoryListing(userId,eanCode);
-    console.log(getInventory);
-    var getStockLevel = getInventory.data.stock_level;
-    var newStockLevel = getStockLevel +1 ;
-
-    var inventoryData = Inventory.getInventoryListing(userId,eanCode);
-    var inventoryId = inventoryData.data.inventory_id;
-    //var updateInventoryUser = Inventory.updateProductForUser(userId,eanCode,newStockLevel);
-    var updateInventoryUser = Inventory.updateInventoryListingStock(inventoryId, newStockLevel)
-    console.log('Inventory updated to:'+ updateInventoryUser);
-    if (updateInventoryUser.status){
-
-        return({"status": "success", "data":updateInventoryUser.data });
-
-    }
-    else{
-        return({"status": "fail", "msg":updateInventoryUser.error_message });
-    }
-
 }
 
 
@@ -667,6 +635,72 @@ function connectTesco(eanSelected,callback){
     });
 
 }
+
+
+//*************************************** LOGIN AND REGISTER  **********************************************************
+
+router.get('/login',
+    function(req, res){
+        res.render('login');
+    });
+
+router.post('/login',
+    passport.authenticate('local', { failureRedirect: '/login' }),
+    function(req, res) {
+        console.log('Im here login');
+        console.log(req.body);
+        res.redirect('/');
+        //res.render('index',{ user: req.user });
+
+    });
+
+router.get('/logout',
+    function(req, res){
+        req.logout();
+        res.redirect('/login');
+    });
+
+
+router.get('/profile',
+    require('connect-ensure-login').ensureLoggedIn(),
+    function(req, res){
+        res.render('profile', { user: req.user });
+    });
+
+
+
+router.get('/register', function(req, res,next){
+    res.render('register');
+});
+
+// Register User
+router.post('/register', function(req, res, next) {
+
+    var username = req.body.username;
+    var password = req.body.password;
+
+    console.log('event: try to register');
+
+    req.check('username', 'Username is required').notEmpty();
+    req.check('password', 'Password is invalid').isLength({min: 4}).equals(req.body.password2);
+
+    var registerEvent = User.createNew(username, password);
+
+    if (registerEvent.status == 'success') {
+        //req.session.success = true;
+        res.redirect('/login');
+    }
+    else {
+        console.log('fail:' + registerEvent.error);
+        res.redirect('/register');
+    }
+
+});
+
+
+//*********************************************************************************************************************
+
+
 
 
 

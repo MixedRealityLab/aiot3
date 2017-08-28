@@ -37,12 +37,15 @@ User.prototype.save = function (callback) {
     });
 }
 
+
+/*
 User.findById = function (id, callback) {
     db.get('users', {id: id}).run(function (err, data) {
         if (err) return callback(err);
         callback(null, new User(data));
     });
 }
+*/
 
 User.createNew = function (username, password) {
 
@@ -68,6 +71,37 @@ User.login = function (username, password) {
         return ({"status": "fail", "error": "user does not exist"});
     }
 }
+
+
+
+var records = [
+    { id: 1, username: 'test', password: 'test', displayName: 'Test', emails: [ { value: 'Test@example.com' } ] }
+    , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', emails: [ { value: 'jill@example.com' } ] }
+];
+
+User.findById = function(id, cb) {
+    process.nextTick(function() {
+        var idx = id - 1;
+        if (records[idx]) {
+            cb(null, records[idx]);
+        } else {
+            cb(new Error('User ' + id + ' does not exist'));
+        }
+    });
+}
+
+User.findByUsername = function(username, cb) {
+    process.nextTick(function() {
+        for (var i = 0, len = records.length; i < len; i++) {
+            var record = records[i];
+            if (record.username === username) {
+                return cb(null, record);
+            }
+        }
+        return cb(null, null);
+    });
+}
+
 
 
 module.exports = User;

@@ -4,6 +4,23 @@ var passport = require('passport');
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+/*
+
 var User = require('../data_models/user');
 
 // Register
@@ -21,17 +38,41 @@ router.get('/login', function(req, res){
 
 
 // Register User
-router.post('/register', function(req, res, next){
+router.post('/register', function(req, res, next) {
 
     var username = req.body.username;
     var password = req.body.password;
 
     console.log('event: try to register');
 
-    req.check('username','Username is required').notEmpty();
-    req.check('password','Password is invalid').isLength({min: 4}).equals(req.body.password2);
+    req.check('username', 'Username is required').notEmpty();
+    req.check('password', 'Password is invalid').isLength({min: 4}).equals(req.body.password2);
 
+    var registerEvent = User.createNew(username, password);
+
+    if (registerEvent.status == 'success') {
+        //req.session.success = true;
+        res.render('login');
+    }
+    else {
+        console.log('fail:' + registerEvent.error);
+        res.render('register');
+    }
+
+});
+
+
+
+
+/*
     var errors = req.validationErrors();
+     console.log(errors);
+
+    req.getValidationResult().then(function(result){
+        var errors =  result;
+        console.log(errors);
+    });
+
     if (errors){
         req.session.errors = errors;
         req.session.success = false;
@@ -51,9 +92,12 @@ router.post('/register', function(req, res, next){
     }
 
     res.redirect('register');
-});
+});*/
+
+
 
 //Login user
+/*
 router.post('/login',function (req,res,next) {
     console.log('4u4urhr');
 
@@ -62,7 +106,25 @@ router.post('/login',function (req,res,next) {
     req.check('username','Username is required').notEmpty();
     req.check('password','Password is invalid').notEmpty();
 
-    var errors = req.validationErrors();
+    var loginEvent = User.login(username,password);
+    console.log('msg:'+ loginEvent.status);
+
+    if (loginEvent.status == 'success'){
+        req.session.success = true;
+        //res.render('index',{username: username});
+        res.render('index', { username: req.body.username, session: req.session.success, errors: req.session.errors });
+
+        //res.redirect('/');
+    }else{
+        req.session.success = false;
+        console.log('msg:'+ loginEvent.error);
+        res.render('login',{message: loginEvent.error});
+    }
+
+
+});
+
+/*    var errors = req.validationErrors();
     if (errors){
         req.session.errors = errors;
         req.session.success = false;
@@ -86,8 +148,8 @@ router.post('/login',function (req,res,next) {
 
     res.redirect('login');
 
-});
-
+});*/
+/*
 router.get('/logout', function(req, res){
 
     req.logout();
@@ -95,7 +157,7 @@ router.get('/logout', function(req, res){
     //req.session = null;
     res.redirect('login');
 });
-
+*/
 
 
 module.exports = router;
