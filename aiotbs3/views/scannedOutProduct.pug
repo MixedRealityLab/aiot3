@@ -159,13 +159,30 @@ block content
                                                     input#wastedProductOut.form-control(name='wastedProductOut', type='hidden',required='')
                                                 br
                                             h3#bCodeMessageOut
-                                            #myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
+                                            //#myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
                                                 .modal-dialog.modal-sm
                                                     .modal-content
                                                         .modal-body
                                                             p This product was:
                                                             button#btnUsedUp.btn.btn-default(type='button', data-dismiss='modal') Used Up
                                                             button#btnWasted.btn.btn-default(type='button', data-dismiss='modal') Wasted
+
+                                            #myModalWasted.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', data-keyboard='false', data-backdrop='static')
+                                                .modal-dialog.modal-vertical-centered
+                                                    .modal-content
+                                                        .modal-header
+                                                            //button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                                                            h4#myModalLabel.modal-title We need more information.
+                                                        .modal-body
+                                                            center
+                                                                h5 Please select if this product was
+                                                                br
+                                                                br
+                                                                .row
+                                                                    button#btnUsedUp.btn.btn-primary(type='button', data-dismiss='modal') Used Up
+                                                                    | !{' '}
+                                                                    button#btnWasted.btn.btn-primary(type='button', data-dismiss='modal') Wasted
+                                                        .modal-footer
 
 
                 #inStock.tab-pane.fade
@@ -321,13 +338,30 @@ block content
 
                                                 br
                                             h3#bCodeMessageOut
-                                            #myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
+                                            //#myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
                                                 .modal-dialog.modal-sm
                                                     .modal-content
                                                         .modal-body
                                                             p This product was:
                                                             button#btnUsedUp.btn.btn-default(type='button', data-dismiss='modal') Used Up
                                                             button#btnWasted.btn.btn-default(type='button', data-dismiss='modal') Wasted
+
+                                            #myModalWasted.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', data-keyboard='false', data-backdrop='static')
+                                                .modal-dialog.modal-vertical-centered
+                                                    .modal-content
+                                                        .modal-header
+                                                            //button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                                                            h4#myModalLabel.modal-title We need more information.
+                                                        .modal-body
+                                                            center
+                                                                h5 Please select if this product was
+                                                                br
+                                                                br
+                                                                .row
+                                                                    button#btnUsedUp.btn.btn-primary(type='button', data-dismiss='modal') Used Up
+                                                                    | !{' '}
+                                                                    button#btnWasted.btn.btn-primary(type='button', data-dismiss='modal') Wasted
+                                                        .modal-footer
 
                 #inStock.tab-pane.fade
                     include essentials_instock

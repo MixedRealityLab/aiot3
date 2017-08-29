@@ -1,0 +1,7 @@
+
+.modal-vertical-centered {
+    transform: translate(0, 50%) !important;
+    -ms-transform: translate(0, 50%) !important; /* IE 9 */
+    -ms-transform: translate(0, 50%) !important; /* IE 9 */
+
+}
