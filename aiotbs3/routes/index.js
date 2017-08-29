@@ -70,7 +70,7 @@ router.get('/', function(req, res, next){ // this authentication fail :(
 
 //after scan, check if the basic data of a product is on db
 router.post('/checkBarcode', function (req,res, next) {
-    var userId=1;
+    var userId=req.user.id;
     sleep.msleep(5000);
     var codeProduct = req.body.codeProduct; //barcode from client side
     var eanCodeProducts = Product.getProductByEan(codeProduct);
@@ -87,10 +87,10 @@ router.post('/checkBarcode', function (req,res, next) {
 
         if (userInventoryUpdated.status == 'success') {
             var description = eanCodeProducts.data.description;
-            res.render('insertProduct', {messageItem: 3, description: description, userInventory: userInventory});
+            res.render('insertProduct', {messageItem: 3, description: description, userInventory: userInventory, user: req.user});
         }
         else{
-            res.render('insertProduct', {messageItem: 3, description: 'something wrong', userInventory: userInventory});
+            res.render('insertProduct', {messageItem: 3, description: 'something wrong', userInventory: userInventory, user: req.user});
         }
     }
     else { //the barcode isn't the product database
@@ -119,19 +119,19 @@ router.post('/checkBarcode', function (req,res, next) {
                         // render to add item view
                         var description = tescoApiData.data.description.substring(0,25);
                         // then render view /insertProduct view with messageItem : 3
-                        res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory});
+                        res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory, user: req.user});
 
                     }
                     else{
                         var description = tescoApiData.data.description.substring(0,25);
-                        res.render('insertProduct',{messageItem : 3, description: description+ '' + '' +userInventoryUpdated.msg, userInventory: userInventory});
+                        res.render('insertProduct',{messageItem : 3, description: description+ '' + '' +userInventoryUpdated.msg, userInventory: userInventory, user: req.user});
 
                     }
 
 
                 }
                 else{
-                    res.render('insertProduct',{messageItem : 3, description: addNewProduct.error_message, userInventory: userInventory});
+                    res.render('insertProduct',{messageItem : 3, description: addNewProduct.error_message, userInventory: userInventory, user: req.user});
 
                     //res.render('error',{errorMessage:addNewProduct.error_message});
                 }
@@ -141,7 +141,7 @@ router.post('/checkBarcode', function (req,res, next) {
             else{ //the barcode isn't in tesco api
                 //ask user for basic data using item_data view
                 //item_data view will submit to /insertProduct
-                res.render('checkBarcode',{messageItem : 2, eancode: codeProduct, userInventory: userInventory});
+                res.render('checkBarcode',{messageItem : 2, eancode: codeProduct, userInventory: userInventory, user: req.user});
 
 
             }
@@ -255,7 +255,7 @@ function updateInventory2(userId,eanCode){ //add item-using scan In
 
 //insert in the inventory and render to item added view
 router.post('/insertProduct', function (req,res,next) {
-    var userId = 1;
+    var userId = req.user.id;
     //Post unknown item details to global product database
     var eanCode = req.body.productEan; // scanned barcode
     var addNewProduct = Product.addNewProduct(req.body.productEan,req.body);
@@ -275,18 +275,18 @@ router.post('/insertProduct', function (req,res,next) {
 
         //**************************************************************************************************
         if(userInventoryUpdated.status == 'success'){
-            res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory});
+            res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory, user: req.user});
 
         }
         else{
-            res.render('insertProduct',{messageItem : 3, description: userInventoryUpdated.msg, userInventory: userInventory});
+            res.render('insertProduct',{messageItem : 3, description: userInventoryUpdated.msg, userInventory: userInventory, user: req.user});
 
         }
 
     }
     else{
         console.log('error'); // redirecting to added item view with error message
-        res.render('insertProduct',{messageItem : 3, description: addNewProduct.error_message, userInventory: userInventory});
+        res.render('insertProduct',{messageItem : 3, description: addNewProduct.error_message, userInventory: userInventory, user: req.user});
 
     }
 });
@@ -337,7 +337,9 @@ router.post('/insertProduct', function (req,res,next) {
 
 
 router.post('/scanOutProduct',function (req,res,next) {
-    var userId=1;
+    console.log('user id scanout****:'+ req.user.id);
+
+    var userId=req.user.id;
     sleep.msleep(4000); //this is for show the barcode scanned
     console.log(req.body);
     var wasted = req.body.wastedProductOut;
@@ -356,10 +358,10 @@ router.post('/scanOutProduct',function (req,res,next) {
     if (userInventoryOut.status == 'success'){ //if barcode is on user inventory
 
         //res.render('scannedOutProduct',{messageScanOut:0, eanProduct:codeProduct});
-        res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:descriptionOut, lastUserInventoryOut:lastUserInventoryOut});
+        res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:descriptionOut, lastUserInventoryOut:lastUserInventoryOut, user: req.user});
     }else{//barcode isn't on user inventory
 
-        res.render('scannedOutProduct',{messageScanOut:1,descriptionOut:userInventoryOut.msg, lastUserInventoryOut:lastUserInventoryOut});
+        res.render('scannedOutProduct',{messageScanOut:1,descriptionOut:userInventoryOut.msg, lastUserInventoryOut:lastUserInventoryOut, user: req.user});
 
     }
 
@@ -377,7 +379,6 @@ function updateInventoryOut(userId,eanCode,wasted){ //add item-using scan In
     console.log('user Id:'+ userId);
     console.log('ean:'+eanCode);
     console.log('wasted:'+wasted);
-
 
 
     var inventoryList = Inventory.getInventoryListing(userId,eanCode); // get inventory listing
@@ -638,6 +639,7 @@ function connectTesco(eanSelected,callback){
 
 
 //*************************************** LOGIN AND REGISTER  **********************************************************
+// move to own files
 
 router.get('/login',
     function(req, res){
