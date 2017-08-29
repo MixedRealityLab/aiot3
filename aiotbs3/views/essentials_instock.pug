@@ -13,6 +13,7 @@ append head
 block content
     .container
         br
+        input#HideUserId(type='hidden', value=user.id)
         ul.list-inline
             li.active
                 a#inStockLabel(data-toggle='tab', href='#EssentialsInStock', style={'font-size': '20px' , 'text-decoration': 'underline'}) In Stock

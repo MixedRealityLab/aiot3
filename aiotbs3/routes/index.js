@@ -471,7 +471,7 @@ router.post('/getInventoryDataOut',function (req,res,next) {
 });
 
 router.post('/scanInAgain', function (req,res,next) {
-    var userId = 1;
+    var userId = req.body.userId;
     //this is just for render again scan in process
     console.log('ready to scan in again');
     console.log('get data from user and send it back')
@@ -486,7 +486,7 @@ router.post('/scanInAgain', function (req,res,next) {
 
 
 router.post('/scanOutAgain', function(req,res,next){
-    var userId =  1;
+    var userId =  req.body.userId;
     console.log('ready to scan out again');
     //GET LAST 5 ITEMS AND SEND BACK TO ****** VIEW
     var userInventoryOut = getOutInventoryUser(userId);

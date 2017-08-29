@@ -33,13 +33,17 @@ $(document).ready(function() {
 ];*/
 
 $(document).ready(function() {
+    //var getUserId = !{JSON.stringify(user.id)};
+    var getUserId=$("#HideUserId").val();
+    console.log(getUserId);
+
     var table = $('#products_data').DataTable( {
         //"processing": true,
         //"serverSide": true,
         "ajax": {
             url: '/getInventoryData',
             type: 'POST',
-            data: {userId: 1}
+            data: {userId: getUserId}
 
         },
         "columns":[
@@ -169,7 +173,7 @@ $(document).ready(function() {
         "ajax": {
             url: '/getInventoryDataOut',
             type: 'POST',
-            data: {userId: 1}
+            data: {userId: getUserId}
 
         },
         "columns":[
