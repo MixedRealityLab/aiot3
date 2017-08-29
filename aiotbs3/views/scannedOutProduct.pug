@@ -18,6 +18,7 @@ block content
                         span.glyphicon.glyphicon-log-in
                         |  Logout
 
+    input#HideUserId(type='hidden', value=user.id)
     if messageScanOut == 0
         .container
             //h1 Home Essentials
@@ -76,9 +77,11 @@ block content
                                                     //document.location.href = "http://localhost:3000";
                                                     activeTab2 = $('.nav-tabs .active').text();
                                                     console.log(activeTab2);
+                                                    var getUserId = $("#HideUserId").val();
                                                     $.ajax({
                                                         url: '/scanOutAgain',
                                                         type: 'POST',
+                                                        data: {userId: getUserId},
                                                         success: function (response) {
                                                             //getData[name] = response; //
                                                             console.log(response);
@@ -129,8 +132,7 @@ block content
                                                                     //alert('to scan a essential please go to "scan in" or "scan out"');
                                                                     if ($('.nav-tabs .active').text() == 'ESSENTIALS' || $('.nav-tabs .active').text() == 'CALENDAR' || $('.nav-tabs .active').text() == 'INBOX') {
 
-                                                                        document.location.href = "http://localhost:3000";
-                                                                        //document.location.href = "http://ec2-52-31-71-68.eu-west-1.compute.amazonaws.com/";
+                                                                        window.location.reload();
 
                                                                         //ask user what he want to do with barcode scanned
                                                                         //case 1: go to scan in
@@ -234,9 +236,11 @@ block content
                                                     //document.location.href = "http://localhost:3000";
                                                     activeTab2 = $('.nav-tabs .active').text();
                                                     console.log(activeTab2);
+                                                    var getUserId = $("#HideUserId").val();
                                                     $.ajax({
                                                         url: '/scanOutAgain',
                                                         type: 'POST',
+                                                        data: {userId: getUserId},
                                                         success: function (response) {
                                                             //getData[name] = response; //
                                                             console.log(response);
@@ -287,7 +291,8 @@ block content
                                                                     //alert('What do you want to do with this code? :'+ data.string );
                                                                     if ($('.nav-tabs .active').text() == 'ESSENTIALS' || $('.nav-tabs .active').text() == 'CALENDAR' || $('.nav-tabs .active').text() == 'INBOX') {
                                                                         alert('Go to "SCAN IN" or "SCAN OUT" tab to scan an essential');
-                                                                        document.location.href = "http://localhost:3000";
+                                                                        //document.location.href = "http://localhost:3000";
+                                                                        window.location.reload();
                                                                         //document.location.href = "http://ec2-52-31-71-68.eu-west-1.compute.amazonaws.com/";
 
                                                                         //ask user what he want to do with barcode scanned
