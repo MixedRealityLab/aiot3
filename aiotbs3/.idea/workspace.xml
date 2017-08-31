@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/www" afterPath="$PROJECT_DIR$/bin/www" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/essentials.js" afterPath="$PROJECT_DIR$/public/javascripts/essentials.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/scanInOut.js" afterPath="$PROJECT_DIR$/public/javascripts/scanInOut.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/item_data.pug" afterPath="$PROJECT_DIR$/views/item_data.pug" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -35,8 +32,8 @@
       <file leaf-file-name="item_data.pug" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/item_data.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="50" column="56" lean-forward="true" selection-start-line="50" selection-start-column="56" selection-end-line="50" selection-end-column="56" />
+            <state relative-caret-position="247">
+              <caret line="13" column="46" lean-forward="false" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -340,12 +337,12 @@
       <workItem from="1503997965607" duration="6122000" />
       <workItem from="1504009994696" duration="2955000" />
       <workItem from="1504020477609" duration="26062000" />
-      <workItem from="1504174793441" duration="8706000" />
+      <workItem from="1504174793441" duration="9490000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="479170000" />
+    <option name="totallyTimeSpent" value="479954000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -737,8 +734,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/item_data.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="50" column="56" lean-forward="true" selection-start-line="50" selection-start-column="56" selection-end-line="50" selection-end-column="56" />
+        <state relative-caret-position="247">
+          <caret line="13" column="46" lean-forward="false" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
           <folding />
         </state>
       </provider>
