@@ -4,6 +4,8 @@ append head
     script(src='/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')
     script(src='/bower_components/datatables.net-responsive/js/dataTables.responsive.js')
     script(src='/bower_components/datatables.net-responsive-bs/js/responsive.bootstrap.js')
+    script(src='/bower_components/bootbox/bootbox.min.js')
+
 
     link(rel='stylesheet', href='/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')
     link(rel='stylesheet', href='/bower_components/datatables.net-responsive-bs/css/responsive.bootstrap.css')
@@ -128,6 +130,24 @@ block content
                         br
 
 
+        #myModalRedirect.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel1', data-keyboard='false', data-backdrop='static')
+            .modal-dialog.modal-vertical-centered
+                .modal-content
+                    .modal-header
+                        //button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                        h4#myModalLabel1.modal-title What do you want to scan?
+                    .modal-body
+                        center
+                            h5 Please select an option.
+                            br
+                            br
+                            .row
+                                button#btnScanIn.btn.btn-primary(type='button', data-dismiss='modal') SCAN IN
+                                | !{' '}
+                                | or
+                                | !{' '}
+                                button#btnScanOut.btn.btn-primary(type='button', data-dismiss='modal') SCAN OUT
+                    .modal-footer
 
 
 

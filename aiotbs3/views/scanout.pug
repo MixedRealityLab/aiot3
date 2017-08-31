@@ -1,5 +1,9 @@
 append head
     script(src='/bower_components/scanner-detection/jquery.scannerdetection.js')
+    script(src='/bower_components/bootbox/bootbox.min.js')
+    script(src='/javascripts/scanInOut.js')
+
+
     //script(src='/javascripts/barcodeScanner.js')
     link(rel='stylesheet', href='/stylesheets/modalStyle.css')
 
@@ -7,69 +11,9 @@ append head
     br
     br
     br
+    //input#ScanOutMsg(type='hidden', value=1)
     script.
-        //*********************** just scan when  'SCAN IN TAB' is active *********************
-        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-            activeTab2 = $('.nav-tabs .active').text();
-            //if ($('.nav-tabs .active').text() == 'SCAN IN') {
-            console.log(activeTab2);
-            $(document).scannerDetection();
-            $(document).bind('scannerDetectionComplete', function (e, data) {
-                console.log('complete: ' + data.string);
-                //alert(data.string);
-
-                if ($('.nav-tabs .active').text() == 'SCAN OUT') {
-                    console.log('scanning OUT');
-                    document.getElementById("bCodeMessageOut").innerHTML = 'Scanning out code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
-                    document.getElementById("codeProductOut").value = data.string;
-
-                    $('#myModalWasted').modal('show');
-
-                    $('#myModalWasted').modal({
-                        backdrop: 'static',
-                        keyboard: false
-                    });
-
-
-                    $('#myModalWasted').on('click', function (event) {
-                        var idButton = event.target.id;
-                        if (idButton == 'btnUsedUp'){
-                            document.getElementById("wastedProductOut").value = 0;
-                            document.getElementById("scanoutForm").submit();
-                        }
-                        else{
-                            document.getElementById("wastedProductOut").value = 1;
-                            document.getElementById("scanoutForm").submit();
-
-
-                        }
-                    });
-
-
-
-                } else {
-                    //alert('What do you want to do with this code? :'+ data.string );
-                   if ($('.nav-tabs .active').text() == 'ESSENTIALS' || $('.nav-tabs .active').text() == 'CALENDAR' || $('.nav-tabs .active').text() == 'INBOX')
-                   {
-                    alert('Go to "SCAN IN" or "SCAN OUT" tab to scan an essential');
-                    window.location.reload();
-
-                       //ask user what he want to do with barcode scanned
-                    //case 1: go to scan in
-                    //case 2: go to scan out
-                    //case 3: nothing back to essential.
-                }
-            }
-
-            })
-
-
-            activeTab2 = $('.nav-tabs .active').text();
-            //}
-
-        })
-        //*************************************************************************************
-
+        scanOut();
     .row
         .col-lg-11.col-md-11.col-sm-11
             .text-center
@@ -90,31 +34,6 @@ append head
                             input#wastedProductOut.form-control(name='wastedProductOut', type='hidden',required='')
                         br
                     h3#bCodeMessageOut
-
-                    //#myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
-                        .modal-dialog.modal-sm
-                            .modal-content
-                                .modal-body
-                                    p This product was:
-                                    button#btnUsedUp.btn.btn-default(type='button', data-dismiss='modal') Used Up
-                                    button#btnWasted.btn.btn-default(type='button', data-dismiss='modal') Wasted
-
-                    // Modal
-                    //#myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
-                        .vertical-alignment-helper
-                            .modal-dialog.vertical-align-center
-                                .modal-content
-                                    .modal-header
-                                        //button.close(type='button', data-dismiss='modal')
-
-                                            span.sr-only Close
-                                        h4#myModalLabel.modal-title We need more information.
-                                    .modal-body Please select if this product was :
-                                    .modal-footer
-                                        //button.btn.btn-default(type='button', data-dismiss='modal') Close
-                                        button#btnUsedUp.btn.btn-default(type='button', data-dismiss='modal') Used Up
-                                        button#btnWasted.btn.btn-default(type='button', data-dismiss='modal') Wasted
-
                     #myModalWasted.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', data-keyboard='false', data-backdrop='static')
                         .modal-dialog.modal-vertical-centered
                             .modal-content
@@ -129,5 +48,8 @@ append head
                                         .row
                                             button#btnUsedUp.btn.btn-primary(type='button', data-dismiss='modal') Used Up
                                             | !{' '}
+                                            | or
+                                            | !{' '}
                                             button#btnWasted.btn.btn-primary(type='button', data-dismiss='modal') Wasted
                                 .modal-footer
+

@@ -73,82 +73,7 @@ block content
                                             br
                                             script.
                                                 setTimeout(scanOutReload, 6000);
-                                                function scanOutReload() {
-                                                    //document.location.href = "http://localhost:3000";
-                                                    activeTab2 = $('.nav-tabs .active').text();
-                                                    console.log(activeTab2);
-                                                    var getUserId = $("#HideUserId").val();
-                                                    $.ajax({
-                                                        url: '/scanOutAgain',
-                                                        type: 'POST',
-                                                        data: {userId: getUserId},
-                                                        success: function (response) {
-                                                            //getData[name] = response; //
-                                                            console.log(response);
-                                                            document.getElementById('itemAddedMessageOut').innerHTML = 'Ready to Scan Out essentials';
-                                                            document.getElementById('itemAddedDescOut').innerHTML = '';
-                                                            var x = ''; // when db will be connected check if this is showing data ok.
-                                                            for (i in response.userInventoryOut) {
-                                                                x += response.userInventoryOut[i].description + "<h4>";
-                                                            }
-                                                            console.log(x);
-                                                            document.getElementById("panelBodyScanOut").innerHTML = "<h4>" + x;//response[0].description;
-                                                            //console.log(response.userInventory[0].description);
 
-
-                                                            //*********************** just scan when  'SCAN IN TAB' is active NOT WORKING *********************
-                                                            //$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-                                                            activeTab2 = $('.nav-tabs .active').text();
-                                                            //if ($('.nav-tabs .active').text() == 'SCAN IN') {
-                                                            console.log(activeTab2);
-                                                            $(document).scannerDetection();
-                                                            $(document).bind('scannerDetectionComplete', function (e, data) {
-                                                                console.log('complete: ' + data.string);
-                                                                //alert(data.string);
-
-                                                                if ($('.nav-tabs .active').text() == 'SCAN OUT' && response.messageItem == 5) {
-                                                                    console.log('scanning OUT');
-                                                                    document.getElementById("bCodeMessageOut").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
-                                                                    document.getElementById("codeProductOut").value = data.string;
-
-                                                                    $('#myModalWasted').modal('show');
-                                                                    $('#myModalWasted').on('click', function (event) {
-                                                                        var idButton = event.target.id;
-                                                                        if (idButton == 'btnUsedUp') {
-                                                                            document.getElementById("wastedProductOut").value = 0;
-                                                                            document.getElementById("scanoutForm").submit();
-                                                                        }
-                                                                        else {
-                                                                            document.getElementById("wastedProductOut").value = 1;
-                                                                            document.getElementById("scanoutForm").submit();
-
-
-                                                                        }
-                                                                    });
-
-
-                                                                } else {
-                                                                    //alert('What do you want to do with this code? :'+ data.string );
-                                                                    //alert('to scan a essential please go to "scan in" or "scan out"');
-                                                                    if ($('.nav-tabs .active').text() == 'ESSENTIALS' || $('.nav-tabs .active').text() == 'CALENDAR' || $('.nav-tabs .active').text() == 'INBOX') {
-
-                                                                        window.location.reload();
-
-                                                                        //ask user what he want to do with barcode scanned
-                                                                        //case 1: go to scan in
-                                                                        //case 2: go to scan out
-                                                                        //case 3: nothing back to essential.
-                                                                    }
-                                                                }
-                                                                activeTab2 = $('.nav-tabs .active').text();
-
-
-                                                            })
-                                                            //*************************************************************************************
-                                                        }
-                                                    });
-
-                                                }
                                             br
                                             br
                                             br
@@ -159,13 +84,6 @@ block content
                                                     input#wastedProductOut.form-control(name='wastedProductOut', type='hidden',required='')
                                                 br
                                             h3#bCodeMessageOut
-                                            //#myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
-                                                .modal-dialog.modal-sm
-                                                    .modal-content
-                                                        .modal-body
-                                                            p This product was:
-                                                            button#btnUsedUp.btn.btn-default(type='button', data-dismiss='modal') Used Up
-                                                            button#btnWasted.btn.btn-default(type='button', data-dismiss='modal') Wasted
 
                                             #myModalWasted.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', data-keyboard='false', data-backdrop='static')
                                                 .modal-dialog.modal-vertical-centered
@@ -180,6 +98,8 @@ block content
                                                                 br
                                                                 .row
                                                                     button#btnUsedUp.btn.btn-primary(type='button', data-dismiss='modal') Used Up
+                                                                    | !{' '}
+                                                                    | or
                                                                     | !{' '}
                                                                     button#btnWasted.btn.btn-primary(type='button', data-dismiss='modal') Wasted
                                                         .modal-footer
@@ -249,84 +169,7 @@ block content
                                             br
                                             script.
                                                 setTimeout(scanOutReload, 6000);
-                                                function scanOutReload() {
-                                                    //document.location.href = "http://localhost:3000";
-                                                    activeTab2 = $('.nav-tabs .active').text();
-                                                    console.log(activeTab2);
-                                                    var getUserId = $("#HideUserId").val();
-                                                    $.ajax({
-                                                        url: '/scanOutAgain',
-                                                        type: 'POST',
-                                                        data: {userId: getUserId},
-                                                        success: function (response) {
-                                                            //getData[name] = response; //
-                                                            console.log(response);
-                                                            document.getElementById('itemAddedMessageOut').innerHTML = 'Ready to Scan Out essentials';
-                                                            document.getElementById('itemAddedDescOut').innerHTML = '';
-                                                            var x = ''; // when db will be connected check if this is showing data ok.
-                                                            for (i in response.userInventoryOut) {
-                                                                x += response.userInventoryOut[i].description + "<h4>";
-                                                            }
-                                                            console.log(x);
-                                                            document.getElementById("panelBodyScanOut").innerHTML = "<h4>" + x;//response[0].description;
-                                                            //console.log(response.userInventory[0].description);
 
-
-                                                            //*********************** just scan when  'SCAN IN TAB' is active NOT WORKING *********************
-                                                            //$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-                                                            activeTab2 = $('.nav-tabs .active').text();
-                                                            //if ($('.nav-tabs .active').text() == 'SCAN IN') {
-                                                            console.log(activeTab2);
-                                                            $(document).scannerDetection();
-                                                            $(document).bind('scannerDetectionComplete', function (e, data) {
-                                                                console.log('complete: ' + data.string);
-                                                                //alert(data.string);
-
-                                                                if ($('.nav-tabs .active').text() == 'SCAN OUT' && response.messageItem == 5) {
-                                                                    console.log('scanning OUT');
-                                                                    document.getElementById("bCodeMessageOut").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
-                                                                    document.getElementById("codeProductOut").value = data.string;
-
-                                                                    $('#myModalWasted').modal('show');
-                                                                    $('#myModalWasted').on('click', function (event) {
-                                                                        var idButton = event.target.id;
-                                                                        if (idButton == 'btnUsedUp') {
-                                                                            document.getElementById("wastedProductOut").value = 0;
-                                                                            document.getElementById("scanoutForm").submit();
-                                                                        }
-                                                                        else {
-                                                                            document.getElementById("wastedProductOut").value = 1;
-                                                                            document.getElementById("scanoutForm").submit();
-
-
-                                                                        }
-                                                                    });
-                                                                    document.getElementById("scanoutForm").submit(); // ADD THE FORM
-
-
-                                                                } else {
-                                                                    //alert('What do you want to do with this code? :'+ data.string );
-                                                                    if ($('.nav-tabs .active').text() == 'ESSENTIALS' || $('.nav-tabs .active').text() == 'CALENDAR' || $('.nav-tabs .active').text() == 'INBOX') {
-                                                                        alert('Go to "SCAN IN" or "SCAN OUT" tab to scan an essential');
-                                                                        //document.location.href = "http://localhost:3000";
-                                                                        window.location.reload();
-                                                                        //document.location.href = "http://ec2-52-31-71-68.eu-west-1.compute.amazonaws.com/";
-
-                                                                        //ask user what he want to do with barcode scanned
-                                                                        //case 1: go to scan in
-                                                                        //case 2: go to scan out
-                                                                        //case 3: nothing back to essential.
-                                                                    }
-                                                                }
-                                                                activeTab2 = $('.nav-tabs .active').text();
-
-
-                                                            })
-                                                            //*************************************************************************************
-                                                        }
-                                                    });
-
-                                                }
                                             br
                                             br
                                             br
@@ -338,13 +181,6 @@ block content
 
                                                 br
                                             h3#bCodeMessageOut
-                                            //#myModalWasted.modal.fade(role='dialog', data-keyboard='false', data-backdrop='static')
-                                                .modal-dialog.modal-sm
-                                                    .modal-content
-                                                        .modal-body
-                                                            p This product was:
-                                                            button#btnUsedUp.btn.btn-default(type='button', data-dismiss='modal') Used Up
-                                                            button#btnWasted.btn.btn-default(type='button', data-dismiss='modal') Wasted
 
                                             #myModalWasted.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', data-keyboard='false', data-backdrop='static')
                                                 .modal-dialog.modal-vertical-centered
@@ -359,6 +195,8 @@ block content
                                                                 br
                                                                 .row
                                                                     button#btnUsedUp.btn.btn-primary(type='button', data-dismiss='modal') Used Up
+                                                                    | !{' '}
+                                                                    | or
                                                                     | !{' '}
                                                                     button#btnWasted.btn.btn-primary(type='button', data-dismiss='modal') Wasted
                                                         .modal-footer

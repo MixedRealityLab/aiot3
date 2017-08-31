@@ -74,67 +74,6 @@ block content
                                             br
                                             script.
                                                 setTimeout(scanAgain, 6000);
-                                                function scanAgain() {
-                                                    //document.location.href="http://localhost:3000";
-                                                    activeTab2 = $('.nav-tabs .active').text();
-                                                    console.log(activeTab2);
-                                                    var getUserId = $("#HideUserId").val();
-
-                                                    $.ajax({
-                                                        url: '/scanInAgain',
-                                                        type: 'POST',
-                                                        data: {userId: getUserId},
-                                                        success: function (response) {
-                                                            //getData[name] = response; //
-                                                            console.log(response);
-                                                            document.getElementById('itemAddedMessage').innerHTML = 'Ready to Scan In essentials';
-                                                            document.getElementById('itemAddedDesc').innerHTML = '';
-                                                            var x= ''; // when db will be connected check if this is showing data ok.
-                                                            for (i in response.userInventory) {
-                                                                x += response.userInventory[i].description + "<h4>";
-                                                            }
-                                                            console.log(x);
-                                                            document.getElementById("panelBodyScanIn").innerHTML = "<h4>"+x;//response[0].description;
-                                                            //console.log(response.userInventory[0].description);
-
-
-                                                            //*********************** just scan when  'SCAN IN TAB' is active NOT WORKING *********************
-                                                            //$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-                                                                activeTab2 = $('.nav-tabs .active').text();
-                                                                //if ($('.nav-tabs .active').text() == 'SCAN IN') {
-                                                                console.log(activeTab2);
-                                                                $(document).scannerDetection();
-                                                                $(document).bind('scannerDetectionComplete', function (e, data) {
-                                                                    console.log('complete: ' + data.string);
-                                                                    //alert(data.string);
-
-                                                                    if ($('.nav-tabs .active').text() == 'SCAN IN' && response.messageItem == 4) {
-                                                                        console.log('scanning in');
-                                                                        document.getElementById("bCodeMessage").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';;
-                                                                        document.getElementById("codeProduct").value = data.string;
-                                                                        document.getElementById("codeForm").submit();
-
-
-                                                                    } else {
-                                                                        if ($('.nav-tabs .active').text() == 'ESSENTIALS' || $('.nav-tabs .active').text() == 'CALENDAR' || $('.nav-tabs .active').text() == 'INBOX') {
-                                                                                alert('Go to "SCAN IN" or "SCAN OUT" tab to scan an essential');
-                                                                                window.location.reload();
-                                                                                //ask user what he want to do with barcode scanned
-                                                                                //case 1: go to scan in
-                                                                                //case 2: go to scan out
-                                                                                //case 3: nothing back to essential.
-                                                                            }
-
-                                                                        }
-                                                                activeTab2 = $('.nav-tabs .active').text();
-
-
-                                                            })
-                                                            //*************************************************************************************
-                                                        }
-                                                    });
-
-                                                }
                                             br
                                             br
                                             br

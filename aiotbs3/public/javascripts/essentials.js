@@ -1,39 +1,6 @@
-//basic datatable use
-/*
-$(document).ready(function(){
-    $('#products_data').DataTable();
-});
-*/
 
-//******************************************** without server **********************************************************
-/*
-//using click button
-$(document).ready(function() {
-        var table = $('#products_data').DataTable( {
-            //"ajax": "/data.txt",
-            "ajax": '/javascripts/data.txt',
-            "lengthChange": false,
-            "length": 10,
-            "columnDefs": [ {
-                "targets": -1,
-                "data": null,
-                "defaultContent": "<button type='buttonEspecial'>icon</button>" //<img src='/img/three.png' width='35%' height='25%' id='dagger' onclick='myFunction()'>"
-                //"defaultContent":"  <input id='buttonDots' type='image' src='/img/three.png' width='32' height='32'>"
-            } ]
-
-        } );
-*/
-//**********************************************************************************************************************
-/*var data= [
-    { "Description" : "heinz",
-        "stock_amount": "4",
-        "stock_unit": "tins"
-
-    }
-];*/
 
 $(document).ready(function() {
-    //var getUserId = !{JSON.stringify(user.id)};
     var getUserId=$("#HideUserId").val();
     console.log(getUserId);
 
@@ -198,3 +165,31 @@ $(document).ready(function() {
 
 } );
 
+var activeTab2 = $('.nav-tabs .active').text();
+
+$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+    var activeTab2 = $('.nav-tabs .active').text();
+    console.log(activeTab2);
+    $(document).scannerDetection();
+    $(document).bind('scannerDetectionComplete', function (e, data) {
+        console.log('complete: ' + data.string);
+
+        if ($('.nav-tabs .active').text() == 'ESSENTIALS') {
+            //alert('Go to "SCAN IN" or "SCAN OUT" tab to scan an essential');
+            $('#myModalRedirect').modal('show');
+            $('#myModalRedirect').on('click', function (event) {
+                var idButton = event.target.id;
+                if (idButton == 'btnScanIn'){
+                    console.log('go to scan in');
+                }
+                if (idButton == 'btnScanOut') {
+                    console.log('go to scan out');
+                }
+            });
+
+            //window.location.reload();
+
+
+        }
+    });
+});
