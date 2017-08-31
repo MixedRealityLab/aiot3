@@ -187,7 +187,7 @@ $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
                 }
             });
 
-            //window.location.reload(); 
+            //window.location.reload();
 
 
         }
