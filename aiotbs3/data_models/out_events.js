@@ -1,13 +1,6 @@
 var db = require("../db/mysql.js");
 
-var schemas = require("./schemas.js");
-var _ = require("lodash");
-
-var Out_event = function (data) {
-    //this.data = this.sanitize(data);
-}
-
-Out_event.add_event = function (inventory_id, old_stock_level, new_stock_level, wasted) {
+exports.add_event = function (inventory_id, old_stock_level, new_stock_level, wasted) {
 	if(inventory_id == '0') {
 		return({"status": "success"});
 	}
@@ -16,7 +9,7 @@ Out_event.add_event = function (inventory_id, old_stock_level, new_stock_level, 
 	}
 }
 
-Out_event.get_most_recent_for_user = function (userId, number_of_products) {
+exports.get_most_recent_for_user = function (userId, number_of_products) {
 	if(userId == 1) {
 		console.log('loading most recent scan in events from userId == 1');
 		// how do I know about date/timestamp, I need the last 5 products added to the inventory.
@@ -56,5 +49,3 @@ Out_event.get_most_recent_for_user = function (userId, number_of_products) {
 		return ({"status": "fail", "error_code": 101, "error_message": "user does not exist"});
 	}
 }
-
-module.exports = Out_event;

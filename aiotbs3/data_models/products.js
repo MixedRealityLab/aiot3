@@ -50,7 +50,7 @@ exports.createNew = function (ean, brand_name, description, multipack, multipack
 	
 	//TODO: check type and presence for all 
 	metaJson = JSON.stringify(metadata);
-
+    
 	db.get().query("INSERT INTO product SET ?", 
     {
         "ean": ean,

@@ -138,7 +138,90 @@ router.get('/add_inventory', function(req, res, next) {
   });
 });
 
+router.get('/get_inventory_by_user', function(req, res, next) {
+  console.log("testing database");
 
+  inventory.getInventoryForUser(1, function(err, data){
+    
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+
+      console.log(data);
+      res.send(data);
+    }  
+  });
+});
+
+router.get('/stop_tracking', function(req, res, next) {
+  console.log("testing database");
+
+  inventory.stopTracking(1, function(err, data){
+    
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+
+      console.log(data);
+      res.send(data);
+    }  
+  });
+});
+
+router.get('/get_inventory_by_user_product', function(req, res, next) {
+  console.log("testing database");
+
+  inventory.getInventoryByUserProduct(1,3, function(err, data){
+    
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+
+      console.log(data);
+      res.send(data);
+    }  
+  });
+});
+
+router.get('/get_inventory_by_id', function(req, res, next) {
+  console.log("testing database");
+
+  inventory.getInventoryById(1, function(err, data){
+    
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+
+      console.log(data);
+      res.send(data);
+    }  
+  });
+});
+
+router.get('/update_inventory_listing_stock', function(req, res, next) {
+  console.log("testing database");
+
+  inventory.updateInventoryListingStock(1,4, function(err, data){
+    
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+
+      console.log(data);
+      res.send(data);
+    }  
+  });
+});
 
 module.exports = router;
 

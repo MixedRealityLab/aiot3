@@ -21,7 +21,7 @@ exports.createNew = function (user_id, product_id, stock_level, predicted_need_d
     );
 }
 
-exports.getInventoryForUser = function (user_id) {
+exports.getInventoryForUser = function (user_id, done) {
     var params = [user_id];
     db.get().query("SELECT * FROM inventory where user_id = ?", params, function (err, rows) {
         
@@ -43,17 +43,79 @@ exports.getInventoryForUser = function (user_id) {
 
 
 exports.stopTracking = function(inventory_id, done) {
-	
+	var params = [inventory_id];
+    db.get().query("DELETE * FROM inventory where id = ?", params, function (err, rows) {
+        
+        console.log(rows);     
+        if(err)
+            return done(err);
+
+        if(rows)
+            return done(null, rows);
+        else
+            return done(null)
+
+    }); 
 }
 
 exports.getInventoryByUserProduct = function (userId, product_id, done) {
+
+    var params = [user_id, product_id];
+    db.get().query("SELECT * FROM inventory where user_id = ? and product_id = ?", params, function (err, rows) {
+        
+        console.log(rows);     
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("no entries for user product combination"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    }); 
 	
 }
 
-exports.getInventoryById = function (userId, product_id, done) {
-	
+exports.getInventoryById = function (inventory_id, done) {
+	var params = [inventory_id];
+    db.get().query("SELECT * FROM inventory where id = ?", params, function (err, rows) {
+        
+        console.log(rows);     
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("inventory_id does not exist"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    }); 
 }
 
 exports.updateInventoryListingStock = function (inventory_id, new_stock_level, done) {
+    var params = [new_stock_level, inventory_id];
+    db.get().query("UPDATE invenotry SET stock_level = ? where id = ?", params, function (err, rows) {
+  
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("inventory_id does not exist"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    }); 
 	
 }
