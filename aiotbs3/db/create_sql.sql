@@ -1,10 +1,37 @@
+# ************************************************************
+# Sequel Pro SQL dump
+# Version 4541
+#
+# http://www.sequelpro.com/
+# https://github.com/sequelpro/sequelpro
+#
+# Host: 127.0.0.1 (MySQL 5.7.19)
+# Database: aiot
+# Generation Time: 2017-09-01 12:04:38 +0000
+# ************************************************************
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
 
 # Dump of table in_event
 # ------------------------------------------------------------
 
 CREATE TABLE `in_event` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+  `inventory_id` int(11) unsigned NOT NULL,
+  `old_stock` int(11) DEFAULT NULL,
+  `new_stock` int(11) DEFAULT NULL,
+  `timestamp` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `inventory_id` (`inventory_id`),
+  CONSTRAINT `in_event_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -44,7 +71,14 @@ CREATE TABLE `inventory_usage_event` (
 
 CREATE TABLE `out_event` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+  `inventory_id` int(11) unsigned NOT NULL,
+  `old_stock` int(11) DEFAULT NULL,
+  `new_stock` int(11) DEFAULT NULL,
+  `wasted` tinyint(1) DEFAULT NULL,
+  `timestamp` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `inventory_id` (`inventory_id`),
+  CONSTRAINT `out_event_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -86,7 +120,13 @@ CREATE TABLE `user` (
 
 CREATE TABLE `user_event` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+  `user_id` int(11) unsigned NOT NULL,
+  `category` int(11) DEFAULT NULL,
+  `metadata` json DEFAULT NULL,
+  `timestamp` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_event_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -98,4 +138,3 @@ CREATE TABLE `user_event` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
