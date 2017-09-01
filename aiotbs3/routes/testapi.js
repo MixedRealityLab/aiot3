@@ -240,5 +240,69 @@ router.get('/update_inventory_listing_stock', function(req, res, next) {
   });
 });
 
+router.get('/add_out_event', function(req, res, next) {
+  console.log("testing database");
+  var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  out_events.add_event(2,1,3,2,1,mysqlTimestamp, function(err, data){ 
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+      console.log(data);
+      res.send(data);
+    }
+  });
+});
+
+router.get('/get_last_5_out_events', function(req, res, next) {
+  console.log("testing database");
+
+  out_events.get_most_recent_for_user(1,5, function(err, data){
+    
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+
+      console.log(data);
+      res.send(data);
+    }  
+  });
+});
+
+router.get('/add_in_event', function(req, res, next) {
+  console.log("testing database");
+  var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  in_events.add_event(2,1,3,2,mysqlTimestamp, function(err, data){ 
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+      console.log(data);
+      res.send(data);
+    }
+  });
+});
+
+router.get('/get_last_5_in_events', function(req, res, next) {
+  console.log("testing database");
+
+  in_events.get_most_recent_for_user(1,5, function(err, data){
+    
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+
+      console.log(data);
+      res.send(data);
+    }  
+  });
+});
+
 module.exports = router;
 

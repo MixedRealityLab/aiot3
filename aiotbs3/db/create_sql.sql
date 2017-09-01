@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.19)
 # Database: aiot
-# Generation Time: 2017-09-01 12:04:38 +0000
+# Generation Time: 2017-09-01 16:04:30 +0000
 # ************************************************************
 
 
@@ -25,13 +25,16 @@
 
 CREATE TABLE `in_event` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
   `inventory_id` int(11) unsigned NOT NULL,
   `old_stock` int(11) DEFAULT NULL,
   `new_stock` int(11) DEFAULT NULL,
   `timestamp` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `inventory_id` (`inventory_id`),
-  CONSTRAINT `in_event_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`)
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `in_event_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`),
+  CONSTRAINT `in_event_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -71,14 +74,17 @@ CREATE TABLE `inventory_usage_event` (
 
 CREATE TABLE `out_event` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
   `inventory_id` int(11) unsigned NOT NULL,
   `old_stock` int(11) DEFAULT NULL,
   `new_stock` int(11) DEFAULT NULL,
   `wasted` tinyint(1) DEFAULT NULL,
-  `timestamp` int(11) DEFAULT NULL,
+  `timestamp` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `inventory_id` (`inventory_id`),
-  CONSTRAINT `out_event_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`)
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `out_event_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`),
+  CONSTRAINT `out_event_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
