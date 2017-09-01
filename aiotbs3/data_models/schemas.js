@@ -1,7 +1,7 @@
 var schemas = {
     user: {
         id: null,
-        name: null,
+        username: null,
         password: null
     },
     products: {
@@ -15,18 +15,17 @@ var schemas = {
         quanitiy_unit: null,
         metadata: null
     },
-    inventory_mapping: {
+    inventory: {
     	id: null, //CPK
     	product_id: null, //FK UK
     	user_id: null, //FK UK
     	stock_level: null,
-        stock_unit: null,
     	predicted_need_date: null,
     	stock_delta_day: null, 
     	need_trigger_stock_level: null
     },
     
-    in_events: {
+    in_event: {
     	id: null, // PK
     	inventory_id: null, //FK
     	old_stock_level: null,
@@ -34,7 +33,7 @@ var schemas = {
     	timestamp: null
     },
     
-    out_events: {
+    out_event: {
     	id: null, // PK
     	inventory_id: null, // FK
     	old_stock_level: null,
@@ -43,7 +42,7 @@ var schemas = {
     	timestamp: null
     },
     
-    inventory_usage_events: {
+    inventory_usage_event: {
     	id: null, // PK
     	inventory_id: null, // FK
     	trigger_description: null,

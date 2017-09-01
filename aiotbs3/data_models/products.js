@@ -1,36 +1,74 @@
-var db = require("../db/db.js");
-var schemas = require("./schemas.js");
-var _ = require("lodash");
+var db = require("../db/mysql.js");
 
-var Product = function (data) {
-    //this.data = this.sanitize(data);
+exports.getProductByEan = function (ean, done) {
+	if(ean.length == 0)
+        return done(new Error("ean cannot be empty"));
+
+    var params = [ean];
+    db.get().query("SELECT * FROM product where ean = ?", params, function (err, rows) {
+        
+        console.log(rows);     
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("EAN does not exist"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+        
+    }); 
 }
 
-Product.getProductByEan = function (ean) {
-	if(ean == '1234567890') {
-		return({"status": "success", "data": {
-			EAN: '1234567890',
-	    	brand_name: 'Heinz',
-	    	description: 'Baked Beans',
-	    	multipack: true,
-	    	multipack_amount: 4,
-	    	quantity: 1,
-	    	quanitiy_unit: 'tin(s)',
-	    	metadata: {'tin size': '400g', "ingredients": ['tomatoes', 'water', 'salt']}}});
-	}
-	else {
-		return ({"status": "fail", "error code": 101, "error message": "product does not exist"});	
-	}
+exports.getProductById = function (id, done) {
+	if(ean.length == 0)
+        return done(new Error("ean cannot be empty"));
+
+    var params = [id];
+    db.get().query("SELECT * FROM product where id = ?", params, function (err, rows) {
+        
+        console.log(rows);     
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("EAN does not exist"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    }); 
 }
 
-Product.addNewProduct = function (ean, productData) {
-	if(ean == '1234567890') {
-		return ({"status": "fail", "error code": 102, "error_message": "product EAN already in the system"});
-	}
-	else {
-		return ({"status": "success", "message": "product with EAN " + ean +" has been added to the system"});
-	}
+exports.createNew = function (ean, brand_name, description, multipack, multipack_amount, quanitity, quantity_units, metadata, done) {
+	
+	//TODO: check type and presence for all 
+	metaJson = JSON.stringify(metadata);
+
+	db.get().query("INSERT INTO product SET ?", 
+    {
+        "ean": ean,
+        "brand_name": brand_name,
+        "description": description,
+        "multipack": multipack,
+        "multipack_amount": multipack_amount,
+        "quantity": quanitity,
+        "quantity_units": quantity_units,
+        "metadata": metaJson
+
+    }, function(err, rows) {
+        if (err)
+            return done(err);
+        else
+            return done(null,rows)
+    }
+    );
 }
 
 
-module.exports = Product;

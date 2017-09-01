@@ -4,16 +4,14 @@ var favicon = require('serve-favicon');
 //var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var db = require('./db/db');
+var db = require('./db/mysql');
 var index = require('./routes/index');
 var users = require('./routes/users');
-var wizard= require('./routes/wizard');
-
+var wizard = require('./routes/wizard');
+var testapi = require('./routes/testapi');
 
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
-
-
 
 //Init app
 var app = express();
@@ -21,8 +19,6 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
-
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -35,12 +31,9 @@ app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
 app.use('/', index);
 app.use('/users', users);
-
-
+app.use('/testapi', testapi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -60,7 +53,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
+db.connect(db.MODE_TEST, function(err) {
+  if (err) {
+    console.log('Unable to connect to MySQL.')
+    process.exit(1)
+  } else {
+      console.log('database connection active')
+    
+  }
+})
 
 module.exports = app;
 

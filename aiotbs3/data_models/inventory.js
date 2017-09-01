@@ -1,122 +1,59 @@
-var db = require("../db/db.js");
-var schemas = require("./schemas.js");
-var product = require("./products.js");
-var user = require("./user.js");
-
-var _ = require("lodash");
+var db = require("../db/mysql.js");
 
 
-var Inventory = function (data) {
-    //this.data = this.sanitize(data);
-}
+exports.createNew = function (user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done) {
+   
+   db.get().query("INSERT INTO inventory SET ?", 
+    {	
+        "user_id": user_id,
+        "product_id": product_id,
+        "stock_level": stock_level,
+        "predicted_need_date": predicted_need_date,
+        "stock_delta_day": stock_delta_day,
+        "need_trigger_stock_level": need_trigger_stock_level
 
-Inventory.addNewInventoryListing = function (userId, EAN) {
-    if (userId == 1 && EAN == "1111111111") {
-        return ({
-            "status": "success", "data": {
-                inventory_id: 1,
-                EAN: '1111111111',
-                stock_level: '1',
-                stock_unit: 'tins'
-            }
-        });
+    }, function(err, rows) {
+        if (err)
+            return done(err);
+        else
+            return done(null,rows)
     }
-    else {
-        return ({
-            "status": "fail",
-            "error_code": 101,
-            "error_message": "user does not exist / product does not exist / invetory listing already exists"
-        });
-    }
+    );
 }
 
-Inventory.getProductsForUser = function (userId) {
-	if(userId == 1) {
-		console.log('loading all product from userId == 1');
-		// how do I know about date/timestamp, I need the last 5 products added to the inventory.
+exports.getInventoryForUser = function (user_id) {
+    var params = [user_id];
+    db.get().query("SELECT * FROM inventory where user_id = ?", params, function (err, rows) {
+        
+        console.log(rows);     
+        if(err)
+            return done(err);
 
-		// TODO: For each of the below, need to map invetory data to product data before returning
-		return ({
-				  "data": [
-				  { 
-					inventory_id: 0,
-				  	description : "heinz",
-				    	stock_amount: 4,
-				    	stock_unit: "tins",
-					  	stock_current: "4 tins",
-				    	predicted_need_date : "27/08/2017"
-				  },
-				  { 
-				  	inventory_id: 1,
-				  	description : "heinz 2",
-				    	stock_amount: 4,
-				    	stock_unit: "tins",
-                      	stock_current: "4 tins",
-				    	predicted_need_date : "27/09/2017"
-				  },
-				  { 
-					inventory_id: 2,
-				  	description : "heinz 3",
-				    	stock_amount: 4,
-				    	stock_unit: "tins",
-                       stock_current: "4 tins",
-				    	predicted_need_date : "27/04/2017"
-				  },
-				  { 	
-					inventory_id: 3,
-				  	description : "heinz 4",
-				    	stock_amount: 4,
-				    	stock_unit: "tins",
-                      	stock_current: "4 tins",
-				    	predicted_need_date : "27/07/2017"
-				  }
-				  ]
-				});
+        if(rows.length == 0){
+            return done(new Error("no entries for user"));
+        }
 
-	}
-	else {
-		return ({"status": "fail", "error code": 101, "error_message": "user does not exist"});
-	}
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    }); 
 }
 
-Inventory.getProductForInventoryId = function(inventory_id) {
-	// search for inventory item
-	// lookup  ean based on inventory item
-	// return product information from ean
+
+exports.stopTracking = function(inventory_id, done) {
+	
 }
 
-Inventory.stopTracking = function(inventory_id) {
-	if(inventory_id == 0) {
-		return({"status": "success"});
-	}
-	else {
-		return ({"status": "fail", "error code": 101, "error_message": "inventory listing does not exist"});
-	}
+exports.getInventoryByUserProduct = function (userId, product_id, done) {
+	
 }
 
-Inventory.getInventoryListing = function (userId, EAN) {
-	if(userId == 1 && EAN == "1234567890") {
-        return({"status": "success", "data": {
-            inventory_id: 0,
-            EAN: '1234567890',
-            stock_level: '4',
-            stock_unit: 'tins'}});
-    }
-	else {
-		return ({"status": "fail", "error code": 101, "error_message": "inventory item does not exist"});
-	}
+exports.getInventoryById = function (userId, product_id, done) {
+	
 }
 
-Inventory.updateInventoryListingStock = function (inventory_id, new_stock_level) {
-	if(inventory_id == 0) {
-		return({"status": "success", "data": {
-			EAN: '1234567890',
-	    	updated_stock_level: '5',
-	    	stock_unit: 'tins'}});
-	}
-	else {
-		return ({"status": "fail", "error code": 101, "error_message": "inventory listing does not exist"});
-	}
+exports.updateInventoryListingStock = function (inventory_id, new_stock_level, done) {
+	
 }
-
-module.exports = Inventory;
