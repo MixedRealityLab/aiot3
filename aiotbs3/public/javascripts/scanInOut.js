@@ -168,7 +168,7 @@ function scanIn(){
 
             if ($('.nav-tabs .active').text() == 'SCAN IN') {
                 console.log('scanning in');
-                document.getElementById("bCodeMessage").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
+                document.getElementById("bCodeMessage").innerHTML = 'Scanning code ' + data.string + ' <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
                 document.getElementById("codeProduct").value = data.string;
                 document.getElementById("codeForm").submit();
 

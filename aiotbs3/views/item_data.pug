@@ -1,50 +1,62 @@
-
 .container
-	#addItemModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modalLabel', aria-hidden='true')
-		.modal-dialog.modal-m
-			.modal-content
-				.modal-header
-					button.close(type='button', data-dismiss='modal')
-						span(aria-hidden='true') ×
-						span.sr-only Close
-					h4#lineModalLabel.modal-title Add New Item code: #{eancode}
-					//h6#barcodeScannerLabel.modal-title Code: 52652532536
-				.modal-body
-					// content goes here
-					
-					form#insertProduct(name='insertProduct', method='post', action='/insertProduct')
-						.form-group
-							input#productEan.form-control(type='hidden', name='productEan', value=eancode)
-						.form-group
-							label(for='productDescription') Description
-							input#productDescription.form-control(type='text', name='productDescription', placeholder='Description', required='')
-						.form-group
-							label(for='productBrand') Brand
-							input#productBrand.form-control(type='text', name='productBrand', placeholder='Brand', required='')
-						
-						.form-group
-							label(for='id') Amount
-							.input-group
-								span.input-group-btn
-									input#quantity.form-control(type='text', name='quantity', placeholder='Amount', required='')
-								span.input-group-btn
-									select#quantityUnit.form-control(name='quantityUnit')
-										option(value='kg') Select Unit.
-										option(value='kg') Kg.
-										option(value='g') G.
-										option(value='lt') Lt.
-										option(value='ml') Ml.
-						.form-group
-							label(for='Items') Items
-							.input-group
-								.checkbox
-									label
-										input#multipack(type='checkbox', name='multipack')
-										|  Multipack
-										input#multipackAmount.form-control(type='text', name='multipackAmount', placeholder='Items', required='')
-								
-						button.btn.btn-default.btn-hover(type='submit') Save
-						//button(onclick='addItem()') Save
-				
-				.modal-footer
+    #addItemModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modalLabel', aria-hidden='true')
+        .modal-dialog.modal-m
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal')
+                        //span(aria-hidden='true') ×
+                        span.sr-only Close
+                    h4#lineModalLabel.modal-title Add New Item code: #{eancode}
+                    //h6#barcodeScannerLabel.modal-title Code: 52652532536
+                .modal-body
+                    // content goes here
+
+                    form#insertProduct(name='insertProduct', method='post', action='/insertProduct')
+                        .form-group
+                            input#productEan.form-control(type='hidden', name='productEan', value=eancode)
+                        .form-group
+                            label(for='productDescription') Description
+                            input#productDescription.form-control(type='text', name='productDescription', placeholder='Description', required='')
+                        .form-group
+                            label(for='productBrand') Brand
+                            input#productBrand.form-control(type='text', name='productBrand', placeholder='Brand')
+
+                        .form-group
+                            label(for='id') Amount
+                            .input-group
+                                span.input-group-btn
+                                    input#quantity.form-control(type='number', name='quantity', placeholder='Amount', required='')
+                                span.input-group-btn
+                                    select#quantityUnit.form-control(name='quantityUnit', required='')
+                                        option(value='select') Select Unit.
+                                        option(value='kg') Kg.
+                                        option(value='g') G.
+                                        option(value='lt') Lt.
+                                        option(value='ml') Ml.
+                        .form-group
+                            label(for='Items') Items
+                            br
+                            input#chkBox2.showHideCheck(type='checkbox', name='chkBox2')
+                            | Multipack
+                            br
+                            .hiddenInput
+                                |
+                                input#multipackAmount(type='number', name='multipackAmount', placeholder='Qty. Items')
+
+                            script.
+                                $(".hiddenInput").hide();
+                                $(".showHideCheck").on("change", function () {
+                                    $this = $(this);
+                                    $input = $this.parent().find(".hiddenInput");
+                                    if ($(this).is(":checked")) {
+                                        $input.slideDown();
+                                    } else {
+                                        $input.slideUp();
+                                    }
+                                });
+
+                        button.btn.btn-default.btn-hover(type='submit') Save
+                        //button(onclick='addItem()') Save
+
+                .modal-footer
 
