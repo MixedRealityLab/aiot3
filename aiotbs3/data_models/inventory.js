@@ -44,7 +44,7 @@ exports.getInventoryForUser = function (user_id, done) {
 
 exports.stopTracking = function(inventory_id, done) {
 	var params = [inventory_id];
-    db.get().query("DELETE * FROM inventory where id = ?", params, function (err, rows) {
+    db.get().query("DELETE FROM inventory where id = ?", params, function (err, rows) {
         
         console.log(rows);     
         if(err)
@@ -102,19 +102,14 @@ exports.getInventoryById = function (inventory_id, done) {
 
 exports.updateInventoryListingStock = function (inventory_id, new_stock_level, done) {
     var params = [new_stock_level, inventory_id];
-    db.get().query("UPDATE invenotry SET stock_level = ? where id = ?", params, function (err, rows) {
+    db.get().query("UPDATE inventory SET stock_level = ? where id = ?", params, function (err, rows) {
   
         if(err)
             return done(err);
-
-        if(rows.length == 0){
-            return done(new Error("inventory_id does not exist"));
-        }
-
-        if(rows.length > 0){
+        else
             console.log(rows);
             return done(null, rows);
-        }
+        
 
     }); 
 	

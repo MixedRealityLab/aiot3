@@ -23,7 +23,7 @@ router.get('/drop_all', function(req, res, next) {
 router.get('/add_user', function(req, res, next) {
   console.log("testing database");
 
-  user.createNew("foo","bar", function(err, data){
+  user.createNew("james","test", function(err, data){
   	if(err){
       console.log(err);
       res.send("there was an error see the console");
@@ -38,7 +38,7 @@ router.get('/add_user', function(req, res, next) {
 router.get('/login', function(req, res, next) {
   console.log("testing database");
 
-  user.login("foo","bar", function(err, data){
+  user.login("foo","bar888", function(err, data){
   	if(err){
   		console.log(err);
   		res.send("there was an error see the console");
@@ -74,7 +74,7 @@ router.get('/login1', function(req, res, next) {
 router.get('/add_product', function(req, res, next) {
   console.log("testing database");
   metadata = {'tin size': '400g', "ingredients": ['tomatoes', 'water', 'salt']};
-  products.createNew("1234567891","Heinz","Baked Beans",1, 4, 1, "tin(s)", metadata, function(err, data){	
+  products.createNew("12344447891","Bob","Baked Beans",1, 4, 1, "tin(s)", metadata, function(err, data){	
   	if(err){
   		console.log(err);
   		res.send("there was an error see the console");
@@ -90,7 +90,7 @@ router.get('/add_product', function(req, res, next) {
 router.get('/get_product_by_ean', function(req, res, next) {
   console.log("testing database");
 
-  products.getProductByEan("1234567890", function(err, data){
+  products.getProductByEan("1234567891", function(err, data){
     
     if(err){
       console.log(err);
@@ -123,10 +123,27 @@ router.get('/get_product_by_ean_2', function(req, res, next) {
   });
 });
 
+router.get('/get_product_by_id', function(req, res, next) {
+  console.log("testing database");
+
+  products.getProductById(2, function(err, data){
+    
+    if(err){
+      console.log(err);
+      res.send("there was an error see the console");
+    }
+    else {
+
+      console.log(data);
+      res.send(data);
+    }  
+  });
+});
+
 router.get('/add_inventory', function(req, res, next) {
   console.log("testing database");
   var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-  inventory.createNew(1,5,1,mysqlTimestamp,1,1, function(err, data){ 
+  inventory.createNew(1,3,1,mysqlTimestamp,1,1, function(err, data){ 
     if(err){
       console.log(err);
       res.send("there was an error see the console");
@@ -158,7 +175,7 @@ router.get('/get_inventory_by_user', function(req, res, next) {
 router.get('/stop_tracking', function(req, res, next) {
   console.log("testing database");
 
-  inventory.stopTracking(1, function(err, data){
+  inventory.stopTracking(4, function(err, data){
     
     if(err){
       console.log(err);
@@ -209,7 +226,7 @@ router.get('/get_inventory_by_id', function(req, res, next) {
 router.get('/update_inventory_listing_stock', function(req, res, next) {
   console.log("testing database");
 
-  inventory.updateInventoryListingStock(1,4, function(err, data){
+  inventory.updateInventoryListingStock(2,4, function(err, data){
     
     if(err){
       console.log(err);

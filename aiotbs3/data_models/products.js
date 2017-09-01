@@ -24,8 +24,8 @@ exports.getProductByEan = function (ean, done) {
 }
 
 exports.getProductById = function (id, done) {
-	if(ean.length == 0)
-        return done(new Error("ean cannot be empty"));
+	if(id.length == 0)
+        return done(new Error("id cannot be empty"));
 
     var params = [id];
     db.get().query("SELECT * FROM product where id = ?", params, function (err, rows) {
@@ -35,7 +35,7 @@ exports.getProductById = function (id, done) {
             return done(err);
 
         if(rows.length == 0){
-            return done(new Error("EAN does not exist"));
+            return done(new Error("Product ID does not exist"));
         }
 
         if(rows.length > 0){
