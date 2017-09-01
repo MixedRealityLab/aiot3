@@ -25,7 +25,7 @@ exports.add_event = function (inventory_id, user_id, old_stock, new_stock, waste
 exports.get_most_recent_for_user = function (user_id, number_of_products, done) {
 	
 	var params = [user_id, number_of_products];
-    db.get().query("SELECT * FROM out_event where user_id = ? limit ?", params, function (err, rows) {
+    db.get().query("SELECT * FROM out_event where user_id = ? order by timestamp desc limit ?", params, function (err, rows) {
         
         console.log(rows);     
         if(err)
