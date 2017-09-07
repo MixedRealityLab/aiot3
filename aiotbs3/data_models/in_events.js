@@ -20,6 +20,7 @@ exports.add_event = function (inventory_id, user_id, old_stock, new_stock, times
 
 }
 
+
 exports.get_most_recent_for_user = function (user_id, number_of_products, done) {
 
 	var params = [user_id, number_of_products];
@@ -40,6 +41,8 @@ exports.get_most_recent_for_user = function (user_id, number_of_products, done) 
         
     }); 
 }
+
+
 
 exports.get_most_recent_for_inventory = function (inventory_id, number_of_products, done) {
 

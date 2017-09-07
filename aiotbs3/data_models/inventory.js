@@ -58,9 +58,10 @@ exports.stopTracking = function(inventory_id, done) {
     }); 
 }
 
+
 exports.getInventoryByUserProduct = function (userId, product_id, done) {
 
-    var params = [user_id, product_id];
+    var params = [userId, product_id];
     db.get().query("SELECT * FROM inventory where user_id = ? and product_id = ?", params, function (err, rows) {
         
         console.log(rows);     
@@ -80,7 +81,9 @@ exports.getInventoryByUserProduct = function (userId, product_id, done) {
 	
 }
 
-exports.getInventoryById = function (inventory_id, done) {
+
+
+exports.getInventoryById = function (inventory_id, done) { //id from inventory, just one return
 	var params = [inventory_id];
     db.get().query("SELECT * FROM inventory where id = ?", params, function (err, rows) {
         
@@ -99,6 +102,8 @@ exports.getInventoryById = function (inventory_id, done) {
 
     }); 
 }
+
+
 
 exports.updateInventoryListingStock = function (inventory_id, new_stock_level, done) {
     var params = [new_stock_level, inventory_id];

@@ -16,7 +16,7 @@ exports.add_event = function (inventory_id, user_id, old_stock, new_stock, waste
         if (err)
             return done(err);
         else
-            return done(null,rows)
+            return done(null,rows);
     }
     );
 
@@ -32,7 +32,8 @@ exports.get_most_recent_for_user = function (user_id, number_of_products, done) 
             return done(err);
 
         if(rows.length == 0){
-            return done(new Error("User id has no events"));
+            //return done(new Error("User id has no events"));
+            //return done(err);
         }
 
         if(rows.length > 0){

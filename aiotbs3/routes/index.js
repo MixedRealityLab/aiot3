@@ -4,56 +4,130 @@ var request = require('request');
 var sleep = require('sleep');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
+var moment = require('moment');
 
 
 
 var Product = require('../data_models/products');
+var products = require('../data_models/products');
+
 var Inventory = require('../data_models/inventory');
-var InEvent = require('../data_models/in_events');
+var inventory = require('../data_models/inventory');
+
+var in_events = require('../data_models/in_events.js');
+
+
 var OutEvent = require('../data_models/out_events');
-var User = require('../data_models/user');
+var out_events = require('../data_models/out_events');
+
+var user = require('../data_models/user.js')
+var tescoData = require("./tescoApi.js");
+
 
 //**********************************************************************************************************************
+
+/*
 router.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false
-    //cookie: { secure: true }
-}));
+}));*/
 
-router.use(passport.initialize());
-router.use(passport.session());
+//router.use(passport.initialize());
+//router.use(passport.session());
 
 // Configure the local strategy for use by Passport.
+//passport.use(new Strategy(
+//    function(username, password, cb) {
+//        User.findByUsername(username, function(err, user) {
+//            if (err) { return cb(err); }
+//            if (!user) { return cb(null, false); }
+//            if (user.password != password) { return cb(null, false); }
+//            return cb(null, user);
+//        });
+//    }));
+
+
+
+// =========================================================================
+// LOCAL LOGIN =============================================================
+// =========================================================================
+// we are using named strategies since we have one for login and one for signup
+// by default, if there was no name, it would just be called 'local'
+/*
 passport.use(new Strategy(
     function(username, password, cb) {
-        User.findByUsername(username, function(err, user) {
-            if (err) { return cb(err); }
-            if (!user) { return cb(null, false); }
-            if (user.password != password) { return cb(null, false); }
+        user.login(username,password, function(err, user) {
+
+            if (err) {
+                return cb(err);
+            }
+            if (!user) {
+                return cb(null, false);
+            }
+            if (user[0].password != password) {
+                return cb(null, false);
+            }
             return cb(null, user);
         });
     }));
+*/
 
 
-passport.serializeUser(function(user, cb) {
-    cb(null, user.id);
-});
+//passport.serializeUser(function(user, cb) {
+//    cb(null, user.id);
+//});
 
-passport.deserializeUser(function(id, cb) {
-    User.findById(id, function (err, user) {
-        if (err) { return cb(err); }
-        cb(null, user);
+//passport.deserializeUser(function(id, cb) {
+//    User.findById(id, function (err, user) {
+//        if (err) { return cb(err); }
+//        cb(null, user);
+//    });
+//});
+
+// =========================================================================
+// passport session setup ==================================================
+// =========================================================================
+// required for persistent login sessions
+// passport needs ability to serialize and unserialize users out of session
+
+// used to serialize the user for the session
+/*
+passport.serializeUser(function(user, done) {
+    console.log(user.id);
+    done(null, user.id);
+});*/
+
+// used to deserialize the user
+/*
+passport.deserializeUser(function(id, done) {
+    //connection.query("SELECT * FROM users WHERE id = ? ",[id], function(err, rows){
+    //    done(err, rows[0]);
+    //});
+    user.login(id,password,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            //res.send(data[0]);
+            done(err, rows[0]);
+        }
+
     });
-});
+
+});*/
+
 
 
 //**********************************************************************************************************************
 
 
 /* GET home page. */
-router.get('/', function(req, res, next){ // this authentication fail :(
+router.get('/', function(req, res, next){
 //router.get('/' ,function(req, res, next) {
     console.log(req.user);
     console.log(req.isAuthenticated());
@@ -65,234 +139,345 @@ router.get('/', function(req, res, next){ // this authentication fail :(
 });
 
 
+// *********************************************** scan in logic v2.0 *************************************************
 
-/*  PRODUCTS  */
+//start with checkbarcode view
 
-//after scan, check if the basic data of a product is on db
-router.post('/checkBarcode', function (req,res, next) {
-    var userId=req.user.id;
-    sleep.msleep(5000);
-    var codeProduct = req.body.codeProduct; //barcode from client side
-    var eanCodeProducts = Product.getProductByEan(codeProduct);
-    var userInventory = getInventoryUser(userId); //get all products from user=1 and send them back to inserted products
-
-    if(eanCodeProducts.status == 'success'){ //if barcode is in product db
-        var eanCode = eanCodeProducts.data.EAN;
-
-        //****** update inventory using  Inventory.updateInventoryListingStock and In_event.add_event ******************
-        //update the inventory stock(I don't need to update product data)
-        var userInventoryUpdated =updateInventory2(userId,eanCode);
-        console.log('userInventoryUpdated:'+ userInventoryUpdated.status);
-        //**************************************************************************************************************
-
-        if (userInventoryUpdated.status == 'success') {
-            var description = eanCodeProducts.data.description;
-            res.render('insertProduct', {messageItem: 3, description: description, userInventory: userInventory, user: req.user});
-        }
-        else{
-            res.render('insertProduct', {messageItem: 3, description: 'something wrong', userInventory: userInventory, user: req.user});
-        }
-    }
-    else { //the barcode isn't the product database
-
-        connectTesco(codeProduct, function(response){  //look at tesco API
-            // Here you have access to your variable
-            var tescoApiData =  response;
-            //console.log(tescoApiData.status);
-            //console.log(tescoApiData.data.description);
-            console.log('TESCO DATA:'+tescoApiData);
-
-
-            if (tescoApiData.status == 'success'){
-                // add data to the product db
-                var addNewProduct = Product.addNewProduct(codeProduct, tescoApiData.data);
-                if(addNewProduct.status == 'success'){ // if product was succesfully added to the global db then upgrade inventory
-
-                    //****** update inventory **************************************************************************
-                    // add the product to the user inventory
-                    var userInventoryUpdated = updateInventory2(userId,codeProduct);
-                    console.log('***check***'+userInventoryUpdated.status + ':'+userInventoryUpdated.msg);
-                    //**************************************************************************************************
-
-
-                    if(userInventoryUpdated.status == 'success'){
-                        // render to add item view
-                        var description = tescoApiData.data.description.substring(0,25);
-                        // then render view /insertProduct view with messageItem : 3
-                        res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory, user: req.user});
-
-                    }
-                    else{
-                        var description = tescoApiData.data.description.substring(0,25);
-                        res.render('insertProduct',{messageItem : 3, description: description+ '' + '' +userInventoryUpdated.msg, userInventory: userInventory, user: req.user});
-
-                    }
-
-
-                }
-                else{
-                    res.render('insertProduct',{messageItem : 3, description: addNewProduct.error_message, userInventory: userInventory, user: req.user});
-
-                    //res.render('error',{errorMessage:addNewProduct.error_message});
-                }
-
-            }
-
-            else{ //the barcode isn't in tesco api
-                //ask user for basic data using item_data view
-                //item_data view will submit to /insertProduct
-                res.render('checkBarcode',{messageItem : 2, eancode: codeProduct, userInventory: userInventory, user: req.user});
-
-
-            }
-        });
-    }
-
-});
-
-//**************************************************************************************************
-function updateInventory2(userId,eanCode){ //add item-using scan In
-    console.log('user Id:'+ userId);
-    console.log('ean:'+eanCode);
-
-    var inventoryList = Inventory.getInventoryListing(userId,eanCode); // get inventory listing
-    console.log('***inventory listing:***'+ inventoryList.status);
-
-        if (inventoryList.status=='success') // there is an inventory listing known
-        {
-            var inventoryId =  inventoryList.data.inventory_id;    //get inventory id
-            var getStockLevel = inventoryList.data.stock_level;    //get actual stock level
-            var newStockLevel = getStockLevel + 1;                 //create new stock level
-            var updateInventoryListing = Inventory.updateInventoryListingStock(inventoryId,newStockLevel); //update inventory listing
-            var addToInventory = InEvent.add_event(inventoryId,getStockLevel,newStockLevel); //add to inventory
-            console.log('**addToInventory**'+addToInventory.status);
-
-            if (updateInventoryListing.status == 'success' && addToInventory.status == 'success')
-            {
-                return ({"status": "success"});
-
-            }
-            else
-            {
-                return ({"status": "fail", "msg":addToInventory.error_message});
-
-            }
-
-        }
-        else
-        {
-            //else if the product exists but there is no inventory listing for it
-            var newInventoryList = Inventory.addNewInventoryListing(userId,eanCode);
-
-            if (newInventoryList.status == 'success')
-            {
-                var inventoryId = newInventoryList.data.inventory_id;
-                var getStockLevel = 0;    //get actual stock level
-                var newStockLevel = newInventoryList.data.stock_level;
-                var updateInventoryListing = Inventory.updateInventoryListingStock(inventoryId,newStockLevel); //update inventory listing
-                var addToInventory = InEvent.add_event(inventoryId,getStockLevel,newStockLevel); //add to inventory
-                if (updateInventoryListing.status == 'success' && addToInventory.status == 'success')
-                {
-                    return ({"status": "success"})
-                }
-                else
-                {
-                    return ({"status": "fail", "msg":addToInventory.error_message});
-                }
-            }
-            else
-            {
-                return ({"status": "fail", "msg":newInventoryList.error_message});
-
-            }
-
-
-        }
-}
-//**************************************************************************************************
-
-//checkbarcode logic (just for scan in process)
-//get barcode
-//if the barcode is in the product/global db
-    //if there is inventory listing known
-        //get inventory_id from Inventory.getInventoryListing
-        //get old and new stock level
-        //add the product to the user inventory listing
-        //use In_event.add_event to update the inventory(+1) (stock level)
-        //render to add item view
-    //else if the product exists but there is no inventory listing for it
-        //make an inventory list Inventory.addNewInventoryListing using barcode and userId
-        //get the inventory id
-        //get old and new stock level
-        //update the stock level using Inventory.updateInventoryListingStock
-        //use In_event.add_event to update the inventory(+1) (stock level)
-        //render to add item view
-
-//else (the barcode isn't the product database/ the product does not exist at all)
-    //if the barcode is in tesco api?
-        //get data from tesco api
-        //Use Product.addNewProduct to add the product to the global database
-        //make an inventory list Inventory.addNewInventoryListing using barcode and userId
-        //get the inventory id
-        //get old and new stock level
-        //update the stock level using Inventory.updateInventoryListingStock
-        //use In_event.add_event to update the inventory(+1) (stock level)
-        //render to add item view
-    //else (the barcode isn't in tesco api)
+//get barcode/ean
+//get userId
+//if products.getProductByEan(ean,done) -- error  means the barcode isn't in the product table/the product does not exist at all)
+    //go to tesco api function
+    //if the barcode isn't in tesco api
         //render to checkBarcode view
-        //ask user for basic data
-        //Use Product.addNewProduct to add the product to the global database
-        //make an inventory list Inventory.addNewInventoryListing using barcode and userId
-        //get the inventory id
-        //get old and new stock level
-        //update the stock level using Inventory.updateInventoryListingStock
-        //use In_event.add_event to update the inventory(+1) (stock level)
-        //render added item view
+        //ask user for basic data loading item_data view
+        //go to add product process --> add inventory --> add in_event
+
+    //else the barcode is in tesco api
+        //get data from tesco api to create new product
+        //use products.createNew to add the product to the global database
+        //if products.createNew -- error
+            //do something
+        //else products.createNew -- success
+            //get productId
+            //create new inventory entry
+            //if inventory.createNew -- error
+                //do something
+            //else inventory.createNew -- success
+                //get inventory_id from successfully inventory added
+                //add new in_event
+                //if add in_events.add_event -- error
+                    //do something
+                //else add in_events.add_event -- success
+                    // var userInventory = ** get description of last 5 products added ***
+                    // render to insertProduct view (sending description of last products added)
+
+    //else the barcode isn't in tesco api
+        //render to checkBarcode view
+        //ask user for basic data loading item_data view
+        //go to add product process --> add inventory --> add in_event
+
+
+//else products.getProductByEan(ean,done) -- success means the barcode is in the product table
+    //using var productId = data.id
+    //use inventory.getInventoryByUserProduct(UserId, productId,done) to check if there is an inventory entry "user-product"
+    //if inventory.getInventoryByUserProduct(UserId, productId,done) --error means a new inventory entry "user-product" needs to be created
+        //create new inventory entry
+        //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
+        //if inventory.createNew -- error
+            //do something
+        //else inventory.createNew -- success
+            //get inventory_id from successfully inventory added
+            //add new in_event
+            //in_events.add_event(inventory_id, user_id, old_stock, new_stock, timestamp, done)
+            //if add in_events.add_event -- error
+                //do something
+            //else add in_events.add_event -- success
+                // var userInventory = ** get description of last 5 products added ***
+                // render to insertProduct view (sending description of last products added)
+
+    //else if inventory.getInventoryByUserProduct(UserId, productId,done) -- success
+        //get inventory_id
+        //var old_stock_level = get stock_level
+        //var new_stock_level =  old_stock_level+1
+
+        //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
+        //if inventory.updateInventoryListingStock -- error
+            //do something
+        //else inventory.updateInventoryListingStock -- success
+            // in_events.add_event(inventory_id, user_id, old_stock, new_stock, timestamp, done)
+            //if add in_events.add_event -- error
+                //do something
+            //else add in_events.add_event -- success
+                // var userInventory = ** get description of last 5 products added ***
+                // render to insertProduct view (sending description of last products added)
+
+
+//**********************************************************************************************************************
+
+
+router.post('/checkBarcode', function (req,res, next) {
+    var userId = 1;
+    var username = 'test'; //req.username
+    var ean = req.body.codeProduct; //barcode from client side
+    sleep.msleep(5000);
+
+    products.getProductByEan(ean, function(err, data){
+
+        if(err){ //the barcode isn't in the product table/the product does not exist at all
+            console.log(err);
+            tescoData.get_tesco_data(ean,function (data, err) { //go to tesco api function
+                if (data.status == 'fail'){
+
+                    //the barcode isn't in tesco api
+                    //render to checkBarcode view
+                    console.log('the barcode is not in tesco api');
+                    console.log(err);
+                    res.render('checkBarcode',{messageItem : 2, eancode: ean, userInventory: 'xx', user: username /*req.user*/});
+
+                    //ask user for basic data loading item_data view
+                    //go to add product process --> add inventory --> add in_event
+                    //res.send(err);
+
+                }
+
+                else {
+                    //if the barcode is in tesco api
+                    //get data from tesco api to create new product
+                    metadata = {'tin size': '400g', "ingredients": ['tomatoes', 'water', 'salt']}; //change from data of tesco api
+                    products.createNew(ean,data.brand_name,data.description,1,1, data.quantity, data.quanitiy_unit, metadata, function(err, data){
+                        if(err){
+                            console.log(err);
+                            res.send("there was an error getting data from tesco api, see the console");
+                        }
+                        else {
+
+                            var productId = data.insertId;
+                            var stock_level = 1;
+                            //create new inventory entry
+                            //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
+                            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,1,1, function(err, data){
+                                if(err){
+                                    //do something
+                                    console.log(err);
+                                    res.send("there was an error see the console");
+                                }
+                                else {
+                                    //get inventoryId from successfully inventory added
+                                    var inventoryId = data.insertId;
+                                    var old_stock = 0;
+                                    var new_stock = old_stock + 1;
+                                    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+                                    //add new in_event
+                                    //exports.add_event = function (inventory_id, user_id, old_stock, new_stock, timestamp, done) {
+                                    in_events.add_event(inventoryId,userId,old_stock,new_stock,mysqlTimestamp, function(err, data){
+                                        if(err){
+                                            //do something
+                                            console.log(err);
+                                            res.send("there was an error see the console");
+                                        }
+                                        else {
+                                            //add in_events.add_event -- success
+                                            // var userInventory = ** get description of last 5 products added ***
+                                            // render to insertProduct view (sending description of last products added)
+                                            //var description = tescoApiData.data.description.substring(0,25);
+                                            //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
+                                            var inEventsId = data.insertId;
+                                            in_events.get_most_recent_for_user(userId,5, function(err, data){
+
+                                                if(err){
+                                                    console.log(err);
+                                                    res.send("there was an error see the console");
+                                                }
+                                                else {
+
+                                                    console.log(data)
+                                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: username /*req.user*/});
+
+                                                }
+                                            });
+
+                                        }
+                                    });
+
+
+
+                                }
+                            });
+
+
+                        }
+                    });
+
+                }
 
 
 
 
 
-//insert in the inventory and render to item added view
-router.post('/insertProduct', function (req,res,next) {
-    var userId = req.user.id;
-    //Post unknown item details to global product database
-    var eanCode = req.body.productEan; // scanned barcode
-    var addNewProduct = Product.addNewProduct(req.body.productEan,req.body);
-    var description = req.body.productDescription;
-    console.log(addNewProduct.status); //we will add into the global? inventory or both?
-    console.log(addNewProduct.message);
-
-    //get last 5 products from user=1 and send them back to render view of inserted products
-    var userInventory = getInventoryUser(userId);
-
-    if(addNewProduct.status){
-
-        //After add new product to db, update inventory
-        //****** update inventory **************************************************************************
-            var userInventoryUpdated = updateInventory2(userId,eanCode);
-            console.log('***check***'+userInventoryUpdated.status + ':'+userInventoryUpdated.msg);
-
-        //**************************************************************************************************
-        if(userInventoryUpdated.status == 'success'){
-            res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory, user: req.user});
+            });
 
         }
-        else{
-            res.render('insertProduct',{messageItem : 3, description: userInventoryUpdated.msg, userInventory: userInventory, user: req.user});
+        else {
+            //the barcode is in the product table
+            var productId = data[0].id;
+            //use inventory.getInventoryByUserProduct(UserId, productId,done) to check if there is an inventory entry "user-product"
+            inventory.getInventoryByUserProduct(userId,productId, function(err, data){
+
+                if(err){
+                    // a new inventory entry "user-product" needs to be created
+                    //create new inventory entry
+                    console.log(err);
+                    res.send("a new inventory entry 'user-product' needs to be created");
+                }
+                else {
+                    // there is an inventory entry "user-product" available
+                    // get inventoryId from inventory entry available to update stock and then add_event
+                    var inventoryId = data[0].id;
+                    var old_stock_level = data[0].stock_level;
+                    var new_stock_level = old_stock_level + 1;
+                    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                    //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
+                    inventory.updateInventoryListingStock(inventoryId,new_stock_level, function(err, data){
+                        if(err){
+                            //do something
+                            console.log(err);
+                            res.send("error to update inventory, see the console");
+                        }
+                        else {
+                            //update inventory success
+                            in_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,mysqlTimestamp, function(err, data){
+                                if(err){
+                                    //do something
+                                    console.log(err);
+                                    res.send("error in add_event, see the console");
+                                }
+                                else {
+                                    //add in_events.add_event -- success
+                                    // var userInventory = ** get description of last 5 products added ***
+                                    var inEventsId = data.insertId;
+                                    in_events.get_most_recent_for_user(userId,5, function(err, data){
+
+                                        if(err){
+                                            console.log(err);
+                                            res.send("there was an error see the console");
+                                        }
+                                        else {
+                                            //render view to inserted products
+                                            console.log(data);
+                                            //res.send(data);
+                                            res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: username /*req.user*/});
+
+                                        }
+                                    });
+                                }
+                            });
+
+                        }
+                    });
+
+                }
+            });
+
 
         }
 
-    }
-    else{
-        console.log('error'); // redirecting to added item view with error message
-        res.render('insertProduct',{messageItem : 3, description: addNewProduct.error_message, userInventory: userInventory, user: req.user});
 
-    }
+
+    });
+
+
 });
 
 
-//**** scan out logic *******
+//insert in the inventory and render to item added view (this request came from add new item view)
+router.post('/insertProduct', function (req,res,next) {
+    //var userId = req.user.id;
+    var userId = 1;
+    var username = 'test';
+
+    //Post item details to global product database
+    var ean = req.body.productEan; // scanned barcode
+    var description = req.body.productDescription;
+    var brand_name = req.body.productBrand;
+    var multipack = req.body.multipack;
+    var multipack_amount = req.body.multipackAmount;
+    var quantity = req.body.quantity;
+    var quantity_units = req.body.quantityUnit;
+    var metadata = {'add more data': 'xxx'}; //change from data of tesco api
+
+    products.createNew(ean,brand_name,description,multipack,multipack_amount, quantity, quantity_units, metadata, function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error creating a new product, see the console");
+        }
+        else {
+
+            var productId = data.insertId;
+            var stock_level = 1;
+            //create new inventory entry
+            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,1,1, function(err, data){
+                if(err){
+                    //do something
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+                    //get inventoryId from successfully inventory added
+                    var inventoryId = data.insertId;
+                    var old_stock = 0;
+                    var new_stock = old_stock + 1;
+                    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+                    //add new in_event
+                    //exports.add_event = function (inventory_id, user_id, old_stock, new_stock, timestamp, done) {
+                    in_events.add_event(inventoryId,userId,old_stock,new_stock,mysqlTimestamp, function(err, data){
+                        if(err){
+                            //do something
+                            console.log(err);
+                            res.send("there was an error see the console");
+                        }
+                        else {
+                            //add in_events.add_event -- success
+                            // var userInventory = ** get description of last 5 products added ***
+                            // render to insertProduct view (sending description of last products added)
+                            //var description = tescoApiData.data.description.substring(0,25);
+                            //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
+                            var inEventsId = data.insertId;
+                            in_events.get_most_recent_for_user(userId,5, function(err, data){
+
+                                if(err){
+                                    console.log(err);
+                                    res.send("there was an error see the console");
+                                }
+                                else {
+
+                                    console.log(data)
+                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: username /*req.user*/});
+
+                                }
+                            });
+
+                        }
+                    });
+
+
+
+                }
+            });
+
+
+        }
+    });
+
+
+});
+
+
+//**************************************** scan out logic v1.0 *********************************************************
+
 //get barcode from scanout view
 //if barcode is on user inventory
     //get stock level and products details from user inventory
@@ -333,13 +518,17 @@ router.post('/insertProduct', function (req,res,next) {
     //render to scannedOutProduct with message 1
 
 
-
-
+//**************************************** scan out logic v2.0 *********************************************************
+//WIP
+//WIP
+//WIP
+//**********************************************************************************************************************
 
 router.post('/scanOutProduct',function (req,res,next) {
     console.log('user id scanout****:'+ req.user.id);
 
-    var userId=req.user.id;
+    //var userId=req.user.id;
+    var userId = 1;
     sleep.msleep(4000); //this is for show the barcode scanned
     console.log(req.body);
     var wasted = req.body.wastedProductOut;
@@ -364,8 +553,6 @@ router.post('/scanOutProduct',function (req,res,next) {
         res.render('scannedOutProduct',{messageScanOut:1,descriptionOut:userInventoryOut.msg, lastUserInventoryOut:lastUserInventoryOut, user: req.user});
 
     }
-
-
 
 
     console.log('scanning out code:'+ codeProduct);
@@ -408,43 +595,47 @@ function updateInventoryOut(userId,eanCode,wasted){ //add item-using scan In
     else
     {
         return ({"status": "fail", "msg":inventoryList.error_message});
-        /*
-        //else if the product exists but there is no inventory listing for it
-        var newInventoryList = Inventory.addNewInventoryListing(userId,eanCode);
-
-        if (newInventoryList.status == 'success')
-        {
-            var inventoryId = newInventoryList.data.inventory_id;
-            var getStockLevel = 0;    //get actual stock level
-            var newStockLevel = newInventoryList.data.stock_level;
-            var updateInventoryListing = Inventory.updateInventoryListingStock(inventoryId,newStockLevel); //update inventory listing
-            var outOfInventory = OutEvent.add_event(inventoryId,getStockLevel,newStockLevel); //add to inventory
-            if (updateInventoryListing.status == 'success' && outOfInventory.status == 'success')
-            {
-                return ({"status": "success"})
-            }
-            else
-            {
-                return ({"status": "fail", "msg":outOfInventory.error_message});
-            }
-        }
-        else
-        {
-            return ({"status": "fail", "msg":newInventoryList.error_message});
-
-        }
-        */
 
     }
 }
-//**************************************************************************************************
+//**********************************************************************************************************************
+
+
+
+//***************************************** ajax request **************************************************************
+
+
+router.post('/scanInAgain', function (req,res,next) {
+
+    //var userId = req.body.userId;
+    var userId = 1;
+    //this is just for render again scan in process
+    console.log('ready to scan in again');
+    console.log('get data from user and send it back')
+    //GET LAST 5 ITEMS AND SEND BACK TO INSERTPRODUCT VIEW
+    in_events.get_most_recent_for_user(userId,5, function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            //render view to inserted products
+            console.log(data);
+            res.send({messageItem:4, userInventory:data});
+
+        }
+    });
+
+});
 
 
 
 
 router.post('/getInventoryData',function (req,res,next) {
     console.log(req.body);
-    var userId=req.body.userId;
+    //var userId=req.body.userId;
+    var userId = 1;
     var data = Inventory.getProductsForUser(userId);
 
     // HERE I NEED TO USER Inventory.getProductFromInventoryId method
@@ -460,33 +651,22 @@ router.post('/getInventoryData',function (req,res,next) {
 
 
 router.post('/getInventoryDataOut',function (req,res,next) {
-    var userId = req.body.userId;
+
+    //var userId = req.body.userId;
+    var userId = 1;
     //var data = {description: "xxx", lastAdded: "07/07/27", usedUp: "16/08/17"};
 
     var data = OutEvent.get_most_recent_for_user(userId,5);
     console.log(data);
     res.json(data);
 
-
 });
 
-router.post('/scanInAgain', function (req,res,next) {
-    var userId = req.body.userId;
-    //this is just for render again scan in process
-    console.log('ready to scan in again');
-    console.log('get data from user and send it back')
-    //GET LAST 5 ITEMS AND SEND BACK TO INSERTPRODUCT VIEW
-    var userInventory = getInventoryUser(userId);
-
-    var data = {messageItem:4};
-    res.send({messageItem:4, userInventory:userInventory});
-    //res.send(userInventory);
-
-});
 
 
 router.post('/scanOutAgain', function(req,res,next){
-    var userId =  req.body.userId;
+    //var userId =  req.body.userId;
+    var userId = 1;
     console.log('ready to scan out again');
     //GET LAST 5 ITEMS AND SEND BACK TO ****** VIEW
     var userInventoryOut = getOutInventoryUser(userId);
@@ -549,14 +729,6 @@ router.post('/bin',function(req,res,next){
 
 //************************************ functions *************************************************
 
-//function to get inventory listing if exists for user
-function getInventoryUser(user){
-    var lastInventory = InEvent.get_most_recent_for_user(user,5);
-    lastInventory = lastInventory["data"];
-    console.log('***last inventory:'+ lastInventory);
-    return lastInventory;
-}
-
 
 function getOutInventoryUser(user){
     var lastInventoryOut = OutEvent.get_most_recent_for_user(user,5);
@@ -566,80 +738,12 @@ function getOutInventoryUser(user){
 }
 
 
-
-//function to connect and consume TESCO API.
-function connectTesco(eanSelected,callback){
-
-    eanSelected1 = '0'+ eanSelected;
-    var options = {
-        method: 'GET',
-        hostname: 'dev.tescolabs.com',
-        //url: 'https://dev.tescolabs.com/product/?gtin=04548736003446', //05022996000135',
-        url: 'https://dev.tescolabs.com/product/?gtin='+eanSelected1, //05022996000135',
-        headers: {
-            'Ocp-Apim-Subscription-Key': 'd00f3cbe704e4aec8aa8fb91b94d43f0'
-        },
-        rejectUnauthorized: false
-    };
-
-    request(options, function (error, response, body) {
-        if (!error) {
-            console.log('*statusCode:', response && response.statusCode); // Print the response status code if a response was received
-            //var productsTesco = JSON.parse(body);
-            var productsTesco = body;
-            //console.log('** product details:**'+productsTesco);
-
-            if (Object.keys(productsTesco).length==22) { // if I don't get information from tesco API
-
-                var returnData= {"status": 'fail', "msg":'no internet connection'};
-                return callback(returnData);
-
-            }else{
-
-                //console.log(body);
-                var returnData = JSON.parse(body);
-                //console.log('just return***'+returnData);
-                //console.log('just data:***'+returnData["products"][0]["description"]);
-                //console.log('quantity:***'+returnData["products"][0]["qtyContents"].quantity);
-
-                var dataCollection = {
-                        "status": 'success',
-                        "data": {
-                            ean: eanSelected,
-                            tpnb:returnData["products"][0]["tpnb"],
-                            tpnc:returnData["products"][0]["tpnc"],
-                            brand_name:returnData["products"][0]["brand"],
-                            description:returnData["products"][0]["description"],
-                            quantity: returnData["products"][0]["qtyContents"].quantity,
-                            quanitiy_unit: returnData["products"][0]["qtyContents"].quantityUom,
-                            netContent: returnData["products"][0]["qtyContents"].netContents
-                            }
-
-
-                    };
-
-               return callback(dataCollection);
-
-
-            }
-
-
-        }else{
-            console.log('error:', error);
-            console.log('statusCode:', response && response.statusCode);
-            var returnData= {"status": 'api fail', "msg":'no internet connection'};
-            return callback(returnData);
-
-        }
-
-
-    });
-
-}
+//function to connect and consume TESCO API moved to tescoApi.js
 
 
 //*************************************** LOGIN AND REGISTER  **********************************************************
-// move to own files
+//this needs to move to user.js
+/*
 
 router.get('/login',
     function(req, res){
@@ -698,7 +802,7 @@ router.post('/register', function(req, res, next) {
     }
 
 });
-
+*/
 
 //*********************************************************************************************************************
 
