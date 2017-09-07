@@ -279,8 +279,8 @@ router.post('/checkBarcode', function (req,res, next) {
                                         }
                                         else {
                                             //add in_events.add_event -- success
-                                            // var userInventory = ** get description of last 5 products added ***
-                                            // render to insertProduct view (sending description of last products added)
+                                            //var userInventory = ** get description of last 5 products added ***
+                                            //render to insertProduct view (sending description of last products added)
                                             //var description = tescoApiData.data.description.substring(0,25);
                                             //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
                                             var inEventsId = data.insertId;
@@ -519,7 +519,7 @@ router.post('/insertProduct', function (req,res,next) {
 
 
 //**************************************** scan out logic v2.0 *********************************************************
-//WIP
+//Work in progress
 //WIP
 //WIP
 //**********************************************************************************************************************
@@ -631,21 +631,33 @@ router.post('/scanInAgain', function (req,res,next) {
 
 
 
-
 router.post('/getInventoryData',function (req,res,next) {
     console.log(req.body);
     //var userId=req.body.userId;
     var userId = 1;
-    var data = Inventory.getProductsForUser(userId);
+    //var data = Inventory.getProductsForUser(userId);//this method doesn't exist.
 
-    // HERE I NEED TO USER Inventory.getProductFromInventoryId method
-    // get inventory id
-    //with inventory id get ean
-    //with ean get product details
-    //add to data
-    console.log(data);
-    console.log('request by dataTable ajax');
-    res.json(data);
+    inventory.getInventoryForUser(userId, function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            //console.log(data);
+            //es.send(data);
+
+            // HERE I NEED TO USER Inventory.getProductFromInventoryId method
+            // get inventory id
+            //with inventory id get ean
+            //with ean get product details
+            //add to data
+            console.log(data);
+            console.log('request from dataTable ajax');
+            res.json(data);
+        }
+    });
 
 });
 

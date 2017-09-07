@@ -14,8 +14,8 @@ $(document).ready(function() {
 
         },
         "columns":[
-            {data: "description"},
-            {data: "stock_current"},
+            {data: "product_id"},//{data: "description"},
+            {data: "id"},//{data: "stock_current"},
             {data: "predicted_need_date"},
             {data: null,
                 defaultContent: "<button type='buttonEspecial'>icon</button>"}
