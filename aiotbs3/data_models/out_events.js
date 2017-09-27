@@ -32,13 +32,15 @@ exports.get_most_recent_for_user = function (user_id, number_of_products, done) 
             return done(err);
 
         if(rows.length == 0){
-            //return done(new Error("User id has no events"));
-            //return done(err);
+            return done(new Error("User id has no events"));
+            //return done("error");
         }
 
         if(rows.length > 0){
             console.log(rows);
             return done(null, rows);
+            //return done("error");
+
         }
         
     }); 

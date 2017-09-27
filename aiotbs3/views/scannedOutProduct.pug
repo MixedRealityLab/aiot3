@@ -18,7 +18,8 @@ block content
                         span.glyphicon.glyphicon-log-in
                         |  Logout
 
-    input#HideUserId(type='hidden', value=user.id)
+    //input#HideUserId(type='hidden', value=user.id)
+    input#HideUserId(type='hidden', value=1)
     if messageScanOut == 0
         .container
             //h1 Home Essentials
@@ -52,9 +53,10 @@ block content
                                 .panel-heading
                                     h4 Essentials scanned out
                                 #panelBodyScanOut.panel-body
+
                                     //h4 Product #{lastUserInventoryOut[0].description}
                                     each key in lastUserInventoryOut
-                                            h4 !{key.description}
+                                        h4 !{key.id}
                         .col-lg-8.col-md-8.col-sm-8
                             .panel.panel-default
                                 .panel-body
@@ -72,7 +74,7 @@ block content
                                             h4#itemAddedDescOut Product: #{descriptionOut}
                                             br
                                             script.
-                                                setTimeout(scanOutReload, 6000);
+                                                setTimeout(scanOutReload, 4000);
 
                                             br
                                             br
@@ -147,10 +149,11 @@ block content
                                 .panel-heading
                                     h4 Essentials scanned out
                                 #panelBodyScanOut.panel-body
+
                                     //h4 Product #{lastUserInventoryOut[0].description}
-                                    h4
-                                        each key in lastUserInventoryOut
-                                            h4 !{key.description}
+                                    //h4
+                                    each key in lastUserInventoryOut
+                                        h4 !{key.id}
                         .col-lg-8.col-md-8.col-sm-8
                             .panel.panel-default
                                 .panel-body
@@ -168,7 +171,7 @@ block content
                                             h4#itemAddedDescOut #{descriptionOut}
                                             br
                                             script.
-                                                setTimeout(scanOutReload, 6000);
+                                                setTimeout(scanOutReload, 4000);
 
                                             br
                                             br

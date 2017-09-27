@@ -19,7 +19,7 @@ var inventory = require('../data_models/inventory');
 var in_events = require('../data_models/in_events.js');
 
 
-var OutEvent = require('../data_models/out_events');
+//var OutEvent = require('../data_models/out_events');
 var out_events = require('../data_models/out_events');
 
 var user = require('../data_models/user.js')
@@ -145,7 +145,7 @@ router.get('/', function(req, res, next){
 
 //get barcode/ean
 //get userId
-//if products.getProductByEan(ean,done) -- error  means the barcode isn't in the product table/the product does not exist at all)
+//if products.getProductByEan(ean,done) -- error  -->  the barcode isn't in the product table/the product does not exist at all)
     //go to tesco api function
     //if the barcode isn't in tesco api
         //render to checkBarcode view
@@ -492,7 +492,7 @@ router.post('/insertProduct', function (req,res,next) {
     //render to scannedOutProduct with message 1
 
 
-//scan out logic 2
+//scan out logic v1.1
 //if barcode is on user inventory and have description
     //get stock level and products details from user inventory
     //ask about stock level to confirm
@@ -522,82 +522,236 @@ router.post('/insertProduct', function (req,res,next) {
 //Work in progress
 //WIP
 //WIP
+
+//get userId
+//get barcode/ean
+//get wasted = req.body.wastedProductOut;
+//if products.getProductByEan(ean,done) -- error  -->  the barcode isn't in the product table/the product does not exist at all
+    //the user is trying to scan out a product outside the db
+    	//send a message and do something
+
+//else products.getProductByEan(ean,done) -- success means the barcode is in the product table
+    //using var productId = data.id
+    //use inventory.getInventoryByUserProduct(UserId, productId,done) to check if there is an inventory entry "user-product"
+    //if inventory.getInventoryByUserProduct(UserId, productId,done) --error means a new inventory entry "user-product" needs to be created
+        //create new inventory entry
+        //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
+        //if inventory.createNew -- error
+            //do something
+        //else inventory.createNew -- success
+            //get inventory_id from successfully inventory added
+            //add new in_event
+            //in_events.add_event(inventory_id, user_id, old_stock, new_stock, timestamp, done)
+            //if add in_events.add_event -- error
+                //do something
+            //else add in_events.add_event -- success
+                // var userInventory = ** get description of last 5 products added ***
+                // render to insertProduct view (sending description of last products added)
+
+    //else if inventory.getInventoryByUserProduct(UserId, productId,done) -- success
+        //get inventory_id
+        //var old_stock_level = get stock_level
+        //var new_stock_level =  old_stock_level-1
+        //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
+        //if inventory.updateInventoryListingStock -- error
+            //do something
+        //else inventory.updateInventoryListingStock -- success
+        	//out_events.add_event(inventory_id, user_id, old_stock, new_stock, wasted, timestamp, done)
+            //if add out_events.add_event -- error
+                //do something
+            //else out out_events.add_event -- success
+                // var userInventory = ** get description of last 5 products added ***
+                // render to scanOut view (sending description of last products scanned out)
+
+
+
+
 //**********************************************************************************************************************
 
-router.post('/scanOutProduct',function (req,res,next) {
-    console.log('user id scanout****:'+ req.user.id);
+router.post('/scanOutProduct', function (req,res, next) {
+    //console.log('user id scanout****:'+ req.user.id);
 
-    //var userId=req.user.id;
-    var userId = 1;
     sleep.msleep(4000); //this is for show the barcode scanned
     console.log(req.body);
+    var userId = 1;
+    var username = 'test'; //req.username
     var wasted = req.body.wastedProductOut;
-    var codeProduct = req.body.codeProductOut; //barcode from client side
-    var eanCodeProducts = Product.getProductByEan(codeProduct);
-    var descriptionOut='not found';
-    if (eanCodeProducts.status == 'success'){
-        var descriptionOut = eanCodeProducts.data.description;
+    var ean = req.body.codeProductOut; //barcode from client side
 
-    }
+    products.getProductByEan(ean, function(err, data){
 
-    var userInventoryOut = updateInventoryOut(userId,codeProduct,wasted);
-    var lastUserInventoryOut = getOutInventoryUser(userId);
-    console.log('**inventory out***'+lastUserInventoryOut[0].description);
+        if(err){ //the barcode isn't in the product table/the product does not exist at all
+            //the user is trying to scan out a product outside the db
+            console.log(err);
 
-    if (userInventoryOut.status == 'success'){ //if barcode is on user inventory
+            tescoData.get_tesco_data(ean,function (data, err) { //go to tesco api function
+                if (data.status == 'fail'){
 
-        //res.render('scannedOutProduct',{messageScanOut:0, eanProduct:codeProduct});
-        res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:descriptionOut, lastUserInventoryOut:lastUserInventoryOut, user: req.user});
-    }else{//barcode isn't on user inventory
-
-        res.render('scannedOutProduct',{messageScanOut:1,descriptionOut:userInventoryOut.msg, lastUserInventoryOut:lastUserInventoryOut, user: req.user});
-
-    }
+                    //the barcode isn't in tesco api
+                    //render to checkBarcode view
+                    console.log('the barcode is not in tesco api');
+                    console.log(err);
+                    //do something
+                    res.send(err);
 
 
-    console.log('scanning out code:'+ codeProduct);
+                }
+
+                else {
+                    //if the barcode is in tesco api
+                    //get data from tesco api to create new product
+                    /*
+                    metadata = {'tin size': '400g', "ingredients": ['tomatoes', 'water', 'salt']}; //change from data of tesco api
+                    products.createNew(ean,data.brand_name,data.description,1,1, data.quantity, data.quanitiy_unit, metadata, function(err, data){
+                        if(err){
+                            console.log(err);
+                            res.send("there was an error getting data from tesco api, see the console");
+                        }
+                        else {
+
+                            var productId = data.insertId;
+                            var stock_level = 1;
+                            //create new inventory entry
+                            //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
+                            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,1,1, function(err, data){
+                                if(err){
+                                    //do something
+                                    console.log(err);
+                                    res.send("there was an error see the console");
+                                }
+                                else {
+                                    //get inventoryId from successfully inventory added
+                                    var inventoryId = data.insertId;
+                                    var old_stock = 0;
+                                    var new_stock = old_stock + 1;
+                                    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+                                    //add new in_event
+                                    //exports.add_event = function (inventory_id, user_id, old_stock, new_stock, timestamp, done) {
+                                    in_events.add_event(inventoryId,userId,old_stock,new_stock,mysqlTimestamp, function(err, data){
+                                        if(err){
+                                            //do something
+                                            console.log(err);
+                                            res.send("there was an error see the console");
+                                        }
+                                        else {
+                                            //add in_events.add_event -- success
+                                            //after in_events add inmediatly out_vents.add_event
+                                            var inEventsId = data.insertId;
+                                            in_events.get_most_recent_for_user(userId,5, function(err, data){
+
+                                                if(err){
+                                                    console.log(err);
+                                                    res.send("there was an error see the console");
+                                                }
+                                                else {
+
+                                                    console.log(data)
+                                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: username }); //req.user
+
+                                                }
+                                            });
+
+                                        }
+                                    });
+
+
+
+                                }
+                            });
+
+
+                        }
+                    });*/
+
+                }
+
+            });
+
+        }
+        else {
+            //the barcode is in the product table
+            console.log('the barcode is in the product table');
+            var productId = data[0].id;
+            //use inventory.getInventoryByUserProduct(UserId, productId,done) to check if there is an inventory entry "user-product"
+            inventory.getInventoryByUserProduct(userId,productId, function(err, data){
+
+                if(err){
+                    // a new inventory entry "user-product" needs to be created
+                    //create new inventory entry
+                    console.log(err);
+                    res.send("a new inventory entry 'user-product' needs to be created");
+                    //console.log("a new inventory entry 'user-product' needs to be created");
+                    //res.render('scannedOutProduct',{messageScanOut:1,descriptionOut:userInventoryOut.msg, lastUserInventoryOut:lastUserInventoryOut, user: req.user});
+
+                }
+                else {
+                    // there is an inventory entry "user-product" available
+                    console.log('there is an inventory entry user-product available');
+                    // get inventoryId from inventory entry available to update stock and then out_add_event
+                    var inventoryId = data[0].id;
+                    var old_stock_level = data[0].stock_level; //check negative inventory
+                    var new_stock_level = old_stock_level - 1;
+                    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                    //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
+                    inventory.updateInventoryListingStock(inventoryId,new_stock_level, function(err, data){
+                        if(err){
+                            //do something
+                            console.log(err);
+                            res.send("error to update inventory, see the console");
+                        }
+                        else {
+                            //update inventory success
+                            out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err, data){
+                                if(err){
+                                    //do something
+                                    console.log(err);
+                                    res.send("error in out_event, see the console");
+                                }
+                                else {
+                                    //add out_events.add_event -- success
+                                    // var userInventory = ** get description of last 5 products added ***
+                                    var outEventsId = data.insertId;
+                                    out_events.get_most_recent_for_user(userId,5, function(err, data){
+
+                                        if(err){
+                                            console.log(err);
+                                            res.send("there was an error see the console");
+                                        }
+                                        else {
+                                            //render view to inserted products
+                                            console.log(data);
+                                            //res.send(data);
+                                            //res.render('insertProduct',{messageItem : 3, description: outEventsId, userInventory: data, user: username /*req.user*/});
+                                            res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:outEventsId, lastUserInventoryOut:data, user: username});
+
+
+
+                                        }
+                                    });
+                                }
+                            });
+
+                        }
+                    });
+
+                }
+            });
+
+
+        }
+
+
+
+    });
+
 
 });
 
 
 
-//********************************************* OUT OF INVENTORY *******************************************************
-function updateInventoryOut(userId,eanCode,wasted){ //add item-using scan In
-    console.log('user Id:'+ userId);
-    console.log('ean:'+eanCode);
-    console.log('wasted:'+wasted);
 
-
-    var inventoryList = Inventory.getInventoryListing(userId,eanCode); // get inventory listing
-    console.log('***inventory listing:***'+ inventoryList.status);
-
-    if (inventoryList.status=='success') // there is an inventory listing known
-    {
-        var inventoryId =  inventoryList.data.inventory_id;    //get inventory id
-        var getStockLevel = inventoryList.data.stock_level;    //get actual stock level
-        var newStockLevel = getStockLevel - 1;                 //decrease actual stock level
-        var updateInventoryListing = Inventory.updateInventoryListingStock(inventoryId,newStockLevel); //update inventory listing
-        var outOfInventory = OutEvent.add_event(inventoryId,getStockLevel,newStockLevel,wasted); //add Out to inventory
-        console.log('**Out of Inventory**'+outOfInventory.status);
-
-        if (updateInventoryListing.status == 'success' && outOfInventory.status == 'success')
-        {
-            return ({"status": "success"});
-
-        }
-        else
-        {
-            return ({"status": "fail", "msg":outOfInventory.error_message});
-
-        }
-
-    }
-    else
-    {
-        return ({"status": "fail", "msg":inventoryList.error_message});
-
-    }
-}
 //**********************************************************************************************************************
 
 
@@ -628,6 +782,28 @@ router.post('/scanInAgain', function (req,res,next) {
     });
 
 });
+
+
+router.post('/scanOutAgain', function(req,res,next){
+    //var userId =  req.body.userId;
+    var userId = 1;
+    console.log('ready to scan out again');
+    //GET LAST 5 ITEMS AND SEND BACK TO ****** VIEW
+
+    out_events.get_most_recent_for_user(userId,5,function (err, data) {
+       if(err){
+           console.log(err);
+           res.send("there was an error see the console");
+       }
+       else{
+           //render view to inserted products
+           console.log(data);
+           res.send({messageItem:5, userInventoryOut:data});
+       }
+    });
+
+});
+
 
 
 
@@ -674,17 +850,6 @@ router.post('/getInventoryDataOut',function (req,res,next) {
 
 });
 
-
-
-router.post('/scanOutAgain', function(req,res,next){
-    //var userId =  req.body.userId;
-    var userId = 1;
-    console.log('ready to scan out again');
-    //GET LAST 5 ITEMS AND SEND BACK TO ****** VIEW
-    var userInventoryOut = getOutInventoryUser(userId);
-    res.send({messageItem:5, userInventoryOut:userInventoryOut});
-
-});
 
 
 
