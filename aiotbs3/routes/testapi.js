@@ -6,6 +6,7 @@ var moment = require('moment');
 var in_events = require('../data_models/in_events.js');
 var inventory = require('../data_models/inventory.js');
 var inventory_usage_events = require('../data_models/inventory_usage_events.js');
+var inventory_product = require('../data_models/inventory_product.js');
 var out_events = require('../data_models/out_events.js');
 var products = require('../data_models/products.js');
 var user = require('../data_models/user.js');
@@ -263,6 +264,29 @@ router.get('/update_inventory_listing_stock', function(req, res, next) {
 });
 
 
+
+
+
+router.get('/getInventoryData',function (req, res, next) {
+    inventory_product.getProductDescriptionbyUser(1,function(err,data){
+        if(err){
+            console.log(err);
+            res.send("there was an error");
+
+        }
+        else{
+            //dataDetail = {value:'test'};
+            console.log('inventory details')
+            res.send(data);
+        }
+    });
+});
+
+
+
+
+
+
 //**********************************************************************************************************************
 
 
@@ -283,6 +307,76 @@ router.get('/add_out_event', function(req, res, next) {
       res.send(data);
     }
   });
+});
+
+
+router.get('/getInventoryDataOut',function (req,res,next) {
+
+    //var userId = req.body.userId;
+    var userId = 1;
+    var dataArray = [];
+    //var data = {description: "xxx", lastAdded: "07/07/27", usedUp: "16/08/17"};
+    out_events.get_most_recent_for_user(userId,5000, function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            //console.log(data);
+            for (i in data){
+              var obj= data[i];
+              var outId = data[i].id;
+              var inventoryId = data[i].inventory_id;
+
+              inventory.getInventoryById(inventoryId, function(err, dataInv){
+                  if(err){
+                      console.log(err);
+                      res.send("there was an error see the console");
+                  }
+                  else {
+                      //console.log(dataInv);
+                      //res.send(data);
+                      for (j in dataInv){
+                        var productId = dataInv[j].product_id;
+
+                        products.getProductById(productId, function(err, dataProduct){
+
+                            if(err){
+                                console.log(err);
+                                res.send("there was an error see the console");
+                            }
+                            else {
+                                for (x in dataProduct){
+                                  var pdrDescription = dataProduct[x].description;
+
+                                  item = {};
+                                  item ["description"] = pdrDescription;
+                                  item ["productId"] = productId;
+                                  item ["inventoryId"] = inventoryId;
+                                  item ["outId"] = outId;
+
+                                  dataArray.push(item);
+
+
+                                }
+
+                                console.log(dataArray);
+                            }
+                        });
+
+
+                      }
+                  }
+              });
+
+            }
+            res.send(data);
+        }
+    });
+
+
+
 });
 
 /*router.get('/get_most_recent_for_user_OUT', function(req, res, next) {
@@ -362,7 +456,7 @@ router.get('/get_most_recent_for_user_IN', function(req, res, next) {
 
 router.get('/get_most_recent_for_inventory_IN',function (req,res, next) {
     console.log("testing database");
-    in_events.get_most_recent_for_inventory(3,5,function(err, data){
+    in_events.get_most_recent_for_inventory(22,5,function(err, data){
 
 
         if(err){

@@ -15,6 +15,8 @@ var products = require('../data_models/products');
 
 var Inventory = require('../data_models/inventory');
 var inventory = require('../data_models/inventory');
+var inventory_product = require('../data_models/inventory_product.js');
+
 
 var in_events = require('../data_models/in_events.js');
 
@@ -811,29 +813,21 @@ router.post('/getInventoryData',function (req,res,next) {
     console.log(req.body);
     //var userId=req.body.userId;
     var userId = 1;
-    //var data = Inventory.getProductsForUser(userId);//this method doesn't exist.
 
-    inventory.getInventoryForUser(userId, function(err, data){
-
+    inventory_product.getProductDescriptionbyUser(userId,function(err,data){
         if(err){
             console.log(err);
-            res.send("there was an error see the console");
+            res.send("there was an error");
+
         }
-        else {
-
-            //console.log(data);
-            //es.send(data);
-
-            // HERE I NEED TO USER Inventory.getProductFromInventoryId method
-            // get inventory id
-            //with inventory id get ean
-            //with ean get product details
-            //add to data
+        else{
+            console.log('INVENTORY + DESCRIPTION');
+            //THERE IS A PROBLEM WITH ARRAY OF OBJECTS AND DATA ATTRIBUTE TO SEND THEM BACK TO DATATABLES
             console.log(data);
-            console.log('request from dataTable ajax');
             res.json(data);
         }
     });
+
 
 });
 
@@ -843,10 +837,20 @@ router.post('/getInventoryDataOut',function (req,res,next) {
     //var userId = req.body.userId;
     var userId = 1;
     //var data = {description: "xxx", lastAdded: "07/07/27", usedUp: "16/08/17"};
+    out_events.get_most_recent_for_user(userId,5000, function(err, data){
 
-    var data = OutEvent.get_most_recent_for_user(userId,5);
-    console.log(data);
-    res.json(data);
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log('GET INVENTORY OUT AJAX CALL');
+            console.log(data);
+            res.send(data);
+        }
+    });
+
+
 
 });
 
