@@ -811,19 +811,17 @@ router.post('/scanOutAgain', function(req,res,next){
 
 router.post('/getInventoryData',function (req,res,next) {
     console.log(req.body);
-    //var userId=req.body.userId;
-    var userId = 1;
+    var userId=req.body.userId;
+    //var userId = 1;
 
-    inventory_product.getProductDescriptionbyUser(userId,function(err,data){
+    inventory_product.getInStock(userId,function(err,data){
         if(err){
             console.log(err);
             res.send("there was an error");
 
         }
         else{
-            console.log('INVENTORY + DESCRIPTION');
-            //THERE IS A PROBLEM WITH ARRAY OF OBJECTS AND DATA ATTRIBUTE TO SEND THEM BACK TO DATATABLES
-            console.log(data);
+            var data= {"data":data};
             res.json(data);
         }
     });
@@ -834,19 +832,17 @@ router.post('/getInventoryData',function (req,res,next) {
 
 router.post('/getInventoryDataOut',function (req,res,next) {
 
-    //var userId = req.body.userId;
-    var userId = 1;
-    //var data = {description: "xxx", lastAdded: "07/07/27", usedUp: "16/08/17"};
-    out_events.get_most_recent_for_user(userId,5000, function(err, data){
-
+    var userId = req.body.userId;
+    //var userId = 1;
+    inventory_product.getOutStock(userId,function(err,data){
         if(err){
             console.log(err);
-            res.send("there was an error see the console");
+            res.send("there was an error");
+
         }
-        else {
-            console.log('GET INVENTORY OUT AJAX CALL');
-            console.log(data);
-            res.send(data);
+        else{
+            var data= {"data":data};
+            res.json(data);
         }
     });
 

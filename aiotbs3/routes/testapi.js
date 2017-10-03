@@ -268,15 +268,15 @@ router.get('/update_inventory_listing_stock', function(req, res, next) {
 
 
 router.get('/getInventoryData',function (req, res, next) {
-    inventory_product.getProductDescriptionbyUser(1,function(err,data){
+    inventory_product.getInStock(2,function(err,data){
         if(err){
             console.log(err);
             res.send("there was an error");
 
         }
         else{
-            //dataDetail = {value:'test'};
-            console.log('inventory details')
+
+            console.log('**inventory length***'+ data.length);
             res.send(data);
         }
     });
@@ -379,6 +379,28 @@ router.get('/getInventoryDataOut',function (req,res,next) {
 
 });
 
+
+
+
+router.get('/getOutStock', function(req, res, next) {
+    console.log("testing database");
+
+    inventory_product.getOutStock(1,function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
+
+
+
 /*router.get('/get_most_recent_for_user_OUT', function(req, res, next) {
   console.log("testing database");
 
@@ -451,6 +473,22 @@ router.get('/get_most_recent_for_user_IN', function(req, res, next) {
   });
 });
 
+router.get('/get_most_recent_for_user_IN_Description', function(req, res, next) {
+    console.log("testing database");
+
+    in_events.get_most_recent_for_user_Description(1,5, function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
 
 
 

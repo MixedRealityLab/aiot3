@@ -10,7 +10,7 @@ $(document).ready(function() {
         "ajax": {
             url: '/getInventoryData',
             type: 'POST',
-            data: {userId: getUserId}
+            data: {userId: 1}//getUserId}
 
         },
         "columns":[
@@ -30,9 +30,12 @@ $(document).ready(function() {
     $('#products_data tbody').on('click', 'button', function () {
         var data = table.row( $(this).parents('tr') ).data();
         $('#myModal').modal('show');
-        document.getElementById("descriptionModal").innerHTML = "Product Description:"+data.description;
-        document.getElementById("statusData").innerHTML ="";
-        //console.log('inventory id:'+ data.inventory_id);
+        document.getElementById("descriptionModal").innerHTML = "Product Description: "+ data.description;
+        document.getElementById("eanCode").innerHTML = "ean Code: "+ data.ean;
+        document.getElementById("brand").innerHTML = "Brand: "+ data.brand_name;
+        document.getElementById("quantity").innerHTML ="Quantity: "+ data.quantity + data.quantity_units;
+        document.getElementById("metadata").innerHTML ="Full Data: "+ data.metadata;
+
 
 
         $('#myModal').on('click', function (event) {
@@ -140,13 +143,13 @@ $(document).ready(function() {
         "ajax": {
             url: '/getInventoryDataOut',
             type: 'POST',
-            data: {userId: getUserId}
+            data: {userId: 1}//getUserId}
 
         },
         "columns":[
             {data: "description"},
-            {data: "timestamp"},
-            {data: "timestamp"},
+            {data: "last_added"},
+            {data: "used_up"},
             {data: null,
                 defaultContent: "<button type='buttonEspecial'>icon</button>"}
 
