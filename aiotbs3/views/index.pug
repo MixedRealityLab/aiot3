@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    - var user = 'test';
+    //- var user = 'test';
 
     if (!user)
         p
@@ -17,8 +17,8 @@ block content
             a(href='/login') Log In
 
     else
-        //h3 Hello #{user.username}
-
+        //h3  #{user[0].username}
+        input#HideUserId(type='hidden', value=user[0].id)
         nav.navbar.navbar-default
             .container-fluid
                 .navbar-header
@@ -28,7 +28,7 @@ block content
                     li
                         a(href='#')
                             span.glyphicon.glyphicon-user
-                            |  #{user.username}
+                            |  #{user[0].username}
                     li
                         a(href='/logout')
                             span.glyphicon.glyphicon-log-in

@@ -1,7 +1,9 @@
 
 
 $(document).ready(function() {
-    var getUserId=$("#HideUserId").val();
+    var getUserId = $("#HideUserId").val();
+
+    //var getUserId= document.getElementById("HideUserId").value;
     console.log(getUserId);
 
     var table = $('#products_data').DataTable( {
@@ -10,7 +12,7 @@ $(document).ready(function() {
         "ajax": {
             url: '/getInventoryData',
             type: 'POST',
-            data: {userId: 1}//getUserId}
+            data: {userId: getUserId}
 
         },
         "columns":[
@@ -143,7 +145,7 @@ $(document).ready(function() {
         "ajax": {
             url: '/getInventoryDataOut',
             type: 'POST',
-            data: {userId: 1}//getUserId}
+            data: {userId: getUserId}
 
         },
         "columns":[

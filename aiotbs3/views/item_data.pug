@@ -33,15 +33,17 @@
                                         option(value='g') G.
                                         option(value='lt') Lt.
                                         option(value='ml') Ml.
+                                        option(value='mg') Mg.
+                                        option(value='oth') Other.
                         .form-group
                             label(for='Items') Items
                             br
-                            input#chkBox2.showHideCheck(type='checkbox', name='chkBox2')
+                            input#multipack.showHideCheck(type='checkbox', name='multipack')
                             | Multipack
                             br
                             .hiddenInput
                                 |
-                                input#multipackAmount(type='number', name='multipackAmount', placeholder='Qty. Items')
+                                input#multipackAmount(type='number', name='multipackAmount', placeholder='Qty. Items',value=0)
 
                             script.
                                 $(".hiddenInput").hide();

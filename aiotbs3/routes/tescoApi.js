@@ -50,7 +50,13 @@ exports.get_tesco_data = function (ean,callback) {
                     description: returnData["products"][0]["description"],
                     quantity: returnData["products"][0]["qtyContents"].quantity,
                     quanitiy_unit: returnData["products"][0]["qtyContents"].quantityUom,
-                    netContent: returnData["products"][0]["qtyContents"].netContents
+                    netContent: returnData["products"][0]["qtyContents"].netContents,
+                    metadata:{'productCharacteristics':returnData["products"][0]["productCharacteristics"],
+                    'ingredients':returnData["products"][0]["ingredients"],
+                    'storage':returnData["products"][0]["storage"],
+                    'mkt':returnData["products"][0]["marketingText"],
+                    'pkgDimensions':returnData["products"][0]["pkgDimensions"]
+                    }
 
 
 

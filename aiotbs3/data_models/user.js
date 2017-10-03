@@ -49,38 +49,3 @@ exports.login = function (username, password, done) {
 }
 
 
-/*
-var records = [
-    { id: 1, username: 'test', password: 'test', displayName: 'Test', emails: [ { value: 'Test@example.com' } ] }
-    , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', emails: [ { value: 'jill@example.com' } ] }
-];
-*/
-
-/*
-exports.findById = function(id, done) { // this isnt needed as the ID is returned at login
-    process.nextTick(function() {
-        var idx = id - 1;
-        if (records[idx]) {
-            done(null, records[idx]);
-        } else {
-            done(new Error('User ' + id + ' does not exist'));
-        }
-    });
-}
-*/
-
-
-/*
-exports.findByUsername = function(username, done) { // there isnt any data to find - if you want more user data then update the schema
-    process.nextTick(function() {
-        for (var i = 0, len = records.length; i < len; i++) {
-            var record = records[i];
-            if (record.username === username) {
-                return done(null, record);
-            }
-        }
-        return done(null, null);
-    });
-}
-*/ 
-

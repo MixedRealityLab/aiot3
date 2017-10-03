@@ -18,11 +18,11 @@ block content
                         span.glyphicon.glyphicon-log-in
                         |  Logout
 
-    //input#HideUserId(type='hidden', value=user.id)
-    input#HideUserId(type='hidden', value=1)
+    input#HideUserId(type='hidden', value=user.id)
+    //input#HideUserId(type='hidden', value=1)
     if messageScanOut == 0
         .container
-            //h1 Home Essentials
+            //h1 Home Essentials #{user.id}
             p
             p
                 //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.

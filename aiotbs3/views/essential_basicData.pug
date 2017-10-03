@@ -30,6 +30,8 @@
 										option(value='g') G.
 										option(value='lt') Lt.
 										option(value='ml') Ml.
+										option(value='mg') Mg.
+										option(value='oth') Other.
 						.form-group
 							label(for='Items') Items
 							.input-group
@@ -37,7 +39,7 @@
 									label
 										input(type='checkbox')
 										|  Multipack
-										input#productItems.form-control(type='text', name='productItems', placeholder='Items', required='')
+										input#productItems.form-control(type='text', name='productItems', placeholder='Items',required='')
 								
 						button.btn.btn-default.btn-hover(type='submit') Save
 						//button(onclick='addItem()') Save

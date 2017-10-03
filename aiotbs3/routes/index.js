@@ -9,135 +9,54 @@ var session = require('express-session');
 var moment = require('moment');
 
 
-
-var Product = require('../data_models/products');
 var products = require('../data_models/products');
-
-var Inventory = require('../data_models/inventory');
 var inventory = require('../data_models/inventory');
 var inventory_product = require('../data_models/inventory_product.js');
-
-
 var in_events = require('../data_models/in_events.js');
-
-
-//var OutEvent = require('../data_models/out_events');
 var out_events = require('../data_models/out_events');
 
 var user = require('../data_models/user.js')
 var tescoData = require("./tescoApi.js");
 
 
-//**********************************************************************************************************************
-
-/*
+//***************************************** connecting passport ***********************************************************************
 router.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false
-}));*/
+}));
 
-//router.use(passport.initialize());
-//router.use(passport.session());
+router.use(passport.initialize());
+router.use(passport.session());
 
 // Configure the local strategy for use by Passport.
-//passport.use(new Strategy(
-//    function(username, password, cb) {
-//        User.findByUsername(username, function(err, user) {
-//            if (err) { return cb(err); }
-//            if (!user) { return cb(null, false); }
-//            if (user.password != password) { return cb(null, false); }
-//            return cb(null, user);
-//        });
-//    }));
-
-
-
-// =========================================================================
-// LOCAL LOGIN =============================================================
-// =========================================================================
-// we are using named strategies since we have one for login and one for signup
-// by default, if there was no name, it would just be called 'local'
-/*
-passport.use(new Strategy(
-    function(username, password, cb) {
-        user.login(username,password, function(err, user) {
-
-            if (err) {
-                return cb(err);
-            }
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        user.login(username, password, function (err, user) {
+            if (err) { return done(err); }
             if (!user) {
-                return cb(null, false);
+                return done(null, false, { message: 'Incorrect username.' });
             }
-            if (user[0].password != password) {
-                return cb(null, false);
-            }
-            return cb(null, user);
+
+            return done(null, user);
         });
-    }));
-*/
+    }
+));
 
 
-//passport.serializeUser(function(user, cb) {
-//    cb(null, user.id);
-//});
-
-//passport.deserializeUser(function(id, cb) {
-//    User.findById(id, function (err, user) {
-//        if (err) { return cb(err); }
-//        cb(null, user);
-//    });
-//});
-
-// =========================================================================
-// passport session setup ==================================================
-// =========================================================================
-// required for persistent login sessions
-// passport needs ability to serialize and unserialize users out of session
-
-// used to serialize the user for the session
-/*
 passport.serializeUser(function(user, done) {
-    console.log(user.id);
-    done(null, user.id);
-});*/
+    done(null, user);
+});
 
-// used to deserialize the user
-/*
-passport.deserializeUser(function(id, done) {
-    //connection.query("SELECT * FROM users WHERE id = ? ",[id], function(err, rows){
-    //    done(err, rows[0]);
-    //});
-    user.login(id,password,function(err, data){
-        if(err){
-            console.log(err);
-            res.send("there was an error see the console");
-        }
-        else {
-            console.log(data);
-            //res.send(data[0]);
-            done(err, rows[0]);
-        }
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
 
-    });
-
-});*/
-
-
-
-//**********************************************************************************************************************
-
-
-/* GET home page. */
+//************************************************ GET home page *************************************************************
 router.get('/', function(req, res, next){
-//router.get('/' ,function(req, res, next) {
     console.log(req.user);
     console.log(req.isAuthenticated());
-    res.render('index',{ user: req.user });
-    //res.render('index', { username: req.body.username, session: req.session.success, errors: req.session.errors, messageItem : 0 });
-    //res.render('index', { username: req.body.username, session: 'success', errors: req.session.errors, messageItem : 0 });
-
-    //req.session.errors = null;
+    res.render('index',{ user: req.user});
 });
 
 
@@ -218,8 +137,9 @@ router.get('/', function(req, res, next){
 
 
 router.post('/checkBarcode', function (req,res, next) {
-    var userId = 1;
-    var username = 'test'; //req.username
+    var userId=req.user[0].id;
+    var username = req.user[0].username;
+    //console.log("sdsdsds"+req.user[0].id);
     var ean = req.body.codeProduct; //barcode from client side
     sleep.msleep(5000);
 
@@ -234,7 +154,7 @@ router.post('/checkBarcode', function (req,res, next) {
                     //render to checkBarcode view
                     console.log('the barcode is not in tesco api');
                     console.log(err);
-                    res.render('checkBarcode',{messageItem : 2, eancode: ean, userInventory: 'xx', user: username /*req.user*/});
+                    res.render('checkBarcode',{messageItem : 2, eancode: ean, userInventory: 'xx', user: req.user[0]});
 
                     //ask user for basic data loading item_data view
                     //go to add product process --> add inventory --> add in_event
@@ -245,8 +165,8 @@ router.post('/checkBarcode', function (req,res, next) {
                 else {
                     //if the barcode is in tesco api
                     //get data from tesco api to create new product
-                    metadata = {'tin size': '400g', "ingredients": ['tomatoes', 'water', 'salt']}; //change from data of tesco api
-                    products.createNew(ean,data.brand_name,data.description,1,1, data.quantity, data.quanitiy_unit, metadata, function(err, data){
+                    //metadata = {'tin size': '400g', "ingredients": ['tomatoes', 'water', 'salt']}; //change from data of tesco api
+                    products.createNew(ean,data.brand_name,data.description,1,1, data.quantity, data.quanitiy_unit, data.metadata, function(err, data){
                         if(err){
                             console.log(err);
                             res.send("there was an error getting data from tesco api, see the console");
@@ -295,7 +215,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                                 else {
 
                                                     console.log(data)
-                                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: username /*req.user*/});
+                                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: req.user[0]});
 
                                                 }
                                             });
@@ -331,7 +251,64 @@ router.post('/checkBarcode', function (req,res, next) {
                     // a new inventory entry "user-product" needs to be created
                     //create new inventory entry
                     console.log(err);
-                    res.send("a new inventory entry 'user-product' needs to be created");
+                    console.log("a new inventory entry 'user-product' needs to be created");
+                    //res.send("a new inventory entry 'user-product' needs to be created");
+                    var stock_level = 1;
+                    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+                    inventory.createNew(userId,productId,stock_level,mysqlTimestamp,1,1, function(err, data){
+                        if(err){
+                            //do something
+                            console.log(err);
+                            res.send("there was an error see the console");
+                        }
+                        else {
+                            //get inventoryId from successfully inventory added
+                            var inventoryId = data.insertId;
+                            var old_stock = 0;
+                            var new_stock = old_stock + 1;
+                            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+                            //add new in_event
+                            //exports.add_event = function (inventory_id, user_id, old_stock, new_stock, timestamp, done) {
+                            in_events.add_event(inventoryId,userId,old_stock,new_stock,mysqlTimestamp, function(err, data){
+                                if(err){
+                                    //do something
+                                    console.log(err);
+                                    res.send("there was an error see the console");
+                                }
+                                else {
+                                    //add in_events.add_event -- success
+                                    //var userInventory = ** get description of last 5 products added ***
+                                    //render to insertProduct view (sending description of last products added)
+                                    //var description = tescoApiData.data.description.substring(0,25);
+                                    //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
+                                    var inEventsId = data.insertId;
+                                    in_events.get_most_recent_for_user(userId,5, function(err, data){
+
+                                        if(err){
+                                            console.log(err);
+                                            res.send("there was an error see the console");
+                                        }
+                                        else {
+
+                                            console.log(data)
+                                            res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: req.user[0]});
+
+                                        }
+                                    });
+
+                                }
+                            });
+
+
+
+                        }
+                    });
+
+
+
+
                 }
                 else {
                     // there is an inventory entry "user-product" available
@@ -369,7 +346,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                             //render view to inserted products
                                             console.log(data);
                                             //res.send(data);
-                                            res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: username /*req.user*/});
+                                            res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: req.user[0]});
 
                                         }
                                     });
@@ -395,9 +372,8 @@ router.post('/checkBarcode', function (req,res, next) {
 
 //insert in the inventory and render to item added view (this request came from add new item view)
 router.post('/insertProduct', function (req,res,next) {
-    //var userId = req.user.id;
-    var userId = 1;
-    var username = 'test';
+    var userId=req.user[0].id;
+    var username = req.user[0].username;
 
     //Post item details to global product database
     var ean = req.body.productEan; // scanned barcode
@@ -457,7 +433,7 @@ router.post('/insertProduct', function (req,res,next) {
                                 else {
 
                                     console.log(data)
-                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: username /*req.user*/});
+                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: req.user[0]});
 
                                 }
                             });
@@ -522,8 +498,6 @@ router.post('/insertProduct', function (req,res,next) {
 
 //**************************************** scan out logic v2.0 *********************************************************
 //Work in progress
-//WIP
-//WIP
 
 //get userId
 //get barcode/ean
@@ -571,12 +545,10 @@ router.post('/insertProduct', function (req,res,next) {
 //**********************************************************************************************************************
 
 router.post('/scanOutProduct', function (req,res, next) {
-    //console.log('user id scanout****:'+ req.user.id);
-
     sleep.msleep(4000); //this is for show the barcode scanned
     console.log(req.body);
-    var userId = 1;
-    var username = 'test'; //req.username
+    var userId=req.user[0].id;
+    var username = req.user[0].username;
     var wasted = req.body.wastedProductOut;
     var ean = req.body.codeProductOut; //barcode from client side
 
@@ -726,7 +698,7 @@ router.post('/scanOutProduct', function (req,res, next) {
                                             console.log(data);
                                             //res.send(data);
                                             //res.render('insertProduct',{messageItem : 3, description: outEventsId, userInventory: data, user: username /*req.user*/});
-                                            res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:outEventsId, lastUserInventoryOut:data, user: username});
+                                            res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:outEventsId, lastUserInventoryOut:data, user: req.user[0]});
 
 
 
@@ -751,9 +723,6 @@ router.post('/scanOutProduct', function (req,res, next) {
 
 });
 
-
-
-
 //**********************************************************************************************************************
 
 
@@ -762,9 +731,7 @@ router.post('/scanOutProduct', function (req,res, next) {
 
 
 router.post('/scanInAgain', function (req,res,next) {
-
-    //var userId = req.body.userId;
-    var userId = 1;
+    var userId=req.user[0].id;
     //this is just for render again scan in process
     console.log('ready to scan in again');
     console.log('get data from user and send it back')
@@ -787,8 +754,7 @@ router.post('/scanInAgain', function (req,res,next) {
 
 
 router.post('/scanOutAgain', function(req,res,next){
-    //var userId =  req.body.userId;
-    var userId = 1;
+    var userId=req.user[0].id;
     console.log('ready to scan out again');
     //GET LAST 5 ITEMS AND SEND BACK TO ****** VIEW
 
@@ -810,14 +776,13 @@ router.post('/scanOutAgain', function(req,res,next){
 
 
 router.post('/getInventoryData',function (req,res,next) {
-    console.log(req.body);
     var userId=req.body.userId;
-    //var userId = 1;
-
     inventory_product.getInStock(userId,function(err,data){
         if(err){
             console.log(err);
-            res.send("there was an error");
+            //res.send("there was an error");
+            var data= {"data":{}};
+            res.json(data);
 
         }
         else{
@@ -831,13 +796,13 @@ router.post('/getInventoryData',function (req,res,next) {
 
 
 router.post('/getInventoryDataOut',function (req,res,next) {
-
     var userId = req.body.userId;
-    //var userId = 1;
     inventory_product.getOutStock(userId,function(err,data){
         if(err){
             console.log(err);
-            res.send("there was an error");
+            //res.send("there was an error");
+            var data= {"data":{}};
+            res.json(data);
 
         }
         else{
@@ -846,10 +811,7 @@ router.post('/getInventoryDataOut',function (req,res,next) {
         }
     });
 
-
-
 });
-
 
 
 
@@ -907,35 +869,42 @@ router.post('/bin',function(req,res,next){
 //************************************ functions *************************************************
 
 
-function getOutInventoryUser(user){
-    var lastInventoryOut = OutEvent.get_most_recent_for_user(user,5);
-    lastInventoryOut = lastInventoryOut["data"];
-    console.log('***last inventory out:'+ lastInventoryOut);
-    return lastInventoryOut;
-}
-
-
 //function to connect and consume TESCO API moved to tescoApi.js
 
 
 //*************************************** LOGIN AND REGISTER  **********************************************************
-//this needs to move to user.js
-/*
+//this needs to be moved to user.js
+
 
 router.get('/login',
     function(req, res){
         res.render('login');
     });
 
+//router.post('/login',
+//    passport.authenticate('local', { failureRedirect: '/login' }),
+//    function(req, res) {
+//        console.log('Im here login');
+//        console.log(req.body);
+//        res.redirect('/');
+//        //res.render('index',{ user: req.user });
+//
+//    });
+
+
+
+
+
 router.post('/login',
     passport.authenticate('local', { failureRedirect: '/login' }),
     function(req, res) {
+        // If this function gets called, authentication was successful.
+        // `req.user` contains the authenticated user.
         console.log('Im here login');
-        console.log(req.body);
         res.redirect('/');
-        //res.render('index',{ user: req.user });
-
     });
+
+
 
 router.get('/logout',
     function(req, res){
@@ -967,19 +936,22 @@ router.post('/register', function(req, res, next) {
     req.check('username', 'Username is required').notEmpty();
     req.check('password', 'Password is invalid').isLength({min: 4}).equals(req.body.password2);
 
-    var registerEvent = User.createNew(username, password);
+    user.createNew(username, password, function(err, data){
+        if(err){
+            console.log(err);
+            //res.send("there was an error see the console");
+            res.render('register',{err:err});
+        }
+        else {
+            console.log(data);
+            //res.send(data)
+            res.render('/login',{username:username, password:password});
+        }
+    });
 
-    if (registerEvent.status == 'success') {
-        //req.session.success = true;
-        res.redirect('/login');
-    }
-    else {
-        console.log('fail:' + registerEvent.error);
-        res.redirect('/register');
-    }
 
 });
-*/
+
 
 //*********************************************************************************************************************
 
