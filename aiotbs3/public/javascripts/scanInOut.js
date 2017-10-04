@@ -156,6 +156,14 @@ function scanOutReload() {
 
 }
 
+
+function scanOutWrong(){
+    console.log('scan out wrong');
+    $.ajax({
+        url: '/scanOutWrong',
+        type: 'POST'});
+}
+
 function scanIn(){
     //*********************** just scan when  'SCAN IN TAB' is active *********************
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
@@ -169,7 +177,7 @@ function scanIn(){
 
             if ($('.nav-tabs .active').text() == 'SCAN IN') {
                 console.log('scanning in');
-                document.getElementById("bCodeMessage").innerHTML = 'Scanning code ' + data.string + ' <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
+                document.getElementById("bCodeMessageIn").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';
                 document.getElementById("codeProduct").value = data.string;
                 document.getElementById("codeForm").submit();
 
@@ -241,7 +249,7 @@ function scanAgain() {
 
                 if ($('.nav-tabs .active').text() == 'SCAN IN' && response.messageItem == 4) {
                     console.log('scanning in');
-                    document.getElementById("bCodeMessage").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';;
+                    document.getElementById("bCodeMessageIn").innerHTML = 'Scanning code ' + data.string + '  <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i>';;
                     document.getElementById("codeProduct").value = data.string;
                     document.getElementById("codeForm").submit();
 

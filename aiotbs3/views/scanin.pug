@@ -1,19 +1,23 @@
 append head
   script(src='/bower_components/scanner-detection/jquery.scannerdetection.js')
+  script(src='/bower_components/bootbox/bootbox.min.js')
+
+  link(rel='stylesheet', href='/stylesheets/modalStyle.css')
 
 
 
-.container#readyScan
+
+.container
+    br
     br
     br
     script.
         scanIn();
-
-    br
     .row
         .col-lg-11.col-md-11.col-sm-11
             .text-center
                 .row.spacer
+                    br
                     br
                     br
                     br
@@ -26,12 +30,5 @@ append head
                     form#codeForm(method='POST', action='/checkBarcode')
                         .form-group
                             input#codeProduct.form-control(name='codeProduct', type='hidden',required='')
-                        //.form-group
-                            //input#codeProduct.form-control(name='codeProduct', type='hidden',required='')
-                            //input#codeProduct
                         br
-                        //input.btn.btn-primary.center-block(type='submit',value='send')
-                    h3#bCodeMessage
-                    br
-                    br
-                    br
+                    h3#bCodeMessageIn

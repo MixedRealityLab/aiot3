@@ -555,9 +555,12 @@ router.post('/scanOutProduct', function (req,res, next) {
 
         if(err){ //the barcode isn't in the product table/the product does not exist at all
             //the user is trying to scan out a product outside the db
-            console.log(err);
 
-            tescoData.get_tesco_data(ean,function (data, err) { //go to tesco api function
+            console.log(err);
+            //res.send('sorry, this product needs to be scanned-in first');
+            res.render('scannedOutProduct',{messageScanOut:2,message:'This product needs to be scanned-in first',descriptionOut:'Not available', lastUserInventoryOut:'Not Available', user: req.user[0]});
+
+            /*tescoData.get_tesco_data(ean,function (data, err) { //go to tesco api function
                 if (data.status == 'fail'){
 
                     //the barcode isn't in tesco api
@@ -573,7 +576,7 @@ router.post('/scanOutProduct', function (req,res, next) {
                 else {
                     //if the barcode is in tesco api
                     //get data from tesco api to create new product
-                    /*
+
                     metadata = {'tin size': '400g', "ingredients": ['tomatoes', 'water', 'salt']}; //change from data of tesco api
                     products.createNew(ean,data.brand_name,data.description,1,1, data.quantity, data.quanitiy_unit, metadata, function(err, data){
                         if(err){
@@ -636,13 +639,12 @@ router.post('/scanOutProduct', function (req,res, next) {
 
 
                         }
-                    });*/
+                    });
+                    */
 
                 }
 
-            });
 
-        }
         else {
             //the barcode is in the product table
             console.log('the barcode is in the product table');
@@ -654,9 +656,9 @@ router.post('/scanOutProduct', function (req,res, next) {
                     // a new inventory entry "user-product" needs to be created
                     //create new inventory entry
                     console.log(err);
-                    res.send("a new inventory entry 'user-product' needs to be created");
-                    //console.log("a new inventory entry 'user-product' needs to be created");
-                    //res.render('scannedOutProduct',{messageScanOut:1,descriptionOut:userInventoryOut.msg, lastUserInventoryOut:lastUserInventoryOut, user: req.user});
+                    //res.send("sorry, this product needs to be scanned-in first");
+                    console.log("a new inventory entry 'user-product' needs to be created");
+                    res.render('scannedOutProduct',{messageScanOut:2,message:'This product needs to be scanned-in first',descriptionOut:'Not available', lastUserInventoryOut:'Not Available', user: req.user[0]});
 
                 }
                 else {
@@ -667,49 +669,57 @@ router.post('/scanOutProduct', function (req,res, next) {
                     var old_stock_level = data[0].stock_level; //check negative inventory
                     var new_stock_level = old_stock_level - 1;
                     var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-                    //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
-                    inventory.updateInventoryListingStock(inventoryId,new_stock_level, function(err, data){
-                        if(err){
-                            //do something
-                            console.log(err);
-                            res.send("error to update inventory, see the console");
-                        }
-                        else {
-                            //update inventory success
-                            out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err, data){
-                                if(err){
-                                    //do something
-                                    console.log(err);
-                                    res.send("error in out_event, see the console");
-                                }
-                                else {
-                                    //add out_events.add_event -- success
-                                    // var userInventory = ** get description of last 5 products added ***
-                                    var outEventsId = data.insertId;
-                                    out_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
-                                        if(err){
-                                            console.log(err);
-                                            res.send("there was an error see the console");
-                                        }
-                                        else {
-                                            //render view to inserted products
-                                            console.log(data);
-                                            //res.send(data);
-                                            //res.render('insertProduct',{messageItem : 3, description: outEventsId, userInventory: data, user: username /*req.user*/});
-                                            res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:data[0].description, lastUserInventoryOut:data, user: req.user[0]});
+                    if (old_stock_level>0){
+                        //allow scan out just when stock level is > 0
+                        //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
+                        inventory.updateInventoryListingStock(inventoryId,new_stock_level, function(err, data){
+                            if(err){
+                                //do something
+                                console.log(err);
+                                res.send("error to update inventory, see the console");
+                            }
+                            else {
+                                //update inventory success
+                                out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err, data){
+                                    if(err){
+                                        //do something
+                                        console.log(err);
+                                        res.send("error in out_event, see the console");
+                                    }
+                                    else {
+                                        //add out_events.add_event -- success
+                                        // var userInventory = ** get description of last 5 products added ***
+                                        var outEventsId = data.insertId;
+                                        out_events.get_most_recent_for_user_Description(userId,5, function(err, data){
+
+                                            if(err){
+                                                console.log(err);
+                                                res.send("there was an error see the console");
+                                            }
+                                            else {
+                                                //render view to inserted products
+                                                console.log(data);
+                                                //res.send(data);
+                                                //res.render('insertProduct',{messageItem : 3, description: outEventsId, userInventory: data, user: username /*req.user*/});
+                                                res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:data[0].description, lastUserInventoryOut:data, user: req.user[0]});
 
 
 
-                                        }
-                                    });
-                                }
-                            });
+                                            }
+                                        });
+                                    }
+                                });
 
-                        }
-                    });
+                            }
+                        });
+                    }
+                    else{
+                        //the stock level of that product is 0, then redirect to scan out wrong
+                        res.render('scannedOutProduct',{messageScanOut:2,message:'This product does not have stock level, please scanned-in first',descriptionOut:'Not available', lastUserInventoryOut:'Not Available', user: req.user[0]});
 
-                }
+                    }
+                 }
             });
 
 
@@ -727,6 +737,7 @@ router.post('/scanOutProduct', function (req,res, next) {
 
 
 //***************************************** ajax request **************************************************************
+
 
 
 router.post('/scanInAgain', function (req,res,next) {
@@ -772,7 +783,10 @@ router.post('/scanOutAgain', function(req,res,next){
 });
 
 
-
+router.post('/scanOutWrong',function(req,res,next){
+    console.log('scan out wrong');
+    res.redirect('/');
+});
 
 router.post('/getInventoryData',function (req,res,next) {
     var userId=req.body.userId;
@@ -819,39 +833,38 @@ router.post('/editProduct',function(req,res,next){
     var inventoryId = req.body.inventoryId;
 
     var newStockLevel = req.body.newStockLevel;
-    var inventoryUpdate =  Inventory.updateInventoryListingStock(inventoryId,newStockLevel);
 
-    if (inventoryUpdate.status == 'success'){
-        //send to front data
-        console.log('inventoryID:'+inventoryId);
-        console.log(newStockLevel);
-        var data = {data:newStockLevel, msg:inventoryUpdate.status}
-        res.json(data);
-    }
-    else{
-        console.log('inventoryID:'+inventoryId);
-        var data = {data:newStockLevel, msg:inventoryUpdate.error_message}
-        res.json(data);
+    //var inventoryUpdate =  Inventory.updateInventoryListingStock(inventoryId,newStockLevel);
 
-    }
+    //if (inventoryUpdate.status == 'success'){
+    //    console.log('inventoryID:'+inventoryId);
+    //    console.log(newStockLevel);
+    //    var data = {data:newStockLevel, msg:inventoryUpdate.status}
+    //    res.json(data);
+    //}
+    //else{
+    //    console.log('inventoryID:'+inventoryId);
+    //    var data = {data:newStockLevel, msg:inventoryUpdate.error_message}
+    //    res.json(data);
+
+    //}
 
 });
 
 
 router.post('/stopTrack',function(req,res,next){
     var inventoryId = req.body.inventoryId;
-    var stopTrack = Inventory.stopTracking(inventoryId);
 
-    if (stopTrack.status =='success'){
-        var data = {msg:stopTrack.status}
-        res.json(data);
-
-    }
-    else{
-        var data = {msg:stopTrack.error_message}
-        res.json(data);
-
-    }
+    //var stopTrack = Inventory.stopTracking(inventoryId);
+    //if (stopTrack.status =='success'){
+    //    var data = {msg:stopTrack.status}
+    //    res.json(data);
+    //}
+    //else{
+    //    var data = {msg:stopTrack.error_message}
+    //    res.json(data);
+    //
+    //}
 
 });
 

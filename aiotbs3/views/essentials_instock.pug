@@ -28,10 +28,6 @@ block content
         .tab-content
             #EssentialsInStock.tab-pane.fade.in.active
                 .table-responsive
-                    //table#products_data.table-striped.table-bordered.nowrap(cellspacing='0', width='100%')
-                    //table#products_data.table.table-striped.table-bordered
-                    //table#products_data.table-striped.table-bordered.nowrap(cellspacing='0', width='100%')
-                    //table#products_data.table.table-striped.table-bordered(style={'text-align': 'center'})
                     table#products_data.table.table-hover(style={'text-align': 'center'})
 
                         thead
@@ -98,8 +94,8 @@ block content
 
                     .modal-footer
                         //button.btn.btn-default(type='button', data-dismiss='modal') Close
+                        button#btnStop.btn.btn-danger.pull-left(type='button') Stop Track
                         button#btnEdit.btn.btn-default(type='button') Edit
-                        button#btnStop.btn.btn-default(type='button') Stop Track
                         button#btnBin.btn.btn-default(type='button') Bin
 
         #ModalOut.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
@@ -135,11 +131,9 @@ block content
                 .modal-content
                     .modal-header
                         //button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-                        h4#myModalLabel1.modal-title What do you want to scan?
+                        h4#myModalLabel1.modal-title Please select an option
                     .modal-body
                         center
-                            h5 Please select an option.
-                            br
                             br
                             .row
                                 button#btnScanIn.btn.btn-primary(type='button', data-dismiss='modal') SCAN IN
