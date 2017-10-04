@@ -401,7 +401,7 @@ router.get('/getOutStock', function(req, res, next) {
 
 
 
-/*router.get('/get_most_recent_for_user_OUT', function(req, res, next) {
+router.get('/get_most_recent_for_user_OUT', function(req, res, next) {
   console.log("testing database");
 
   out_events.get_most_recent_for_user(1,5, function(err, data){
@@ -416,6 +416,25 @@ router.get('/getOutStock', function(req, res, next) {
       res.send(data);
     }  
   });
+});
+
+
+
+router.get('/get_most_recent_for_user_OUT_description', function(req, res, next) {
+    console.log("testing database");
+
+    out_events.get_most_recent_for_user_Description(1,5, function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+        }
+    });
 });
 
 
@@ -435,7 +454,7 @@ router.get('/get_most_recent_for_inventory_OUT', function(req, res, next) {
         }
     });
 });
-*/
+
 //**********************************************************************************************************************
 
 

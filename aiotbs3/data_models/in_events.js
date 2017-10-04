@@ -44,6 +44,29 @@ exports.get_most_recent_for_user = function (user_id, number_of_products, done) 
 
 
 
+exports.get_most_recent_for_user_Description = function (user_id, number_of_products, done) {
+
+    var params = [user_id, number_of_products];
+    db.get().query("select * FROM in_event,inventory,product where in_event.user_id = ? and in_event.inventory_id=inventory.id and inventory.product_id=product.id order by in_event.timestamp desc limit ?", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("User id has no events"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+}
+
+
+
 exports.get_most_recent_for_inventory = function (inventory_id, number_of_products, done) {
 
     var params = [inventory_id, number_of_products];

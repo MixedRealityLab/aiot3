@@ -52,7 +52,7 @@ block content
                                 #panelBodyScanIn.panel-body
                                     //h4 #{description}
                                     each key in userInventory
-                                        h4 !{key.id}
+                                        h4 !{key.description.substr(0,20)}
 
                         .col-lg-8.col-md-8.col-sm-8
                             .panel.panel-default

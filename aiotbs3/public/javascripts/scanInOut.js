@@ -92,7 +92,7 @@ function scanOutReload() {
             document.getElementById('itemAddedDescOut').innerHTML = '';
             var x = ''; // when db will be connected check if this is showing data ok.
             for (i in response.userInventoryOut) {
-                x += response.userInventoryOut[i].id + "<h4>";
+                x += response.userInventoryOut[i].description.substring(0,20) + "<h4>";
             }
 
             console.log(x);
@@ -221,8 +221,8 @@ function scanAgain() {
             document.getElementById('itemAddedDesc').innerHTML = '';
             var x= ''; // when db will be connected check if this is showing data ok.
             for (i in response.userInventory) {
-                //.x += response.userInventory[i].description + "<h4>";
-                x += response.userInventory[i].id + "<h4>";
+                x += response.userInventory[i].description.substring(0,20) + "<h4>";
+                //x += response.userInventory[i].id + "<h4>";
             }
             console.log(x);
             document.getElementById("panelBodyScanIn").innerHTML = "<h4>"+x;//response[0].description;

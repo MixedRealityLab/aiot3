@@ -206,7 +206,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                             //var description = tescoApiData.data.description.substring(0,25);
                                             //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
                                             var inEventsId = data.insertId;
-                                            in_events.get_most_recent_for_user(userId,5, function(err, data){
+                                            in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
                                                 if(err){
                                                     console.log(err);
@@ -215,7 +215,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                                 else {
 
                                                     console.log(data)
-                                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: req.user[0]});
+                                                    res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                                 }
                                             });
@@ -252,7 +252,6 @@ router.post('/checkBarcode', function (req,res, next) {
                     //create new inventory entry
                     console.log(err);
                     console.log("a new inventory entry 'user-product' needs to be created");
-                    //res.send("a new inventory entry 'user-product' needs to be created");
                     var stock_level = 1;
                     var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
@@ -284,7 +283,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                     //var description = tescoApiData.data.description.substring(0,25);
                                     //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
                                     var inEventsId = data.insertId;
-                                    in_events.get_most_recent_for_user(userId,5, function(err, data){
+                                    in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
                                         if(err){
                                             console.log(err);
@@ -293,7 +292,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                         else {
 
                                             console.log(data)
-                                            res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: req.user[0]});
+                                            res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                         }
                                     });
@@ -336,7 +335,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                     //add in_events.add_event -- success
                                     // var userInventory = ** get description of last 5 products added ***
                                     var inEventsId = data.insertId;
-                                    in_events.get_most_recent_for_user(userId,5, function(err, data){
+                                    in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
                                         if(err){
                                             console.log(err);
@@ -346,7 +345,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                             //render view to inserted products
                                             console.log(data);
                                             //res.send(data);
-                                            res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: req.user[0]});
+                                            res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                         }
                                     });
@@ -424,7 +423,7 @@ router.post('/insertProduct', function (req,res,next) {
                             //var description = tescoApiData.data.description.substring(0,25);
                             //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
                             var inEventsId = data.insertId;
-                            in_events.get_most_recent_for_user(userId,5, function(err, data){
+                            in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
                                 if(err){
                                     console.log(err);
@@ -433,7 +432,7 @@ router.post('/insertProduct', function (req,res,next) {
                                 else {
 
                                     console.log(data)
-                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: req.user[0]});
+                                    res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                 }
                             });
@@ -687,7 +686,7 @@ router.post('/scanOutProduct', function (req,res, next) {
                                     //add out_events.add_event -- success
                                     // var userInventory = ** get description of last 5 products added ***
                                     var outEventsId = data.insertId;
-                                    out_events.get_most_recent_for_user(userId,5, function(err, data){
+                                    out_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
                                         if(err){
                                             console.log(err);
@@ -698,7 +697,7 @@ router.post('/scanOutProduct', function (req,res, next) {
                                             console.log(data);
                                             //res.send(data);
                                             //res.render('insertProduct',{messageItem : 3, description: outEventsId, userInventory: data, user: username /*req.user*/});
-                                            res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:outEventsId, lastUserInventoryOut:data, user: req.user[0]});
+                                            res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:data[0].description, lastUserInventoryOut:data, user: req.user[0]});
 
 
 
@@ -736,7 +735,7 @@ router.post('/scanInAgain', function (req,res,next) {
     console.log('ready to scan in again');
     console.log('get data from user and send it back')
     //GET LAST 5 ITEMS AND SEND BACK TO INSERTPRODUCT VIEW
-    in_events.get_most_recent_for_user(userId,5, function(err, data){
+    in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
         if(err){
             console.log(err);
@@ -758,7 +757,7 @@ router.post('/scanOutAgain', function(req,res,next){
     console.log('ready to scan out again');
     //GET LAST 5 ITEMS AND SEND BACK TO ****** VIEW
 
-    out_events.get_most_recent_for_user(userId,5,function (err, data) {
+    out_events.get_most_recent_for_user_Description(userId,5,function (err, data) {
        if(err){
            console.log(err);
            res.send("there was an error see the console");
@@ -945,7 +944,7 @@ router.post('/register', function(req, res, next) {
         else {
             console.log(data);
             //res.send(data)
-            res.render('/login',{username:username, password:password});
+            res.render('login',{username:username,password:password});
         }
     });
 

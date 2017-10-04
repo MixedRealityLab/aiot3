@@ -56,7 +56,7 @@ block content
 
                                     //h4 Product #{lastUserInventoryOut[0].description}
                                     each key in lastUserInventoryOut
-                                        h4 !{key.id}
+                                        h4 !{key.description.substr(0,20)}
                         .col-lg-8.col-md-8.col-sm-8
                             .panel.panel-default
                                 .panel-body
