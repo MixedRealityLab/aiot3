@@ -1,5 +1,4 @@
 
-
 $(document).ready(function() {
     var getUserId = $("#HideUserId").val();
 
@@ -132,6 +131,8 @@ $(document).ready(function() {
 
 
     //******************* ESSENTIALS SCAN OUT DATATABLE ****************************************************************
+
+
     var tableOut = $('#products_dataOut').DataTable( {
         //"ajax": '/javascripts/data.txt',
         //"lengthChange": false,
