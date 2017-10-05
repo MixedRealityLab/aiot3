@@ -10,9 +10,13 @@ block content
                 a.navbar-brand(href='#')
             ul.nav.navbar-nav.navbar-right
                 li
+                    a(href='/')
+                        span.glyphicon.glyphicon-home
+                        | #{''} Home
+                li
                     a(href='#')
                         span.glyphicon.glyphicon-user
-                        | #{user.username}
+                        |  #{user.username}
                 li
                     a(href='/logout')
                         span.glyphicon.glyphicon-log-in
@@ -256,7 +260,7 @@ block content
                                     h4 #{message}
                                     br
                                     script.
-                                        setTimeout(scanOutWrong, 1000);
+                                        setTimeout(scanOutWrong, 4000);
 
                                     br
                                     br

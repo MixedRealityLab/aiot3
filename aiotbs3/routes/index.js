@@ -785,7 +785,9 @@ router.post('/scanOutAgain', function(req,res,next){
 
 router.post('/scanOutWrong',function(req,res,next){
     console.log('scan out wrong');
-    res.redirect('/');
+    var data={success:true};
+    res.json(data);
+    //return res.redirect('/');
 });
 
 router.post('/getInventoryData',function (req,res,next) {

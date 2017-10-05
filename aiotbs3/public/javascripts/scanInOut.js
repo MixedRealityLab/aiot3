@@ -161,7 +161,13 @@ function scanOutWrong(){
     console.log('scan out wrong');
     $.ajax({
         url: '/scanOutWrong',
-        type: 'POST'});
+        type: 'POST',
+        //data: {userId: getUserId},
+        success: function (response) {
+            location.href = '/';
+        }
+
+    });
 }
 
 function scanIn(){
