@@ -376,7 +376,7 @@ router.post('/insertProduct', function (req,res,next) {
 
     //Post item details to global product database
     var ean = req.body.productEan; // scanned barcode
-    var description = req.body.productDescription;
+    var description = (req.body.productDescription).substring(0,49);
     var brand_name = req.body.productBrand;
     var multipack = req.body.multipack;
     var multipack_amount = req.body.multipackAmount;

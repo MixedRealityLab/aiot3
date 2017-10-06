@@ -38,19 +38,33 @@ exports.get_tesco_data = function (ean,callback) {
 
             //console.log(body);
             var returnData = JSON.parse(body);
-            //console.log('just return***'+returnData);
-            //console.log('just data:***'+returnData["products"][0]["description"]);
-            //console.log('quantity:***'+returnData["products"][0]["qtyContents"].quantity);
+
+            var quantity= 0;
+            var quanitiy_unit=0;
+            var netContent=0;
+
+            if ("qtyContents" in returnData["products"][0]) {
+                quantity= returnData["products"][0]["qtyContents"].quantity;
+                quanitiy_unit=returnData["products"][0]["qtyContents"].quantityUom;
+                netContent=returnData["products"][0]["qtyContents"].netContents;
+
+            }
+
+            else{
+                quantity= 0;
+                quanitiy_unit=0;
+                netContent=0;
+            }
 
             var dataCollection = {
                     ean: eanSelected,
                     tpnb: returnData["products"][0]["tpnb"],
                     tpnc: returnData["products"][0]["tpnc"],
                     brand_name: returnData["products"][0]["brand"],
-                    description: returnData["products"][0]["description"],
-                    quantity: returnData["products"][0]["qtyContents"].quantity,
-                    quanitiy_unit: returnData["products"][0]["qtyContents"].quantityUom,
-                    netContent: returnData["products"][0]["qtyContents"].netContents,
+                    description: (returnData["products"][0]["description"]).substring(0,49),
+                    quantity: quantity,
+                    quanitiy_unit: quanitiy_unit,
+                    netContent: netContent,
                     //metadata:{'productCharacteristics':returnData["products"][0]["productCharacteristics"],
                     //'ingredients':returnData["products"][0]["ingredients"],
                     //'storage':returnData["products"][0]["storage"],
