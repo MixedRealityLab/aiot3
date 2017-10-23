@@ -19,7 +19,7 @@ $(document).ready(function() {
             {data: "stock_level"},//{data: "level"},
             {data: "predicted_need_date"},
             {data: null,
-                defaultContent: "<button type='buttonEspecial'>icon</button>"}
+                defaultContent: "<button type='buttonEspecial' class='btn btn-primary btn-sm'> <i class='glyphicon glyphicon-option-horizontal'></i> </button>"}
 
         ],
         "lengthChange": false,
@@ -32,10 +32,11 @@ $(document).ready(function() {
         var data = table.row( $(this).parents('tr') ).data();
         $('#myModal').modal('show');
         document.getElementById("descriptionModal").innerHTML = "Product Description: "+ data.description;
-        document.getElementById("eanCode").innerHTML = "ean Code: "+ data.ean;
+        document.getElementById("eanCode").innerHTML = "Barcode: "+ data.ean;
         document.getElementById("brand").innerHTML = "Brand: "+ data.brand_name;
         document.getElementById("quantity").innerHTML ="Quantity: "+ data.quantity + data.quantity_units;
-        document.getElementById("metadata").innerHTML ="Full Data: "+ data.metadata;
+        //document.getElementById("metadata").innerHTML ="Full Data: "+ data.metadata;
+
 
 
 
@@ -82,9 +83,29 @@ $(document).ready(function() {
 
             }
 
-            if (idButton == 'btnBin'){
-               $.ajax({
-                    url: '/bin',
+            if (idButton == 'btnUsedManual'){
+
+               // $('#myModalDate').modal('show');
+                /*$.ajax({
+                    url: '/outByUser',
+                    type: 'POST',
+                    data: {inventoryId: data.inventory_id},
+                    datatype: 'json',
+                    success: function (response) {
+                        console.log('success', response);
+                        document.getElementById("statusData").innerHTML = "not working";
+
+                    },
+                    error: function(xhr, status, error) {
+                        alert(xhr.responseText); // error occur
+                    }
+                });*/
+
+            }
+
+            if (idButton == 'btnWastedManual'){
+                $.ajax({
+                    url: '/outByUser',
                     type: 'POST',
                     data: {inventoryId: data.inventory_id},
                     datatype: 'json',
@@ -99,6 +120,7 @@ $(document).ready(function() {
                 });
 
             }
+
 
 
         });
@@ -154,7 +176,7 @@ $(document).ready(function() {
             {data: "last_added"},
             {data: "used_up"},
             {data: null,
-                defaultContent: "<button type='buttonEspecial'>icon</button>"}
+                defaultContent: "<button type='buttonEspecial' class='btn btn-primary btn-sm'> <i class='glyphicon glyphicon-option-horizontal'></i></button>"}
 
         ],
         "lengthChange": false,

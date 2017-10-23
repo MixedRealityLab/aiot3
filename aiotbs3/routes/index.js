@@ -166,7 +166,7 @@ router.post('/checkBarcode', function (req,res, next) {
                     //if the barcode is in tesco api
                     //get data from tesco api to create new product
                     //metadata = {'tin size': '400g', "ingredients": ['tomatoes', 'water', 'salt']}; //change from data of tesco api
-                    products.createNew(ean,data.brand_name,data.description,1,1, data.quantity, data.quanitiy_unit, data.metadata, function(err, data){
+                    products.createNew(ean,data.brand_name,data.description,0,1, data.quantity, data.quanitiy_unit, data.metadata, function(err, data){
                         if(err){
                             console.log(err);
                             res.send("there was an error getting data from tesco api, see the console");
@@ -870,7 +870,7 @@ router.post('/stopTrack',function(req,res,next){
 
 });
 
-router.post('/bin',function(req,res,next){
+router.post('/outByUser',function(req,res,next){
     var data = req.body;
     console.log(data);
     res.json(data);

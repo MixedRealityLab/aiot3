@@ -6,12 +6,16 @@ append head
     script(src='/bower_components/datatables.net-responsive-bs/js/responsive.bootstrap.js')
     script(src='/bower_components/bootbox/bootbox.min.js')
     script(src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js')
+    script(src='/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js')
+    script(src='/bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js')
 
 
     link(rel='stylesheet', href='/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')
     link(rel='stylesheet', href='/bower_components/datatables.net-responsive-bs/css/responsive.bootstrap.css')
     link(rel='stylesheet', href='/bower_components/datatables.net-responsive-dt/css/responsive.dataTables.min.css')
     link(rel='stylesheet', href='/stylesheets/specialButton.css')
+    link(rel='stylesheet', href='/stylesheets/centerModal.css')
+
 
 block content
     .container
@@ -63,7 +67,8 @@ block content
 
 
         // Modal
-        #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+        //#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+        #myModal.modal.fade
             .modal-dialog.modal-lg(role='document')
                 .modal-content
                     .modal-header(style={'background-color': '#b8b8b8'})
@@ -82,22 +87,49 @@ block content
                         br
                         h4#quantity
                         br
-                        h5#metadata
                         br
-                        br
-                        br
-                        br
-                        br
-                        br
-                        br
-                        br
-                        br
+                        h4.text-center History
+                        h6.text-center
+                            .col-sm-6
+                                table#tblGridIn.table.table-striped
+                                    thead#tblHeadIn
+                                        tr
+                                            th.text-center Added
+                                            //th.tablecell(style="width: 50%") Added
+                                    tbody
+                                        tr
+                                            td 05-10-2017, 16:24:40
+                                        tr
+                                            td 05-10-2017, 16:24:40
+                                        tr
+                                            td 05-10-2017, 16:24:40
+                        h6.text-center
+                            .col-sm-6
+                                table#tblGridOut.table.table-striped
+                                    thead#tblHeadOut
+                                        tr
+                                            th.text-center Used up
+                                    tbody
+                                        tr
+                                            td 05-10-2017, 16:24:40
+                                        tr
+                                            td 05-10-2017, 16:24:40
+                                        tr
+                                            td 05-10-2017, 16:24:40
+                    p
+                    p
+                    p
+                    p
+
 
                     .modal-footer
                         //button.btn.btn-default(type='button', data-dismiss='modal') Close
-                        button#btnStop.btn.btn-danger.pull-left(type='button') Stop Track
-                        button#btnEdit.btn.btn-default(type='button') Edit
-                        button#btnBin.btn.btn-default(type='button') Bin
+                        button#btnStop.btn.btn-danger.pull-left(type='button') Stop Tracking
+                        //button#btnEdit.btn.btn-default(type='button') Edit
+                        //button#btnUsedManual.btn.btn-primary(type='button') Used up
+                        button#btnUsedManual.btn.btn-primary(data-backdrop="static", data-keyboard="false", data-toggle="modal", href="#myModalDate") Used up
+                        button#btnWastedManual.btn.btn-primary(type='button') Wasted
+
 
         #ModalOut.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
             .modal-dialog.modal-lg(role='document')
@@ -144,6 +176,33 @@ block content
                                 button#btnScanOut.btn.btn-primary(type='button', data-dismiss='modal') SCAN OUT
                     .modal-footer
 
+        script.
+            $('#sandbox-container input').datepicker({
+                format: 'mm/dd/yyyy',
+                startDate: '-3d'
+            });
+
+
+        #myModalDate.modal.fade.Absolute-Center.is-Responsive
+            .modal-content
+                .modal-header
+                    button.close(type="button", data-dismiss="modal", aria-hidden="true") ×
+                    h4.modal-title Used Up Date
+                .container
+                .modal-body
+                    | When was this product used up?
+                    br
+                    br
+                    br
+                    .input-group.date(data-provide="datepicker")
+                        input.form-control(type="text")
+                        .input-group-addon
+                            span.glyphicon.glyphicon-th
+                    br
+                    br
+                    br
+                .modal-footer
+                    button#btnclose.btn.btn-primary(type="button", data-dismiss="modal") Save
 
 
             

@@ -1,0 +1,196 @@
+/*
+////////////////////////////////////////
+ Absolute Centering
+////////////////////////////////////////
+*/
+.Absolute-Center {
+    height: 50%; /* Set your own height: percents, ems, whatever! */
+    width: 50%; /* Set your own width: percents, ems, whatever! */
+    overflow: auto; /* Recommended in case content is larger than the container */
+    margin: auto; /* Center the item vertically & horizontally */
+    position: absolute; /* Break it out of the regular flow */
+    top: 0; left: 0; bottom: 0; right: 0; /* Set the bounds in which to center it, relative to its parent/container */
+}
+
+
+/* //////////////////////////////////////// */
+/* Make sure our center blocks stay in their container! */
+.Center-Container { position: relative; }
+
+
+/* //////////////////////////////////////// */
+/* Fixed floating element within viewport */
+.Absolute-Center.is-Fixed {
+    position: fixed;
+    z-index: 999;
+}
+
+
+/* //////////////////////////////////////// */
+/* Min/Max Width */
+.Absolute-Center.is-Responsive {
+    width: 60%;
+    height: 60%;
+    min-width: 200px;
+    max-width: 400px;
+    padding: 40px;
+}
+
+
+/* //////////////////////////////////////// */
+/* Align Right, still vertically centered */
+.Absolute-Center.is-Right {
+    left: auto;
+    right: 20px;
+    text-align: right;
+}
+
+
+/* //////////////////////////////////////// */
+/* Align Left, still vertically centered */
+.Absolute-Center.is-Left {
+    right: auto;
+    left: 20px;
+    text-align: left;
+}
+
+
+/* //////////////////////////////////////// */
+/* Responsive image, still absolutely centered! Apply the classes to the image itself. */
+.Absolute-Center.is-Image {
+    width: 50%;
+    height: auto;
+    padding: 0;
+}
+.Absolute-Center.is-Image img {
+    width: 100%;
+    height: auto;
+}
+
+
+/* //////////////////////////////////////// */
+/* Set content overflow if your content may go too long */
+.Absolute-Center.is-Overflow {
+    height: 250px;
+    max-height: 100%;
+    overflow: auto;
+}
+
+
+/* //////////////////////////////////////// */
+/* Variable content height with display: table;
+Breaks cross browser compatibility, but now has a Modernizr test available!
+
+Modernizr test adds ".absolutecentercontent" to <html> if the browser will center correctly with a variable height, and ".no-absolutecentercontent" if it will not be centered with a variable height so that you can add fallback styles in your CSS or use Javascript to manually center it. */
+.absolutecentercontent .Absolute-Center.is-Variable {
+    display: table;
+    height: auto;/* Only necessary because height was already declared */
+}
+
+
+/* //////////////////////////////////////// */
+/* Allow the user to resize */
+.Absolute-Center.is-Resizable {
+    min-width: 20%;
+    max-width: 90%;
+    min-height: 20%;
+    max-height: 80%;
+    resize: both;
+}
+
+.absolutecentercontent .Absolute-Center.is-Resizable {
+    /* necessary to override settings from .is-Variable, if used */
+    display: block !important;
+}
+
+
+/*
+////////////////////////////////////////
+ Other Techniques
+////////////////////////////////////////
+*/
+
+
+/* //////////////////////////////////////// */
+/* Negative Margin Technique */
+.Center-Block.is-Negative {
+    width: 300px;
+    height: 200px;
+    padding: 20px;
+    position: absolute;
+    top: 50%; left: 50%;
+    margin-left: -170px; /* (width + padding)/2 */
+    margin-top: -120px; /* (height + padding)/2 */
+}
+
+
+/* //////////////////////////////////////// */
+/* Display: Table Technique */
+.Center-Container.is-Table { display: table; }
+.is-Table .Table-Cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+.is-Table .Center-Block {
+    width: 50%;
+    margin: 0 auto;
+}
+
+
+/* //////////////////////////////////////// */
+/* Inline-Block Technique */
+.Center-Container.is-Inline {
+    text-align: center;
+    overflow: auto;
+}
+
+.Center-Container.is-Inline:after,
+.is-Inline .Center-Block {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Center-Container.is-Inline:after {
+    content: ' ';
+    height: 100%;
+    margin-left: -0.25em; /* to offset spacing. may vary with fonts */
+}
+
+.is-Inline .Center-Block {
+    text-align: left;
+    max-width: 80%; /* Prevents issues with long content causes the content block to be pushed to the top */
+    /* max-width: calc(100% - 0.25em) /* Only for IE9+ */
+}
+
+
+/* //////////////////////////////////////// */
+/* Transform Technique */
+.is-Translated {
+    width: 50%;
+    margin: auto;
+    position: absolute;
+    top: 50%; left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+
+/* //////////////////////////////////////// */
+/* Flexbox Technique */
+.Center-Container.is-Flexbox {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
