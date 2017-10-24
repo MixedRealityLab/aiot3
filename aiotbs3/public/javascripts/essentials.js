@@ -35,6 +35,8 @@ $(document).ready(function() {
         document.getElementById("eanCode").innerHTML = "Barcode: "+ data.ean;
         document.getElementById("brand").innerHTML = "Brand: "+ data.brand_name;
         document.getElementById("quantity").innerHTML ="Quantity: "+ data.quantity + data.quantity_units;
+        inventorySelected = data.inventory_id;
+        //console.log(data.inventory_id);
         //document.getElementById("metadata").innerHTML ="Full Data: "+ data.metadata;
 
 
@@ -126,6 +128,9 @@ $(document).ready(function() {
         });
         //console.log(data);
 
+
+
+
     } );
 
 
@@ -154,17 +159,8 @@ $(document).ready(function() {
 
     //******************* ESSENTIALS SCAN OUT DATATABLE ****************************************************************
 
-
+    console.log(inventorySelected);
     var tableOut = $('#products_dataOut').DataTable( {
-        //"ajax": '/javascripts/data.txt',
-        //"lengthChange": false,
-        //"length": 10,
-        //"columnDefs": [ {
-        //    "targets": -1,
-        //    "data": null,
-        //    "defaultContent": "<button id='buttonOut' type='buttonEspecial'>icon</button>" //<img src='/img/three.png' width='35%' height='25%' id='dagger' onclick='myFunction()'>"
-        //} ]
-
         "ajax": {
             url: '/getInventoryDataOut',
             type: 'POST',
@@ -185,11 +181,59 @@ $(document).ready(function() {
     } );
 
     $('#products_dataOut tbody').on('click', 'button', function () {
-        //var data = table.row( $(this).parents('tr') ).data(); //get data from scanned out inventory
         $('#ModalOut').modal('show');
         document.getElementById("ModalOutLabel").innerHTML = "Details :";//+data.description;
     } );
     //******************************************************************************************************************
+
+
+
+//********************************** in/out history tables *************************************************************
+    //var data = table.row( $(this).parents('tr') ).data();
+
+
+    var tableInEvent = $('#in_events_table').DataTable( {
+        "bFilter": false,
+        "bInfo": false,
+        "ajax": {
+            url: '/getInEvents',
+            type: 'POST',
+            data: {inventoryId: 22}
+
+        },
+        "columns":[
+            {data: "timestamp"}
+
+        ],
+        "lengthChange": false,
+        "length": 10,
+        "paging": false,
+        "scrollY": '150px'
+    } );
+
+
+
+    var tableOutEvent = $('#out_events_table').DataTable( {
+        "bFilter": false,
+        "bInfo": false,
+        "ajax": {
+            url: '/getInventoryData',
+            type: 'POST',
+            data: {userId: 1}
+
+        },
+        "columns":[
+            {data: "description"}
+
+        ],
+        "lengthChange": false,
+        "length": 10,
+        "paging": false,
+        "scrollY": '150px'
+    } );
+// *********************************************************************************************************************
+
+
 
 } );
 
@@ -215,9 +259,10 @@ $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
                 }
             });
 
-            //window.location.reload();
-
 
         }
     });
 });
+
+
+

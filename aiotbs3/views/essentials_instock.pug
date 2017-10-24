@@ -87,9 +87,33 @@ block content
                         br
                         h4#quantity
                         br
-                        br
                         h4.text-center History
-                        h6.text-center
+                        .col-sm-6
+
+                            //table#in_events_table.display.compact(style={'text-align': 'center', 'cellspacing':'0', 'width':'100%'})
+                            table#in_events_table.table.table-hover(style={'text-align': 'center'})
+                                thead
+                                    tr(style={'font-size': '14px', 'font-weight': 'bold', 'text-align': 'center'})
+                                        td Added
+                                tbody
+                                    tr
+                                        td '.$row["timestap"].'
+
+                        .col-sm-6
+                            table#out_events_table.table.table-hover(style={'text-align': 'center'})
+                                thead
+                                    tr(style={
+                                        'font-size': '14px',
+                                        'font-weight': 'bold',
+                                        'text-align': 'center'
+                                    })
+                                        td Used Up
+                                td '.$row["timestap"].'
+                                |
+                                tr
+                                    td test
+
+                        //h6.text-center
                             .col-sm-6
                                 table#tblGridIn.table.table-striped
                                     thead#tblHeadIn
@@ -103,7 +127,7 @@ block content
                                             td 05-10-2017, 16:24:40
                                         tr
                                             td 05-10-2017, 16:24:40
-                        h6.text-center
+                        //h6.text-center
                             .col-sm-6
                                 table#tblGridOut.table.table-striped
                                     thead#tblHeadOut
@@ -120,6 +144,8 @@ block content
                     p
                     p
                     p
+                    p
+
 
 
                     .modal-footer

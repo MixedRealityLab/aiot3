@@ -513,7 +513,7 @@ router.get('/get_most_recent_for_user_IN_Description', function(req, res, next) 
 
 router.get('/get_most_recent_for_inventory_IN',function (req,res, next) {
     console.log("testing database");
-    in_events.get_most_recent_for_inventory(22,5,function(err, data){
+    in_events.get_most_recent_for_inventory(22,5000,function(err, data){
 
 
         if(err){

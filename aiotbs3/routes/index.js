@@ -141,7 +141,7 @@ router.post('/checkBarcode', function (req,res, next) {
     var username = req.user[0].username;
     //console.log("sdsdsds"+req.user[0].id);
     var ean = req.body.codeProduct; //barcode from client side
-    sleep.msleep(5000);
+    sleep.msleep(2000);
 
     products.getProductByEan(ean, function(err, data){
 
@@ -544,7 +544,7 @@ router.post('/insertProduct', function (req,res,next) {
 //**********************************************************************************************************************
 
 router.post('/scanOutProduct', function (req,res, next) {
-    sleep.msleep(4000); //this is for show the barcode scanned
+    sleep.msleep(2000); //this is for show the barcode scanned
     console.log(req.body);
     var userId=req.user[0].id;
     var username = req.user[0].username;
@@ -828,6 +828,26 @@ router.post('/getInventoryDataOut',function (req,res,next) {
 
 });
 
+
+router.post('/getInEvents',function (req,res,next) {
+    var inventoryId= req.body.inventoryId;
+    in_events.get_most_recent_for_inventory(inventoryId,5000,function(err, data){
+
+        if(err){
+            console.log(err);
+            var data= {"data":{}};
+            res.json(data);
+        }
+        else {
+
+            var data= {"data":data};
+            res.json(data);
+        }
+
+
+    });
+
+});
 
 
 router.post('/editProduct',function(req,res,next){
