@@ -840,8 +840,44 @@ router.post('/getInEvents',function (req,res,next) {
         }
         else {
 
-            var data= {"data":data};
+            //var data= {"data":data};
+            //res.json(data);
+            var data1=[];
+            console.log(data.length);
+            for (var i = 0; i < data.length; i++){
+                data1.push({"timestamp": moment(data[i].timestamp).format('YYYY-MM-DD, HH:mm:ss')});
+            }
+            var data= {"data":data1};
+            res.send(data);
+        }
+
+
+    });
+
+});
+
+
+router.post('/getOutEvents',function (req,res,next) {
+    var inventoryId= req.body.inventoryId;
+    out_events.get_most_recent_for_inventory(inventoryId,5000,function(err, data){
+
+        if(err){
+            console.log(err);
+            var data= {"data":{}};
             res.json(data);
+        }
+        else {
+
+            //var data= {"data":data};
+            //res.json(data);
+            var data1=[];
+            console.log(data.length);
+            for (var i = 0; i < data.length; i++){
+                data1.push({"timestamp": moment(data[i].timestamp).format('YYYY-MM-DD, HH:mm:ss')});
+            }
+            var data= {"data":data1};
+            res.send(data);
+
         }
 
 

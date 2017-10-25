@@ -35,17 +35,54 @@ $(document).ready(function() {
         document.getElementById("eanCode").innerHTML = "Barcode: "+ data.ean;
         document.getElementById("brand").innerHTML = "Brand: "+ data.brand_name;
         document.getElementById("quantity").innerHTML ="Quantity: "+ data.quantity + data.quantity_units;
-        inventorySelected = data.inventory_id;
-        //console.log(data.inventory_id);
         //document.getElementById("metadata").innerHTML ="Full Data: "+ data.metadata;
+        console.log(data.inventory_id);
 
+        //******************************************* in/out history tables *******************************************
+        var tableInEvent = $('#in_events_table').DataTable( {
+            "bFilter": false,
+            "bInfo": false,
+            "ajax": {
+                url: '/getInEvents',
+                type: 'POST',
+                data: {inventoryId: data.inventory_id}
 
+            },
+            "columns":[
+                {data: "timestamp"}
 
+            ],
+            "lengthChange": false,
+            "length": 10,
+            "paging": false,
+            "destroy":true,
+            "scrollY": '150px'
+        } );
+
+        var tableOutEvent = $('#out_events_table').DataTable( {
+            "bFilter": false,
+            "bInfo": false,
+            "ajax": {
+                url: '/getOutEvents',
+                type: 'POST',
+                data: {inventoryId: data.inventory_id}
+
+            },
+            "columns":[
+                {data: "timestamp"}
+
+            ],
+            "lengthChange": false,
+            "length": 10,
+            "paging": false,
+            "destroy":true,
+            "scrollY": '150px'
+        } );
+        //**************************************************************************************************
 
         $('#myModal').on('click', function (event) {
             var idButton = event.target.id;
 
-            console.log(idButton);
 
             if (idButton == 'btnEdit') {
 
@@ -87,7 +124,20 @@ $(document).ready(function() {
 
             if (idButton == 'btnUsedManual'){
 
-               // $('#myModalDate').modal('show');
+
+               $('#myModalDate').modal('show');
+
+                $('#myModalDate').on('click', function (event) {
+                    if (event.target.id == 'btncloseSO'){
+                        console.log(event.target.id);
+                        $('#myModal').modal('hide');
+
+                    }
+
+                });
+
+
+
                 /*$.ajax({
                     url: '/outByUser',
                     type: 'POST',
@@ -130,7 +180,6 @@ $(document).ready(function() {
 
 
 
-
     } );
 
 
@@ -159,7 +208,7 @@ $(document).ready(function() {
 
     //******************* ESSENTIALS SCAN OUT DATATABLE ****************************************************************
 
-    console.log(inventorySelected);
+    //console.log(inventorySelected);
     var tableOut = $('#products_dataOut').DataTable( {
         "ajax": {
             url: '/getInventoryDataOut',
@@ -189,48 +238,16 @@ $(document).ready(function() {
 
 
 //********************************** in/out history tables *************************************************************
-    //var data = table.row( $(this).parents('tr') ).data();
-
-
-    var tableInEvent = $('#in_events_table').DataTable( {
-        "bFilter": false,
-        "bInfo": false,
-        "ajax": {
-            url: '/getInEvents',
-            type: 'POST',
-            data: {inventoryId: 22}
-
-        },
-        "columns":[
-            {data: "timestamp"}
-
-        ],
-        "lengthChange": false,
-        "length": 10,
-        "paging": false,
-        "scrollY": '150px'
-    } );
+    //var dataSelected = table.row( $('#products_data').parents('tr') ).data();
+    //console.log(dataSelected.inventory_id);
 
 
 
-    var tableOutEvent = $('#out_events_table').DataTable( {
-        "bFilter": false,
-        "bInfo": false,
-        "ajax": {
-            url: '/getInventoryData',
-            type: 'POST',
-            data: {userId: 1}
 
-        },
-        "columns":[
-            {data: "description"}
 
-        ],
-        "lengthChange": false,
-        "length": 10,
-        "paging": false,
-        "scrollY": '150px'
-    } );
+
+
+
 // *********************************************************************************************************************
 
 

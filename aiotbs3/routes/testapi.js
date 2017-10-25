@@ -521,8 +521,12 @@ router.get('/get_most_recent_for_inventory_IN',function (req,res, next) {
             res.send("there was an error see the console");
         }
         else {
-
-            console.log(data);
+            var data1=[];
+            console.log(data.length);
+            for (var i = 0; i < data.length; i++){
+                data1.push({"timestamp": moment(data[i].timestamp).format('YYYY-MM-DD, HH:mm:ss')});
+            }
+            var data= {"data":data1};
             res.send(data);
         }
 

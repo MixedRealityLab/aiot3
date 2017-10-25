@@ -89,8 +89,6 @@ block content
                         br
                         h4.text-center History
                         .col-sm-6
-
-                            //table#in_events_table.display.compact(style={'text-align': 'center', 'cellspacing':'0', 'width':'100%'})
                             table#in_events_table.table.table-hover(style={'text-align': 'center'})
                                 thead
                                     tr(style={'font-size': '14px', 'font-weight': 'bold', 'text-align': 'center'})
@@ -113,47 +111,19 @@ block content
                                 tr
                                     td test
 
-                        //h6.text-center
-                            .col-sm-6
-                                table#tblGridIn.table.table-striped
-                                    thead#tblHeadIn
-                                        tr
-                                            th.text-center Added
-                                            //th.tablecell(style="width: 50%") Added
-                                    tbody
-                                        tr
-                                            td 05-10-2017, 16:24:40
-                                        tr
-                                            td 05-10-2017, 16:24:40
-                                        tr
-                                            td 05-10-2017, 16:24:40
-                        //h6.text-center
-                            .col-sm-6
-                                table#tblGridOut.table.table-striped
-                                    thead#tblHeadOut
-                                        tr
-                                            th.text-center Used up
-                                    tbody
-                                        tr
-                                            td 05-10-2017, 16:24:40
-                                        tr
-                                            td 05-10-2017, 16:24:40
-                                        tr
-                                            td 05-10-2017, 16:24:40
-                    p
-                    p
-                    p
-                    p
-                    p
 
-
+                    p
+                    p
+                    p
+                    p
+                    p
 
                     .modal-footer
                         //button.btn.btn-default(type='button', data-dismiss='modal') Close
                         button#btnStop.btn.btn-danger.pull-left(type='button') Stop Tracking
                         //button#btnEdit.btn.btn-default(type='button') Edit
                         //button#btnUsedManual.btn.btn-primary(type='button') Used up
-                        button#btnUsedManual.btn.btn-primary(data-backdrop="static", data-keyboard="false", data-toggle="modal", href="#myModalDate") Used up
+                        button#btnUsedManual.btn.btn-primary(data-backdrop="static", data-keyboard="false", data-toggle="modal") Used up
                         button#btnWastedManual.btn.btn-primary(type='button') Wasted
 
 
@@ -189,7 +159,6 @@ block content
             .modal-dialog.modal-vertical-centered
                 .modal-content
                     .modal-header
-                        //button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
                         h4#myModalLabel1.modal-title Please select an option
                     .modal-body
                         center
@@ -228,7 +197,7 @@ block content
                     br
                     br
                 .modal-footer
-                    button#btnclose.btn.btn-primary(type="button", data-dismiss="modal") Save
+                    button#btncloseSO.btn.btn-primary(type="button", data-dismiss="modal") Scanned Out
 
 
             
