@@ -184,23 +184,23 @@ block content
                 .modal-body
                     //| When was this product used up?
                     br
-                    //#datapicker1.input-group.date(data-provide="datepickerx")
-                        input.form-control(type="text")
-                        .input-group-addon
-                            span.glyphicon.glyphicon-th
-
-                    .input-group.date(data-provide="datepicker")
-                        input#dateIn.form-control(type="text", value ="")
-                        //input#dateIn.form-control(type="date", value="")
-
-                        .input-group-addon
-                            span.glyphicon.glyphicon-th
+                    form#scanoutFormManual(method='POST', action='/scanOutProductManual')
+                        .form-group
+                            .input-group.date(data-provide="datepicker")
+                                input#dateIn.form-control(type="text", value ="")
+                                input#codeProductOutManual.form-control(name='codeProductOut', type='hidden',required='')
+                                input#wastedProductOutManual.form-control(name='wastedProductOut', type='hidden',required='')
+                                input#inventoryIdManual.form-control(name='inventoryId', type='hidden',required='')
+                                input#userIdManual.form-control(name='userId', type='hidden',required='')
+                                input#productIdManual.form-control(name='productId', type='hidden',required='')
+                                .input-group-addon
+                                    span.glyphicon.glyphicon-th
 
                     br
                     br
                     br
                 .modal-footer
-                    button#btncloseSO.btn.btn-primary(type="button", data-dismiss="modal") Save
+                    button#btncloseSO.btn.btn-primary(type="button", data-dismiss='modal') Save
 
 
 

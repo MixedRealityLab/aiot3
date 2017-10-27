@@ -773,15 +773,17 @@ router.post('/scanOutProductManual', function (req,res, next) {
                     }
                     else {
                         //update inventory success
-                        out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err, data){
-                            if(err){
+                        out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err1, data1){
+                            if(err1){
                                 //do something
-                                console.log(err);
+                                console.log(err1);
                                 res.send("error in out_event, see the console");
                             }
                             else {
-                                console.log(data);
-                                res.send("product scanned out");
+                                console.log(data1);
+                                //res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:data[0].description, lastUserInventoryOut:data, user: req.user[0]});
+                                //res.render('index',{ user: req.user});
+                                res.redirect('/');
 
                             }
                         });
@@ -791,6 +793,7 @@ router.post('/scanOutProductManual', function (req,res, next) {
             }
             else{
                 //the stock level of that product is 0, then redirect to scan out wrong
+                console.log("the stock level of that product is 0, then redirect to scan out wrong");
                 res.send("error");
                 //res.render('scannedOutProduct',{messageScanOut:2,message:'This product does not have stock level, please scanned-in first',descriptionOut:'Not available', lastUserInventoryOut:'Not Available', user: req.user[0]});
 
