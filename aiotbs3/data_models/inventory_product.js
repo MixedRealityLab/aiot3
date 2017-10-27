@@ -46,3 +46,21 @@ exports.getOutStock = function(userId,done){
 
 }
 
+
+exports.getInOutEvents = function (userId,inventoryId,done) {
+    var params = [userId,inventoryId,userId,inventoryId];
+    db.get().query("SELECT in_event.id,in_event.inventory_id,in_event.timestamp as 'added', (SELECT MIN(out_event.timestamp) FROM out_event where out_event.timestamp >= in_event.timestamp and out_event.user_id = ? and out_event.inventory_id = ?) as 'used_up' FROM in_event LEFT JOIN out_event ON in_event.inventory_id=out_event.inventory_id WHERE in_event.user_id = ? and in_event.inventory_id = ? GROUP BY in_event.id",params, function (err, rows) {
+        if (err)
+            return done(err);
+
+        if (rows.length == 0){
+            return done(new Error("Inventory ID does not exists"));
+        }
+
+        if (rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+    });
+
+}

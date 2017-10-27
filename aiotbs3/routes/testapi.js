@@ -559,5 +559,22 @@ router.get('/tescoApitest', function (req,res,next) {
 });
 
 
+
+router.get('/getin_out',function (req,res,next) {
+    inventory_product.getInOutEvents(1,7,function (err,data) {
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+        }
+    });
+
+});
+
 module.exports = router;
 

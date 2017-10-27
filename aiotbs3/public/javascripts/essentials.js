@@ -4,6 +4,7 @@ $(document).ready(function() {
 
     //var getUserId= document.getElementById("HideUserId").value;
     console.log(getUserId);
+    //$('#alertScanOut').hide();
 
     var table = $('#products_data').DataTable( {
         //"processing": true,
@@ -39,37 +40,25 @@ $(document).ready(function() {
         console.log(data.inventory_id);
 
         //******************************************* in/out history tables *******************************************
-        var tableInEvent = $('#in_events_table').DataTable( {
+
+       $('#myModal').on('shown.bs.modal', function () {
+            // will only come inside after the modal is shown
+
+       $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+
+
+        var tableInOutEvent = $('#in_out_events_table').DataTable( {
             "bFilter": false,
             "bInfo": false,
             "ajax": {
-                url: '/getInEvents',
+                url: '/getInOutEvents',
                 type: 'POST',
-                data: {inventoryId: data.inventory_id}
+                data: {userId:getUserId,inventoryId: data.inventory_id}
 
             },
             "columns":[
-                {data: "timestamp"}
-
-            ],
-            "lengthChange": false,
-            "length": 10,
-            "paging": false,
-            "destroy":true,
-            "scrollY": '150px'
-        } );
-
-        var tableOutEvent = $('#out_events_table').DataTable( {
-            "bFilter": false,
-            "bInfo": false,
-            "ajax": {
-                url: '/getOutEvents',
-                type: 'POST',
-                data: {inventoryId: data.inventory_id}
-
-            },
-            "columns":[
-                {data: "timestamp"}
+                {data: "added"},
+                {data: "used_up"}
 
             ],
             "lengthChange": false,
@@ -80,11 +69,13 @@ $(document).ready(function() {
         } );
         //**************************************************************************************************
 
+       });
+
+
         $('#myModal').on('click', function (event) {
-            var idButton = event.target.id;
 
-
-            if (idButton == 'btnEdit') {
+           var idButton = event.target.id;
+           if (idButton == 'btnEdit') {
 
                 $.ajax({
                     url: '/editProduct',
@@ -116,68 +107,71 @@ $(document).ready(function() {
 
                     },
                     error: function(xhr, status, error) {
-                        alert(xhr.responseText); // error occur
+                       // alert(xhr.responseText); // error occur
                     }
                 });
 
             }
 
-            if (idButton == 'btnUsedManual'){
+            var wasted;
+            var today = new Date();
+            var dd = ("0" + (today.getDate())).slice(-2);
+            var mm = ("0" + (today.getMonth() +　1)).slice(-2);
+            var yyyy = today.getFullYear();
+            today = mm + '/' + dd + '/' + yyyy ;
+            $("#dateIn").attr("value", today);
+
+            if (idButton == 'btnUsedManual' ){
 
 
                $('#myModalDate').modal('show');
 
-                $('#myModalDate').on('click', function (event) {
-                    if (event.target.id == 'btncloseSO'){
-                        console.log(event.target.id);
-                        $('#myModal').modal('hide');
-
-                    }
+                $('#myModalDate').on('shown.bs.modal', function (e) {
+                    $("#dateIn").attr("value", today);
+                    $('.datepicker').datepicker();
 
                 });
 
+               $('#myModalDate').on('click', function (event) {
+                    if (event.target.id == 'btncloseSO'){
+                        console.log(event.target.id);
+                        console.log(data.ean);
+
+                        $.ajax({
+                            url: '/scanOutProductManual',
+                            type: 'POST',
+                            data: {userId:getUserId,inventoryId: data.inventory_id, wastedProductOut:0, codeProductOut: data.ean, outDate:today, productId:data.inventory_product_id},
+                            success: function (response) {
+                                $('#myModal').modal('hide');
+                                console.log('success', response);
+                                //alert(response);
+                                $('#alertScanOut').show();
+                                $('#alertScanOut').fadeIn();
+                                $('#alertScanOut').slideDown();
+                                setTimeout(function(){
+                                    $('#alertScanOut').hide();
+                                    $('#products_data').DataTable().ajax.reload();
+                                    }, 3000);
+
+                            }
+
+                        });
 
 
-                /*$.ajax({
-                    url: '/outByUser',
-                    type: 'POST',
-                    data: {inventoryId: data.inventory_id},
-                    datatype: 'json',
-                    success: function (response) {
-                        console.log('success', response);
-                        document.getElementById("statusData").innerHTML = "not working";
-
-                    },
-                    error: function(xhr, status, error) {
-                        alert(xhr.responseText); // error occur
                     }
-                });*/
+                });
+
 
             }
 
-            if (idButton == 'btnWastedManual'){
-                $.ajax({
-                    url: '/outByUser',
-                    type: 'POST',
-                    data: {inventoryId: data.inventory_id},
-                    datatype: 'json',
-                    success: function (response) {
-                        console.log('success', response);
-                        document.getElementById("statusData").innerHTML = "not working";
+            if (idButton == 'btnWastedManual' ){
 
-                    },
-                    error: function(xhr, status, error) {
-                        alert(xhr.responseText); // error occur
-                    }
-                });
 
             }
 
 
 
         });
-        //console.log(data);
-
 
 
     } );
