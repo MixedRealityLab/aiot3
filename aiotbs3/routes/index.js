@@ -742,6 +742,11 @@ router.post('/scanOutProductManual', function (req,res, next) {
     var wasted = req.body.wastedProductOut;
     var ean = req.body.codeProductOut; //barcode from client side
     var inventoryId = req.body.inventoryId;
+    //var outDate1 = (req.body.dateScanOutManual);
+    var outHour = moment(Date.now()).format("HH:mm");
+    var outDate1 = moment(req.body.dateScanOutManual+''+outHour).format('YYYY-MM-DD HH:mm:ss'); //FIX THIS
+    console.log('***date selected***'+outDate1);
+
     var outDate = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');//req.body.outDate;
 
     //at the manual scan out process the product always is on the "product" database

@@ -96,7 +96,9 @@ $(document).ready(function() {
             }
             if (idButton == 'btnStop') {
 
-                $.ajax({
+                //$('#dateIn').datetimepicker();
+
+                /*$.ajax({
                     url: '/stopTrack',
                     type: 'POST',
                     data: {inventoryId: data.inventory_id},
@@ -110,7 +112,7 @@ $(document).ready(function() {
                     error: function (xhr, status, error) {
                         // alert(xhr.responseText); // error occur
                     }
-                });
+                });*/
 
             }
 
@@ -119,7 +121,7 @@ $(document).ready(function() {
             var dd = ("0" + (today.getDate())).slice(-2);
             var mm = ("0" + (today.getMonth() + 1)).slice(-2);
             var yyyy = today.getFullYear();
-            today = mm + '/' + dd + '/' + yyyy;
+            today = dd + '-' + mm + '-' + yyyy;
             $("#dateIn").attr("value", today);
             var wasted = 0;
             /*if (idButton == 'btnUsedManual') {
@@ -178,7 +180,7 @@ $(document).ready(function() {
 
                 $('#myModalDate').on('shown.bs.modal', function (e) {
                    $("#dateIn").attr("value", today);
-                   $('.datepicker').datepicker();
+                   //$('.datepicker').datepicker();
 
                 });
 
@@ -197,7 +199,7 @@ $(document).ready(function() {
                          document.getElementById("userIdManual").value = getUserId;
                          document.getElementById("productIdManual").value = data.inventory_product_id;
                          document.getElementById("wastedProductOutManual").value = wasted;
-                         document.getElementById("dateIn").value = today;
+                         //document.getElementById("dateIn").value = today;
                          document.getElementById("scanoutFormManual").submit();
                      }
               });
