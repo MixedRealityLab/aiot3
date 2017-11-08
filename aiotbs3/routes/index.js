@@ -544,7 +544,6 @@ router.post('/insertProduct', function (req,res,next) {
 //**********************************************************************************************************************
 
 router.post('/scanOutProduct', function (req,res, next) {
-    //sleep.msleep(1000); //this is for show the barcode scanned
     console.log(req.body);
     var userId=req.user[0].id;
     var username = req.user[0].username;
@@ -560,89 +559,7 @@ router.post('/scanOutProduct', function (req,res, next) {
             //res.send('sorry, this product needs to be scanned-in first');
             res.render('scannedOutProduct',{messageScanOut:2,message:'This product needs to be scanned-in first',descriptionOut:'Not available', lastUserInventoryOut:'Not Available', user: req.user[0]});
 
-            /*tescoData.get_tesco_data(ean,function (data, err) { //go to tesco api function
-                if (data.status == 'fail'){
-
-                    //the barcode isn't in tesco api
-                    //render to checkBarcode view
-                    console.log('the barcode is not in tesco api');
-                    console.log(err);
-                    //do something
-                    res.send(err);
-
-
-                }
-
-                else {
-                    //if the barcode is in tesco api
-                    //get data from tesco api to create new product
-
-                    metadata = {'tin size': '400g', "ingredients": ['tomatoes', 'water', 'salt']}; //change from data of tesco api
-                    products.createNew(ean,data.brand_name,data.description,1,1, data.quantity, data.quanitiy_unit, metadata, function(err, data){
-                        if(err){
-                            console.log(err);
-                            res.send("there was an error getting data from tesco api, see the console");
-                        }
-                        else {
-
-                            var productId = data.insertId;
-                            var stock_level = 1;
-                            //create new inventory entry
-                            //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
-                            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-                            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,1,1, function(err, data){
-                                if(err){
-                                    //do something
-                                    console.log(err);
-                                    res.send("there was an error see the console");
-                                }
-                                else {
-                                    //get inventoryId from successfully inventory added
-                                    var inventoryId = data.insertId;
-                                    var old_stock = 0;
-                                    var new_stock = old_stock + 1;
-                                    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-
-                                    //add new in_event
-                                    //exports.add_event = function (inventory_id, user_id, old_stock, new_stock, timestamp, done) {
-                                    in_events.add_event(inventoryId,userId,old_stock,new_stock,mysqlTimestamp, function(err, data){
-                                        if(err){
-                                            //do something
-                                            console.log(err);
-                                            res.send("there was an error see the console");
-                                        }
-                                        else {
-                                            //add in_events.add_event -- success
-                                            //after in_events add inmediatly out_vents.add_event
-                                            var inEventsId = data.insertId;
-                                            in_events.get_most_recent_for_user(userId,5, function(err, data){
-
-                                                if(err){
-                                                    console.log(err);
-                                                    res.send("there was an error see the console");
-                                                }
-                                                else {
-
-                                                    console.log(data)
-                                                    res.render('insertProduct',{messageItem : 3, description: inEventsId, userInventory: data, user: username }); //req.user
-
-                                                }
-                                            });
-
-                                        }
-                                    });
-
-
-
-                                }
-                            });
-
-
-                        }
-                    });
-                    */
-
-                }
+        }
 
 
         else {
@@ -988,7 +905,7 @@ router.post('/getInOutEvents',function (req,res,next) {
             //res.send(data);
             var data1=[];
             console.log(data.length);
-            moment.updateLocale(moment.locale(), { invalidDate: "No scanned out" })
+            moment.updateLocale(moment.locale(), { invalidDate: "Not available" })
             for (var i = 0; i < data.length; i++){
                 data1.push({"id":data[i].id,"inventory_id":data[i].inventory_id,"added": moment(data[i].added).format('YYYY-MM-DD, HH:mm:ss'),"used_up": moment(data[i].used_up).format('YYYY-MM-DD, HH:mm:ss')});
             }
@@ -1003,6 +920,35 @@ router.post('/getInOutEvents',function (req,res,next) {
 });
 
 
+
+
+router.post('/getFirstAdded',function (req,res,next) {
+    var userId = req.body.userId;
+    var inventoryId= req.body.inventoryId;
+
+    inventory_product.getFirstIn(userId,inventoryId,function(err, data){
+
+            if(err){
+                console.log(err);
+                console.log("there was an error see the console");
+                var data= {"data":{}};
+                res.json(data);
+            }
+            else {
+
+                //console.log(data);
+                //res.send(data);
+                var data1=[];
+                for (var i = 0; i < data.length; i++){
+                    data1.push({"timestamp": moment(data[i].timestamp).format('DD-MM-YYYY')});
+                }
+                var data= {"data":data1};
+                res.send(data);
+            }
+        });
+
+
+});
 
 
 router.post('/editProduct',function(req,res,next){

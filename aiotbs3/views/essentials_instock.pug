@@ -106,13 +106,13 @@ block content
                         //.col-sm-12
                         //table#in_out_events_table.table.table-hover(style={'text-align': 'center'})
                         .table-responsive
-                            table#in_out_events_table.table.table-hover.table-bordered.nowrap(style={'text-align': 'center'})
+                            table#in_out_events_table.table.table-hover.table-bordered.nowrap(style={'text-align': 'center', 'color': 'grey'})
                                 thead
                                     tr(style={'font-size': '14px', 'font-weight': 'bold', 'text-align': 'center'})
                                         td Added
                                         td Used Up
                                 tbody
-                                    tr
+                                    tr(style="color: #ff6600")
                                         td '.$row["timestap"].'
                                         td  ''
                     p
@@ -191,12 +191,16 @@ block content
                                 input#dateIn.datepicker.form-control(name='dateScanOutManual', type="text", value ="")
                                 script.
                                     $(function () {
+                                        console.log('selecting datepicker');
                                         $('.datepicker').datepicker({
                                             format: 'dd-mm-yyyy',
+                                            //startDate: 'response.data[0].timestamp',
                                             endDate: '+0d',
                                             autoclose: true
                                         });
                                     });
+
+
 
                                 input#codeProductOutManual.form-control(name='codeProductOut', type='hidden',required='')
                                 input#wastedProductOutManual.form-control(name='wastedProductOut', type='hidden',required='')

@@ -124,63 +124,38 @@ $(document).ready(function() {
             today = dd + '-' + mm + '-' + yyyy;
             $("#dateIn").attr("value", today);
             var wasted = 0;
-            /*if (idButton == 'btnUsedManual') {
 
 
-                $('#myModalDate').modal('show');
-
-                $('#myModalDate').on('shown.bs.modal', function (e) {
-                    $("#dateIn").attr("value", today);
-                    $('.datepicker').datepicker();
-
-                });
-
-                $('#myModalDate').on('click', function (event) {
-                    if (event.target.id == 'btncloseSO') {
-                        console.log(event.target.id);
-                        console.log(data.ean);
-
-                        $.ajax({
-                            url: '/scanOutProductManual',
-                            type: 'POST',
-                            data: {
-                                userId: getUserId,
-                                inventoryId: data.inventory_id,
-                                wastedProductOut: 0,
-                                codeProductOut: data.ean,
-                                outDate: today,
-                                productId: data.inventory_product_id
-                            },
-                            success: function (response) {
-                                $('#myModal').modal('hide');
-                                console.log('success', response);
-                                //alert(response);
-                                $('#alertScanOut').show();
-                                $('#alertScanOut').fadeIn();
-                                $('#alertScanOut').slideDown();
-                                setTimeout(function () {
-                                    $('#alertScanOut').hide();
-                                    $('#products_data').DataTable().ajax.reload();
-                                }, 3000);
-
-                            }
-
-                        });
 
 
-                    }
-                });
-
-
-            }*/
 
             if (idButton == 'btnUsedManual' || idButton == 'btnWastedManual') {
 
                 $('#myModalDate').modal('show');
 
+                function dateInFirst(){
+
+                    $.ajax({
+                        url: '/getFirstAdded',
+                        type: 'POST',
+                        data: {userId:getUserId, inventoryId: data.inventory_id},
+                        datatype: 'json',
+                        success: function (response) {
+                            console.log('success:', response.data[0].timestamp);
+                            return response.data[0].timestamp;
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(error);
+                        }
+                    });
+                }
+
                 $('#myModalDate').on('shown.bs.modal', function (e) {
                    $("#dateIn").attr("value", today);
-                   //$('.datepicker').datepicker();
+                   //var startDate = '22-10-2017';
+
+
 
                 });
 
@@ -192,6 +167,10 @@ $(document).ready(function() {
                     wasted = 1;
                 }
 
+                var firstIn = new Date(dateInFirst());
+                var scanOutSelected = new Date(document.getElementById("dateIn").value);
+                console.log(firstIn + ' *'+ scanOutSelected);
+
                  $('#myModalDate').on('click', function (event) {
                      if (event.target.id == 'btncloseSO'){
                          document.getElementById("codeProductOutManual").value = data.ean;
@@ -199,7 +178,8 @@ $(document).ready(function() {
                          document.getElementById("userIdManual").value = getUserId;
                          document.getElementById("productIdManual").value = data.inventory_product_id;
                          document.getElementById("wastedProductOutManual").value = wasted;
-                         //document.getElementById("dateIn").value = today;
+                         //console.log(document.getElementById("dateIn").value);
+
                          document.getElementById("scanoutFormManual").submit();
                      }
               });

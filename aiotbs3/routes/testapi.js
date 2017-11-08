@@ -385,7 +385,7 @@ router.get('/getInventoryDataOut',function (req,res,next) {
 router.get('/getOutStock', function(req, res, next) {
     console.log("testing database");
 
-    inventory_product.getOutStock(1,function(err, data){
+    inventory_product.getOutStock(3,function(err, data){
 
         if(err){
             console.log(err);
@@ -561,7 +561,7 @@ router.get('/tescoApitest', function (req,res,next) {
 
 
 router.get('/getin_out',function (req,res,next) {
-    inventory_product.getInOutEvents(1,7,function (err,data) {
+    inventory_product.getInOutEvents(3,99,function (err,data) {
 
         if(err){
             console.log(err);
@@ -574,6 +574,30 @@ router.get('/getin_out',function (req,res,next) {
         }
     });
 
+});
+
+
+router.get('/getFirstIn', function(req, res, next) {
+    console.log("testing database");
+
+    inventory_product.getFirstIn(3,99,function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            //console.log(data);
+            //res.send(data);
+            var data1=[];
+            for (var i = 0; i < data.length; i++){
+                data1.push({"timestamp": moment(data[i].timestamp).format('DD-MM-YYYY')});
+            }
+            var data= {"data":data1};
+            res.send(data);
+        }
+    });
 });
 
 module.exports = router;
