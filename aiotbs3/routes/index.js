@@ -659,10 +659,10 @@ router.post('/scanOutProductManual', function (req,res, next) {
     var wasted = req.body.wastedProductOut;
     var ean = req.body.codeProductOut; //barcode from client side
     var inventoryId = req.body.inventoryId;
-    //var outDate1 = (req.body.dateScanOutManual);
+    var outDate1 = (req.body.dateScanOutManual);
+    var outDate2 = moment(outDate1).format('YYYY-MM-DD HH:mm:ss');
     var outHour = moment(Date.now()).format("HH:mm");
-    var outDate1 = moment(req.body.dateScanOutManual+''+outHour).format('YYYY-MM-DD HH:mm:ss'); //FIX THIS
-    console.log('***date selected***'+outDate1);
+    console.log('***date selected***'+outDate2);
 
     var outDate = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');//req.body.outDate;
 
@@ -940,7 +940,7 @@ router.post('/getFirstAdded',function (req,res,next) {
                 //res.send(data);
                 var data1=[];
                 for (var i = 0; i < data.length; i++){
-                    data1.push({"timestamp": moment(data[i].timestamp).format('DD-MM-YYYY')});
+                    data1.push({"timestamp": moment(data[i].timestamp).format('MM/DD/YYYY')});
                 }
                 var data= {"data":data1};
                 res.send(data);

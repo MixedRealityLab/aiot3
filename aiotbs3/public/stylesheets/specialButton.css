@@ -5,3 +5,13 @@ buttonEspecial {
     width: 32px;
     height:32px;
 }
+
+.clsDatePicker {
+    position: relative;
+    z-index: 9999999!important;
+}
+
+.containerDate {
+    position: relative;
+    z-index: 9999 !important;
+}
