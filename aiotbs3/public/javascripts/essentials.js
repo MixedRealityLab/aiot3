@@ -106,61 +106,66 @@ $(document).ready(function() {
             var mm = ("0" + (today.getMonth() + 1)).slice(-2);
             var yyyy = today.getFullYear();
             today = dd + '-' + mm + '-' + yyyy;
-            $("#dateIn").attr("value", today);
+            //$("#dateIn").attr("value", today);
             var wasted = 0;
-            //var minD = 0;
+            var dIn = today;
 
 
-            function dateInFirst(){
-            //get date of firs scan-in, to avoid a manual scan-out before scan-in date
-                $.ajax({
+            function dateInFirst() {
+                return $.ajax({
                     url: '/getFirstAdded',
                     type: 'POST',
                     data: {userId:getUserId, inventoryId: data.inventory_id},
                     datatype: 'json',
-                    success: function (response) {
-                        console.log('success:', response);
-                        //minD = response.data[0].timestamp;
-                        //return response.data[0].timestamp;
-                        $('#datetimepicker6').datetimepicker({
-                            defaultDate: moment(),
-                            maxDate : moment(),
-                            minDate: response.data[0].timestamp,
+                    async: false,
+                    success: function(response) {
 
-                        });
-
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
                     }
                 });
-
-
-
             }
 
-
-
-            //dateInFirst();
+            var minDate = '';
             if (idButton == 'btnUsedManual' || idButton == 'btnWastedManual') {
-
-
-                dateInFirst();
-
-
-                $('#datetimepicker6').on("dp.show",function (e) {
-                    console.log(e);
-                    //dateInFirst();
-                    //$('#datetimepicker6).data('DateTimePicker').hide();
-                });
-
-
                 $('#myModalDate').modal('show');
                 $('#myModalDate').on('shown.bs.modal', function (e) {
-                   //$("#dateIn").attr("value", today);
 
 
                 });
+
+
+                if ($('#myModalDate').data('bs.modal').isShown == true) {
+                    $("#btncloseSO").addClass("disabled");
+                    //console.log('modalDate opened');
+                    dateInFirst().done(function (result) {
+                        minDate = result.data[0].timestamp;
+                        console.log(minDate);
+                        $('#datetimepicker6').datetimepicker({
+                            format: 'MM/DD/YYYY HH:mm:ss',
+                            defaultDate: moment(),
+                            minDate: minDate,
+                            maxDate : moment(),
+                        });
+
+                        $('#datetimepicker6').data("DateTimePicker").minDate(minDate);
+                    }).fail(function () {
+                        console.log('error');
+
+                    });
+
+
+                }
+
+
+                $("#myModalDate").on("hide.bs.modal", function () {
+                    dIn = document.getElementById("dateIn").value;
+                    $('#datetimepicker6').data("DateTimePicker").clear();
+
+                });
+
+                $("#btncloseSO").removeClass("disabled");
+
+
+
 
                 if (idButton == 'btnUsedManual'){
                     wasted = 0;
@@ -170,22 +175,16 @@ $(document).ready(function() {
                     wasted = 1;
                 }
 
-                //var firstIn = new Date(dateInFirst());
-                //var scanOutSelected = new Date(document.getElementById("dateIn").value);
-                //console.log(firstIn + ' *'+ scanOutSelected);
 
                  $('#myModalDate').on('click', function (event) {
-
-                     console.log(event);
-
+                     //console.log(event);
                      if (event.target.id == 'btncloseSO'){
                          document.getElementById("codeProductOutManual").value = data.ean;
                          document.getElementById("inventoryIdManual").value = data.inventory_id;
                          document.getElementById("userIdManual").value = getUserId;
                          document.getElementById("productIdManual").value = data.inventory_product_id;
-                         document.getElementById("wastedProductOutManual").value = wasted;
-                         console.log(document.getElementById("dateIn").value);
-
+                         document.getElementById("wastedProductOutManual").value = wasted
+                         document.getElementById("dateIn").value = dIn;
                          document.getElementById("scanoutFormManual").submit();
                      }
               });

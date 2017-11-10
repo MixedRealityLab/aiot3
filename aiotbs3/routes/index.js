@@ -660,70 +660,71 @@ router.post('/scanOutProductManual', function (req,res, next) {
     var ean = req.body.codeProductOut; //barcode from client side
     var inventoryId = req.body.inventoryId;
     var outDate1 = (req.body.dateScanOutManual);
-    var outDate2 = moment(outDate1).format('YYYY-MM-DD HH:mm:ss');
-    var outHour = moment(Date.now()).format("HH:mm");
-    console.log('***date selected***'+outDate2);
+    var outDate = moment(outDate1).format('YYYY-MM-DD HH:mm:ss');
+    console.log('***date selected***'+outDate);
 
-    var outDate = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');//req.body.outDate;
+    if(!outDate1){
+        res.send("Choose a date after scan-in time");
+    }
+    else{
+        //at the manual scan out process the product always is on the "product" database
+        console.log('the barcode is in the product table');
+        var productId = req.body.productId;
 
-    //at the manual scan out process the product always is on the "product" database
-    console.log('the barcode is in the product table');
-    var productId = req.body.productId;
+        inventory.getInventoryById(inventoryId, function(err, data){
 
-    inventory.getInventoryById(inventoryId, function(err, data){
-
-        if(err){
-            console.log(err);
-            console.log("a new inventory entry 'user-product' needs to be created");
-
-        }
-        else {
-            // there is an inventory entry available
-
-            var old_stock_level = data[0].stock_level; //check negative inventory
-            var new_stock_level = old_stock_level - 1;
-            var mysqlTimestamp = outDate;
-
-            if (old_stock_level>0){
-                console.log('allow scan out just when stock level is > 0');
-                //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
-                inventory.updateInventoryListingStock(inventoryId,new_stock_level, function(err, data){
-                    if(err){
-                        //do something
-                        console.log(err);
-                        res.send("error to update inventory, see the console");
-                    }
-                    else {
-                        //update inventory success
-                        out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err1, data1){
-                            if(err1){
-                                //do something
-                                console.log(err1);
-                                res.send("error in out_event, see the console");
-                            }
-                            else {
-                                console.log(data1);
-                                //res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:data[0].description, lastUserInventoryOut:data, user: req.user[0]});
-                                //res.render('index',{ user: req.user});
-                                res.redirect('/');
-
-                            }
-                        });
-
-                    }
-                });
-            }
-            else{
-                //the stock level of that product is 0, then redirect to scan out wrong
-                console.log("the stock level of that product is 0, then redirect to scan out wrong");
-                res.send("error");
-                //res.render('scannedOutProduct',{messageScanOut:2,message:'This product does not have stock level, please scanned-in first',descriptionOut:'Not available', lastUserInventoryOut:'Not Available', user: req.user[0]});
+            if(err){
+                console.log(err);
+                console.log("a new inventory entry 'user-product' needs to be created");
 
             }
-        }
-    });
+            else {
+                // there is an inventory entry available
 
+                var old_stock_level = data[0].stock_level; //check negative inventory
+                var new_stock_level = old_stock_level - 1;
+                var mysqlTimestamp = outDate;
 
+                if (old_stock_level){
+                    console.log('allow scan out just when stock level is > 0');
+                    //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
+                    inventory.updateInventoryListingStock(inventoryId,new_stock_level, function(err, data){
+                        if(err){
+                            //do something
+                            console.log(err);
+                            res.send("error to update inventory, see the console");
+                        }
+                        else {
+                            //update inventory success
+                            out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err1, data1){
+                                if(err1){
+                                    //do something
+                                    console.log(err1);
+                                    res.send("error in out_event, see the console");
+                                }
+                                else {
+                                    console.log(data1);
+                                    //res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:data[0].description, lastUserInventoryOut:data, user: req.user[0]});
+                                    //res.render('index',{ user: req.user});
+                                    res.redirect('/');
+
+                                }
+                            });
+
+                        }
+                    });
+                }
+                else{
+                    //the stock level of that product is 0, then redirect to scan out wrong
+                    console.log("the stock level of that product is 0, then redirect to scan out wrong");
+                    res.send("error");
+                    //res.render('scannedOutProduct',{messageScanOut:2,message:'This product does not have stock level, please scanned-in first',descriptionOut:'Not available', lastUserInventoryOut:'Not Available', user: req.user[0]});
+
+                }
+            }
+        });
+
+    }
 
 
 
@@ -907,7 +908,7 @@ router.post('/getInOutEvents',function (req,res,next) {
             console.log(data.length);
             moment.updateLocale(moment.locale(), { invalidDate: "Not available" })
             for (var i = 0; i < data.length; i++){
-                data1.push({"id":data[i].id,"inventory_id":data[i].inventory_id,"added": moment(data[i].added).format('YYYY-MM-DD, HH:mm:ss'),"used_up": moment(data[i].used_up).format('YYYY-MM-DD, HH:mm:ss')});
+                data1.push({"id":data[i].id,"inventory_id":data[i].inventory_id,"added": moment(data[i].added).format('DD-MM-YYYY, HH:mm:ss'),"used_up": moment(data[i].used_up).format('DD-MM-YYYY, HH:mm:ss')});
             }
             var data= {"data":data1};
             res.send(data);
@@ -940,7 +941,7 @@ router.post('/getFirstAdded',function (req,res,next) {
                 //res.send(data);
                 var data1=[];
                 for (var i = 0; i < data.length; i++){
-                    data1.push({"timestamp": moment(data[i].timestamp).format('MM/DD/YYYY')});
+                    data1.push({"timestamp": moment(data[i].timestamp).format('MM/DD/YYYY HH:mm:ss')});
                 }
                 var data= {"data":data1};
                 res.send(data);
