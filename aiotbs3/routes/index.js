@@ -141,7 +141,7 @@ router.post('/checkBarcode', function (req,res, next) {
     var username = req.user[0].username;
     //console.log("sdsdsds"+req.user[0].id);
     var ean = req.body.codeProduct; //barcode from client side
-    sleep.msleep(1000);
+    //sleep.msleep(1000);
 
     products.getProductByEan(ean, function(err, data){
 
