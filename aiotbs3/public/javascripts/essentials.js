@@ -157,7 +157,7 @@ $(document).ready(function() {
                         console.log(minDate);
                         $('#datetimepicker6').datetimepicker({
                             format: 'MM/DD/YYYY HH:mm:ss',
-                            defaultDate: moment(),
+                            defaultDate: moment().local(),
                             minDate: minDate,
                             maxDate : moment(),
                         });

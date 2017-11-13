@@ -54,7 +54,7 @@ passport.deserializeUser(function(user, done) {
 
 //************************************************ GET home page *************************************************************
 router.get('/', function(req, res, next){
-    console.log(req.user);
+    //console.log(req.user);
     console.log(req.isAuthenticated());
     res.render('index',{ user: req.user});
 });
@@ -139,9 +139,7 @@ router.get('/', function(req, res, next){
 router.post('/checkBarcode', function (req,res, next) {
     var userId=req.user[0].id;
     var username = req.user[0].username;
-    //console.log("sdsdsds"+req.user[0].id);
     var ean = req.body.codeProduct; //barcode from client side
-    //sleep.msleep(1000);
 
     products.getProductByEan(ean, function(err, data){
 
@@ -214,7 +212,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                                 }
                                                 else {
 
-                                                    console.log(data)
+                                                    //console.log(data)
                                                     res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                                 }
@@ -291,7 +289,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                         }
                                         else {
 
-                                            console.log(data)
+                                            //console.log(data)
                                             res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                         }
@@ -343,7 +341,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                         }
                                         else {
                                             //render view to inserted products
-                                            console.log(data);
+                                            //console.log(data);
                                             //res.send(data);
                                             res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
@@ -431,7 +429,7 @@ router.post('/insertProduct', function (req,res,next) {
                                 }
                                 else {
 
-                                    console.log(data)
+                                    //console.log(data)
                                     res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                 }
@@ -544,7 +542,7 @@ router.post('/insertProduct', function (req,res,next) {
 //**********************************************************************************************************************
 
 router.post('/scanOutProduct', function (req,res, next) {
-    console.log(req.body);
+    //console.log(req.body);
     var userId=req.user[0].id;
     var username = req.user[0].username;
     var wasted = req.body.wastedProductOut;
@@ -616,9 +614,8 @@ router.post('/scanOutProduct', function (req,res, next) {
                                             }
                                             else {
                                                 //render view to inserted products
-                                                console.log(data);
+                                                //console.log(data);
                                                 //res.send(data);
-                                                //res.render('insertProduct',{messageItem : 3, description: outEventsId, userInventory: data, user: username /*req.user*/});
                                                 res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:data[0].description, lastUserInventoryOut:data, user: req.user[0]});
 
 
@@ -653,7 +650,6 @@ router.post('/scanOutProduct', function (req,res, next) {
 
 
 router.post('/scanOutProductManual', function (req,res, next) {
-    console.log(req.body);
     var userId=req.body.userId;
     var username = req.user[0].username;
     var wasted = req.body.wastedProductOut;
@@ -661,7 +657,6 @@ router.post('/scanOutProductManual', function (req,res, next) {
     var inventoryId = req.body.inventoryId;
     var outDate1 = (req.body.dateScanOutManual);
     var outDate = moment(outDate1).format('YYYY-MM-DD HH:mm:ss');
-    console.log('***date selected***'+outDate);
 
     if(!outDate1){
         res.send("Choose a date after scan-in time");
@@ -703,7 +698,8 @@ router.post('/scanOutProductManual', function (req,res, next) {
                                     res.send("error in out_event, see the console");
                                 }
                                 else {
-                                    console.log(data1);
+                                    //
+                                    // console.log(data1);
                                     //res.render('scannedOutProduct',{messageScanOut:0,descriptionOut:data[0].description, lastUserInventoryOut:data, user: req.user[0]});
                                     //res.render('index',{ user: req.user});
                                     res.redirect('/');
@@ -757,7 +753,7 @@ router.post('/scanInAgain', function (req,res,next) {
         }
         else {
             //render view to inserted products
-            console.log(data);
+            //console.log(data);
             res.send({messageItem:4, userInventory:data});
 
         }
@@ -778,7 +774,7 @@ router.post('/scanOutAgain', function(req,res,next){
        }
        else{
            //render view to inserted products
-           console.log(data);
+           //console.log(data);
            res.send({messageItem:5, userInventoryOut:data});
        }
     });
@@ -846,7 +842,6 @@ router.post('/getInEvents',function (req,res,next) {
             //var data= {"data":data};
             //res.json(data);
             var data1=[];
-            console.log(data.length);
             for (var i = 0; i < data.length; i++){
                 data1.push({"timestamp": moment(data[i].timestamp).format('YYYY-MM-DD, HH:mm:ss')});
             }
@@ -905,7 +900,6 @@ router.post('/getInOutEvents',function (req,res,next) {
             //console.log(data);
             //res.send(data);
             var data1=[];
-            console.log(data.length);
             moment.updateLocale(moment.locale(), { invalidDate: "Not available" })
             for (var i = 0; i < data.length; i++){
                 data1.push({"id":data[i].id,"inventory_id":data[i].inventory_id,"added": moment(data[i].added).format('DD-MM-YYYY, HH:mm:ss'),"used_up": moment(data[i].used_up).format('DD-MM-YYYY, HH:mm:ss')});
@@ -959,9 +953,6 @@ router.post('/getLastUsedUp', function(req, res, next) {
     var inventoryId= req.body.inventoryId;
     var wastedId = req.body.wastedId;
 
-    console.log('get last ***');
-    console.log(req.body);
-
     inventory_product.getLastUsed(userId,inventoryId,wastedId,function(err, data){
 
         if(err){
@@ -987,46 +978,18 @@ router.post('/getLastUsedUp', function(req, res, next) {
 router.post('/editProduct',function(req,res,next){
 
     var inventoryId = req.body.inventoryId;
-
     var newStockLevel = req.body.newStockLevel;
-
-    //var inventoryUpdate =  Inventory.updateInventoryListingStock(inventoryId,newStockLevel);
-
-    //if (inventoryUpdate.status == 'success'){
-    //    console.log('inventoryID:'+inventoryId);
-    //    console.log(newStockLevel);
-    //    var data = {data:newStockLevel, msg:inventoryUpdate.status}
-    //    res.json(data);
-    //}
-    //else{
-    //    console.log('inventoryID:'+inventoryId);
-    //    var data = {data:newStockLevel, msg:inventoryUpdate.error_message}
-    //    res.json(data);
-
-    //}
-
 });
 
 
 router.post('/stopTrack',function(req,res,next){
     var inventoryId = req.body.inventoryId;
 
-    //var stopTrack = Inventory.stopTracking(inventoryId);
-    //if (stopTrack.status =='success'){
-    //    var data = {msg:stopTrack.status}
-    //    res.json(data);
-    //}
-    //else{
-    //    var data = {msg:stopTrack.error_message}
-    //    res.json(data);
-    //
-    //}
-
 });
 
 router.post('/outByUser',function(req,res,next){
     var data = req.body;
-    console.log(data);
+    //console.log(data);
     res.json(data);
 
 });
@@ -1111,7 +1074,7 @@ router.post('/register', function(req, res, next) {
             res.render('register',{err:err});
         }
         else {
-            console.log(data);
+            //console.log(data);
             //res.send(data)
             res.render('login',{username:username,password:password});
         }
