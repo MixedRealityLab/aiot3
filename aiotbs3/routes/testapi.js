@@ -600,5 +600,36 @@ router.get('/getFirstIn', function(req, res, next) {
     });
 });
 
+
+
+
+router.get('/getLastUsedUp', function(req, res, next) {
+    console.log("testing database");
+
+    inventory_product.getLastUsed(3,99,0,function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            //console.log(data);
+            //res.send(data);
+            var data1=[];
+            for (var i = 0; i < data.length; i++){
+                data1.push({"timestamp": moment(data[i].timestamp).format('DD-MM-YYYY')});
+            }
+            var data= {"data":data1};
+            res.send(data);
+
+        }
+    });
+});
+
+
+
+
+
 module.exports = router;
 

@@ -124,13 +124,29 @@ $(document).ready(function() {
                 });
             }
 
+
+
+
             var minDate = '';
             if (idButton == 'btnUsedManual' || idButton == 'btnWastedManual') {
+
+                if (idButton == 'btnUsedManual'){
+                    wasted = 0;
+                }
+
+                if (idButton == 'btnWastedManual'){
+                    wasted = 1;
+                }
+
+
+
                 $('#myModalDate').modal('show');
                 $('#myModalDate').on('shown.bs.modal', function (e) {
 
-
                 });
+
+
+
 
 
                 if ($('#myModalDate').data('bs.modal').isShown == true) {
@@ -167,13 +183,7 @@ $(document).ready(function() {
 
 
 
-                if (idButton == 'btnUsedManual'){
-                    wasted = 0;
-                }
 
-                if (idButton == 'btnWastedManual'){
-                    wasted = 1;
-                }
 
 
                  $('#myModalDate').on('click', function (event) {

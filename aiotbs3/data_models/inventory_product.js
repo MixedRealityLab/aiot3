@@ -86,3 +86,22 @@ exports.getFirstIn = function (userId,inventoryId,done) {
     });
 
 }
+
+//get last used_up/scanned out product
+exports.getLastUsed = function (userId,inventoryId,wastedId,done) {
+    var params = [userId,inventoryId,wastedId];
+    db.get().query("SELECT max(out_event.timestamp) as 'last_used_up' FROM out_event where out_event.user_id = ? and out_event.inventory_id=? and out_event.wasted=?",params, function (err, rows) {
+        if (err)
+            return done(err);
+
+        if (rows.length == 0){
+            return done(new Error("Inventory ID does not exists"));
+        }
+
+        if (rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+    });
+
+}

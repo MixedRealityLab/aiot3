@@ -952,6 +952,38 @@ router.post('/getFirstAdded',function (req,res,next) {
 });
 
 
+
+
+router.post('/getLastUsedUp', function(req, res, next) {
+    var userId = req.body.userId;
+    var inventoryId= req.body.inventoryId;
+    var wastedId = req.body.wastedId;
+
+    console.log('get last ***');
+    console.log(req.body);
+
+    inventory_product.getLastUsed(userId,inventoryId,wastedId,function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            //console.log(data);
+            //res.send(data);
+            var data1=[];
+            for (var i = 0; i < data.length; i++){
+                data1.push({"timestamp": moment(data[i].timestamp).format('DD-MM-YYYY')});
+            }
+            var data= {"data":data1};
+            res.send(data);
+
+        }
+    });
+});
+
+
 router.post('/editProduct',function(req,res,next){
 
     var inventoryId = req.body.inventoryId;
