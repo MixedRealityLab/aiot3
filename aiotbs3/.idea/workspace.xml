@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_models/inventory_product.js" afterPath="$PROJECT_DIR$/data_models/inventory_product.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/essentials.js" afterPath="$PROJECT_DIR$/public/javascripts/essentials.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/testapi.js" afterPath="$PROJECT_DIR$/routes/testapi.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/essentials_instock.pug" afterPath="$PROJECT_DIR$/views/essentials_instock.pug" />
-    </list>
+    <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -117,8 +110,8 @@
       <file leaf-file-name="essentials_instock.pug" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/essentials_instock.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="192" column="23" lean-forward="false" selection-start-line="192" selection-start-column="23" selection-end-line="192" selection-end-column="23" />
+            <state relative-caret-position="66">
+              <caret line="175" column="30" lean-forward="true" selection-start-line="175" selection-start-column="30" selection-end-line="175" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -449,12 +442,12 @@
       <workItem from="1510142116707" duration="12950000" />
       <workItem from="1510220357382" duration="14045000" />
       <workItem from="1510305664476" duration="18184000" />
-      <workItem from="1510565329791" duration="4355000" />
+      <workItem from="1510565329791" duration="4416000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="768008000" />
+    <option name="totallyTimeSpent" value="768069000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -869,8 +862,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/essentials_instock.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="192" column="23" lean-forward="false" selection-start-line="192" selection-start-column="23" selection-end-line="192" selection-end-column="23" />
+        <state relative-caret-position="66">
+          <caret line="175" column="30" lean-forward="true" selection-start-line="175" selection-start-column="30" selection-end-line="175" selection-end-column="30" />
           <folding />
         </state>
       </provider>
