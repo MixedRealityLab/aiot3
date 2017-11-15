@@ -40,6 +40,29 @@ $(document).ready(function() {
         //document.getElementById("metadata").innerHTML ="Full Data: "+ data.metadata;
         console.log(data.inventory_id);
 
+
+        //******* prediction date *****/
+
+        $.ajax({
+            url: '/getInOutEvents2',
+            type: 'POST',
+            data: {userId: getUserId, inventoryId: data.inventory_id},
+            datatype: 'json',
+            success: function (response) {
+                console.log('success', response);
+                document.getElementById("prediction").innerHTML = "Prediction/Run Out: " + response.predictedRunOut;
+                document.getElementById("average").innerHTML = "Average days/Consume:" + response.averageDays;
+            },
+            error: function (xhr, status, error) {
+                //alert(xhr.responseText); // error occur
+            }
+        });
+
+
+
+        //*****************************
+
+
         //******************************************* in/out history tables *******************************************
 
         $('#myModal').on('shown.bs.modal', function () {
@@ -52,7 +75,7 @@ $(document).ready(function() {
                 "bFilter": false,
                 "bInfo": false,
                 "ajax": {
-                    url: '/getInOutEvents',
+                    url: '/getInOutEvents2',
                     type: 'POST',
                     data: {userId: getUserId, inventoryId: data.inventory_id}
 

@@ -630,6 +630,172 @@ router.get('/getLastUsedUp', function(req, res, next) {
 
 
 
+router.get('/getIn_user_inventory', function(req, res, next) {
+
+    in_events.get_allIn_by_user_and_inventory(3,19,function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
+
+router.get('/getOut_user_inventory', function(req, res, next) {
+    out_events.get_allOut_by_user_and_inventory(3,19,function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
+
+
+router.get('/getInOut_user_inventory', function(req, res, next) {
+    var userId = 3;
+    var inventoryId= 99;
+
+    in_events.get_allIn_by_user_and_inventory(userId, inventoryId, function (errIn, dataIn) {
+
+        if (errIn) {
+            console.log(errIn);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(dataIn);
+            //res.send(dataIn);
+
+            out_events.get_allOut_by_user_and_inventory(userId, inventoryId, function (errOut, dataOut) {
+                var allDates = [];
+
+                if (errOut) {
+                    console.log(errOut);
+                    if (errOut = 'Inventory id has no events') {
+
+                        for (var i = 0; i < dataIn.length; i++) {
+                            allDates.push({
+                                "id": dataIn[i].id,
+                                "inventory_id": dataIn[i].inventory_id,
+                                "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
+                                "used_up": null,
+                                "daysUse": null
+
+                            });
+                        }
+                        var data = {"data": allDates};
+                        res.send(data);
+
+
+                    }
+                    else {
+                        res.send("there was an error see the console");
+                    }
+                }
+                else {
+
+                    var jmin = 0;
+                    var jmax = dataOut.length;
+                    for (var i = 0; i < dataIn.length; i++) {
+
+                        if (jmin < jmax) {
+                            if (dataIn[i].timestamp < dataOut[jmin].timestamp) {
+
+                                var startTime = moment(dataIn[i].timestamp);
+                                var endTime = moment(dataOut[jmin].timestamp);
+                                var diff = endTime.diff(startTime);
+                                var duration = moment.duration(diff);
+                                var daysUse = duration.asDays();
+
+                                allDates.push({
+                                    "id": dataIn[i].id,
+                                    "inventory_id": dataIn[i].inventory_id,
+                                    "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
+                                    "used_up": moment(dataOut[jmin].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
+                                    "daysUse": daysUse
+                                })
+                            }
+                            else {
+
+                                allDates.push({
+                                    "id": dataIn[i].id,
+                                    "inventory_id": dataIn[i].inventory_id,
+                                    "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
+                                    "used_up": null,
+                                    "daysUse": null
+                                });
+
+                            }
+
+                            jmin++;
+
+                        }
+                        else {
+                            allDates.push({
+                                "id": dataIn[i].id,
+                                "inventory_id": dataIn[i].inventory_id,
+                                "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
+                                "used_up": null,
+                                "daysUse": null
+
+                            });
+                        }
+
+                    }
+
+                    //get average and add prediction
+                    var sum=0;
+                    var count=0;
+                    for (var i=0; i< allDates.length; i++){
+                        if(allDates[i].daysUse) {
+                            sum += parseFloat(allDates[i].daysUse);
+                            count ++;
+                        }
+                    }
+                    console.log('average:'+ (sum/count).toFixed() + ' days');
+
+                    //take the last scanned-in date and add the average days to generate a predicted date
+                    var averageDays = (sum/count).toFixed();
+                    var lastScanIn = moment(allDates[allDates.length-1].added, "DD-MM-YYYY");
+                    var predictedRunOut = moment(lastScanIn.add(averageDays,'days')).format('DD-MM-YYYY');
+                    console.log(predictedRunOut);
+
+
+
+
+                    var data = {"data": allDates,"predictedRunOut":predictedRunOut,"averageDays":averageDays};
+                    console.log(data);
+                    res.send(data);
+
+                }
+
+            });
+
+
+        }
+    });
+});
+
+
+
+
 
 module.exports = router;
 
