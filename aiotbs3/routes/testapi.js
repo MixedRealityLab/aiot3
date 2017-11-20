@@ -231,7 +231,7 @@ router.get('/get_inventory_by_user_product', function(req, res, next) {
 router.get('/get_inventory_by_id', function(req, res, next) {
   console.log("testing database");
 
-  inventory.getInventoryById(3, function(err, data){
+  inventory.getInventoryById(81, function(err, data){
     
     if(err){
       console.log(err);
@@ -423,7 +423,7 @@ router.get('/get_most_recent_for_user_OUT', function(req, res, next) {
 router.get('/get_most_recent_for_user_OUT_description', function(req, res, next) {
     console.log("testing database");
 
-    out_events.get_most_recent_for_user_Description(1,5, function(err, data){
+    out_events.get_most_recent_for_user_Description(3,29, function(err, data){
 
         if(err){
             console.log(err);
@@ -478,7 +478,7 @@ router.get('/add_in_event', function(req, res, next) {
 router.get('/get_most_recent_for_user_IN', function(req, res, next) {
   console.log("testing database");
 
-  in_events.get_most_recent_for_user(1,5, function(err, data){
+  in_events.get_most_recent_for_user(3,1, function(err, data){
     
     if(err){
       console.log(err);
@@ -495,7 +495,7 @@ router.get('/get_most_recent_for_user_IN', function(req, res, next) {
 router.get('/get_most_recent_for_user_IN_Description', function(req, res, next) {
     console.log("testing database");
 
-    in_events.get_most_recent_for_user_Description(1,5, function(err, data){
+    in_events.get_most_recent_for_user_Description(3,5, function(err, data){
 
         if(err){
             console.log(err);
@@ -795,6 +795,110 @@ router.get('/getInOut_user_inventory', function(req, res, next) {
 
 
 
+
+
+//********
+
+router.get('/get_most_recent_for_user_IN_2', function(req, res, next) {
+    console.log("testing most recent");
+    var userId = 3;
+    var qty= 5;
+    var allData = [];
+    var count = 0;
+    var allData1 = [];
+    var allData2 = [];
+
+
+    in_events.get_most_recent_for_user(userId,qty, function(err, data){
+
+            if(err){
+                console.log(err);
+                res.send("there was an error see the console");
+            }
+            else {
+
+                var max = data.length;
+                console.log('max data:'+ max);
+                for (var i = 0; i < data.length; i++){
+
+                    var inventoryId = data[i].inventory_id;
+                    var id = data[i].id;
+                    var old_stock = data[i].old_stock;
+                    var new_stock = data[i].new_stock;
+                    var timestamp = data[i].timestamp;
+                    inventory.getInventoryById(inventoryId, function(err, dataInventory){
+
+                        if(err){
+                            console.log(err);
+                            res.send("there was an error see the console");
+                        }
+                        else {
+                            var productId = dataInventory[0].product_id;
+                            var userId_Inventory = dataInventory[0].user_id;
+                            //var dataDescription = [];
+                            products.getProductById(productId, function(err, dataProduct){
+
+                                    if(err){
+                                        console.log(err);
+                                        res.send("there was an error see the console");
+                                    }
+                                    else {
+                                        //console.log(id);
+                                        allData.push({
+                                            "id":id,
+                                            "user_id":userId,
+                                            "inventory_id":inventoryId,
+                                            "old_stock":old_stock,
+                                            "new_stock":new_stock,
+                                            "timestamp":timestamp,
+                                            //"id":dataInventory[j].id,
+                                            "product_id":productId,
+                                            //"stock_level":dataInventory[j].stock_level,
+                                            //"predicted_need_date":dataInventory[j].predicted_need_date,
+                                            //"stock_delta_day":dataInventory[j].stock_delta_day,
+                                            //"need_trigger_stock_level":dataInventory[j].need_trigger_stock_level,
+                                            "id":dataProduct[0].id,
+                                            "ean":dataProduct[0].ean,
+                                            "brand_name":dataProduct[0].brand_name,
+                                            "description":dataProduct[0].description,
+                                            "multipack":dataProduct[0].multipack,
+                                            "multipack_amount":dataProduct[0].multipack_amount,
+                                            "quantity":dataProduct[0].quantity,
+                                            "quantity_units":dataProduct[0].quantity_units,
+                                            "metadata": dataProduct[0].metadata
+                                        });
+                                        //allData.push(dataDescription[0]);
+
+
+                                        //res.send(allData);
+                                        count ++;
+
+                                    }
+                                    console.log('***1');
+                                    console.log(allData);
+                                    if (max == count +1){
+                                        res.send(allData);
+
+                                    }
+
+
+
+
+                                });
+
+                        }
+                    });
+
+                //count ++;
+                }
+
+            }
+        });
+    });
+
+
+
+//********
 
 
 module.exports = router;
