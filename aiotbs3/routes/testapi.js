@@ -12,6 +12,7 @@ var products = require('../data_models/products.js');
 var user = require('../data_models/user.js');
 var user_event_log = require('../data_models/user_event_log.js');
 var tescoData = require("./tescoApi.js");
+var inDescription = require("./InDescription.js");
 
 
 router.get('/drop_all', function(req, res, next) {
@@ -478,7 +479,7 @@ router.get('/add_in_event', function(req, res, next) {
 router.get('/get_most_recent_for_user_IN', function(req, res, next) {
   console.log("testing database");
 
-  in_events.get_most_recent_for_user(3,1, function(err, data){
+  in_events.get_most_recent_for_user(3,5, function(err, data){
     
     if(err){
       console.log(err);
@@ -799,15 +800,12 @@ router.get('/getInOut_user_inventory', function(req, res, next) {
 
 //********
 
-router.get('/get_most_recent_for_user_IN_2', function(req, res, next) {
+router.get('/get_most_recent_for_user_IN_Description2', function(req, res, next) {
     console.log("testing most recent");
     var userId = 3;
     var qty= 5;
     var allData = [];
     var count = 0;
-    var allData1 = [];
-    var allData2 = [];
-
 
     in_events.get_most_recent_for_user(userId,qty, function(err, data){
 
@@ -822,10 +820,6 @@ router.get('/get_most_recent_for_user_IN_2', function(req, res, next) {
                 for (var i = 0; i < data.length; i++){
 
                     var inventoryId = data[i].inventory_id;
-                    var id = data[i].id;
-                    var old_stock = data[i].old_stock;
-                    var new_stock = data[i].new_stock;
-                    var timestamp = data[i].timestamp;
                     inventory.getInventoryById(inventoryId, function(err, dataInventory){
 
                         if(err){
@@ -834,8 +828,6 @@ router.get('/get_most_recent_for_user_IN_2', function(req, res, next) {
                         }
                         else {
                             var productId = dataInventory[0].product_id;
-                            var userId_Inventory = dataInventory[0].user_id;
-                            //var dataDescription = [];
                             products.getProductById(productId, function(err, dataProduct){
 
                                     if(err){
@@ -843,21 +835,20 @@ router.get('/get_most_recent_for_user_IN_2', function(req, res, next) {
                                         res.send("there was an error see the console");
                                     }
                                     else {
-                                        //console.log(id);
                                         allData.push({
-                                            "id":id,
+                                            "idInEvent":data[count].id,
                                             "user_id":userId,
-                                            "inventory_id":inventoryId,
-                                            "old_stock":old_stock,
-                                            "new_stock":new_stock,
-                                            "timestamp":timestamp,
-                                            //"id":dataInventory[j].id,
+                                            "inventory_id":data[count].inventory_id,
+                                            "old_stock":data[count].old_stock,
+                                            "new_stock":data[count].new_stock,
+                                            "timestamp":data[count].timestamp,
+                                            "id":dataInventory[0].id,
                                             "product_id":productId,
-                                            //"stock_level":dataInventory[j].stock_level,
-                                            //"predicted_need_date":dataInventory[j].predicted_need_date,
-                                            //"stock_delta_day":dataInventory[j].stock_delta_day,
-                                            //"need_trigger_stock_level":dataInventory[j].need_trigger_stock_level,
-                                            "id":dataProduct[0].id,
+                                            "stock_level":dataInventory[0].stock_level,
+                                            "predicted_need_date":dataInventory[0].predicted_need_date,
+                                            "stock_delta_day":dataInventory[0].stock_delta_day,
+                                            "need_trigger_stock_level":dataInventory[0].need_trigger_stock_level,
+                                            "idProduct":dataProduct[0].id,
                                             "ean":dataProduct[0].ean,
                                             "brand_name":dataProduct[0].brand_name,
                                             "description":dataProduct[0].description,
@@ -867,29 +858,21 @@ router.get('/get_most_recent_for_user_IN_2', function(req, res, next) {
                                             "quantity_units":dataProduct[0].quantity_units,
                                             "metadata": dataProduct[0].metadata
                                         });
-                                        //allData.push(dataDescription[0]);
 
-
-                                        //res.send(allData);
                                         count ++;
 
                                     }
-                                    console.log('***1');
-                                    console.log(allData);
-                                    if (max == count +1){
+                                    //console.log(allData);
+                                    if (max == count){
                                         res.send(allData);
 
                                     }
-
-
-
 
                                 });
 
                         }
                     });
 
-                //count ++;
                 }
 
             }
@@ -899,6 +882,34 @@ router.get('/get_most_recent_for_user_IN_2', function(req, res, next) {
 
 
 //********
+
+
+
+
+router.get('/inDescription', function (req,res,next) {
+
+    console.log("testing InDescription response");
+    var userId = 3;
+    var qty= 1;
+
+    inDescription.get_most_recent_for_user_Description2(userId,qty,function (data,err) {
+
+        if (err){
+            console.log(err);
+            res.send("there was an error see the console");
+
+        }
+        else {
+            console.log("data data");
+            res.send(data);
+        }
+
+
+    });
+
+
+});
+
 
 
 module.exports = router;
