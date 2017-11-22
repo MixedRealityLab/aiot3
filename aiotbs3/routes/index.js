@@ -17,6 +17,8 @@ var out_events = require('../data_models/out_events');
 
 var user = require('../data_models/user.js')
 var tescoData = require("./tescoApi.js");
+var inDescription = require("./InDescription.js");
+
 
 
 //***************************************** connecting passport ***********************************************************************
@@ -204,7 +206,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                             //var description = tescoApiData.data.description.substring(0,25);
                                             //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
                                             var inEventsId = data.insertId;
-                                            in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
+                                            /*in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
                                                 if(err){
                                                     console.log(err);
@@ -216,7 +218,26 @@ router.post('/checkBarcode', function (req,res, next) {
                                                     res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                                 }
+                                            });*/
+
+                                            inDescription.get_most_recent_for_user_Description2(userId,5,function (data,err) {
+
+                                                if (err){
+                                                    console.log(err);
+                                                    res.send("there was an error see the console");
+                                                }
+                                                else {
+                                                    //console.log("data data");
+                                                    //res.send(data);
+
+                                                    res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
+                                                }
+
                                             });
+
+
+
+
 
                                         }
                                     });
@@ -281,7 +302,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                     //var description = tescoApiData.data.description.substring(0,25);
                                     //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
                                     var inEventsId = data.insertId;
-                                    in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
+                                    /*in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
                                         if(err){
                                             console.log(err);
@@ -293,6 +314,19 @@ router.post('/checkBarcode', function (req,res, next) {
                                             res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                         }
+                                    });*/
+                                    inDescription.get_most_recent_for_user_Description2(userId,5,function (data,err) {
+
+                                        if (err){
+                                            console.log(err);
+                                            res.send("there was an error see the console");
+                                        }
+                                        else {
+                                            //console.log("data data");
+                                            //res.send(data);
+                                            res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
+                                        }
+
                                     });
 
                                 }
@@ -333,7 +367,7 @@ router.post('/checkBarcode', function (req,res, next) {
                                     //add in_events.add_event -- success
                                     // var userInventory = ** get description of last 5 products added ***
                                     var inEventsId = data.insertId;
-                                    in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
+                                    /*in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
                                         if(err){
                                             console.log(err);
@@ -346,6 +380,20 @@ router.post('/checkBarcode', function (req,res, next) {
                                             res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                         }
+                                    });*/
+
+                                    inDescription.get_most_recent_for_user_Description2(userId,5,function (data,err) {
+
+                                        if (err){
+                                            console.log(err);
+                                            res.send("there was an error see the console");
+                                        }
+                                        else {
+                                            //console.log("data data");
+                                            //res.send(data);
+                                            res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
+                                        }
+
                                     });
                                 }
                             });
@@ -421,7 +469,7 @@ router.post('/insertProduct', function (req,res,next) {
                             //var description = tescoApiData.data.description.substring(0,25);
                             //exports.get_most_recent_for_user = function (user_id, number_of_products, done)
                             var inEventsId = data.insertId;
-                            in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
+                            /*in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
                                 if(err){
                                     console.log(err);
@@ -433,6 +481,19 @@ router.post('/insertProduct', function (req,res,next) {
                                     res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
 
                                 }
+                            });*/
+                            inDescription.get_most_recent_for_user_Description2(userId,5,function (data,err) {
+
+                                if (err){
+                                    console.log(err);
+                                    res.send("there was an error see the console");
+                                }
+                                else {
+                                    //console.log("data data");
+                                    //res.send(data);
+                                    res.render('insertProduct',{messageItem : 3, description: data[0].description, userInventory: data, user: req.user[0]});
+                                }
+
                             });
 
                         }
@@ -745,7 +806,7 @@ router.post('/scanInAgain', function (req,res,next) {
     console.log('ready to scan in again');
     console.log('get data from user and send it back')
     //GET LAST 5 ITEMS AND SEND BACK TO INSERTPRODUCT VIEW
-    in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
+    /*in_events.get_most_recent_for_user_Description(userId,5, function(err, data){
 
         if(err){
             console.log(err);
@@ -757,8 +818,21 @@ router.post('/scanInAgain', function (req,res,next) {
             res.send({messageItem:4, userInventory:data});
 
         }
-    });
+    });*/
+    inDescription.get_most_recent_for_user_Description2(userId,5,function (data,err) {
 
+        if (err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log("scan in again");
+            console.log(data);
+            //res.send(data);
+            res.send({messageItem:4, userInventory:data});
+        }
+
+    });
 });
 
 

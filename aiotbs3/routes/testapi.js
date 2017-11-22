@@ -141,7 +141,7 @@ router.get('/get_product_by_ean_2', function(req, res, next) {
 router.get('/get_product_by_id', function(req, res, next) {
   console.log("testing database");
 
-  products.getProductById(10, function(err, data){
+  products.getProductById(170, function(err, data){
     
     if(err){
       console.log(err);
@@ -232,7 +232,7 @@ router.get('/get_inventory_by_user_product', function(req, res, next) {
 router.get('/get_inventory_by_id', function(req, res, next) {
   console.log("testing database");
 
-  inventory.getInventoryById(81, function(err, data){
+  inventory.getInventoryById(173, function(err, data){
     
     if(err){
       console.log(err);
@@ -890,7 +890,7 @@ router.get('/inDescription', function (req,res,next) {
 
     console.log("testing InDescription response");
     var userId = 3;
-    var qty= 1;
+    var qty= 5;
 
     inDescription.get_most_recent_for_user_Description2(userId,qty,function (data,err) {
 
