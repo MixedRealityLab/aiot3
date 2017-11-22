@@ -17,6 +17,7 @@ var out_events = require('../data_models/out_events');
 
 var user = require('../data_models/user.js')
 var tescoData = require("./tescoApi.js");
+var prediction = require("./initialPrediction.js");
 
 
 //***************************************** connecting passport ***********************************************************************
@@ -789,7 +790,8 @@ router.post('/scanOutWrong',function(req,res,next){
     //return res.redirect('/');
 });
 
-router.post('/getInventoryData',function (req,res,next) {
+//get inventory data without prediction
+/*router.post('/getInventoryData',function (req,res,next) {
     var userId=req.body.userId;
     inventory_product.getInStock(userId,function(err,data){
         if(err){
@@ -800,6 +802,37 @@ router.post('/getInventoryData',function (req,res,next) {
 
         }
         else{
+            var data= {"data":data};
+            res.json(data);
+        }
+    });
+
+
+});
+*/
+
+//get inventory data including prediction
+router.post('/getInventoryData',function (req,res,next) {
+    var userId=req.body.userId;
+    var predictionResult='';
+
+    inventory_product.getInStock(userId,function(err,data){
+        if(err){
+            console.log(err);
+            //res.send("there was an error");
+            var data= {"data":{}};
+            res.json(data);
+
+        }
+        else{
+
+            for (var i=0; i< data.length; i++){
+                    var inventoryId = data[i].inventory_id;
+                    //console.log('inventory***: '+ inventoryId);
+                    //predictionResult = 'xx';
+                    //data[i].predicted_need_date = predictionResult;//pr;
+            }
+
             var data= {"data":data};
             res.json(data);
         }

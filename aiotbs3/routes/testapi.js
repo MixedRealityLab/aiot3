@@ -13,6 +13,7 @@ var user = require('../data_models/user.js');
 var user_event_log = require('../data_models/user_event_log.js');
 var tescoData = require("./tescoApi.js");
 var inDescription = require("./InDescription.js");
+var prediction = require("./initialPrediction.js");
 
 
 router.get('/drop_all', function(req, res, next) {
@@ -269,7 +270,7 @@ router.get('/update_inventory_listing_stock', function(req, res, next) {
 
 
 router.get('/getInventoryData',function (req, res, next) {
-    inventory_product.getInStock(2,function(err,data){
+    inventory_product.getInStock(3,function(err,data){
         if(err){
             console.log(err);
             res.send("there was an error");
@@ -910,6 +911,28 @@ router.get('/inDescription', function (req,res,next) {
 
 });
 
+
+router.get('/initialPrediction', function (req,res,next) {
+
+    console.log("testing prediction");
+    var userId = 3;
+    var inventoryId= 22;  //19=inventory id of semi skimmed milk
+
+    prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+        if (err){
+            console.log(err);
+            res.send("there was an error see the console");
+
+        }
+        else {
+            console.log("data prediction");
+            res.send(dataPrediction);
+        }
+
+
+    });
+
+});
 
 
 module.exports = router;
