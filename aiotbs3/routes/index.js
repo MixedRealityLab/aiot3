@@ -829,8 +829,13 @@ router.post('/getInventoryData',function (req,res,next) {
             for (var i=0; i< data.length; i++){
                     var inventoryId = data[i].inventory_id;
                     //console.log('inventory***: '+ inventoryId);
-                    //predictionResult = 'xx';
-                    //data[i].predicted_need_date = predictionResult;//pr;
+
+                    //prediction(userId,inventoryId);
+                    console.log('***');
+                    console.log(JSON.stringify(prediction(userId,inventoryId)));
+
+
+                    data[i].predicted_need_date = 'x';//pr;
             }
 
             var data= {"data":data};
