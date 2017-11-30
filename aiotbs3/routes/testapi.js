@@ -916,7 +916,7 @@ router.get('/initialPrediction', function (req,res,next) {
 
     console.log("testing prediction");
     var userId = 3;
-    var inventoryId= 22;  //19=inventory id of semi skimmed milk
+    var inventoryId= 17;  //19=inventory id of semi skimmed milk
 
     prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
         if (err){

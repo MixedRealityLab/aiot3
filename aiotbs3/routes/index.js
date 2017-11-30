@@ -790,8 +790,9 @@ router.post('/scanOutWrong',function(req,res,next){
     //return res.redirect('/');
 });
 
+/*
 //get inventory data without prediction
-/*router.post('/getInventoryData',function (req,res,next) {
+router.post('/getInventoryData',function (req,res,next) {
     var userId=req.body.userId;
     inventory_product.getInStock(userId,function(err,data){
         if(err){
@@ -802,6 +803,7 @@ router.post('/scanOutWrong',function(req,res,next){
 
         }
         else{
+
             var data= {"data":data};
             res.json(data);
         }
@@ -811,11 +813,11 @@ router.post('/scanOutWrong',function(req,res,next){
 });
 */
 
+
 //get inventory data including prediction
 router.post('/getInventoryData',function (req,res,next) {
     var userId=req.body.userId;
-    var predictionResult='';
-
+    var inventoryPrediction = [];
     inventory_product.getInStock(userId,function(err,data){
         if(err){
             console.log(err);
@@ -825,18 +827,39 @@ router.post('/getInventoryData',function (req,res,next) {
 
         }
         else{
+            //upgrade all predictions from this user
 
-            for (var i=0; i< data.length; i++){
-                    var inventoryId = data[i].inventory_id;
-                    //console.log('inventory***: '+ inventoryId);
+            //calling initialPrediction to upgrade all inventory from this specific user
+            for(var j=0; j<data.length; j++){
+                var inventoryId=data[j].inventory_id;
+                prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                    if (err){
+                        console.log(err);
+                        //res.send("there was an error see the console");
 
-                    //prediction(userId,inventoryId);
-                    console.log('***');
-                    console.log(JSON.stringify(prediction(userId,inventoryId)));
+                    }
+                    else {
+                        console.log("data prediction update on inventory");
+                        //res.send(dataPrediction);
+                    }
 
 
-                    data[i].predicted_need_date = 'x';//pr;
+                });
+
             }
+
+
+
+            for (var i=0; i<data.length; i++){
+                if(data[i].stock_delta_day == 1 ){
+                    data[i].predicted_need_date = 'Not available yet';
+                }
+                else{
+                    data[i].predicted_need_date = moment(data[i].predicted_need_date).format('DD-MM-YYYY');
+                }
+
+            }
+
 
             var data= {"data":data};
             res.json(data);
@@ -845,7 +868,6 @@ router.post('/getInventoryData',function (req,res,next) {
 
 
 });
-
 
 router.post('/getInventoryDataOut',function (req,res,next) {
     var userId = req.body.userId;

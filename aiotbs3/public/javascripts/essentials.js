@@ -39,6 +39,7 @@ $(document).ready(function() {
         document.getElementById("quantity").innerHTML = "Quantity: " + data.quantity + data.quantity_units;
         //document.getElementById("metadata").innerHTML ="Full Data: "+ data.metadata;
         console.log(data.inventory_id);
+        //console.log(data.predicted_need_date);
 
 
         //******* prediction date *****/

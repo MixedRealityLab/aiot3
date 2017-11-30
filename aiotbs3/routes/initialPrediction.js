@@ -8,14 +8,14 @@ var moment = require('moment');
 
 
 
-var getInitialPrediction = function (userId, inventoryId) {
+exports.getInitialPrediction = function (userId, inventoryId,done) {
 
     in_events.get_allIn_by_user_and_inventory(userId, inventoryId, function (errIn, dataIn) {
 
         if (errIn) {
             //console.log(errIn);
             //res.send("there was an error see the console");
-            return errIn;
+            return done(errIn);
         }
         else {
 
@@ -40,15 +40,14 @@ var getInitialPrediction = function (userId, inventoryId) {
                             });
                         }
                         var data = {"data": allDates};
-                        //res.send(data);
-                        return data;
+                        return done(data);
 
 
                     }
                     else {
 
                         //res.send("there was an error see the console");
-                        return data;
+                        return done(data);
                     }
                 }
                 else {
@@ -116,16 +115,31 @@ var getInitialPrediction = function (userId, inventoryId) {
                     //take the last scanned-in date and add the average days to generate a predicted date
                     var averageDays = (sum/count).toFixed();
                     var lastScanIn = moment(allDates[allDates.length-1].added, "DD-MM-YYYY");
-                    var predictedRunOut = moment(lastScanIn.add(averageDays,'days')).format('DD-MM-YYYY');
+                    //var predictedRunOut = moment(lastScanIn.add(averageDays,'days')).format('DD-MM-YYYY');
+                    var predictedRunOut = moment(lastScanIn.add(averageDays,'days')).format('YYYY-MM-DD HH:mm:ss');
+                    var predictedRunOut2 = moment(lastScanIn.add(averageDays,'days')).format('YYYY-MM-DD HH:mm:ss');
                     //console.log(predictedRunOut);
 
+                    var data = {"data": allDates,"inventory_id":inventoryId,"predictedRunOut":predictedRunOut,"averageDays":averageDays};
+
+                    //updating inventory predicted date
+                    inventory.updatePredictedNeedDate(inventoryId,predictedRunOut,averageDays,function(err, dataInventory){
+
+                        if(err){
+                            //do something
+                            console.log(err);
+                            return done("error to update inventory, see the console");
+                        }
+                        else {
+
+                            return done(data);
+                        }
+
+                    });
 
 
 
-                    var data = {"data": allDates,"predictedRunOut":predictedRunOut,"averageDays":averageDays};
-                    //console.log(data);
-                    //res.send(data);
-                    return data;
+
 
                 }
 
@@ -138,6 +152,5 @@ var getInitialPrediction = function (userId, inventoryId) {
 
 
 
-};
+}
 
-module.exports = getInitialPrediction;

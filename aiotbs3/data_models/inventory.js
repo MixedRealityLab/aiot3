@@ -119,3 +119,21 @@ exports.updateInventoryListingStock = function (inventory_id, new_stock_level, d
     }); 
 	
 }
+
+
+exports.updatePredictedNeedDate = function (inventory_id, new_predicted_date, new_stock_delta_day, done) {
+    var params = [new_predicted_date, new_stock_delta_day, inventory_id];
+    db.get().query("UPDATE inventory SET predicted_need_date = ?, stock_delta_day= ? where id = ?", params, function (err, rows) {
+
+        if(err)
+            return done(err);
+        else
+            console.log(rows);
+        return done(null, rows);
+
+
+    });
+
+}
+
+
