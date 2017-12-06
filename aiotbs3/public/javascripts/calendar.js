@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var getUserId = 3;//$("#HideUserId").val();
+    var getUserId = $("#HideUserId").val();
 
     // page is now ready, initialize the calendar...
     var today = new Date();
@@ -33,6 +33,7 @@ $(document).ready(function() {
         },
         defaultView: 'basicWeek',
         defaultDate: today,
+        displayEventTime: false,
         weekNumbers: false,
         navLinks: true, // can click day/week names to navigate views
         editable: true,
@@ -114,6 +115,7 @@ $(document).ready(function() {
                             start: result[i].predicted_need_date,// will be parsed
                             end: new Date(result[i].predicted_need_date).getDate()// will be parsed
                         });
+                        //console.log(result[i].predicted_need_date);
                     })
                     callback(events);
                 },

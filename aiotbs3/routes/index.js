@@ -870,7 +870,8 @@ router.post('/getInventoryData',function (req,res,next) {
 });
 
 router.post('/getInventoryDataPrediction',function (req,res,next) {
-    inventory.getInventoryForUserPrediction(3, function (err, data) {
+    var userId=req.body.userId;
+    inventory.getInventoryForUserPrediction(userId, function (err, data) {
 
         if (err) {
             console.log(err);
