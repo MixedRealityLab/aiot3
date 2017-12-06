@@ -869,6 +869,23 @@ router.post('/getInventoryData',function (req,res,next) {
 
 });
 
+router.post('/getInventoryDataPrediction',function (req,res,next) {
+    inventory.getInventoryForUserPrediction(3, function (err, data) {
+
+        if (err) {
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            //console.log(data);
+            //var data= {"data":data};
+            res.json(data);
+        }
+    });
+});
+
+
 router.post('/getInventoryDataOut',function (req,res,next) {
     var userId = req.body.userId;
     inventory_product.getOutStock(userId,function(err,data){

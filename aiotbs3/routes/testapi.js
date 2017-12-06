@@ -182,7 +182,7 @@ router.get('/add_inventory', function(req, res, next) {
 router.get('/get_inventory_by_user', function(req, res, next) {
   console.log("testing database");
 
-  inventory.getInventoryForUser(1, function(err, data){
+  inventory.getInventoryForUser(3, function(err, data){
     
     if(err){
       console.log(err);
@@ -194,6 +194,24 @@ router.get('/get_inventory_by_user', function(req, res, next) {
       res.send(data);
     }  
   });
+});
+
+
+router.get('/get_inventory_by_user_prediction', function(req, res, next) {
+    console.log("testing database");
+
+    inventory.getInventoryForUserPrediction(3, function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+        }
+    });
 });
 
 router.get('/stop_tracking', function(req, res, next) {

@@ -42,6 +42,27 @@ exports.getInventoryForUser = function (user_id, done) {
 }
 
 
+exports.getInventoryForUserPrediction = function (user_id, done) {
+    var params = [user_id];
+    db.get().query("SELECT * FROM inventory,product where inventory.user_id = ? and inventory.product_id=product.id and inventory.stock_delta_day > 1", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("no entries for user"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+}
+
+
 exports.stopTracking = function(inventory_id, done) {
 	var params = [inventory_id];
     db.get().query("DELETE FROM inventory where id = ?", params, function (err, rows) {

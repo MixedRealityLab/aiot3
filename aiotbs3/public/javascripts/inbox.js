@@ -1,5 +1,5 @@
 
-$(document).ready(function() {
+/*$(document).ready(function() {
     var table = $('#beforeOut').DataTable( {
         "bFilter": false,
         "bInfo": false,
@@ -33,4 +33,4 @@ $(document).ready(function() {
             tr.addClass('shown');
         }
     } );
-} );
+} );*/
