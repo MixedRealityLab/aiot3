@@ -21,7 +21,7 @@ $(document).ready(function() {
         format:'ddd M',
         header: {
             left: 'prev',
-            center: 'title',
+            //center: 'title',
             right: 'next, month,basicWeek'
         },
         views: {
@@ -32,6 +32,10 @@ $(document).ready(function() {
             }
         },
         defaultView: 'basicWeek',
+        viewRender: function(view,element) {
+            var title = view.title;
+            $('#externalTitle').html(title);
+        },
         defaultDate: today,
         displayEventTime: false,
         weekNumbers: false,

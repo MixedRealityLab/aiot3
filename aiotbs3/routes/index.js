@@ -177,7 +177,7 @@ router.post('/checkBarcode', function (req,res, next) {
                             //create new inventory entry
                             //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
                             var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-                            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,1,1, function(err, data){
+                            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,0,1, function(err, data){
                                 if(err){
                                     //do something
                                     console.log(err);
@@ -254,7 +254,7 @@ router.post('/checkBarcode', function (req,res, next) {
                     var stock_level = 1;
                     var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
-                    inventory.createNew(userId,productId,stock_level,mysqlTimestamp,1,1, function(err, data){
+                    inventory.createNew(userId,productId,stock_level,mysqlTimestamp,0,1, function(err, data){
                         if(err){
                             //do something
                             console.log(err);
@@ -394,7 +394,7 @@ router.post('/insertProduct', function (req,res,next) {
             var stock_level = 1;
             //create new inventory entry
             var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,1,1, function(err, data){
+            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,0,1, function(err, data){
                 if(err){
                     //do something
                     console.log(err);
