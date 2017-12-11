@@ -98,3 +98,27 @@ exports.get_most_recent_for_inventory = function (inventory_id, number_of_produc
     }); 
     
 }
+
+
+
+exports.get_allOut_by_user_and_inventory = function (user_id,inventory_id, done) {
+
+    var params = [user_id,inventory_id];
+    db.get().query("select * from out_event where user_id=? and inventory_id=? order by timestamp asc", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("Inventory id has no events"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+
+}
