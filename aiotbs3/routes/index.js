@@ -59,82 +59,8 @@ router.get('/', function(req, res, next){
     console.log(req.isAuthenticated());
     res.render('index',{ user: req.user});
 });
+//*****************************************************************************************************************************
 
-
-// *********************************************** scan in logic v2.0 *************************************************
-
-//start with checkbarcode view
-
-//get barcode/ean
-//get userId
-//if products.getProductByEan(ean,done) -- error  -->  the barcode isn't in the product table/the product does not exist at all)
-    //go to tesco api function
-    //if the barcode isn't in tesco api
-        //render to checkBarcode view
-        //ask user for basic data loading item_data view
-        //go to add product process --> add inventory --> add in_event
-
-    //else the barcode is in tesco api
-        //get data from tesco api to create new product
-        //use products.createNew to add the product to the global database
-        //if products.createNew -- error
-            //do something
-        //else products.createNew -- success
-            //get productId
-            //create new inventory entry
-            //if inventory.createNew -- error
-                //do something
-            //else inventory.createNew -- success
-                //get inventory_id from successfully inventory added
-                //add new in_event
-                //if add in_events.add_event -- error
-                    //do something
-                //else add in_events.add_event -- success
-                    // var userInventory = ** get description of last 5 products added ***
-                    // render to insertProduct view (sending description of last products added)
-
-    //else the barcode isn't in tesco api
-        //render to checkBarcode view
-        //ask user for basic data loading item_data view
-        //go to add product process --> add inventory --> add in_event
-
-
-//else products.getProductByEan(ean,done) -- success means the barcode is in the product table
-    //using var productId = data.id
-    //use inventory.getInventoryByUserProduct(UserId, productId,done) to check if there is an inventory entry "user-product"
-    //if inventory.getInventoryByUserProduct(UserId, productId,done) --error means a new inventory entry "user-product" needs to be created
-        //create new inventory entry
-        //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
-        //if inventory.createNew -- error
-            //do something
-        //else inventory.createNew -- success
-            //get inventory_id from successfully inventory added
-            //add new in_event
-            //in_events.add_event(inventory_id, user_id, old_stock, new_stock, timestamp, done)
-            //if add in_events.add_event -- error
-                //do something
-            //else add in_events.add_event -- success
-                // var userInventory = ** get description of last 5 products added ***
-                // render to insertProduct view (sending description of last products added)
-
-    //else if inventory.getInventoryByUserProduct(UserId, productId,done) -- success
-        //get inventory_id
-        //var old_stock_level = get stock_level
-        //var new_stock_level =  old_stock_level+1
-
-        //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
-        //if inventory.updateInventoryListingStock -- error
-            //do something
-        //else inventory.updateInventoryListingStock -- success
-            // in_events.add_event(inventory_id, user_id, old_stock, new_stock, timestamp, done)
-            //if add in_events.add_event -- error
-                //do something
-            //else add in_events.add_event -- success
-                // var userInventory = ** get description of last 5 products added ***
-                // render to insertProduct view (sending description of last products added)
-
-
-//**********************************************************************************************************************
 
 
 router.post('/checkBarcode', function (req,res, next) {
@@ -452,95 +378,6 @@ router.post('/insertProduct', function (req,res,next) {
 });
 
 
-//**************************************** scan out logic v1.0 *********************************************************
-
-//get barcode from scanout view
-//if barcode is on user inventory
-    //get stock level and products details from user inventory
-    //ask about stock level to confirm
-    //Ask user if item was “used up or wasted” - where store in the model?
-    //Confirm item details and new inventory stock level
-    // (inventory means the households local listing of items)
-    //update stock_level (-1)
-    //then render scannedOutProduct view
-//else if barcode isn't on user inventory
-    //do something
-    //render to scannedOutProduct with message 1
-
-
-//scan out logic v1.1
-//if barcode is on user inventory and have description
-    //get stock level and products details from user inventory
-    //ask about stock level to confirm
-    //Ask user if item was “used up or wasted” - where store in the model?
-    //Confirm item details and new inventory stock level
-    // (inventory means the households local listing of items)
-    //update stock_level (-1)
-    //then render scannedOutProduct view
-// else if barcode is on user inventory but it doesn't have description
-    // get barcode
-    // prompt user to “add product details now”
-    ///Ask user if item was “used up or wasted” - where store in the model?
-    //Confirm item details and new inventory stock level
-    // (inventory means the households local listing of items)
-    //update stock_level (-1)
-    //then render scannedOutProduct view
-//else if barcode isn't on user inventory
-    //get barcode
-    //prompt user to add as "scanned in product"
-    //back end: add this product as scanned in
-    //Prompt user to “use up/wasted” product
-    //Go back to “ready to scan out” view with table of scanned out products
-    //render to scannedOutProduct with message 1
-
-
-//**************************************** scan out logic v2.0 *********************************************************
-//Work in progress
-
-//get userId
-//get barcode/ean
-//get wasted = req.body.wastedProductOut;
-//if products.getProductByEan(ean,done) -- error  -->  the barcode isn't in the product table/the product does not exist at all
-    //the user is trying to scan out a product outside the db
-    	//send a message and do something
-
-//else products.getProductByEan(ean,done) -- success means the barcode is in the product table
-    //using var productId = data.id
-    //use inventory.getInventoryByUserProduct(UserId, productId,done) to check if there is an inventory entry "user-product"
-    //if inventory.getInventoryByUserProduct(UserId, productId,done) --error means a new inventory entry "user-product" needs to be created
-        //create new inventory entry
-        //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
-        //if inventory.createNew -- error
-            //do something
-        //else inventory.createNew -- success
-            //get inventory_id from successfully inventory added
-            //add new in_event
-            //in_events.add_event(inventory_id, user_id, old_stock, new_stock, timestamp, done)
-            //if add in_events.add_event -- error
-                //do something
-            //else add in_events.add_event -- success
-                // var userInventory = ** get description of last 5 products added ***
-                // render to insertProduct view (sending description of last products added)
-
-    //else if inventory.getInventoryByUserProduct(UserId, productId,done) -- success
-        //get inventory_id
-        //var old_stock_level = get stock_level
-        //var new_stock_level =  old_stock_level-1
-        //inventory.updateInventoryListingStock(inventory_id, new_stock_level, done)
-        //if inventory.updateInventoryListingStock -- error
-            //do something
-        //else inventory.updateInventoryListingStock -- success
-        	//out_events.add_event(inventory_id, user_id, old_stock, new_stock, wasted, timestamp, done)
-            //if add out_events.add_event -- error
-                //do something
-            //else out out_events.add_event -- success
-                // var userInventory = ** get description of last 5 products added ***
-                // render to scanOut view (sending description of last products scanned out)
-
-
-
-
-//**********************************************************************************************************************
 
 router.post('/scanOutProduct', function (req,res, next) {
     //console.log(req.body);
@@ -649,7 +486,6 @@ router.post('/scanOutProduct', function (req,res, next) {
 
 
 
-
 router.post('/scanOutProductManual', function (req,res, next) {
     var userId=req.body.userId;
     var username = req.user[0].username;
@@ -730,9 +566,6 @@ router.post('/scanOutProductManual', function (req,res, next) {
 
 
 });
-
-
-//**********************************************************************************************************************
 
 
 
@@ -828,7 +661,6 @@ router.post('/getInventoryData',function (req,res,next) {
         }
         else{
             //upgrade all predictions from this user
-
             //calling initialPrediction to upgrade all inventory from this specific user
             for(var j=0; j<data.length; j++){
                 var inventoryId=data[j].inventory_id;

@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var db = require('./db/mysql');
 var index = require('./routes/index');
 var users = require('./routes/users');
-var wizard = require('./routes/wizard');
+//var wizard = require('./not used/wizard');
 var testapi = require('./routes/testapi');
 
 var expressValidator = require('express-validator');
