@@ -843,7 +843,7 @@ router.post('/getInOutEvents2',function (req,res,next) {
         }
         else {
 
-            console.log(dataIn);
+            //console.log(dataIn);
             //res.send(dataIn);
 
             out_events.get_allOut_by_user_and_inventory(userId, inventoryId, function (errOut, dataOut) {
@@ -944,7 +944,7 @@ router.post('/getInOutEvents2',function (req,res,next) {
 
 
                     var data = {"data": allDates,"predictedRunOut":predictedRunOut,"averageDays":averageDays};
-                    console.log(data);
+                    //console.log(data);
                     res.send(data);
 
                 }
