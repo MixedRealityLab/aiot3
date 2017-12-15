@@ -1,20 +1,27 @@
 
-/*$(document).ready(function() {
+$(document).ready(function() {
+    var getUserId = $("#HideUserId").val();
+
     var table = $('#beforeOut').DataTable( {
         "bFilter": false,
         "bInfo": false,
-        "ajax": "../ajax/data/objects.txt",
+        "ordering": false,
+        "ajax": {
+            url: '/getScannedOutPrediction',
+            type: 'POST',
+            data: {userId: getUserId}
+
+        },
         "columns": [
-            {
-                "className":  false
-            },
-            { "data": "name" }
+
+            {data: "description"}
+
         ],
+
         "lengthChange": false,
         "length": 10,
         "paging": false,
-        "destroy": true,
-        "scrollY": '150px'
+        "scrollY": '200px'
     } );
 
     // Add event listener for opening and closing details
@@ -33,4 +40,4 @@
             tr.addClass('shown');
         }
     } );
-} );*/
+} );

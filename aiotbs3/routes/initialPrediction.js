@@ -114,6 +114,7 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
 
                     //take the last scanned-in date and add the average days to generate a predicted date
                     var averageDays = (sum/count).toFixed();
+                    //here add quantity, if I have two pints of milk then I have to add to the last scanned-in the average days X 2
                     var lastScanIn = moment(allDates[allDates.length-1].added, "DD-MM-YYYY");
                     //var predictedRunOut = moment(lastScanIn.add(averageDays,'days')).format('DD-MM-YYYY');
                     var predictedRunOut = moment(lastScanIn.add(averageDays,'days')).format('YYYY-MM-DD HH:mm:ss');

@@ -18,6 +18,7 @@ var out_events = require('../data_models/out_events');
 var user = require('../data_models/user.js')
 var tescoData = require("./tescoApi.js");
 var prediction = require("./initialPrediction.js");
+var inbox = require("./inbox.js");
 
 
 //***************************************** connecting passport ***********************************************************************
@@ -701,6 +702,7 @@ router.post('/getInventoryData',function (req,res,next) {
 
 });
 
+
 router.post('/getInventoryDataPrediction',function (req,res,next) {
     var userId=req.body.userId;
     inventory.getInventoryForUserPrediction(userId, function (err, data) {
@@ -717,6 +719,25 @@ router.post('/getInventoryDataPrediction',function (req,res,next) {
         }
     });
 });
+
+
+router.post('/getScannedOutPrediction',function (req,res,next) {
+    var userId=req.body.userId;
+    inbox.getScannedOutPrediction(userId,function (data,err) {
+        if (err){
+            console.log(err);
+            //res.send("there was an error see the console");
+
+        }
+        else {
+            console.log("data prediction update on inventory");
+            res.json(data);
+        }
+
+    });
+
+});
+
 
 
 router.post('/getInventoryDataOut',function (req,res,next) {
@@ -792,6 +813,8 @@ router.post('/getOutEvents',function (req,res,next) {
     });
 
 });
+
+
 
 
 /*

@@ -902,9 +902,6 @@ router.get('/get_most_recent_for_user_IN_Description2', function(req, res, next)
 
 //********
 
-
-
-
 router.get('/inDescription', function (req,res,next) {
 
     console.log("testing InDescription response");
@@ -951,6 +948,26 @@ router.get('/initialPrediction', function (req,res,next) {
     });
 
 });
+
+router.get('/getscannedout_prediction', function(req, res, next) {
+
+    inventory_product.getScannedOut_prediction(3,function(err, data){
+    //in_events.get_allIn_by_user_and_inventory(3,19,function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
 
 
 module.exports = router;
