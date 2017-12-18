@@ -7,7 +7,7 @@ $(document).ready(function() {
         "bInfo": false,
         "ordering": false,
         "ajax": {
-            url: '/getScannedOutPrediction',
+            url: '/getScannedOutBeforePrediction',
             type: 'POST',
             data: {userId: getUserId}
 
@@ -23,6 +23,31 @@ $(document).ready(function() {
         "paging": false,
         "scrollY": '200px'
     } );
+
+
+
+    var table = $('#afterOut').DataTable( {
+        "bFilter": false,
+        "bInfo": false,
+        "ordering": false,
+        "ajax": {
+            url: '/getScannedOutAfterPrediction',
+            type: 'POST',
+            data: {userId: getUserId}
+
+        },
+        "columns": [
+
+            {data: "description"}
+
+        ],
+
+        "lengthChange": false,
+        "length": 10,
+        "paging": false,
+        "scrollY": '200px'
+    } );
+
 
     // Add event listener for opening and closing details
     $('#beforeOut tbody').on('click', 'td.details-control', function () {
