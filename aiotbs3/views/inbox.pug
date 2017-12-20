@@ -1,5 +1,8 @@
 append head
+
+    script(src='https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js')
     script(src='/javascripts/inbox.js')
+    link(rel='stylesheet' href='/stylesheets/inbox.css')
 
 
 block content
@@ -16,29 +19,27 @@ block content
                     h3.text-center INBOX MESSAGE
                     p(style='color: grey').text-center Let us know more information about predictions of your essentials
 
-            .col-lg-5.pull-left
+            .col-lg-6.pull-left
                 .text-left
                     .row.spacer
-                        br
                         .panel.panel-default
                             .panel-heading
                                 | Product scanned out before prediction #{''}
                                 span.badge 0
-                            //.panel-body
-                        table#beforeOut.table.table-hover(cellspacing="0", width="100%")
-                            //thead
-                                //tr(style={'font-size': '22px', 'font-weight': 'bold', 'text-align': 'center'})
-                                    td Description
-                            //thead
-                                tr
-                                    //th Product 1
-
-
-            .col-lg-5.pull-right
+                            table#beforeOut.table.table-hover(width='100%', cellspacing='0')
+                                thead(style='display:none;')
+                                    tr
+                                        th
+                                        th
+            .col-lg-6.pull-right
                 .text-left
                     .row.spacer
-                        br
                         .panel.panel-default
-                            .panel-heading Products scanned out after prediction #{''}
+                            .panel-heading
+                                | Product scanned out after prediction #{''}
                                 span.badge 0
-                        table#afterOut.table.table-hover(cellspacing="0", width="100%")
+                            table#afterOut.table.table-hover(width='100%', cellspacing='0')
+                                thead(style='display:none;')
+                                    tr
+                                        th
+                                        th

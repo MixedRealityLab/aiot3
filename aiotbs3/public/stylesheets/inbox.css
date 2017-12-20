@@ -1,0 +1,13 @@
+td.details-control {
+    text-align:center;
+    color:forestgreen;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    text-align:center;
+    color:red;
+}
+
+input[type="checkbox"] {
+    margin-left:30px;
+}
