@@ -88,6 +88,11 @@ $(document).ready(function() {
             tr.addClass('shown');
             tdi.first().removeClass('fa-plus-square');
             tdi.first().addClass('fa-minus-square');
+            //myFunction();
+
+
+
+
         }
     } );
 
@@ -125,22 +130,66 @@ $(document).ready(function() {
         }
     });
 
+
 } );
 
 
+function myFunction() {
+
+
+    if(document.getElementById("radio1")){
+
+        $('input[type="radio"]').on('click', function(e) {
+            console.log(e.type);
+        });
+
+    } else {
+        alert("Element does not exist");
+    }
+}
+
+function feedbackInformation(value){
+    var radioValue = $("input[name='valueBefore']:checked"). val();
+    console.log(radioValue);
+    if(radioValue=='other')
+    {
+        $('#otherModal').modal('show');
+    }
+    else
+    {
+        $('#feedbackModal').modal('show');
+        //feedbackBody
+        if (radioValue=='notUsed') {
+            document.getElementById("feedbackBody").innerHTML = 'Product Not Used';
+        }
+        else{
+            document.getElementById("feedbackBody").innerHTML = 'Product forgot to scan out';
+        }
+    }
+
+}
+
+
+
 function format(d){
+
 
     // `d` is the original data object for the row
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '<tr>' +
         '</tr>' +
         '<tr>' +
-        '<form>'+
-        '<input type="checkbox" name="value1" value="1"> Not Used'+
-        '<input type="checkbox" name="value2" value="1"> Forgot to scan out'+
-        '<input type="checkbox" name="value3" value="1"> Other '+
-        '</form>'
-        '</table>';
+        '<form action="">'+
+        '<input type="radio" id="radio1" name="valueBefore" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+
+        '<input type="radio" id="radio2" name="valueBefore" value="forgot" onclick="feedbackInformation(this);"> Forgot to scan out'+
+        '<input type="radio" id="radio3" name="valueBefore" value="other"  onclick="feedbackInformation(this);"> Other '+
+        '</form>'+
+
+    '</table>';
+
+
+
+
 }
 
 function formatAfter(d){
@@ -150,10 +199,10 @@ function formatAfter(d){
         '<tr>' +
         '</tr>' +
         '<tr>' +
-        '<form>'+
-        '<input type="checkbox" name="value4" value="1"> Not Used'+
-        '<input type="checkbox" name="value5" value="1"> Forgot to scan out'+
-        '<input type="checkbox" name="value6" value="1"> Other '+
+        '<form action="">'+
+        '<input type="radio" name="valueAfter" value="notUsed"> Not Used'+
+        '<input type="radio" name="valueAfter" value="forgot"> Forgot to scan out'+
+        '<input type="radio" name="valueAfter" value="other"> Other '+
         '</form>'
     '</table>';
 }

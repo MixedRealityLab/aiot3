@@ -19,7 +19,7 @@ block content
                     h3.text-center INBOX MESSAGE
                     p(style='color: grey').text-center Let us know more information about predictions of your essentials
 
-            .col-lg-6.pull-left
+            .col-lg-6.col-md-6.col-sm-6
                 .text-left
                     .row.spacer
                         .panel.panel-default
@@ -31,7 +31,7 @@ block content
                                     tr
                                         th
                                         th
-            .col-lg-6.pull-right
+            .col-lg-6.col-md-6.col-sm-6
                 .text-left
                     .row.spacer
                         .panel.panel-default
@@ -43,3 +43,46 @@ block content
                                     tr
                                         th
                                         th
+        //#otherModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+            .modal-dialog(role='document')
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Other
+                    .modal-body(style='text-align:center;')
+                        p Please, let us know more information
+                    .modal-footer
+                        button.btn.btn-success(type='button', data-dismiss='modal') Save
+        #feedbackModal.modal.fade(role='dialog')
+            .modal-dialog.modal-sm
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal') ×
+                        h4.modal-title Thanks for your feedback
+                    .modal-body
+                        p#feedbackBody
+
+                    .modal-footer
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Save
+
+
+        #otherModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+            .modal-dialog(role='document')
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal') ×
+                        h4.modal-title Thanks for your feedback
+                        //h5#exampleModalLabel Please, let us know more information
+                        //button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                    .modal-body
+                        p Please, let us know more information
+                        form
+                            .form-group
+                                //label.col-form-label(for='message-text') Message:
+                                textarea#message-text.form-control
+                    .modal-footer
+                        //button.btn.btn-close(type='button', data-dismiss='modal') Close
+                        button.btn.btn-primary(type='button') Save
+

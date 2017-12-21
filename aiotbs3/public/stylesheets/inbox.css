@@ -8,6 +8,6 @@ tr.shown td.details-control {
     color:red;
 }
 
-input[type="checkbox"] {
-    margin-left:30px;
+input[type="radio"] {
+    margin-left:20px;
 }
