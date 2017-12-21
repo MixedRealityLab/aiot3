@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/inbox.js" afterPath="$PROJECT_DIR$/public/javascripts/inbox.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/inbox.css" afterPath="$PROJECT_DIR$/public/stylesheets/inbox.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/inbox.pug" afterPath="$PROJECT_DIR$/views/inbox.pug" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -22,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="739" column="3" lean-forward="true" selection-start-line="739" selection-start-column="3" selection-end-line="739" selection-end-column="3" />
+            <state relative-caret-position="720">
+              <caret line="766" column="41" lean-forward="false" selection-start-line="766" selection-start-column="41" selection-end-line="766" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -52,14 +50,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inbox.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="inbox.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/inbox.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3344">
-              <caret line="176" column="50" lean-forward="true" selection-start-line="176" selection-start-column="50" selection-end-line="176" selection-end-column="50" />
+            <state relative-caret-position="554">
+              <caret line="125" column="8" lean-forward="true" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="8" />
               <folding>
-                <marker date="1513867194768" expanded="true" signature="4656:4674" ph="..." />
-                <marker date="1513867194768" expanded="true" signature="5330:5348" ph="..." />
+                <marker date="1513871467786" expanded="true" signature="4421:4439" ph="..." />
+                <marker date="1513871467786" expanded="true" signature="5113:5132" ph="..." />
               </folding>
             </state>
           </provider>
@@ -78,8 +76,8 @@
       <file leaf-file-name="inbox.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/inbox.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1387">
-              <caret line="73" column="30" lean-forward="true" selection-start-line="73" selection-start-column="30" selection-end-line="73" selection-end-column="30" />
+            <state relative-caret-position="659">
+              <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -88,8 +86,8 @@
       <file leaf-file-name="essentials_instock.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/essentials_instock.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1559">
-              <caret line="57" column="57" lean-forward="false" selection-start-line="57" selection-start-column="40" selection-end-line="57" selection-end-column="57" />
+            <state relative-caret-position="610">
+              <caret line="223" column="40" lean-forward="false" selection-start-line="223" selection-start-column="40" selection-end-line="223" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -481,12 +479,12 @@
       <workItem from="1513331666055" duration="6970000" />
       <workItem from="1513596457914" duration="5080000" />
       <workItem from="1513763612765" duration="8773000" />
-      <workItem from="1513850266287" duration="11005000" />
+      <workItem from="1513850266287" duration="13433000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="890076000" />
+    <option name="totallyTimeSpent" value="892504000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -812,26 +810,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/inbox.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/inbox.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="772">
           <caret line="57" column="33" lean-forward="true" selection-start-line="57" selection-start-column="33" selection-end-line="57" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/essentials_instock.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1559">
-          <caret line="57" column="57" lean-forward="false" selection-start-line="57" selection-start-column="40" selection-end-line="57" selection-end-column="57" />
           <folding />
         </state>
       </provider>
@@ -841,25 +823,6 @@
         <state relative-caret-position="427">
           <caret line="111" column="74" lean-forward="true" selection-start-line="111" selection-start-column="24" selection-end-line="111" selection-end-column="74" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/inbox.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1387">
-          <caret line="73" column="30" lean-forward="true" selection-start-line="73" selection-start-column="30" selection-end-line="73" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/inbox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3344">
-          <caret line="176" column="50" lean-forward="true" selection-start-line="176" selection-start-column="50" selection-end-line="176" selection-end-column="50" />
-          <folding>
-            <marker date="1513867194768" expanded="true" signature="4656:4674" ph="..." />
-            <marker date="1513867194768" expanded="true" signature="5330:5348" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -873,9 +836,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="739" column="3" lean-forward="true" selection-start-line="739" selection-start-column="3" selection-end-line="739" selection-end-column="3" />
+        <state relative-caret-position="720">
+          <caret line="766" column="41" lean-forward="false" selection-start-line="766" selection-start-column="41" selection-end-line="766" selection-end-column="41" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/essentials_instock.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="610">
+          <caret line="223" column="40" lean-forward="false" selection-start-line="223" selection-start-column="40" selection-end-line="223" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/inbox.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/inbox.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="659">
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/inbox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="554">
+          <caret line="125" column="8" lean-forward="true" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="8" />
+          <folding>
+            <marker date="1513871467786" expanded="true" signature="4421:4439" ph="..." />
+            <marker date="1513871467786" expanded="true" signature="5113:5132" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

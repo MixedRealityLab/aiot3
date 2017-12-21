@@ -75,6 +75,7 @@ $(document).ready(function() {
         var tdi = tr.find("i.fa");
         var row = table.row( tr );
 
+
         if (row.child.isShown()) {
             // This row is already open - close it
             row.child.hide();
@@ -106,7 +107,7 @@ $(document).ready(function() {
     $('#afterOut tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var tdi = tr.find("i.fa");
-        var row = table.row( tr );
+        var row = table2.row( tr );
 
         if (row.child.isShown()) {
             // This row is already open - close it
@@ -117,7 +118,7 @@ $(document).ready(function() {
         }
         else {
             // Open this row
-            row.child(formatAfter(row.data())).show();
+            row.child(format(row.data())).show();
             tr.addClass('shown');
             tdi.first().removeClass('fa-plus-square');
             tdi.first().addClass('fa-minus-square');
@@ -134,22 +135,9 @@ $(document).ready(function() {
 } );
 
 
-function myFunction() {
-
-
-    if(document.getElementById("radio1")){
-
-        $('input[type="radio"]').on('click', function(e) {
-            console.log(e.type);
-        });
-
-    } else {
-        alert("Element does not exist");
-    }
-}
 
 function feedbackInformation(value){
-    var radioValue = $("input[name='valueBefore']:checked"). val();
+    var radioValue = $("input[name='valueBeforeAfter']:checked"). val();
     console.log(radioValue);
     if(radioValue=='other')
     {
@@ -180,9 +168,9 @@ function format(d){
         '</tr>' +
         '<tr>' +
         '<form action="">'+
-        '<input type="radio" id="radio1" name="valueBefore" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+
-        '<input type="radio" id="radio2" name="valueBefore" value="forgot" onclick="feedbackInformation(this);"> Forgot to scan out'+
-        '<input type="radio" id="radio3" name="valueBefore" value="other"  onclick="feedbackInformation(this);"> Other '+
+        '<input type="radio" id="radio1" name="valueBeforeAfter" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+
+        '<input type="radio" id="radio2" name="valueBeforeAfter" value="forgot" onclick="feedbackInformation(this);"> Forgot to scan out'+
+        '<input type="radio" id="radio3" name="valueBeforeAfter" value="other"  onclick="feedbackInformation(this);"> Other '+
         '</form>'+
 
     '</table>';
@@ -192,10 +180,10 @@ function format(d){
 
 }
 
+/*
 function formatAfter(d){
-
     // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+    return '<table cellpadding="40" cellspacing="0" border="0" style="padding-left:100px;">' +
         '<tr>' +
         '</tr>' +
         '<tr>' +
@@ -203,6 +191,6 @@ function formatAfter(d){
         '<input type="radio" name="valueAfter" value="notUsed"> Not Used'+
         '<input type="radio" name="valueAfter" value="forgot"> Forgot to scan out'+
         '<input type="radio" name="valueAfter" value="other"> Other '+
-        '</form>'
+        '</form>'+
     '</table>';
-}
+}*/
