@@ -75,6 +75,8 @@ $(document).ready(function() {
         var tdi = tr.find("i.fa");
         var row = table.row( tr );
 
+        //console.log(tdi);
+
 
         if (row.child.isShown()) {
             // This row is already open - close it

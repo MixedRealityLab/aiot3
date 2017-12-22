@@ -2,19 +2,14 @@ var request = require('request');
 var express = require('express');
 
 var router = express.Router();
-
-var products = require('../data_models/products');
-var inventory = require('../data_models/inventory');
-var inventory_product =  require('../data_models/inventory_product');
-var in_events = require('../data_models/in_events.js');
-var out_events = require('../data_models/out_events');
+var predictions_usage = require('../data_models/predictions_usage');
 var moment = require('moment');
 
 
 exports.getScannedOutPrediction = function (userId,done) {
     var dataBefore = [];
     var dataAfter = [];
-    inventory_product.getScannedOut_prediction(userId,function(err, data){
+    predictions_usage.getScannedOut_prediction(userId,function(err, data){
         if(err){
             console.log(err);
             return done("there was an error see the console");
@@ -22,7 +17,7 @@ exports.getScannedOutPrediction = function (userId,done) {
         else {
             //scanned out before predicted date
             for (var i=0; i < data.length; i++) {
-                if (data[i].last_scanned_out < data[i].predicted_need_date) {
+                if (data[i].last_scanned_out < data[i].predicted_need_date && data[i].stock_level==0) {
                     dataBefore.push({
                         "product_id": data[i].product_id,
                         "inventory_id": data[i].inventory_id,
@@ -37,7 +32,7 @@ exports.getScannedOutPrediction = function (userId,done) {
                     });
                 } else {
                     //scanned out after predicted date
-                    if (data[i].last_scanned_out > data[i].predicted_need_date) {
+                    if (data[i].last_scanned_out > data[i].predicted_need_date && data[i].stock_level==0) {
                         dataAfter.push({
                             "product_id": data[i].product_id,
                             "inventory_id": data[i].inventory_id,
