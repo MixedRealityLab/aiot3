@@ -162,8 +162,6 @@ function feedbackInformation(value){
 
 
 function format(d){
-
-
     // `d` is the original data object for the row
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '<tr>' +
@@ -177,22 +175,4 @@ function format(d){
 
     '</table>';
 
-
-
-
 }
-
-/*
-function formatAfter(d){
-    // `d` is the original data object for the row
-    return '<table cellpadding="40" cellspacing="0" border="0" style="padding-left:100px;">' +
-        '<tr>' +
-        '</tr>' +
-        '<tr>' +
-        '<form action="">'+
-        '<input type="radio" name="valueAfter" value="notUsed"> Not Used'+
-        '<input type="radio" name="valueAfter" value="forgot"> Forgot to scan out'+
-        '<input type="radio" name="valueAfter" value="other"> Other '+
-        '</form>'+
-    '</table>';
-}*/

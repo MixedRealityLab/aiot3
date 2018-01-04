@@ -58,7 +58,7 @@ block content
 
 
         #otherModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
-            .modal-dialog(role='document')
+            .modal-dialog.modal-sm
                 .modal-content
                     .modal-header
                         button.close(type='button', data-dismiss='modal') ×
@@ -74,5 +74,5 @@ block content
                                 textarea#message-text.form-control
                     .modal-footer
                         //button.btn.btn-close(type='button', data-dismiss='modal') Close
-                        button.btn.btn-primary(type='button') Save
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Save
 
