@@ -13,7 +13,8 @@ var user = require('../data_models/user.js');
 var user_event_log = require('../data_models/user_event_log.js');
 var tescoData = require("./tescoApi.js");
 var inDescription = require("../not used/InDescription.js");
-var prediction = require("./initialPrediction.js");
+var initial_prediction = require("./initialPrediction.js");
+var prediction = require("../data_models/prediction.js");
 
 
 router.get('/drop_all', function(req, res, next) {
@@ -251,7 +252,7 @@ router.get('/get_inventory_by_user_product', function(req, res, next) {
 router.get('/get_inventory_by_id', function(req, res, next) {
   console.log("testing database");
 
-  inventory.getInventoryById(81, function(err, data){
+  inventory.getInventoryById(18, function(err, data){
     
     if(err){
       console.log(err);
@@ -933,7 +934,7 @@ router.get('/initialPrediction', function (req,res,next) {
     var userId = 3;
     var inventoryId= 17;  //19=inventory id of semi skimmed milk
 
-    prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+    initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
         if (err){
             console.log(err);
             res.send("there was an error see the console");
@@ -967,6 +968,30 @@ router.get('/getscannedout_prediction', function(req, res, next) {
         }
     });
 });
+
+//************************ PREDICTION **********
+
+router.get('/new_prediction', function(req, res, next) {
+    console.log("testing new prediction");
+    var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    var last_scanIn = timestamp;
+    var predicted_need_date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    var stock_level = 3;
+    var metadata = {"data": "add more data"};
+
+    prediction.createNew(timestamp,3,1,5,last_scanIn,predicted_need_date,stock_level,metadata, function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error creating a new prediction see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data)
+        }
+    });
+});
+
+
 
 
 

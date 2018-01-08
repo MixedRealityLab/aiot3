@@ -17,7 +17,7 @@ var out_events = require('../data_models/out_events');
 
 var user = require('../data_models/user.js')
 var tescoData = require("./tescoApi.js");
-var prediction = require("./initialPrediction.js");
+var initial_prediction = require("./initialPrediction.js");
 var inbox = require("./inbox.js");
 
 
@@ -251,6 +251,25 @@ router.post('/checkBarcode', function (req,res, next) {
                         }
                         else {
                             //update inventory success
+
+                            //update prediction and save that information in table prediction
+                            initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                if (err){
+                                    console.log(err);
+                                    //res.send("there was an error see the console");
+
+                                }
+                                else {
+                                    //console.log(dataPrediction);
+                                    //res.send(dataPrediction);
+                                    console.log("new prediction added");
+                                }
+
+
+                            });
+
+
+                            //add in event
                             in_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,mysqlTimestamp, function(err, data){
                                 if(err){
                                     //do something
@@ -295,7 +314,7 @@ router.post('/checkBarcode', function (req,res, next) {
 });
 
 
-//insert in the inventory and render to item added view (this request came from add new item view)
+//insert in the inventory and render to item added view (this request came from adding new item view)
 router.post('/insertProduct', function (req,res,next) {
     var userId=req.user[0].id;
     var username = req.user[0].username;
@@ -648,6 +667,7 @@ router.post('/getInventoryData',function (req,res,next) {
 */
 
 
+/*
 //get inventory data including prediction
 router.post('/getInventoryData',function (req,res,next) {
     var userId=req.body.userId;
@@ -672,7 +692,7 @@ router.post('/getInventoryData',function (req,res,next) {
 
                     }
                     else {
-                        console.log("data prediction update on inventory");
+                        console.log(dataPrediction);
                         //res.send(dataPrediction);
                     }
 
@@ -700,7 +720,41 @@ router.post('/getInventoryData',function (req,res,next) {
     });
 
 
+});*/
+
+
+
+//get inventory data with getting prediction field (not upgrading prediction each time that this procedure is called)
+router.post('/getInventoryData',function (req,res,next) {
+    var userId=req.body.userId;
+    inventory_product.getInStock(userId,function(err,data){
+        if(err){
+            console.log(err);
+            //res.send("there was an error");
+            var data= {"data":{}};
+            res.json(data);
+
+        }
+        else{
+
+            for (var i=0; i<data.length; i++){
+                if(data[i].stock_delta_day == 1 ){
+                    data[i].predicted_need_date = 'Not available yet';
+                }
+                else{
+                    data[i].predicted_need_date = moment(data[i].predicted_need_date).format('DD-MM-YYYY');
+                }
+
+            }
+
+            var data= {"data":data};
+            res.json(data);
+        }
+    });
+
+
 });
+
 
 
 router.post('/getInventoryDataPrediction',function (req,res,next) {
@@ -713,9 +767,7 @@ router.post('/getInventoryDataPrediction',function (req,res,next) {
         }
         else {
 
-            //console.log(data);
-            //var data= {"data":data};
-            res.json(data);
+             res.json(data);
         }
     });
 });
@@ -981,8 +1033,6 @@ router.post('/getInOutEvents2',function (req,res,next) {
                     var lastScanIn = moment(allDates[allDates.length-1].added, "DD-MM-YYYY");
                     var predictedRunOut = moment(lastScanIn.add(averageDays,'days')).format('DD-MM-YYYY');
                     console.log(predictedRunOut);
-
-
 
 
                     var data = {"data": allDates,"predictedRunOut":predictedRunOut,"averageDays":averageDays};

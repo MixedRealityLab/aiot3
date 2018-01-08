@@ -5,11 +5,13 @@ var inventory = require('../data_models/inventory');
 var in_events = require('../data_models/in_events.js');
 var out_events = require('../data_models/out_events');
 var moment = require('moment');
+var prediction = require("../data_models/prediction.js");
+
 
 
 
 exports.getInitialPrediction = function (userId, inventoryId,done) {
-
+    var contador = 0;
     in_events.get_allIn_by_user_and_inventory(userId, inventoryId, function (errIn, dataIn) {
 
         if (errIn) {
@@ -101,7 +103,7 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
 
                     }
 
-                    //get average and add prediction
+                    //get average days and add prediction
                     var sum=0;
                     var count=0;
                     for (var i=0; i< allDates.length; i++){
@@ -132,8 +134,39 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                             return done("error to update inventory, see the console");
                         }
                         else {
+                            //create a new prediction in table "prediction"
+                            var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                            var lastScanIn = moment(lastScanIn).format('YYYY-MM-DD HH:mm:ss');
 
-                            return done(data);
+                            //*** FIX LAST SCAN IN AND predictedRunOut **** IS NOT WORKING !!!!!!!
+
+                            //get actual stock level
+                            inventory.getInventoryById(inventoryId, function(err, dataInventoryId){
+
+                                if(err){
+                                    console.log(err);
+                                    //res.send("there was an error see the console");
+                                }
+                                else {
+
+                                    var stock_level =  dataInventoryId[0].stock_level;
+                                    var metadata = allDates;
+                                    prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,predictedRunOut,stock_level,metadata, function(err, data){
+                                        if(err){
+                                            console.log(err);
+                                            return done("there was an error creating a new prediction see the console");
+                                        }
+                                        else {
+                                            console.log(data);
+                                            return done(data)
+                                        }
+                                    });
+                                    //end create new prediction
+
+
+                                }
+                            });
+                            //return done(data);//this return is from update inventory
                         }
 
                     });
