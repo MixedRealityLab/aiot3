@@ -118,15 +118,18 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                     var averageDays = (sum/count).toFixed();
                     //here add quantity, if I have two pints of milk then I have to add to the last scanned-in the average days X 2
                     var lastScanIn = moment(allDates[allDates.length-1].added, "DD-MM-YYYY");
-                    //var predictedRunOut = moment(lastScanIn.add(averageDays,'days')).format('DD-MM-YYYY');
-                    var predictedRunOut = moment(lastScanIn.add(averageDays,'days')).format('YYYY-MM-DD HH:mm:ss');
-                    var predictedRunOut2 = moment(lastScanIn.add(averageDays,'days')).format('YYYY-MM-DD HH:mm:ss');
-                    //console.log(predictedRunOut);
 
-                    var data = {"data": allDates,"inventory_id":inventoryId,"predictedRunOut":predictedRunOut,"averageDays":averageDays};
+                    //create a new prediction in table "prediction"
+                    var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                    lastScanIn = moment(lastScanIn).format('YYYY-MM-DD HH:mm:ss');
+                    var dateOne= moment(lastScanIn,"YYYY-MM-DD").add('days',averageDays);
+                    var predictedRunOut2 = moment(dateOne).format('YYYY-MM-DD HH:mm:ss');
+
+
+                    var data = {"data": allDates,"inventory_id":inventoryId,"predictedRunOut":predictedRunOut2,"averageDays":averageDays};
 
                     //updating inventory predicted date
-                    inventory.updatePredictedNeedDate(inventoryId,predictedRunOut,averageDays,function(err, dataInventory){
+                    inventory.updatePredictedNeedDate(inventoryId,predictedRunOut2,averageDays,function(err, dataInventory){
 
                         if(err){
                             //do something
@@ -134,12 +137,6 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                             return done("error to update inventory, see the console");
                         }
                         else {
-                            //create a new prediction in table "prediction"
-                            var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-                            var lastScanIn = moment(lastScanIn).format('YYYY-MM-DD HH:mm:ss');
-
-                            //*** FIX LAST SCAN IN AND predictedRunOut **** IS NOT WORKING !!!!!!!
-
                             //get actual stock level
                             inventory.getInventoryById(inventoryId, function(err, dataInventoryId){
 
@@ -151,7 +148,7 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
 
                                     var stock_level =  dataInventoryId[0].stock_level;
                                     var metadata = allDates;
-                                    prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,predictedRunOut,stock_level,metadata, function(err, data){
+                                    prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,predictedRunOut2,stock_level,metadata, function(err, data){
                                         if(err){
                                             console.log(err);
                                             return done("there was an error creating a new prediction see the console");
