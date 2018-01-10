@@ -35,7 +35,7 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                             allDates.push({
                                 "id": dataIn[i].id,
                                 "inventory_id": dataIn[i].inventory_id,
-                                "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
+                                "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
                                 "used_up": null,
                                 "daysUse": null
 
@@ -70,8 +70,8 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                                 allDates.push({
                                     "id": dataIn[i].id,
                                     "inventory_id": dataIn[i].inventory_id,
-                                    "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
-                                    "used_up": moment(dataOut[jmin].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
+                                    "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                    "used_up": moment(dataOut[jmin].timestamp).format('DD-MM-YYYY HH:mm:ss'),
                                     "daysUse": daysUse
                                 })
                             }
@@ -80,7 +80,7 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                                 allDates.push({
                                     "id": dataIn[i].id,
                                     "inventory_id": dataIn[i].inventory_id,
-                                    "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
+                                    "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
                                     "used_up": null,
                                     "daysUse": null
                                 });
@@ -94,7 +94,7 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                             allDates.push({
                                 "id": dataIn[i].id,
                                 "inventory_id": dataIn[i].inventory_id,
-                                "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY, HH:mm:ss'),
+                                "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
                                 "used_up": null,
                                 "daysUse": null
 
@@ -112,22 +112,43 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                             count ++;
                         }
                     }
+
+
+                    //get lastScanOut
+                    var lastScanOut = allDates[allDates.length-1].used_up;
+                    var i = allDates.length-1;
+                    while(!lastScanOut && i>=0){
+                        lastScanOut = allDates[i-1].used_up;
+                        console.log("lasScanOut "+ i + ":"+ lastScanOut);
+                        i--;
+
+                    }
+
                     console.log('average:'+ (sum/count).toFixed() + ' days');
 
                     //take the last scanned-in date and add the average days to generate a predicted date
                     var averageDays = (sum/count).toFixed();
                     //here add quantity, if I have two pints of milk then I have to add to the last scanned-in the average days X 2
-                    var lastScanIn = moment(allDates[allDates.length-1].added, "DD-MM-YYYY");
+                    var lastScanIn = moment(allDates[allDates.length-1].added, "DD-MM-YYYY HH:mm:ss");
 
                     //create a new prediction in table "prediction"
                     var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                    //format lastScanIn
                     lastScanIn = moment(lastScanIn).format('YYYY-MM-DD HH:mm:ss');
+                    //format lastScanOut
+                    lastScanOut = moment(lastScanOut).format('YYYY-MM-DD HH:mm:ss');
+
                     var dateOne= moment(lastScanIn,"YYYY-MM-DD").add('days',averageDays);
                     var predictedRunOut2 = moment(dateOne).format('YYYY-MM-DD HH:mm:ss');
 
+                    var feedback_status = 0; //0=no activity 1=activity
+                    var feedback = null;
+                    var feedback_timestamp = null;
+                    var feedback_after_before = 0; //0=no activity, 1=after, 2= before
 
                     var data = {"data": allDates,"inventory_id":inventoryId,"predictedRunOut":predictedRunOut2,"averageDays":averageDays};
 
+                    console.log("lastScanOut added:"+lastScanOut);
                     //updating inventory predicted date
                     inventory.updatePredictedNeedDate(inventoryId,predictedRunOut2,averageDays,function(err, dataInventory){
 
@@ -148,13 +169,16 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
 
                                     var stock_level =  dataInventoryId[0].stock_level;
                                     var metadata = allDates;
-                                    prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,predictedRunOut2,stock_level,metadata, function(err, data){
+                                    prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,lastScanOut,predictedRunOut2,stock_level,metadata,feedback_status,feedback, feedback_timestamp, feedback_after_before, function(err, data){
                                         if(err){
+                                            console.log("prediction probleme"+data);
                                             console.log(err);
                                             return done("there was an error creating a new prediction see the console");
                                         }
                                         else {
-                                            console.log(data);
+
+                                            //console.log(data);
+                                            console.log("prediction added");
                                             return done(data)
                                         }
                                     });

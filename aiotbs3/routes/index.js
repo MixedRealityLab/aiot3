@@ -103,8 +103,9 @@ router.post('/checkBarcode', function (req,res, next) {
                             var stock_level = 1;
                             //create new inventory entry
                             //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
-                            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-                            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,0,1, function(err, data){
+                            //var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                            var predicted_need_date = null;
+                            inventory.createNew(userId,productId,stock_level,predicted_need_date,0,1, function(err, data){
                                 if(err){
                                     //do something
                                     console.log(err);
@@ -179,9 +180,9 @@ router.post('/checkBarcode', function (req,res, next) {
                     console.log(err);
                     console.log("a new inventory entry 'user-product' needs to be created");
                     var stock_level = 1;
-                    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-
-                    inventory.createNew(userId,productId,stock_level,mysqlTimestamp,0,1, function(err, data){
+                    //var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                    var predicted_need_date = null;
+                    inventory.createNew(userId,productId,stock_level,predicted_need_date,0,1, function(err, data){
                         if(err){
                             //do something
                             console.log(err);
@@ -257,15 +258,12 @@ router.post('/checkBarcode', function (req,res, next) {
                                 if (err){
                                     console.log(err);
                                     //res.send("there was an error see the console");
-
                                 }
                                 else {
                                     //console.log(dataPrediction);
                                     //res.send(dataPrediction);
                                     console.log("new prediction added");
                                 }
-
-
                             });
 
 
@@ -339,8 +337,10 @@ router.post('/insertProduct', function (req,res,next) {
             var productId = data.insertId;
             var stock_level = 1;
             //create new inventory entry
-            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,0,1, function(err, data){
+            //var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+            //var mysqlTimestamp = moment("2000-01-01").format('YYYY-MM-DD HH:mm:ss');
+            var predicted_need_date = null;
+            inventory.createNew(userId,productId,stock_level,predicted_need_date,0,1, function(err, data){
                 if(err){
                     //do something
                     console.log(err);
@@ -454,6 +454,21 @@ router.post('/scanOutProduct', function (req,res, next) {
                             }
                             else {
                                 //update inventory success
+
+                                //update prediction and save that information in table prediction
+                                initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                    if (err){
+                                        console.log(err);
+                                        //res.send("there was an error see the console");
+                                    }
+                                    else {
+                                        //console.log(dataPrediction);
+                                        //res.send(dataPrediction);
+                                        console.log("new prediction added");
+                                    }
+                                });
+
+                                //add out event
                                 out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err, data){
                                     if(err){
                                         //do something
@@ -548,6 +563,21 @@ router.post('/scanOutProductManual', function (req,res, next) {
                         }
                         else {
                             //update inventory success
+
+                            //update prediction and save that information in table prediction
+                            initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                if (err){
+                                    console.log(err);
+                                    //res.send("there was an error see the console");
+                                }
+                                else {
+                                    //console.log(dataPrediction);
+                                    //res.send(dataPrediction);
+                                    console.log("new prediction added");
+                                }
+                            });
+
+                            //add out event
                             out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err1, data1){
                                 if(err1){
                                     //do something
@@ -738,7 +768,7 @@ router.post('/getInventoryData',function (req,res,next) {
         else{
 
             for (var i=0; i<data.length; i++){
-                if(data[i].stock_delta_day == 1 ){
+                if(data[i].stock_delta_day == 1 || data[i].stock_delta_day == 0){
                     data[i].predicted_need_date = 'Not available yet';
                 }
                 else{
