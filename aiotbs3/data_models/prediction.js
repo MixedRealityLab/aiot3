@@ -29,3 +29,9 @@ exports.createNew = function (timestamp, inventory_id,user_id, days, lastScanIn,
         }
     );
 }
+
+//get prediction for inbox feedback.
+
+//update feedback after/before.
+
+//update feedback status, feedback details, feedback timestamp.

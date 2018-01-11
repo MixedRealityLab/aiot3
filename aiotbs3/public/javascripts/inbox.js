@@ -87,14 +87,11 @@ $(document).ready(function() {
         }
         else {
             // Open this row
-            row.child(format(row.data())).show();
+            row.child(format_early(row.data())).show();
             tr.addClass('shown');
             tdi.first().removeClass('fa-plus-square');
             tdi.first().addClass('fa-minus-square');
             //myFunction();
-
-
-
 
         }
     } );
@@ -120,7 +117,7 @@ $(document).ready(function() {
         }
         else {
             // Open this row
-            row.child(format(row.data())).show();
+            row.child(format_late(row.data())).show();
             tr.addClass('shown');
             tdi.first().removeClass('fa-plus-square');
             tdi.first().addClass('fa-minus-square');
@@ -161,18 +158,40 @@ function feedbackInformation(value){
 
 
 
-function format(d){
+function format_early(d){
     // `d` is the original data object for the row
+    $('#otherModal').modal('show');
+    // language=HTML
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        //'<tr>' +
+        //'</tr>' +
+        //'<tr>' +
+        //'<form action="">'+
+        //'</form>' +
+        '<center><i>Tell us why the product was used early </i></center>' +
+        //'<input type="text" name="valueEarly">'+
+        //'<input type="radio" id="radio1" name="valueBeforeAfter" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+
+        //'<input type="radio" id="radio2" name="valueBeforeAfter" value="forgot" onclick="feedbackInformation(this);"> Forgot to scan out'+
+        //'<input type="radio" id="radio3" name="valueBeforeAfter" value="other"  onclick="feedbackInformation(this);"> Other '+
+        '</table>';
+}
+
+
+function format_late(d){
+    // `d` is the original data object for the row
+    $('#otherModal').modal('show');
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '<tr>' +
         '</tr>' +
         '<tr>' +
-        '<form action="">'+
-        '<input type="radio" id="radio1" name="valueBeforeAfter" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+
-        '<input type="radio" id="radio2" name="valueBeforeAfter" value="forgot" onclick="feedbackInformation(this);"> Forgot to scan out'+
-        '<input type="radio" id="radio3" name="valueBeforeAfter" value="other"  onclick="feedbackInformation(this);"> Other '+
-        '</form>'+
+        '<center><i>Tell us why the product was used later </i></center>' +
+        '<p></p>'+
+        //'<form action="">'+
+        //'<input type="radio" id="radio1" name="valueBeforeAfter" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+
+        //'<input type="radio" id="radio2" name="valueBeforeAfter" value="forgot" onclick="feedbackInformation(this);"> Forgot to scan out'+
+        //'<input type="radio" id="radio3" name="valueBeforeAfter" value="other"  onclick="feedbackInformation(this);"> Other '+
+        //'</form>' +
 
-    '</table>';
+        '</table>';
 
 }
