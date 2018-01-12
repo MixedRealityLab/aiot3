@@ -31,7 +31,61 @@ exports.createNew = function (timestamp, inventory_id,user_id, days, lastScanIn,
 }
 
 //get prediction for inbox feedback.
+//0 = scanned out early than prediction
+//1 = scanned out later than  prediction
+
+exports.getPredictionsForUser = function (user_id, done) {
+    var params = [user_id];
+    db.get().query("select product.id as 'product_id',product.description, a.*, if( a.last_scanOut < a.predicted_need_date ,0,1) as 'early_late'\n" +
+        "from prediction a,product,inventory\n" +
+        "where (\n" +
+        "  select count(*)\n" +
+        "  from prediction b\n" +
+        "  where a.inventory_id = b.inventory_id\n" +
+        "  and  case \n" +
+        "       when a.`timestamp` = b.`timestamp`\n" +
+        "       then a.id < b.id\n" +
+        "       else a.`timestamp` < b.`timestamp`\n" +
+        "       end\n" +
+        ") + 1 = 1\n" +
+        "and a.stock_level = 0\n" +
+        "and a.user_id = ?\n" +
+        "and a.feedback_status = 0\n" +
+        "and product.id = inventory.product_id\n" +
+        "and inventory.id = a.inventory_id ", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("no entries for user"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+}
+
+
 
 //update feedback after/before.
+exports.updatePredictionFeedback = function (inventory_id, new_stock_level, done) {
+    var params = [new_stock_level, inventory_id];
+    db.get().query("UPDATE prediction SET stock_level = ? where id = ?", params, function (err, rows) {
+
+        if(err)
+            return done(err);
+        else
+            console.log(rows);
+        return done(null, rows);
+
+
+    });
+
+}
 
 //update feedback status, feedback details, feedback timestamp.

@@ -992,7 +992,22 @@ router.get('/new_prediction', function(req, res, next) {
 });
 
 
+router.get('/getPredictionsForUser', function(req, res, next) {
 
+    prediction.getPredictionsForUser(3,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
 
 
 module.exports = router;

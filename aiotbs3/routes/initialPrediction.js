@@ -35,7 +35,8 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                             allDates.push({
                                 "id": dataIn[i].id,
                                 "inventory_id": dataIn[i].inventory_id,
-                                "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                //"added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                "added": moment(dataIn[i].timestamp).format('YYYY-MM-DD HH:mm:ss'),
                                 "used_up": null,
                                 "daysUse": null
 
@@ -70,8 +71,10 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                                 allDates.push({
                                     "id": dataIn[i].id,
                                     "inventory_id": dataIn[i].inventory_id,
-                                    "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
-                                    "used_up": moment(dataOut[jmin].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                    //"added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                    //"used_up": moment(dataOut[jmin].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                    "added": moment(dataIn[i].timestamp).format('YYYY-MM-DD HH:mm:ss'),
+                                    "used_up": moment(dataOut[jmin].timestamp).format('YYYY-MM-DD HH:mm:ss'),
                                     "daysUse": daysUse
                                 })
                             }
@@ -80,7 +83,8 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                                 allDates.push({
                                     "id": dataIn[i].id,
                                     "inventory_id": dataIn[i].inventory_id,
-                                    "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                    //"added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                    "added": moment(dataIn[i].timestamp).format('YYYY-MM-DD HH:mm:ss'),
                                     "used_up": null,
                                     "daysUse": null
                                 });
@@ -94,7 +98,8 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                             allDates.push({
                                 "id": dataIn[i].id,
                                 "inventory_id": dataIn[i].inventory_id,
-                                "added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                //"added": moment(dataIn[i].timestamp).format('DD-MM-YYYY HH:mm:ss'),
+                                "added": moment(dataIn[i].timestamp).format('YYYY-MM-DD HH:mm:ss'),
                                 "used_up": null,
                                 "daysUse": null
 
@@ -129,7 +134,7 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
                     //take the last scanned-in date and add the average days to generate a predicted date
                     var averageDays = (sum/count).toFixed();
                     //here add quantity, if I have two pints of milk then I have to add to the last scanned-in the average days X 2
-                    var lastScanIn = moment(allDates[allDates.length-1].added, "DD-MM-YYYY HH:mm:ss");
+                    var lastScanIn = moment(allDates[allDates.length-1].added, "YYYY-MM-DD HH:mm:ss");
 
                     //create a new prediction in table "prediction"
                     var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
