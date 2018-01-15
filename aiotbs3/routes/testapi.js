@@ -1010,5 +1010,25 @@ router.get('/getPredictionsForUser', function(req, res, next) {
 });
 
 
+router.get('/updatePredictionFeedback', function(req, res, next) {
+
+    var feedback_timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    prediction.updatePredictionFeedback(1,1,"test",feedback_timestamp,0,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
+
+
 module.exports = router;
 

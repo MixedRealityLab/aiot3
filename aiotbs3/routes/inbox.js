@@ -59,21 +59,6 @@ exports.getScannedOutPrediction = function (userId,done) {
 }
 
 
-/*"timestamp":data[i].timestamp,
-"inventory_id": data[i].inventory_id,
-    "user_id": data[i].user_id,
-    "days_average": data[i].days_average,
-    "last_scanIn":data[i].last_scanIn,
-    "last_scanOut":data[i].last_scanOut,
-    "predicted_need_date": data[i].predicted_need_date,
-    "stock_level": data[i].stock_level,
-    "metadata": data[i].need_trigger_stock_level,
-    "feedback_status":,
-"feedback":,
-"feedback_timestamp":,
-"feedback_after_before"
-*/
-
 
 //getting prediction to show as inbox notifications
 exports.getPredictionsFeedback =  function (userId,done) {

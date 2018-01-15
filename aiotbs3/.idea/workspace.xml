@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_models/prediction.js" afterPath="$PROJECT_DIR$/data_models/prediction.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/inbox.js" afterPath="$PROJECT_DIR$/routes/inbox.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/initialPrediction.js" afterPath="$PROJECT_DIR$/routes/initialPrediction.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/testapi.js" afterPath="$PROJECT_DIR$/routes/testapi.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -26,8 +25,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="822" column="0" lean-forward="true" selection-start-line="822" selection-start-column="0" selection-end-line="822" selection-end-column="0" />
+            <state relative-caret-position="295">
+              <caret line="808" column="32" lean-forward="false" selection-start-line="808" selection-start-column="10" selection-end-line="808" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -36,28 +35,28 @@
       <file leaf-file-name="initialPrediction.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/initialPrediction.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2052">
-              <caret line="66" column="21" lean-forward="true" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
+            <state relative-caret-position="19">
+              <caret line="66" column="21" lean-forward="false" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inbox.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="inbox.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/inbox.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="103" column="49" lean-forward="true" selection-start-line="103" selection-start-column="49" selection-end-line="103" selection-end-column="49" />
+            <state relative-caret-position="565">
+              <caret line="71" column="9" lean-forward="true" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inbox.pug" pinned="false" current-in-tab="true">
+      <file leaf-file-name="inbox.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/inbox.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="793">
-              <caret line="49" column="33" lean-forward="true" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+            <state relative-caret-position="294">
+              <caret line="51" column="30" lean-forward="false" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -76,7 +75,7 @@
       <file leaf-file-name="inventory.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_models/inventory.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
+            <state relative-caret-position="208">
               <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="141" selection-end-column="1" />
               <folding />
             </state>
@@ -86,7 +85,7 @@
       <file leaf-file-name="predictions_usage.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_models/predictions_usage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="584">
+            <state relative-caret-position="627">
               <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding />
             </state>
@@ -96,8 +95,8 @@
       <file leaf-file-name="prediction.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_models/prediction.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="36" column="29" lean-forward="false" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="29" />
+            <state relative-caret-position="620">
+              <caret line="77" column="18" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -106,8 +105,8 @@
       <file leaf-file-name="testapi.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/testapi.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="996" column="4" lean-forward="true" selection-start-line="996" selection-start-column="4" selection-end-line="1008" selection-end-column="7" />
+            <state relative-caret-position="881">
+              <caret line="1012" column="37" lean-forward="false" selection-start-line="1012" selection-start-column="13" selection-end-line="1012" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -126,7 +125,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getInStock</find>
       <find>getInventorydata</find>
       <find>getinventory</find>
       <find>header</find>
@@ -156,6 +154,7 @@
       <find>inventory.createNew</find>
       <find>getInventoryD</find>
       <find>getScannedOutPrediction</find>
+      <find>getPredictionsFeedback</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/public/img</dir>
@@ -213,11 +212,11 @@
         <option value="$PROJECT_DIR$/data_models/inbox.js" />
         <option value="$PROJECT_DIR$/public/javascripts/inbox.js" />
         <option value="$PROJECT_DIR$/routes/initialPrediction.js" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/views/inbox.pug" />
         <option value="$PROJECT_DIR$/routes/testapi.js" />
         <option value="$PROJECT_DIR$/data_models/prediction.js" />
-        <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/routes/inbox.js" />
-        <option value="$PROJECT_DIR$/views/inbox.pug" />
       </list>
     </option>
   </component>
@@ -280,7 +279,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -318,6 +316,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <expand>
@@ -480,12 +479,13 @@
       <workItem from="1515409930860" duration="12208000" />
       <workItem from="1515490530565" duration="9081000" />
       <workItem from="1515575958959" duration="7807000" />
-      <workItem from="1515673025421" duration="12409000" />
+      <workItem from="1515673025421" duration="12507000" />
+      <workItem from="1516015055740" duration="3096000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="948563000" />
+    <option name="totallyTimeSpent" value="951757000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -784,7 +784,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="912">
           <caret line="48" column="14" lean-forward="false" selection-start-line="44" selection-start-column="18" selection-end-line="48" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -814,73 +813,69 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="174" column="23" lean-forward="false" selection-start-line="174" selection-start-column="23" selection-end-line="174" selection-end-column="23" />
-          <folding>
-            <marker date="1515685571351" expanded="true" signature="4519:4537" ph="..." />
-            <marker date="1515685571351" expanded="true" signature="5387:5405" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_models/predictions_usage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="584">
+        <state relative-caret-position="627">
           <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_models/inventory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="141" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_models/prediction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="36" column="29" lean-forward="false" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/testapi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="996" column="4" lean-forward="true" selection-start-line="996" selection-start-column="4" selection-end-line="1008" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/initialPrediction.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2052">
-          <caret line="66" column="21" lean-forward="true" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="822" column="0" lean-forward="true" selection-start-line="822" selection-start-column="0" selection-end-line="822" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/inbox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="103" column="49" lean-forward="true" selection-start-line="103" selection-start-column="49" selection-end-line="103" selection-end-column="49" />
+        <state relative-caret-position="19">
+          <caret line="66" column="21" lean-forward="false" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/inbox.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="793">
-          <caret line="49" column="33" lean-forward="true" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+        <state relative-caret-position="294">
+          <caret line="51" column="30" lean-forward="false" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_models/inventory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="141" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/testapi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="881">
+          <caret line="1012" column="37" lean-forward="false" selection-start-line="1012" selection-start-column="13" selection-end-line="1012" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_models/prediction.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="620">
+          <caret line="77" column="18" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="808" column="32" lean-forward="false" selection-start-line="808" selection-start-column="10" selection-end-line="808" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/inbox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="565">
+          <caret line="71" column="9" lean-forward="true" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
           <folding />
         </state>
       </provider>

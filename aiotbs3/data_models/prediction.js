@@ -72,10 +72,13 @@ exports.getPredictionsForUser = function (user_id, done) {
 
 
 
-//update feedback after/before.
-exports.updatePredictionFeedback = function (inventory_id, new_stock_level, done) {
-    var params = [new_stock_level, inventory_id];
-    db.get().query("UPDATE prediction SET stock_level = ? where id = ?", params, function (err, rows) {
+//update feedback status, feedback details, feedback timestamp.
+//feedback_status = 0 (there is not feedback available)
+//feedback_status = 1 (there is feedback available)
+exports.updatePredictionFeedback = function (prediction_id, feedback_status, feedback, feedback_timestamp, feedback_after_before, done) {
+
+    var params = [feedback_status, feedback, feedback_timestamp, feedback_after_before,prediction_id];
+    db.get().query("UPDATE prediction SET feedback_status = ?, feedback = ?, feedback_timestamp = ?, feedback_after_before = ? where id = ?", params, function (err, rows) {
 
         if(err)
             return done(err);
@@ -88,4 +91,3 @@ exports.updatePredictionFeedback = function (inventory_id, new_stock_level, done
 
 }
 
-//update feedback status, feedback details, feedback timestamp.
