@@ -638,7 +638,36 @@ router.post('/feedbackPrediction', function (req,res, next) {
         else {
 
             console.log(data);
-            res.send(data);
+            //res.send(data);
+            //res.render('inbox',{ user: req.user});
+            res.redirect('/');
+
+        }
+    });
+
+});
+
+
+router.post('/feedbackPredictionAjax', function (req,res, next) {
+    console.log("from inbox ajax");
+    var feedback_status = req.body.feedback_status;
+    var feedback = req.body.feedback_text;
+    var feedback_timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    var feedback_after_before = req.body.feedback_after_before;
+    var predictionId = req.body.prediction_id;
+    var inventoryId =  req.body.inventory_id;
+
+    //prediction.updatePredictionFeedback(1,,,,)
+    prediction.updatePredictionFeedback(predictionId,feedback_status,feedback,feedback_timestamp,feedback_after_before,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send({messageItem:4, data:data});
+
 
         }
     });

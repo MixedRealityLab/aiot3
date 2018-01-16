@@ -34,8 +34,12 @@ $(document).ready(function() {
         "lengthChange": false,
         "length": 10,
         "paging": false,
-        "scrollY": '300px'
+        "scrollY": '300px',
+        drawCallback : function() {
+            processInfoBefore(this.api().page.info());
+        }
     } );
+
 
 
 
@@ -67,10 +71,31 @@ $(document).ready(function() {
         "lengthChange": false,
         "length": 10,
         "paging": false,
-        "scrollY": '300px'
+        "scrollY": '300px',
+        drawCallback : function() {
+            processInfoAfter(this.api().page.info());
+        }
     } );
 
 
+    //info tables
+    //var infoBefore = table.page.info();
+    //var infoAfter =  table2.page.info();
+
+    //console.log(infoAfter);
+    //document.getElementById("spanbefore").innerText = infoBefore.length;
+
+    function processInfoBefore(info) {
+        console.log(info.recordsTotal);
+        //do your stuff here
+        document.getElementById("spanbefore").innerText = info.recordsTotal;
+    }
+
+    function processInfoAfter(info) {
+        console.log(info.recordsTotal);
+        //do your stuff here
+        document.getElementById("spanafter").innerText = info.recordsTotal;
+    }
 
 
     // Add event listener for opening and closing details
@@ -179,16 +204,36 @@ $(document).ready(function() {
                     document.getElementById("feedbackPrediction").submit();
 
 
+
+
+
+
                 }
                 else{
                     console.log("saving feedback after");
                     console.log(dataAfter);
-                    document.getElementById("feedback_status").value = 1;
-                    document.getElementById("feedback_after_before").value = 1;
-                    document.getElementById("prediction_id").value = dataBefore.prediction_id;
-                    document.getElementById("inventory_id").value = dataBefore.inventory_id;
-                    document.getElementById("feedbackPrediction").submit();
-                    document.getElementById("feedbackPrediction").submit();
+                    var feedbackText =  document.getElementById("feedback_text").value;
+                    //document.getElementById("feedback_status").value = 1;
+                    //document.getElementById("feedback_after_before").value = 1;
+                    //document.getElementById("prediction_id").value = dataAfter.prediction_id;
+                    //document.getElementById("inventory_id").value = dataAfter.inventory_id;
+                    //document.getElementById("feedbackPrediction").submit();
+
+
+                    $.ajax({
+                        url: '/feedbackPredictionAjax',
+                        type: 'POST',
+                        data: {feedback_status: 1, feedback_after_before: 1, prediction_id:dataAfter.prediction_id, inventory_id:dataAfter.inventory_id, feedbackText:feedbackText },
+                        datatype: 'json',
+                        success: function (response) {
+                            console.log('success', response);
+                            //document.getElementById("statusData").innerHTML = "Server response:" + response.msg;
+
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText); // error occur
+                        }
+                    });
 
                 }
 

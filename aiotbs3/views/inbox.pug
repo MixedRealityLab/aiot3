@@ -25,7 +25,7 @@ block content
                         .panel.panel-default
                             .panel-heading
                                 | Products used up early #{''}
-                                span.badge 0
+                                span#spanbefore.badge 0
                             table#beforeOut.table.table-hover(width='100%', cellspacing='0')
                                 thead(style='display:none;')
                                     tr
@@ -37,7 +37,7 @@ block content
                         .panel.panel-default
                             .panel-heading
                                 | Product used up late #{''}
-                                span.badge 0
+                                span#spanafter.badge 0
                             table#afterOut.table.table-hover(width='100%', cellspacing='0')
                                 thead(style='display:none;')
                                     tr

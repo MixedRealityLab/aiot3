@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/inbox.js" afterPath="$PROJECT_DIR$/public/javascripts/inbox.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/inbox.pug" afterPath="$PROJECT_DIR$/views/inbox.pug" />
@@ -22,11 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="632" column="47" lean-forward="false" selection-start-line="632" selection-start-column="47" selection-end-line="632" selection-end-column="47" />
+            <state relative-caret-position="258">
+              <caret line="653" column="29" lean-forward="true" selection-start-line="653" selection-start-column="29" selection-end-line="653" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -52,15 +51,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inbox.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="inbox.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/inbox.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="622">
-              <caret line="178" column="63" lean-forward="false" selection-start-line="178" selection-start-column="45" selection-end-line="178" selection-end-column="63" />
+            <state relative-caret-position="540">
+              <caret line="93" column="37" lean-forward="true" selection-start-line="93" selection-start-column="37" selection-end-line="93" selection-end-column="37" />
               <folding>
-                <marker date="1516112936634" expanded="true" signature="6780:6798" ph="..." />
-                <marker date="1516112936634" expanded="true" signature="7705:7723" ph="..." />
+                <marker date="1516125951220" expanded="true" signature="8389:8407" ph="..." />
+                <marker date="1516125951220" expanded="true" signature="9314:9332" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scannedOutProduct.pug" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/scannedOutProduct.pug">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-869">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -68,8 +77,8 @@
       <file leaf-file-name="inbox.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/inbox.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="579">
-              <caret line="78" column="54" lean-forward="false" selection-start-line="78" selection-start-column="41" selection-end-line="78" selection-end-column="54" />
+            <state relative-caret-position="476">
+              <caret line="39" column="54" lean-forward="true" selection-start-line="39" selection-start-column="54" selection-end-line="39" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -78,8 +87,8 @@
       <file leaf-file-name="essentials.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/essentials.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="753">
-              <caret line="221" column="79" lean-forward="true" selection-start-line="215" selection-start-column="25" selection-end-line="221" selection-end-column="79" />
+            <state relative-caret-position="-2203">
+              <caret line="104" column="16" lean-forward="false" selection-start-line="104" selection-start-column="16" selection-end-line="117" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -88,29 +97,24 @@
       <file leaf-file-name="essentials_instock.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/essentials_instock.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
+            <state relative-caret-position="515">
               <caret line="197" column="87" lean-forward="false" selection-start-line="197" selection-start-column="67" selection-end-line="197" selection-end-column="87" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inventory.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data_models/inventory.js">
+      <file leaf-file-name="scanInOut.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/scanInOut.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="436">
-              <caret line="140" column="4" lean-forward="true" selection-start-line="140" selection-start-column="4" selection-end-line="140" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="prediction.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data_models/prediction.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="840">
-              <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="-3917">
+              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding>
+                <marker date="1512995255021" expanded="true" signature="800:814" ph="..." />
+                <marker date="1512995255021" expanded="true" signature="4502:4516" ph="..." />
+                <marker date="1512995255021" expanded="true" signature="7150:7164" ph="..." />
+                <marker date="1512995255021" expanded="true" signature="10094:10108" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -138,7 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>item_data</find>
       <find>createNew</find>
       <find>data prediction update on inventory</find>
       <find>wizard</find>
@@ -165,8 +168,9 @@
       <find>getScannedOutPrediction</find>
       <find>getPredictionsFeedback</find>
       <find>products_data</find>
-      <find>scanoutFormManual</find>
       <find>scanOutProductManual</find>
+      <find>feedbackPrediction</find>
+      <find>scanoutFormManual</find>
       <find>otherModal</find>
     </findStrings>
     <dirStrings>
@@ -227,9 +231,9 @@
         <option value="$PROJECT_DIR$/routes/testapi.js" />
         <option value="$PROJECT_DIR$/data_models/prediction.js" />
         <option value="$PROJECT_DIR$/routes/inbox.js" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/views/inbox.pug" />
         <option value="$PROJECT_DIR$/public/javascripts/inbox.js" />
-        <option value="$PROJECT_DIR$/routes/index.js" />
       </list>
     </option>
   </component>
@@ -494,12 +498,12 @@
       <workItem from="1515575958959" duration="7807000" />
       <workItem from="1515673025421" duration="12507000" />
       <workItem from="1516015055740" duration="3158000" />
-      <workItem from="1516095184422" duration="10525000" />
+      <workItem from="1516095184422" duration="14065000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="962344000" />
+    <option name="totallyTimeSpent" value="965884000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -573,13 +577,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/scanInOut.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -731,13 +728,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/scannedOutProduct.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2933">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/inbox.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="247">
@@ -832,22 +822,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/essentials_instock.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="197" column="87" lean-forward="false" selection-start-line="197" selection-start-column="67" selection-end-line="197" selection-end-column="87" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/essentials.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="753">
-          <caret line="221" column="79" lean-forward="true" selection-start-line="215" selection-start-column="25" selection-end-line="221" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/testapi.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -856,10 +830,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/inbox.js">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/essentials.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-984">
-          <caret line="0" column="33" lean-forward="true" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
+        <state relative-caret-position="-2203">
+          <caret line="104" column="16" lean-forward="false" selection-start-line="104" selection-start-column="16" selection-end-line="117" selection-end-column="19" />
           <folding />
         </state>
       </provider>
@@ -872,30 +846,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="653" column="29" lean-forward="true" selection-start-line="653" selection-start-column="29" selection-end-line="653" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/essentials_instock.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="197" column="87" lean-forward="false" selection-start-line="197" selection-start-column="67" selection-end-line="197" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/scanInOut.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3917">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <marker date="1512995255021" expanded="true" signature="800:814" ph="..." />
+            <marker date="1512995255021" expanded="true" signature="4502:4516" ph="..." />
+            <marker date="1512995255021" expanded="true" signature="7150:7164" ph="..." />
+            <marker date="1512995255021" expanded="true" signature="10094:10108" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/inbox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-984">
+          <caret line="0" column="33" lean-forward="true" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/inbox.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="78" column="54" lean-forward="false" selection-start-line="78" selection-start-column="41" selection-end-line="78" selection-end-column="54" />
+        <state relative-caret-position="476">
+          <caret line="39" column="54" lean-forward="true" selection-start-line="39" selection-start-column="54" selection-end-line="39" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/scannedOutProduct.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-869">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/inbox.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
-          <caret line="178" column="63" lean-forward="false" selection-start-line="178" selection-start-column="45" selection-end-line="178" selection-end-column="63" />
+        <state relative-caret-position="540">
+          <caret line="93" column="37" lean-forward="true" selection-start-line="93" selection-start-column="37" selection-end-line="93" selection-end-column="37" />
           <folding>
-            <marker date="1516112936634" expanded="true" signature="6780:6798" ph="..." />
-            <marker date="1516112936634" expanded="true" signature="7705:7723" ph="..." />
+            <marker date="1516125951220" expanded="true" signature="8389:8407" ph="..." />
+            <marker date="1516125951220" expanded="true" signature="9314:9332" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="632" column="47" lean-forward="false" selection-start-line="632" selection-start-column="47" selection-end-line="632" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
