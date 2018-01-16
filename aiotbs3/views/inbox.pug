@@ -44,14 +44,18 @@ block content
                                         th
                                         th
 
-        #feedbackModal.modal.fade(role='dialog')
+        //#feedbackModal.modal.fade(role='dialog')
             .modal-dialog.modal-sm
                 .modal-content
                     .modal-header
                         button.close(type='button', data-dismiss='modal') ×
                         h4.modal-title Thanks for your feedback
                     .modal-body
-                        p#feedbackBody
+                        //p#feedbackBody
+                        form#feedbackPrediction(method='POST', action='/feedbackPrediction')
+                            .form-group
+                                //label.col-form-label(for='message-text') Message:
+                                textarea#message-text.form-control(name='feedback_text', required='')
 
                     .modal-footer
                         button.btn.btn-primary(type='button', data-dismiss='modal') Save
@@ -68,11 +72,19 @@ block content
                             span(aria-hidden='true') ×
                     .modal-body
                         p Please, let us know more information
-                        form
+                        //form
+                        form#feedbackPrediction(method='POST', action='/feedbackPrediction')
                             .form-group
                                 //label.col-form-label(for='message-text') Message:
-                                textarea#message-text.form-control
+                                textarea#feedback_text.form-control(name='feedback_text', required='')
+                                input#feedback_after_before.form-control(name = 'feedback_after_before', type='hidden', required='')
+                                input#feedback_status.form-control(name='feedback_status', type='hidden',required='')
+                                input#prediction_id.form-control(name='prediction_id', type='hidden',required='')
+                                input#inventory_id.form-control(name='inventory_id', type='hidden',required='')
+
+
+
                     .modal-footer
                         //button.btn.btn-close(type='button', data-dismiss='modal') Close
-                        button.btn.btn-primary(type='button', data-dismiss='modal') Save
+                        button#btnSaveFeedback.btn.btn-primary(type='button', data-dismiss='modal') Save
 

@@ -1,7 +1,9 @@
 
 $(document).ready(function() {
     var getUserId = $("#HideUserId").val();
-
+    var dataBefore = '';
+    var dataAfter = '';
+    var afterBefore = 0;
 
     var table = $('#beforeOut').DataTable( {
         "bFilter": false,
@@ -69,13 +71,16 @@ $(document).ready(function() {
     } );
 
 
+
+
     // Add event listener for opening and closing details
     $('#beforeOut tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var tdi = tr.find("i.fa");
         var row = table.row( tr );
+        afterBefore = 0;
 
-        //console.log(tdi);
+
 
 
         if (row.child.isShown()) {
@@ -94,11 +99,20 @@ $(document).ready(function() {
             //myFunction();
 
         }
+
+        dataBefore = table.row($(this).parents('tr')).data();
+
+        //console.log(dataBefore);
+
+
+
+
     } );
 
     table.on("user-select", function (e, dt, type, cell, originalEvent) {
         if ($(cell.node()).hasClass("details-control")) {
             e.preventDefault();
+            console.log("click row before");
         }
     });
 
@@ -107,6 +121,7 @@ $(document).ready(function() {
         var tr = $(this).closest('tr');
         var tdi = tr.find("i.fa");
         var row = table2.row( tr );
+        afterBefore = 1;
 
         if (row.child.isShown()) {
             // This row is already open - close it
@@ -122,12 +137,70 @@ $(document).ready(function() {
             tdi.first().removeClass('fa-plus-square');
             tdi.first().addClass('fa-minus-square');
         }
+
+        dataAfter = table2.row($(this).parents('tr')).data();
+        console.log("click row after");
+
     } );
 
     table2.on("user-select", function (e, dt, type, cell, originalEvent) {
         if ($(cell.node()).hasClass("details-control")) {
             e.preventDefault();
+            //console.log("click row after");
         }
+    });
+
+
+    //sending data to update feedback
+    $('#otherModal').on('click', function (event) {
+        var idButton = event.target.id;
+        if (event.target.id == 'btnSaveFeedback'){
+            //if($("#feedback_text").val().trim().length < 1)
+            //{
+            //    alert("Please Enter Text...");
+            //    return;
+            //}
+
+            if(document.getElementById("feedback_text").value == "")
+            {
+                alert("Please add feedback text...");
+                //return;
+
+            }
+            else{
+
+                if(afterBefore == 0){
+                    console.log("saving feedback before");
+                    console.log(dataBefore);
+                    document.getElementById("feedback_status").value = 1;
+                    document.getElementById("feedback_after_before").value = 0;
+                    document.getElementById("prediction_id").value = dataBefore.prediction_id;
+                    document.getElementById("inventory_id").value = dataBefore.inventory_id;
+                    document.getElementById("feedbackPrediction").submit();
+
+
+                }
+                else{
+                    console.log("saving feedback after");
+                    console.log(dataAfter);
+                    document.getElementById("feedback_status").value = 1;
+                    document.getElementById("feedback_after_before").value = 1;
+                    document.getElementById("prediction_id").value = dataBefore.prediction_id;
+                    document.getElementById("inventory_id").value = dataBefore.inventory_id;
+                    document.getElementById("feedbackPrediction").submit();
+                    document.getElementById("feedbackPrediction").submit();
+
+                }
+
+
+
+
+            }
+
+
+        }
+
+
     });
 
 
@@ -160,7 +233,9 @@ function feedbackInformation(value){
 
 function format_early(d){
     // `d` is the original data object for the row
+    document.getElementById("feedback_text").value = '';
     $('#otherModal').modal('show');
+
     // language=HTML
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         //'<tr>' +
@@ -179,6 +254,7 @@ function format_early(d){
 
 function format_late(d){
     // `d` is the original data object for the row
+    document.getElementById("feedback_text").value = '';
     $('#otherModal').modal('show');
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '<tr>' +
