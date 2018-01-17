@@ -288,7 +288,7 @@ function format_early(d){
         //'<tr>' +
         //'<form action="">'+
         //'</form>' +
-        '<center><i>Tell us why the product was used early </i></center>' +
+        '<center><i>Tell us why the product was used earlier than predicted. </i></center>' +
         //'<input type="text" name="valueEarly">'+
         //'<input type="radio" id="radio1" name="valueBeforeAfter" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+
         //'<input type="radio" id="radio2" name="valueBeforeAfter" value="forgot" onclick="feedbackInformation(this);"> Forgot to scan out'+
@@ -305,7 +305,7 @@ function format_late(d){
         '<tr>' +
         '</tr>' +
         '<tr>' +
-        '<center><i>Tell us why the product was used later </i></center>' +
+        '<center><i>Tell us why the product was used later than predicted. </i></center>' +
         '<p></p>'+
         //'<form action="">'+
         //'<input type="radio" id="radio1" name="valueBeforeAfter" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+

@@ -25,13 +25,21 @@ $(document).ready(function() {
             right: 'next, month,basicWeek'
         },
         views: {
-            basicWeek: { // name of view
-                //titleFormat: 'DD,MM '
+            //basicWeek: { // name of view
 
-                // other view-specific options here
+            //}
+            week: {
+                titleFormat: '[Products running out: ] D MMMM YYYY',
+                titleRangeSeparator: ' to ',
+            },
+
+            month: {
+                titleFormat: '[Products running out: ] MMMM YYYY',
+                titleRangeSeparator: ' to ',
             }
         },
         defaultView: 'basicWeek',
+        //defaultView: 'agendaWeek',
         //viewRender: function(view,element) {
             //var title = view.title;
             //$('#externalTitle').html(title);
