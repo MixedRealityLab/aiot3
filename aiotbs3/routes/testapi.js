@@ -1084,7 +1084,7 @@ router.get('/getTotal_in_out', function(req, res, next) {
                 else {
                     totalOut =  dataOut[0].total_out;
                     var totalInOut = totalIn + totalOut ;
-                    var reward = (totalInOut * 0.1).toFixed(1);
+                    var reward = (totalInOut * 0.1).toFixed(2);
                     console.log("total:"+reward);
                     data = {"totalInOut":totalInOut, "reward":reward};
                     //console.log(data);
