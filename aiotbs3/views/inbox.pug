@@ -24,8 +24,11 @@ block content
                     .row.spacer
                         .panel.panel-default
                             .panel-heading
-                                | Products used up early #{''}
-                                span#spanbefore.badge 0
+                                h4
+                                    |Products used up early #{''}
+                                    span#spanbefore.badge 0
+                                p
+                                    |Tell us why these products were used earlier than predicted.
                             table#beforeOut.table.table-hover(width='100%', cellspacing='0')
                                 thead(style='display:none;')
                                     tr
@@ -36,8 +39,11 @@ block content
                     .row.spacer
                         .panel.panel-default
                             .panel-heading
-                                | Product used up late #{''}
-                                span#spanafter.badge 0
+                                h4
+                                    |Product used up late #{''}
+                                    span#spanafter.badge 0
+                                p
+                                    |Tell us why these products were used later than predicted.
                             table#afterOut.table.table-hover(width='100%', cellspacing='0')
                                 thead(style='display:none;')
                                     tr

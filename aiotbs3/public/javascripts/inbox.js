@@ -106,8 +106,6 @@ $(document).ready(function() {
         afterBefore = 0;
 
 
-
-
         if (row.child.isShown()) {
             // This row is already open - close it
             row.child.hide();
@@ -282,18 +280,18 @@ function format_early(d){
     $('#otherModal').modal('show');
 
     // language=HTML
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+    return '';//<table cellpadding="0" cellspacing="0" border="0" style="padding-left:0px;">' +
         //'<tr>' +
         //'</tr>' +
         //'<tr>' +
         //'<form action="">'+
         //'</form>' +
-        '<center><i>Tell us why the product was used earlier than predicted. </i></center>' +
+        //'<center><i>Tell us why the product was used earlier than predicted. </i></center>' +
         //'<input type="text" name="valueEarly">'+
         //'<input type="radio" id="radio1" name="valueBeforeAfter" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+
         //'<input type="radio" id="radio2" name="valueBeforeAfter" value="forgot" onclick="feedbackInformation(this);"> Forgot to scan out'+
         //'<input type="radio" id="radio3" name="valueBeforeAfter" value="other"  onclick="feedbackInformation(this);"> Other '+
-        '</table>';
+        //'</table>';
 }
 
 
