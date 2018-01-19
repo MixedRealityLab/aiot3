@@ -19,12 +19,17 @@ block content
     else
         //h3  #{user[0].username}
         input#HideUserId(type='hidden', value=user[0].id)
+        //input#awardNav(type=
         nav.navbar.navbar-default
             .container-fluid
                 .navbar-header
                     //h1 Home Essentials
                     a.navbar-brand(href='#')
                 ul.nav.navbar-nav.navbar-right
+                    li
+                        a#reward(href='#' style='color: green')
+                            //span(style='color:green').glyphicon.glyphicon-gbp
+                            //| #{''} 0.0
                     li
                         a(href='/')
                             span.glyphicon.glyphicon-home

@@ -1195,6 +1195,43 @@ router.post('/getLastUsedUp', function(req, res, next) {
 });
 
 
+router.post('/getTotal_in_out',function(req,res,next){
+    var userId = req.body.userId;
+    console.log('get total in-out');
+
+    var totalIn = 0;
+    var totalOut = 0;
+    in_events.getTotal_in(userId,function(err, dataIn){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            totalIn = dataIn[0].total_in;
+            out_events.getTotal_out(userId,function(err, dataOut){
+                if(err){
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+                    totalOut =  dataOut[0].total_out;
+                    var totalInOut = totalIn + totalOut ;
+                    var reward = (totalInOut * 0.1).toFixed(1);
+                    console.log("total:"+reward);
+                    var data = {success:true, "totalInOut":totalInOut, "reward":reward};
+                    //console.log(data);
+                    //res.send(data);
+                    res.json(data);
+
+                }
+            });
+
+        }
+    });
+
+});
+
+
 router.post('/editProduct',function(req,res,next){
 
     var inventoryId = req.body.inventoryId;

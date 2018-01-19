@@ -38,7 +38,8 @@ $(document).ready(function() {
                 titleRangeSeparator: ' to ',
             }
         },
-        defaultView: 'basicWeek',
+        defaultView: 'month',
+        //defaultView: 'basicWeek',
         //defaultView: 'agendaWeek',
         //viewRender: function(view,element) {
             //var title = view.title;

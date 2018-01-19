@@ -1030,5 +1030,74 @@ router.get('/updatePredictionFeedback', function(req, res, next) {
 
 
 
+router.get('/getTotal_Out', function(req, res, next) {
+
+    out_events.getTotal_out(3,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
+
+router.get('/getTotal_in', function(req, res, next) {
+
+    in_events.getTotal_in(10,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data[0].total_in);
+            res.send(data);
+
+
+        }
+    });
+});
+
+router.get('/getTotal_in_out', function(req, res, next) {
+    userId = 3;
+    var totalIn = 0;
+    var totalOut = 0;
+    in_events.getTotal_in(userId,function(err, dataIn){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            totalIn = dataIn[0].total_in;
+            out_events.getTotal_out(userId,function(err, dataOut){
+                if(err){
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+                    totalOut =  dataOut[0].total_out;
+                    var totalInOut = totalIn + totalOut ;
+                    var reward = (totalInOut * 0.1).toFixed(1);
+                    console.log("total:"+reward);
+                    data = {"totalInOut":totalInOut, "reward":reward};
+                    //console.log(data);
+                    res.send(data);
+
+                }
+            });
+
+        }
+    });
+});
+
+
+
 module.exports = router;
 
