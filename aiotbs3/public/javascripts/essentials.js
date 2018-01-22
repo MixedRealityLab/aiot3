@@ -59,8 +59,6 @@ $(document).ready(function() {
             }
         });
 
-
-
         //*****************************
 
 
@@ -170,9 +168,6 @@ $(document).ready(function() {
                 });
 
 
-
-
-
                 if ($('#myModalDate').data('bs.modal').isShown == true) {
                     $("#btncloseSO").addClass("disabled");
                     //console.log('modalDate opened');
@@ -229,6 +224,7 @@ $(document).ready(function() {
         });
 
     });
+
         document.getElementById('outStockLabel').onclick = function (e) {
             document.getElementById('inStockLabel').style.color = 'Grey';
             document.getElementById('inStockLabel').style.textDecorationColor = 'White';
@@ -279,15 +275,19 @@ $(document).ready(function() {
         });
 
         $('#products_dataOut tbody').on('click', 'button', function () {
-            $('#ModalOut').modal('show');
-            document.getElementById("ModalOutLabel").innerHTML = "Details :";//+data.description;
+            //$('#ModalOut').modal('show');
+            var dataOut = tableOut.row($(this).parents('tr')).data();
+            var source = "outStock";
+            console.log(dataOut);
+            detailsView(getUserId,dataOut,source);
+
+            //document.getElementById("ModalOutLabel").innerHTML = "Details :";//+data.description;
+
+
         });
         //******************************************************************************************************************
 
 
-//********************************** in/out history tables *************************************************************
-        //var dataSelected = table.row( $('#products_data').parents('tr') ).data();
-        //console.log(dataSelected.inventory_id);
 
 
 // *********************************************************************************************************************
