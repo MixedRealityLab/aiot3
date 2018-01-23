@@ -61,6 +61,9 @@ block content
                     a(data-toggle='tab', href='#inbox')
                         | INBOX
                         //span.badge 5
+                //li
+                    a(data-toggle='tab', href='#mysl')
+                        | MY SHOPPING LIST
             .tab-content
                 #scanIn.tab-pane.fade
                     include scanin
@@ -76,3 +79,6 @@ block content
 
                 #inbox.tab-pane.fade
                     include inbox
+
+                //#mysl.tab-pane.fade
+                    include sl

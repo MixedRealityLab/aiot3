@@ -1,9 +1,10 @@
 
 function detailsView(userId, data, source){
+    var getUserId = userId;
 
-    console.log("userId:"+userId);
-    console.log("data:"+data.ean);
-    console.log("source:"+source);
+    console.log("userId:"+userId);//check
+    console.log("data:"+data.ean);//check
+    console.log("source:"+source);//check
 
 
     $('#myModal').modal('show');
@@ -14,14 +15,21 @@ function detailsView(userId, data, source){
         document.getElementById('btnWastedManual').style.visibility = 'hidden';
 
     }
+    else {
+        document.getElementById('btnStop').style.visibility = 'visible';
+        document.getElementById('btnUsedManual').style.visibility = 'visible';
+        document.getElementById('btnWastedManual').style.visibility = 'visible';
+
+    }
+
+
     document.getElementById("descriptionModal").innerHTML = "Product Description: " + data.description;
     document.getElementById("eanCode").innerHTML = "Barcode: " + data.ean;
     document.getElementById("brand").innerHTML = "Brand: " + data.brand_name;
     document.getElementById("quantity").innerHTML = "Quantity: " + data.quantity + data.quantity_units;
 
 
-    //******* prediction date *****/
-
+    //******* GET PREDICTION DATE AND AVERAGE DAYS*****/
     $.ajax({
         url: '/getInOutEvents2',
         type: 'POST',
@@ -33,18 +41,17 @@ function detailsView(userId, data, source){
             document.getElementById("average").innerHTML = "Average Consumption (days):" + response.averageDays;
         },
         error: function (xhr, status, error) {
-            //alert(xhr.responseText); // error occur
+            //alert(xhr.responseText); // error occurr, do something with this error
         }
     });
 
-    //******************************************* in/out history tables *******************************************
+    // IN-OUT HISTORICAL TABLE
 
     $('#myModal').on('shown.bs.modal', function () {
         // will only come inside after the modal is shown
-
         $.fn.dataTable.tables({visible: true, api: true}).columns.adjust();
 
-
+        //IN - OUT DATATABLE
         var tableInOutEvent = $('#in_out_events_table').DataTable({
             "bFilter": false,
             "bInfo": false,
@@ -65,48 +72,29 @@ function detailsView(userId, data, source){
             "destroy": true,
             "scrollY": '150px'
         });
-        //**************************************************************************************************
+        //END IN-OUT DATATABLE
 
     });
 
+    // ALLOW SCAN OUT USING BUTTONS (NOT BARCODE SCANNER)
     $('#myModal').on('click', function (event) {
-
         var today = new Date();
         var dd = ("0" + (today.getDate())).slice(-2);
         var mm = ("0" + (today.getMonth() + 1)).slice(-2);
         var yyyy = today.getFullYear();
         today = dd + '-' + mm + '-' + yyyy;
-        //$("#dateIn").attr("value", today);
         var wasted = 0;
         var dIn = today;
         var idButton = event.target.id;
 
-        if (idButton == 'btnEdit') {
 
-            $.ajax({
-                url: '/editProduct',
-                type: 'POST',
-                data: {inventoryId: data.inventory_id, newStockLevel: 1},
-                datatype: 'json',
-                success: function (response) {
-                    console.log('success', response);
-                    document.getElementById("statusData").innerHTML = "Server response:" + response.msg;
-
-                },
-                error: function (xhr, status, error) {
-                    alert(xhr.responseText); // error occur
-                }
-            });
-
-        }
         if (idButton == 'btnStop') {
-
+            // CREATE AJAX CALL TO DELETE AL DATA ABOUT THAT PRODUCT
 
 
         }
 
-
-
+        //FUNCTION TO GET THE DATE IN FIRST --- CHECK THE PURPOSE
         function dateInFirst() {
             return $.ajax({
                 url: '/getFirstAdded',
@@ -120,6 +108,7 @@ function detailsView(userId, data, source){
             });
         }
 
+        // IDENTIFY IF THE PRODUCT SCANNED OUT MANUALLY WAS "WASTED" OR "USED"
         var minDate = '';
         if (idButton == 'btnUsedManual' || idButton == 'btnWastedManual') {
 
@@ -131,14 +120,12 @@ function detailsView(userId, data, source){
                 wasted = 1;
             }
 
-
-
             $('#myModalDate').modal('show');
             $('#myModalDate').on('shown.bs.modal', function (e) {
 
             });
 
-
+            //GETTING DATA TO MANUAL SCAN OUT PROCESS
             if ($('#myModalDate').data('bs.modal').isShown == true) {
                 $("#btncloseSO").addClass("disabled");
                 //console.log('modalDate opened');
@@ -161,7 +148,7 @@ function detailsView(userId, data, source){
 
             }
 
-
+            //DATETIME PICKER TO MANUAL SCAN-OUT PROCESS
             $("#myModalDate").on("hide.bs.modal", function () {
                 dIn = document.getElementById("dateIn").value;
                 $('#datetimepicker6').data("DateTimePicker").clear();
@@ -171,9 +158,7 @@ function detailsView(userId, data, source){
             $("#btncloseSO").removeClass("disabled");
 
 
-
-
-
+            //SUBMIT PROCESS TO SCAN-OUT MANUALLY A PRODUCT
             $('#myModalDate').on('click', function (event) {
                 //console.log(event);
                 if (event.target.id == 'btncloseSO'){
