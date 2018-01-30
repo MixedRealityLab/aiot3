@@ -15,6 +15,8 @@ var tescoData = require("./tescoApi.js");
 var inDescription = require("../not used/InDescription.js");
 var initial_prediction = require("./initialPrediction.js");
 var prediction = require("../data_models/prediction.js");
+var user_log =  require("../data_models/user_event_log.js");
+
 
 
 router.get('/drop_all', function(req, res, next) {
@@ -1092,6 +1094,25 @@ router.get('/getTotal_in_out', function(req, res, next) {
 
                 }
             });
+
+        }
+    });
+});
+
+
+router.get('/user_log', function(req, res, next) {
+
+    var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    user_log.createNewUserLog(3,4,timestamp,10,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
 
         }
     });
