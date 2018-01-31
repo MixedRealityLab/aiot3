@@ -14,6 +14,8 @@ $(document).ready(function() {
         return newDate;
     }
 
+
+
     $('#calendar').fullCalendar({
         //themeSystem: 'yeti',
         //defaultView: 'basicWeek',

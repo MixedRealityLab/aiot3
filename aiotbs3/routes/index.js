@@ -20,6 +20,8 @@ var tescoData = require("./tescoApi.js");
 var initial_prediction = require("./initialPrediction.js");
 var inbox = require("./inbox.js");
 var prediction = require("../data_models/prediction.js");
+var user_log =  require("../data_models/user_event_log.js");
+
 
 
 
@@ -1151,8 +1153,6 @@ router.post('/getFirstAdded',function (req,res,next) {
             }
             else {
 
-                //console.log(data);
-                //res.send(data);
                 var data1=[];
                 for (var i = 0; i < data.length; i++){
                     data1.push({"timestamp": moment(data[i].timestamp).format('MM/DD/YYYY HH:mm:ss')});
@@ -1164,7 +1164,6 @@ router.post('/getFirstAdded',function (req,res,next) {
 
 
 });
-
 
 
 
@@ -1232,11 +1231,33 @@ router.post('/getTotal_in_out',function(req,res,next){
 });
 
 
-router.post('/editProduct',function(req,res,next){
+router.post('/userLog',function(req,res,next){
 
-    var inventoryId = req.body.inventoryId;
-    var newStockLevel = req.body.newStockLevel;
+    var userId = req.body.userId;
+    var timestamp = req.body.timestamp;
+    var category =  req.body.category;
+    var metadata = req.body.metadata;
+
+    user_log.createNewUserLog(userId,category,timestamp,metadata,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+        }
+    });
 });
+
+
+
+//router.post('/editProduct',function(req,res,next){
+//    var inventoryId = req.body.inventoryId;
+//    var newStockLevel = req.body.newStockLevel;
+//});
 
 
 router.post('/stopTrack',function(req,res,next){
@@ -1244,12 +1265,12 @@ router.post('/stopTrack',function(req,res,next){
 
 });
 
-router.post('/outByUser',function(req,res,next){
-    var data = req.body;
-    //console.log(data);
-    res.json(data);
-
-});
+//router.post('/outByUser',function(req,res,next){
+//    var data = req.body;
+//    //console.log(data);
+//    res.json(data);
+//
+//});
 
 
 
@@ -1294,8 +1315,7 @@ router.post('/login',
 
 
 
-router.get('/logout',
-    function(req, res){
+router.get('/logout', function(req, res){
         req.logout();
         res.redirect('/login');
     });

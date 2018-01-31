@@ -114,10 +114,14 @@ function detailsView(userId, data, source){
 
             if (idButton == 'btnUsedManual'){
                 wasted = 0;
+                userLog(getUserId,11,"button used");
+
             }
 
             if (idButton == 'btnWastedManual'){
                 wasted = 1;
+                userLog(getUserId,12,"button wasted");
+
             }
 
             $('#myModalDate').modal('show');
@@ -162,11 +166,12 @@ function detailsView(userId, data, source){
             $('#myModalDate').on('click', function (event) {
                 //console.log(event);
                 if (event.target.id == 'btncloseSO'){
+                    userLog(getUserId,18,"product scanned out manually");
                     document.getElementById("codeProductOutManual").value = data.ean;
                     document.getElementById("inventoryIdManual").value = data.inventory_id;
                     document.getElementById("userIdManual").value = getUserId;
                     document.getElementById("productIdManual").value = data.inventory_product_id;
-                    document.getElementById("wastedProductOutManual").value = wasted
+                    document.getElementById("wastedProductOutManual").value = wasted;
                     document.getElementById("dateIn").value = dIn;
                     document.getElementById("scanoutFormManual").submit();
                 }

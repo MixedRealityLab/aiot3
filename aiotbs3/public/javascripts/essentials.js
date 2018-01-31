@@ -30,7 +30,9 @@ $(document).ready(function() {
         var data = table.row($(this).parents('tr')).data();
         var source = "inStock";
         console.log(data);
+        userLog(getUserId,9,"In stock details");
         detailsView(getUserId,data,source);
+
 
 
         //********* HIDE ********
@@ -229,6 +231,7 @@ $(document).ready(function() {
 
         //Out of Stock label active.
         document.getElementById('outStockLabel').onclick = function (e) {
+            userLog(getUserId,8,"Out of Stock label clicked");
             document.getElementById('inStockLabel').style.color = 'Grey';
             document.getElementById('inStockLabel').style.textDecorationColor = 'White';
             document.getElementById('outStockLabel').style.color = 'Blue';
@@ -239,6 +242,7 @@ $(document).ready(function() {
 
         //In Stock label active.
         document.getElementById('inStockLabel').onclick = function (e) {
+            userLog(getUserId,7,"In Stock label clicked");
             document.getElementById('outStockLabel').style.color = 'Grey';
             document.getElementById('inStockLabel').style.textDecorationColor = 'Blue';
             document.getElementById('inStockLabel').style.color = 'Blue';
@@ -276,6 +280,7 @@ $(document).ready(function() {
         var dataOut = tableOut.row($(this).parents('tr')).data();
         var source = "outStock";
         console.log(dataOut);
+        userLog(getUserId,9,"Out of stock details");
         detailsView(getUserId,dataOut,source);
     });
 
@@ -283,8 +288,10 @@ $(document).ready(function() {
 
     var activeTab2 = $('.nav-tabs .active').text();
     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+        var getUserId2 = $("#HideUserId").val();
         var activeTab2 = $('.nav-tabs .active').text();
         console.log(activeTab2);
+        userLog(getUserId2,17,activeTab2);
         $(document).scannerDetection();
         $(document).bind('scannerDetectionComplete', function (e, data) {
             console.log('complete: ' + data.string);
