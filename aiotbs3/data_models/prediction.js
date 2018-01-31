@@ -48,7 +48,7 @@ exports.getPredictionsForUser = function (user_id, done) {
         "       else a.`timestamp` < b.`timestamp`\n" +
         "       end\n" +
         ") + 1 = 1\n" +
-        "and a.stock_level = 0\n" +
+        //"and a.stock_level = 0\n" +
         "and a.user_id = ?\n" +
         "and a.feedback_status = 0\n" +
         "and product.id = inventory.product_id\n" +

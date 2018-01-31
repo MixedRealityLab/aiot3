@@ -7,7 +7,7 @@ var prediction =  require('../data_models/prediction');
 var moment = require('moment');
 
 
-exports.getScannedOutPrediction = function (userId,done) {
+/*exports.getScannedOutPrediction = function (userId,done) {
     var dataBefore = [];
     var dataAfter = [];
     predictions_usage.getScannedOut_prediction(userId,function(err, data){
@@ -51,12 +51,11 @@ exports.getScannedOutPrediction = function (userId,done) {
 
             }
             var data= {"dataBefore":dataBefore,"dataAfter":dataAfter};
-            console.log("****8");
             console.log(data);
             return done(data);
         }
     });
-}
+}*/
 
 
 
@@ -79,10 +78,6 @@ exports.getPredictionsFeedback =  function (userId,done) {
                         "description": data[i].description,
                         "prediction_id":data[i].id,
                         "inventory_id":data[i].inventory_id
-
-
-
-
                     });
                 } else {
                     //scanned out after predicted date
@@ -104,12 +99,7 @@ exports.getPredictionsFeedback =  function (userId,done) {
             var data= {"dataBefore":dataBefore,"dataAfter":dataAfter};
             console.log(data);
             return done(data);
-
-
         }
     });
-
-
-
 
 }

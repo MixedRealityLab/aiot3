@@ -124,9 +124,7 @@ $(document).ready(function() {
         }
 
         dataBefore = table.row($(this).parents('tr')).data();
-
-        //console.log(dataBefore);
-
+        userLog(getUserId,6,"click inbox row before prediction");
 
 
 
@@ -163,6 +161,8 @@ $(document).ready(function() {
 
         dataAfter = table2.row($(this).parents('tr')).data();
         console.log("click row after");
+        userLog(getUserId,6,"click inbox row after prediction");
+
 
     } );
 
@@ -186,11 +186,14 @@ $(document).ready(function() {
 
             if(document.getElementById("feedback_text").value == "")
             {
+                userLog(getUserId,19,"add feedback about predictions before save");
                 alert("Please add feedback text...");
                 //return;
 
             }
             else{
+                userLog(getUserId,6,"saving feedback about predictions");
+
 
                 if(afterBefore == 0){
                     console.log("saving feedback before");
@@ -202,36 +205,31 @@ $(document).ready(function() {
                     document.getElementById("feedbackPrediction").submit();
 
 
-
-
-
-
                 }
                 else{
                     console.log("saving feedback after");
                     console.log(dataAfter);
-                    var feedbackText =  document.getElementById("feedback_text").value;
-                    //document.getElementById("feedback_status").value = 1;
-                    //document.getElementById("feedback_after_before").value = 1;
-                    //document.getElementById("prediction_id").value = dataAfter.prediction_id;
-                    //document.getElementById("inventory_id").value = dataAfter.inventory_id;
-                    //document.getElementById("feedbackPrediction").submit();
+                    //var feedbackText =  document.getElementById("feedback_text").value;
+                    document.getElementById("feedback_status").value = 1;
+                    document.getElementById("feedback_after_before").value = 1;
+                    document.getElementById("prediction_id").value = dataAfter.prediction_id;
+                    document.getElementById("inventory_id").value = dataAfter.inventory_id;
+                    document.getElementById("feedbackPrediction").submit();
 
-
-                    $.ajax({
-                        url: '/feedbackPredictionAjax',
-                        type: 'POST',
-                        data: {feedback_status: 1, feedback_after_before: 1, prediction_id:dataAfter.prediction_id, inventory_id:dataAfter.inventory_id, feedbackText:feedbackText },
-                        datatype: 'json',
-                        success: function (response) {
-                            console.log('success', response);
-                            //document.getElementById("statusData").innerHTML = "Server response:" + response.msg;
-
-                        },
-                        error: function (xhr, status, error) {
-                            alert(xhr.responseText); // error occur
-                        }
-                    });
+                    //ajax mode not working
+                    //$.ajax({
+                    //    url: '/feedbackPredictionAjax',
+                    //    type: 'POST',
+                    //    data: {feedback_status: 1, feedback_after_before: 1, prediction_id:dataAfter.prediction_id, inventory_id:dataAfter.inventory_id, feedbackText:feedbackText },
+                    //    datatype: 'json',
+                    //    success: function (response) {
+                    //       console.log('success', response);
+                    //        //document.getElementById("statusData").innerHTML = "Server response:" + response.msg;
+                    //    },
+                    //    error: function (xhr, status, error) {
+                    //        alert(xhr.responseText); // error occur
+                    //    }
+                    //});
 
                 }
 
@@ -245,7 +243,6 @@ $(document).ready(function() {
 
 
     });
-
 
 } );
 
@@ -278,8 +275,6 @@ function format_early(d){
     // `d` is the original data object for the row
     document.getElementById("feedback_text").value = '';
     $('#otherModal').modal('show');
-
-    // language=HTML
     return '';//<table cellpadding="0" cellspacing="0" border="0" style="padding-left:0px;">' +
         //'<tr>' +
         //'</tr>' +
@@ -299,18 +294,17 @@ function format_late(d){
     // `d` is the original data object for the row
     document.getElementById("feedback_text").value = '';
     $('#otherModal').modal('show');
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-        '<tr>' +
-        '</tr>' +
-        '<tr>' +
-        '<center><i>Tell us why the product was used later than predicted. </i></center>' +
-        '<p></p>'+
+    return '';
+    //return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        //'<tr>' +
+        //'</tr>' +
+        //'<tr>' +
+        //'<center><i>Tell us why the product was used later than predicted. </i></center>' +
+        //'<p></p>'+
         //'<form action="">'+
         //'<input type="radio" id="radio1" name="valueBeforeAfter" value="notUsed" onclick="feedbackInformation(this);"> Not Used'+
         //'<input type="radio" id="radio2" name="valueBeforeAfter" value="forgot" onclick="feedbackInformation(this);"> Forgot to scan out'+
         //'<input type="radio" id="radio3" name="valueBeforeAfter" value="other"  onclick="feedbackInformation(this);"> Other '+
         //'</form>' +
-
-        '</table>';
-
+        //'</table>';
 }
