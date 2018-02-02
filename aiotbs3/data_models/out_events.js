@@ -122,3 +122,26 @@ exports.get_allOut_by_user_and_inventory = function (user_id,inventory_id, done)
     });
 
 }
+
+
+exports.getTotal_out = function (user_id, done) {
+
+    var params = [user_id];
+    db.get().query("select count(out_event.id) as 'total_out' from out_event where out_event.user_id = ?", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("user_id  has no out_events"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+
+}

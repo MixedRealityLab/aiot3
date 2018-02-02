@@ -1,0 +1,143 @@
+//**********************************************************************************************************************
+
+//checkbarcode logic (just for SCAN IN logic, v1.0)
+//get barcode
+//if the barcode is in the product/global db
+    //if there is inventory listing known
+        //get inventory_id from Inventory.getInventoryListing
+        //get old and new stock level
+        //add the product to the user inventory listing
+        //use In_event.add_event to update the inventory(+1) (stock level)
+        //render to add item view
+    //else if the product exists but there is no inventory listing for it
+        //make an inventory list Inventory.addNewInventoryListing using barcode and userId
+        //get the inventory id
+        //get old and new stock level
+        //update the stock level using Inventory.updateInventoryListingStock
+        //use In_event.add_event to update the inventory(+1) (stock level)
+        //render to add item view
+
+//else (the barcode isn't the product database/ the product does not exist at all)
+    //if the barcode is in tesco api?
+        //get data from tesco api
+        //Use Product.addNewProduct to add the product to the global database
+        //make an inventory list Inventory.addNewInventoryListing using barcode and userId
+        //get the inventory id
+        //get old and new stock level
+        //update the stock level using Inventory.updateInventoryListingStock
+        //use In_event.add_event to update the inventory(+1) (stock level)
+        //render to add item view
+    //else (the barcode isn't in tesco api)
+        //render to checkBarcode view
+        //ask user for basic data
+        //Use Product.addNewProduct to add the product to the global database
+        //make an inventory list Inventory.addNewInventoryListing using barcode and userId
+        //get the inventory id
+        //get old and new stock level
+        //update the stock level using Inventory.updateInventoryListingStock
+        //use In_event.add_event to update the inventory(+1) (stock level)
+        //render added item view
+
+
+
+
+
+
+//after scan, check if the basic data of a product is on db
+router.post('/checkBarcode2', function (req,res, next) {
+    //var userId=req.user.id;
+    var userId = 1;
+    sleep.msleep(5000);
+    var codeProduct = req.body.codeProduct; //barcode from client side
+    //var eanCodeProducts = Product.getProductByEan(codeProduct);
+    var userInventory = getInventoryUser(userId); //get all products from user=1 and send them back to inserted products
+
+    // get inventory user
+
+    console.log('user inventory****'+userInventory);
+    products.getProductByEan(codeProduct, function(err, data){
+
+        if(err){ //the barcode isn't the product database
+
+            connectTesco(codeProduct, function(response){  //look at tesco API
+                // Here you have access to your variable
+                var tescoApiData =  response;
+                //console.log(tescoApiData.status);
+                //console.log(tescoApiData.data.description);
+                console.log('TESCO DATA:'+tescoApiData);
+
+
+                if (tescoApiData.status == 'success'){
+                    // add data to the product db
+                    var addNewProduct = Product.addNewProduct(codeProduct, tescoApiData.data);
+
+                    var eanCodeId = '' ;  // this is from addnewproduct
+                    if(addNewProduct.status == 'success'){ // if product was succesfully added to the global db then upgrade inventory
+
+                        //****** update inventory **************************************************************************
+                        // add the product to the user inventory
+                        var userInventoryUpdated = updateInventory2(userId,codeProduct,eanCodeId);
+                        console.log('***check***'+userInventoryUpdated.status + ':'+userInventoryUpdated.msg);
+                        //**************************************************************************************************
+
+
+                        if(userInventoryUpdated.status == 'success'){
+                            // render to add item view
+                            var description = tescoApiData.data.description.substring(0,25);
+                            // then render view /insertProduct view with messageItem : 3
+                            res.render('insertProduct',{messageItem : 3, description: description, userInventory: userInventory, user: req.user});
+
+                        }
+                        else{
+                            var description = tescoApiData.data.description.substring(0,25);
+                            res.render('insertProduct',{messageItem : 3, description: description+ '' + '' +userInventoryUpdated.msg, userInventory: userInventory, user: req.user});
+
+                        }
+
+
+                    }
+                    else{
+                        res.render('insertProduct',{messageItem : 3, description: addNewProduct.error_message, userInventory: userInventory, user: req.user});
+
+                        //res.render('error',{errorMessage:addNewProduct.error_message});
+                    }
+
+                }
+
+                else{ //the barcode isn't in tesco api
+                    //ask user for basic data using item_data view
+                    //item_data view will submit to /insertProduct
+                    res.render('checkBarcode',{messageItem : 2, eancode: codeProduct, userInventory: userInventory, user: req.user});
+
+
+                }
+            });
+            //console.log(err);
+            //res.send("there was an error see the console");
+        }
+        else {
+            var eanCode = data[0].ean;
+            var eanCodeId = data[0].id;
+            //****** update inventory using  Inventory.updateInventoryListingStock and In_event.add_event ******************
+            //update the inventory stock(I don't need to update product data)
+            var userInventoryUpdated = updateInventory2(userId,eanCode,eanCodeId);
+            //console.log('userInventoryUpdated:'+ userInventoryUpdated.status);
+            //**************************************************************************************************************
+
+           // if (userInventoryUpdated.status == 'success') {
+                //var description = eanCodeProducts.data.description;
+                var description = 'test';
+                res.render('insertProduct', {messageItem: 3, description: description, userInventory: userInventory, user: req.user});
+            //}
+            //else{
+            //    res.render('insertProduct', {messageItem: 3, description: 'something wrong', userInventory: userInventory, user: req.user});
+           // }
+
+            //console.log(data);
+            //res.send(data);
+        }
+
+    });
+
+
+});

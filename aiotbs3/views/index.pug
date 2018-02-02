@@ -17,18 +17,21 @@ block content
             a(href='/login') Log In
 
     else
-        //h3  #{user[0].username}
         input#HideUserId(type='hidden', value=user[0].id)
         nav.navbar.navbar-default
             .container-fluid
                 .navbar-header
-                    //h1 Home Essentials
                     a.navbar-brand(href='#')
                 ul.nav.navbar-nav.navbar-right
+                    li
+                        a#reward(href='#' style='color: green')
                     li
                         a(href='/')
                             span.glyphicon.glyphicon-home
                             | #{''} Home
+                            //script.
+                                //userLog(3, 15, "home button clicked");
+
                     li
                         a(href='#')
                             span.glyphicon.glyphicon-user
@@ -56,6 +59,9 @@ block content
                     a(data-toggle='tab', href='#inbox')
                         | INBOX
                         //span.badge 5
+                //li
+                    a(data-toggle='tab', href='#mysl')
+                        | MY SHOPPING LIST
             .tab-content
                 #scanIn.tab-pane.fade
                     include scanin
@@ -71,3 +77,6 @@ block content
 
                 #inbox.tab-pane.fade
                     include inbox
+
+                //#mysl.tab-pane.fade
+                    include sl

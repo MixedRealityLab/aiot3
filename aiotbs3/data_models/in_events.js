@@ -118,3 +118,25 @@ exports.get_allIn_by_user_and_inventory = function (user_id,inventory_id, done) 
     });
 
 }
+
+exports.getTotal_in = function (user_id, done) {
+
+    var params = [user_id];
+    db.get().query("select count(in_event.id) as 'total_in' from in_event where in_event.user_id = ?", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error(" user_id  has no in_events"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+
+}

@@ -17,7 +17,12 @@ var out_events = require('../data_models/out_events');
 
 var user = require('../data_models/user.js')
 var tescoData = require("./tescoApi.js");
-var prediction = require("./initialPrediction.js");
+var initial_prediction = require("./initialPrediction.js");
+var inbox = require("./inbox.js");
+var prediction = require("../data_models/prediction.js");
+var user_log =  require("../data_models/user_event_log.js");
+
+
 
 
 //***************************************** connecting passport ***********************************************************************
@@ -102,8 +107,9 @@ router.post('/checkBarcode', function (req,res, next) {
                             var stock_level = 1;
                             //create new inventory entry
                             //inventory.createNew(user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done)
-                            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-                            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,0,1, function(err, data){
+                            //var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                            var predicted_need_date = null;
+                            inventory.createNew(userId,productId,stock_level,predicted_need_date,0,1, function(err, data){
                                 if(err){
                                     //do something
                                     console.log(err);
@@ -178,9 +184,9 @@ router.post('/checkBarcode', function (req,res, next) {
                     console.log(err);
                     console.log("a new inventory entry 'user-product' needs to be created");
                     var stock_level = 1;
-                    var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-
-                    inventory.createNew(userId,productId,stock_level,mysqlTimestamp,0,1, function(err, data){
+                    //var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                    var predicted_need_date = null;
+                    inventory.createNew(userId,productId,stock_level,predicted_need_date,0,1, function(err, data){
                         if(err){
                             //do something
                             console.log(err);
@@ -250,6 +256,22 @@ router.post('/checkBarcode', function (req,res, next) {
                         }
                         else {
                             //update inventory success
+
+                            //update prediction and save that information in table prediction
+                            initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                if (err){
+                                    console.log(err);
+                                    //res.send("there was an error see the console");
+                                }
+                                else {
+                                    //console.log(dataPrediction);
+                                    //res.send(dataPrediction);
+                                    console.log("new prediction added");
+                                }
+                            });
+
+
+                            //add in event
                             in_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,mysqlTimestamp, function(err, data){
                                 if(err){
                                     //do something
@@ -294,7 +316,7 @@ router.post('/checkBarcode', function (req,res, next) {
 });
 
 
-//insert in the inventory and render to item added view (this request came from add new item view)
+//insert in the inventory and render to item added view (this request came from adding new item view)
 router.post('/insertProduct', function (req,res,next) {
     var userId=req.user[0].id;
     var username = req.user[0].username;
@@ -319,8 +341,10 @@ router.post('/insertProduct', function (req,res,next) {
             var productId = data.insertId;
             var stock_level = 1;
             //create new inventory entry
-            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            inventory.createNew(userId,productId,stock_level,mysqlTimestamp,0,1, function(err, data){
+            //var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+            //var mysqlTimestamp = moment("2000-01-01").format('YYYY-MM-DD HH:mm:ss');
+            var predicted_need_date = null;
+            inventory.createNew(userId,productId,stock_level,predicted_need_date,0,1, function(err, data){
                 if(err){
                     //do something
                     console.log(err);
@@ -434,6 +458,21 @@ router.post('/scanOutProduct', function (req,res, next) {
                             }
                             else {
                                 //update inventory success
+
+                                //update prediction and save that information in table prediction
+                                initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                    if (err){
+                                        console.log(err);
+                                        //res.send("there was an error see the console");
+                                    }
+                                    else {
+                                        //console.log(dataPrediction);
+                                        //res.send(dataPrediction);
+                                        console.log("new prediction added");
+                                    }
+                                });
+
+                                //add out event
                                 out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err, data){
                                     if(err){
                                         //do something
@@ -528,6 +567,21 @@ router.post('/scanOutProductManual', function (req,res, next) {
                         }
                         else {
                             //update inventory success
+
+                            //update prediction and save that information in table prediction
+                            initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                if (err){
+                                    console.log(err);
+                                    //res.send("there was an error see the console");
+                                }
+                                else {
+                                    //console.log(dataPrediction);
+                                    //res.send(dataPrediction);
+                                    console.log("new prediction added");
+                                }
+                            });
+
+                            //add out event
                             out_events.add_event(inventoryId,userId,old_stock_level,new_stock_level,wasted,mysqlTimestamp, function(err1, data1){
                                 if(err1){
                                     //do something
@@ -568,7 +622,59 @@ router.post('/scanOutProductManual', function (req,res, next) {
 });
 
 
+router.post('/feedbackPrediction', function (req,res, next) {
+    console.log("from inbox");
+    var feedback_status = req.body.feedback_status;
+    var feedback = req.body.feedback_text;
+    var feedback_timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    var feedback_after_before = req.body.feedback_after_before;
+    var predictionId = req.body.prediction_id;
+    var inventoryId =  req.body.inventory_id;
 
+    //prediction.updatePredictionFeedback(1,,,,)
+    prediction.updatePredictionFeedback(predictionId,feedback_status,feedback,feedback_timestamp,feedback_after_before,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            //res.send(data);
+            //res.render('inbox',{ user: req.user});
+            res.redirect('/');
+
+        }
+    });
+
+});
+
+
+router.post('/feedbackPredictionAjax', function (req,res, next) {
+    console.log("from inbox ajax");
+    var feedback_status = req.body.feedback_status;
+    var feedback = req.body.feedback_text;
+    var feedback_timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    var feedback_after_before = req.body.feedback_after_before;
+    var predictionId = req.body.prediction_id;
+    var inventoryId =  req.body.inventory_id;
+
+    //prediction.updatePredictionFeedback(1,,,,)
+    prediction.updatePredictionFeedback(predictionId,feedback_status,feedback,feedback_timestamp,feedback_after_before,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send({messageItem:4, data:data});
+
+
+        }
+    });
+
+});
 //***************************************** ajax request **************************************************************
 
 
@@ -647,6 +753,7 @@ router.post('/getInventoryData',function (req,res,next) {
 */
 
 
+/*
 //get inventory data including prediction
 router.post('/getInventoryData',function (req,res,next) {
     var userId=req.body.userId;
@@ -671,7 +778,7 @@ router.post('/getInventoryData',function (req,res,next) {
 
                     }
                     else {
-                        console.log("data prediction update on inventory");
+                        console.log(dataPrediction);
                         //res.send(dataPrediction);
                     }
 
@@ -699,7 +806,42 @@ router.post('/getInventoryData',function (req,res,next) {
     });
 
 
+});*/
+
+
+
+//get inventory data with getting prediction field (not upgrading prediction each time that this procedure is called)
+router.post('/getInventoryData',function (req,res,next) {
+    var userId=req.body.userId;
+    inventory_product.getInStock(userId,function(err,data){
+        if(err){
+            console.log(err);
+            //res.send("there was an error");
+            var data= {"data":{}};
+            res.json(data);
+
+        }
+        else{
+
+            for (var i=0; i<data.length; i++){
+                if(data[i].stock_delta_day == 1 || data[i].stock_delta_day == 0){
+                    data[i].predicted_need_date = 'Not available yet';
+                }
+                else{
+                    data[i].predicted_need_date = moment(data[i].predicted_need_date).format('DD-MM-YYYY');
+                }
+
+            }
+
+            var data= {"data":data};
+            res.json(data);
+        }
+    });
+
+
 });
+
+
 
 router.post('/getInventoryDataPrediction',function (req,res,next) {
     var userId=req.body.userId;
@@ -711,12 +853,51 @@ router.post('/getInventoryDataPrediction',function (req,res,next) {
         }
         else {
 
-            //console.log(data);
-            //var data= {"data":data};
-            res.json(data);
+             res.json(data);
         }
     });
 });
+
+
+router.post('/getScannedOutBeforePrediction',function (req,res,next) {
+    var userId=req.body.userId;
+    //inbox.getScannedOutPrediction(userId,function (data,err) {
+    inbox.getPredictionsFeedback(userId,function (data,err) {
+
+            if (err){
+                console.log(err);
+                //res.send("there was an error see the console");
+
+            }
+            else {
+                console.log("data prediction update on inventory");
+                var data = {"data":data.dataBefore};
+                res.json(data);
+            }
+
+        });
+
+});
+
+router.post('/getScannedOutAfterPrediction',function (req,res,next) {
+    var userId=req.body.userId;
+    //inbox.getScannedOutPrediction(userId,function (data,err) {
+    inbox.getPredictionsFeedback(userId,function (data,err) {
+        if (err){
+            console.log(err);
+            //res.send("there was an error see the console");
+
+        }
+        else {
+            console.log("data prediction update on inventory");
+            var data = {"data":data.dataAfter};
+            res.json(data);
+        }
+
+    });
+
+});
+
 
 
 router.post('/getInventoryDataOut',function (req,res,next) {
@@ -792,6 +973,8 @@ router.post('/getOutEvents',function (req,res,next) {
     });
 
 });
+
+
 
 
 /*
@@ -941,8 +1124,6 @@ router.post('/getInOutEvents2',function (req,res,next) {
                     console.log(predictedRunOut);
 
 
-
-
                     var data = {"data": allDates,"predictedRunOut":predictedRunOut,"averageDays":averageDays};
                     //console.log(data);
                     res.send(data);
@@ -972,8 +1153,6 @@ router.post('/getFirstAdded',function (req,res,next) {
             }
             else {
 
-                //console.log(data);
-                //res.send(data);
                 var data1=[];
                 for (var i = 0; i < data.length; i++){
                     data1.push({"timestamp": moment(data[i].timestamp).format('MM/DD/YYYY HH:mm:ss')});
@@ -985,7 +1164,6 @@ router.post('/getFirstAdded',function (req,res,next) {
 
 
 });
-
 
 
 
@@ -1016,11 +1194,70 @@ router.post('/getLastUsedUp', function(req, res, next) {
 });
 
 
-router.post('/editProduct',function(req,res,next){
+router.post('/getTotal_in_out',function(req,res,next){
+    var userId = req.body.userId;
+    console.log('get total in-out');
 
-    var inventoryId = req.body.inventoryId;
-    var newStockLevel = req.body.newStockLevel;
+    var totalIn = 0;
+    var totalOut = 0;
+    in_events.getTotal_in(userId,function(err, dataIn){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            totalIn = dataIn[0].total_in;
+            out_events.getTotal_out(userId,function(err, dataOut){
+                if(err){
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+                    totalOut =  dataOut[0].total_out;
+                    var totalInOut = totalIn + totalOut ;
+                    var reward = (totalInOut * 0.1).toFixed(2);
+                    console.log("total:"+reward);
+                    var data = {success:true, "totalInOut":totalInOut, "reward":reward};
+                    //console.log(data);
+                    //res.send(data);
+                    res.json(data);
+
+                }
+            });
+
+        }
+    });
+
 });
+
+
+router.post('/userLog',function(req,res,next){
+
+    var userId = req.body.userId;
+    var timestamp = req.body.timestamp;
+    var category =  req.body.category;
+    var metadata = req.body.metadata;
+
+    user_log.createNewUserLog(userId,category,timestamp,metadata,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+        }
+    });
+});
+
+
+
+//router.post('/editProduct',function(req,res,next){
+//    var inventoryId = req.body.inventoryId;
+//    var newStockLevel = req.body.newStockLevel;
+//});
 
 
 router.post('/stopTrack',function(req,res,next){
@@ -1028,12 +1265,12 @@ router.post('/stopTrack',function(req,res,next){
 
 });
 
-router.post('/outByUser',function(req,res,next){
-    var data = req.body;
-    //console.log(data);
-    res.json(data);
-
-});
+//router.post('/outByUser',function(req,res,next){
+//    var data = req.body;
+//    //console.log(data);
+//    res.json(data);
+//
+//});
 
 
 
@@ -1078,8 +1315,7 @@ router.post('/login',
 
 
 
-router.get('/logout',
-    function(req, res){
+router.get('/logout', function(req, res){
         req.logout();
         res.redirect('/login');
     });

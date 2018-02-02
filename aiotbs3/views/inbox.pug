@@ -1,11 +1,16 @@
 append head
+
+    script(src='https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js')
     script(src='/javascripts/inbox.js')
+    link(rel='stylesheet' href='/stylesheets/inbox.css')
 
 
 block content
     //h2 Not available
     .container
         br
+        input#HideUserId(type='hidden', value=user.id)
+
         //h2 INBOX MESSAGE
         //h5 Let us know more information about predictions of your essentials
         .col-lg-12.col-md-12.col-sm-12
@@ -14,32 +19,78 @@ block content
                     h3.text-center INBOX MESSAGE
                     p(style='color: grey').text-center Let us know more information about predictions of your essentials
 
-            //.col-lg-6.pull-left
+            .col-lg-6.col-md-6.col-sm-6
                 .text-left
                     .row.spacer
-                        br
                         .panel.panel-default
                             .panel-heading
-                                | Product scanned out before prediction #{''}
-                                span.badge 0
-                            .panel-body
-                                //table#beforeOut.display(cellspacing="0", width="100%")
-                                    thead
-                                        tr
-                                            th Product 1
-
-
-            //.col-lg-6.pull-right
+                                h4
+                                    |Products used up early #{''}
+                                    span#spanbefore.badge 0
+                                p
+                                    |Tell us why these products were used earlier than predicted.
+                            table#beforeOut.table.table-hover(width='100%', cellspacing='0')
+                                thead(style='display:none;')
+                                    tr
+                                        th
+                                        th
+            .col-lg-6.col-md-6.col-sm-6
                 .text-left
                     .row.spacer
-                        br
                         .panel.panel-default
-                            .panel-heading Products scanned out after prediction #{''}
-                                span.badge 0
-                            //.panel-body Panel Content
-                            ul.list-group
-                                li.list-group-item one
-                                li.list-group-item two
-                                li.list-group-item three
-                                li.list-group-item four
-                                li.list-group-item five
+                            .panel-heading
+                                h4
+                                    |Product used up late #{''}
+                                    span#spanafter.badge 0
+                                p
+                                    |Tell us why these products were used later than predicted.
+                            table#afterOut.table.table-hover(width='100%', cellspacing='0')
+                                thead(style='display:none;')
+                                    tr
+                                        th
+                                        th
+
+        //#feedbackModal.modal.fade(role='dialog')
+            .modal-dialog.modal-sm
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal') ×
+                        h4.modal-title Thanks for your feedback
+                    .modal-body
+                        //p#feedbackBody
+                        form#feedbackPrediction(method='POST', action='/feedbackPrediction')
+                            .form-group
+                                //label.col-form-label(for='message-text') Message:
+                                textarea#message-text.form-control(name='feedback_text', required='')
+
+                    .modal-footer
+                        button.btn.btn-primary(type='button', data-dismiss='modal') Save
+
+
+        #otherModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+            .modal-dialog.modal-sm
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal') ×
+                        h4.modal-title Thanks for your feedback
+                        //h5#exampleModalLabel Please, let us know more information
+                        //button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                    .modal-body
+                        p Please, let us know more information
+                        //form
+                        form#feedbackPrediction(method='POST', action='/feedbackPrediction')
+                            .form-group
+                                //label.col-form-label(for='message-text') Message:
+                                textarea#feedback_text.form-control(name='feedback_text', required='')
+                                input#feedback_after_before.form-control(name = 'feedback_after_before', type='hidden', required='')
+                                input#feedback_status.form-control(name='feedback_status', type='hidden',required='')
+                                input#prediction_id.form-control(name='prediction_id', type='hidden',required='')
+                                input#inventory_id.form-control(name='inventory_id', type='hidden',required='')
+
+
+
+                    .modal-footer
+                        //button.btn.btn-close(type='button', data-dismiss='modal') Close
+                        button#btnSaveFeedback.btn.btn-primary(type='button', data-dismiss='modal') Save
+

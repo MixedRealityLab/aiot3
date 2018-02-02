@@ -13,7 +13,10 @@ var user = require('../data_models/user.js');
 var user_event_log = require('../data_models/user_event_log.js');
 var tescoData = require("./tescoApi.js");
 var inDescription = require("../not used/InDescription.js");
-var prediction = require("./initialPrediction.js");
+var initial_prediction = require("./initialPrediction.js");
+var prediction = require("../data_models/prediction.js");
+var user_log =  require("../data_models/user_event_log.js");
+
 
 
 router.get('/drop_all', function(req, res, next) {
@@ -251,7 +254,7 @@ router.get('/get_inventory_by_user_product', function(req, res, next) {
 router.get('/get_inventory_by_id', function(req, res, next) {
   console.log("testing database");
 
-  inventory.getInventoryById(81, function(err, data){
+  inventory.getInventoryById(18, function(err, data){
     
     if(err){
       console.log(err);
@@ -902,9 +905,6 @@ router.get('/get_most_recent_for_user_IN_Description2', function(req, res, next)
 
 //********
 
-
-
-
 router.get('/inDescription', function (req,res,next) {
 
     console.log("testing InDescription response");
@@ -936,7 +936,7 @@ router.get('/initialPrediction', function (req,res,next) {
     var userId = 3;
     var inventoryId= 17;  //19=inventory id of semi skimmed milk
 
-    prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+    initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
         if (err){
             console.log(err);
             res.send("there was an error see the console");
@@ -951,6 +951,173 @@ router.get('/initialPrediction', function (req,res,next) {
     });
 
 });
+
+router.get('/getscannedout_prediction', function(req, res, next) {
+
+    inventory_product.getScannedOut_prediction(3,function(err, data){
+    //in_events.get_allIn_by_user_and_inventory(3,19,function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
+//************************ PREDICTION **********
+
+router.get('/new_prediction', function(req, res, next) {
+    console.log("testing new prediction");
+    var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    var last_scanIn = timestamp;
+    var predicted_need_date = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    var stock_level = 3;
+    var metadata = {"data": "add more data"};
+
+    prediction.createNew(timestamp,3,1,5,last_scanIn,predicted_need_date,stock_level,metadata, function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error creating a new prediction see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data)
+        }
+    });
+});
+
+
+router.get('/getPredictionsForUser', function(req, res, next) {
+
+    prediction.getPredictionsForUser(3,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
+
+router.get('/updatePredictionFeedback', function(req, res, next) {
+
+    var feedback_timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    prediction.updatePredictionFeedback(1,1,"test",feedback_timestamp,0,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
+
+
+router.get('/getTotal_Out', function(req, res, next) {
+
+    out_events.getTotal_out(3,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
+
+router.get('/getTotal_in', function(req, res, next) {
+
+    in_events.getTotal_in(10,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data[0].total_in);
+            res.send(data);
+
+
+        }
+    });
+});
+
+router.get('/getTotal_in_out', function(req, res, next) {
+    userId = 3;
+    var totalIn = 0;
+    var totalOut = 0;
+    in_events.getTotal_in(userId,function(err, dataIn){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            totalIn = dataIn[0].total_in;
+            out_events.getTotal_out(userId,function(err, dataOut){
+                if(err){
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+                    totalOut =  dataOut[0].total_out;
+                    var totalInOut = totalIn + totalOut ;
+                    var reward = (totalInOut * 0.1).toFixed(2);
+                    console.log("total:"+reward);
+                    data = {"totalInOut":totalInOut, "reward":reward};
+                    //console.log(data);
+                    res.send(data);
+
+                }
+            });
+
+        }
+    });
+});
+
+
+router.get('/user_log', function(req, res, next) {
+
+    var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    user_log.createNewUserLog(3,4,timestamp,10,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+
+
+        }
+    });
+});
+
 
 
 module.exports = router;
