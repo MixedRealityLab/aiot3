@@ -145,3 +145,29 @@ exports.getTotal_out = function (user_id, done) {
     });
 
 }
+
+exports.get_allOut_by_user_and_category = function (user_id,category_id,done) {
+
+    var params = [category_id,user_id];
+    db.get().query("SELECT * from out_event where inventory_id IN(select categorised_inventory.inventory_id\n" +
+        "from categorised_inventory, categories\n" +
+        "where categorised_inventory.category_id = categories.id\n" +
+        "and categorised_inventory.category_id= ?\n" +
+        "and user_id= ?) order by timestamp asc ", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("Inventory id has no events"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+
+}
