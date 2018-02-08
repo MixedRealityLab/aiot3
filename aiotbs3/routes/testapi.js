@@ -1163,7 +1163,7 @@ router.get('/secondPrediction', function (req,res,next) {
 
     console.log("testing second prediction");
     var userId = 3;
-    var inventoryId= 87;  //19=inventory id of semi skimmed milk
+    var inventoryId= 19;  //19=inventory id of semi skimmed milk  //21=avocados check check
 
     //second_prediction.getSecondPrediction()
     second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
@@ -1222,7 +1222,47 @@ router.get('/OutEvents_by_categories', function(req, res, next) {
 });
 
 
+router.get('/inventoryIds_by_categories', function(req, res, next) {
+    var categoryId = 63;
+    var userId = 3;
+    var inventoryList=[];
 
+    categories.getInventoryIdsForCategory(categoryId,userId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data.length);
+            for (var i=0; i< data.length; i++){
+                inventoryList.push(data[i].inventory_id);
+
+            }
+            console.log(inventoryList);
+            res.send(data);
+
+
+        }
+    });
+});
+
+router.get('/deleteInEvent', function(req, res, next) {
+    var inventoryId = 9;
+    var userId = 3;
+
+    in_events.deleteIn_Event(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data.length);
+            res.send(data);
+        }
+    });
+});
 
 
 

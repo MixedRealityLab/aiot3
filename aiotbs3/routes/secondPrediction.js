@@ -15,6 +15,7 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
     var contador = 0;
     var categoryId = 0;
     var userId = userId;
+    var inventoryList=[];
 
     //get categories by inventory
     categories.getCategoriesForInventory(inventoryId,function(err, dataCategories){
@@ -28,7 +29,7 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
             categoryId = dataCategories[0].category_id;
 
             if(categoryId){
-
+                //if there is a category
                 console.log("category id value"+categoryId);
                 in_events.get_allIn_by_user_and_category(userId,categoryId, function (errIn, dataIn) {
 
@@ -150,6 +151,24 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
 
                                 }
 
+                                //get all inventoryId's by category
+
+                                categories.getInventoryIdsForCategory(categoryId,userId,function(err, data){
+                                    if(err){
+                                        console.log(err);
+                                        //res.send("there was an error see the console");
+                                    }
+                                    else {
+
+                                        console.log(data.length);
+                                        for (var i=0; i< data.length; i++){
+                                            inventoryList.push(data[i].inventory_id);
+
+                                        }
+                                        console.log(inventoryList);
+                                        //res.send(data);
+
+
                                 console.log('average:'+ (sum/count).toFixed() + ' days');
 
                                 //take the last scanned-in date and add the average days to generate a predicted date
@@ -172,11 +191,10 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
                                 var feedback_timestamp = null;
                                 var feedback_after_before = 0; //0=no activity, 1=after, 2= before
 
-                                var data = {"data": allDates,"inventory_id":inventoryId,"predictedRunOut":predictedRunOut2,"averageDays":averageDays,"categoryId":categoryId};
+                                var data = {"data": allDates,"inventory_id":inventoryList,"predictedRunOut":predictedRunOut2,"averageDays":averageDays,"categoryId":categoryId};
 
                                 console.log("lastScanOut added:"+lastScanOut);
                                 return done(data);
-
 
                                 //******************************************************************************************************
                                 /*
@@ -200,7 +218,7 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
 
                                                 var stock_level =  dataInventoryId[0].stock_level;
                                                 var metadata = allDates;
-                                                prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,lastScanOut,predictedRunOut2,stock_level,metadata,feedback_status,feedback, feedback_timestamp, feedback_after_before, function(err, data){
+                                                prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,lastScanOut,predictedRunOut2,stock_level,metadata,feedback_status,feedback, feedback_timestamp, feedback_after_before, categoryId, function(err, data){
                                                     if(err){
                                                         console.log("prediction problem"+data);
                                                         console.log(err);
@@ -227,6 +245,8 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
 
 
 
+                                    }
+                                });
 
 
 
@@ -415,7 +435,7 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
 
                                                 var stock_level =  dataInventoryId[0].stock_level;
                                                 var metadata = allDates;
-                                                prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,lastScanOut,predictedRunOut2,stock_level,metadata,feedback_status,feedback, feedback_timestamp, feedback_after_before, function(err, data){
+                                                prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,lastScanOut,predictedRunOut2,stock_level,metadata,feedback_status,feedback, feedback_timestamp, feedback_after_before, categoryId, function(err, data){
                                                     if(err){
                                                         console.log("prediction problem"+data);
                                                         console.log(err);

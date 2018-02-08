@@ -90,6 +90,7 @@ function detailsView(userId, data, source){
 
         if (idButton == 'btnStop') {
             // CREATE AJAX CALL TO DELETE AL DATA ABOUT THAT PRODUCT
+            userLog(getUserId,10,"remove permanently item xxx"+data.inventory_id);
 
 
         }

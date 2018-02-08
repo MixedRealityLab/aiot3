@@ -142,7 +142,6 @@ exports.getTotal_in = function (user_id, done) {
 }
 
 exports.get_allIn_by_user_and_category = function (user_id,category_id, done) {
-
     var params = [category_id,user_id];
     db.get().query("SELECT * from in_event where inventory_id IN(select categorised_inventory.inventory_id\n" +
         "from categorised_inventory, categories\n" +
@@ -162,7 +161,29 @@ exports.get_allIn_by_user_and_category = function (user_id,category_id, done) {
             console.log(rows);
             return done(null, rows);
         }
+    });
+}
 
+exports.deleteIn_Event = function (user_id, inventory_id, done) {
+
+    var params = [inventory_id, user_id];
+    db.get().query("delete from in_event where inventory_id=? and user_id= ?", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("inventory id has no events"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
     });
 
+
 }
+
+

@@ -1,7 +1,7 @@
 var db = require("../db/mysql.js");
 
 
-exports.createNew = function (timestamp, inventory_id,user_id, days, lastScanIn, lastScanOut,predicted_need_date, stock_level,metadata, feedback_status,feedback, feedback_timestamp, feedback_after_before, done) {
+exports.createNew = function (timestamp, inventory_id,user_id, days, lastScanIn, lastScanOut,predicted_need_date, stock_level,metadata, feedback_status,feedback, feedback_timestamp, feedback_after_before,category_id, done) {
     metaJson = JSON.stringify(metadata);
 
 
@@ -19,7 +19,8 @@ exports.createNew = function (timestamp, inventory_id,user_id, days, lastScanIn,
             "feedback_status": feedback_status,
             "feedback": feedback,
             "feedback_timestamp": feedback_timestamp,
-            "feedback_after_before":feedback_after_before
+            "feedback_after_before":feedback_after_before,
+            "category_id":category_id
 
         }, function(err, rows) {
             if (err)
