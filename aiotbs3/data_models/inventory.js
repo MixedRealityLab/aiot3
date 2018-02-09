@@ -63,20 +63,18 @@ exports.getInventoryForUserPrediction = function (user_id, done) {
 }
 
 
-exports.stopTracking = function(inventory_id, done) {
-	var params = [inventory_id];
-    db.get().query("DELETE FROM inventory where id = ?", params, function (err, rows) {
-        
-        console.log(rows);     
-        if(err)
+exports.deleteInventory = function (user_id, inventory_id, done) {
+
+    var params = [inventory_id, user_id];
+    db.get().query("delete from inventory where id=? and user_id= ?", params, function (err, rows) {
+
+        console.log(rows);
+        if (err)
             return done(err);
-
-        if(rows)
-            return done(null, rows);
         else
-            return done(null)
+            return done(null,rows)
+    });
 
-    }); 
 }
 
 

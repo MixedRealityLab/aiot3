@@ -92,3 +92,18 @@ exports.updatePredictionFeedback = function (prediction_id, feedback_status, fee
 
 }
 
+
+exports.deletePrediction = function (user_id, inventory_id, done) {
+
+    var params = [inventory_id, user_id];
+    db.get().query("delete from prediction where inventory_id=? and user_id= ?", params, function (err, rows) {
+
+        console.log(rows);
+        if (err)
+            return done(err);
+        else
+            return done(null,rows)
+    });
+
+
+}

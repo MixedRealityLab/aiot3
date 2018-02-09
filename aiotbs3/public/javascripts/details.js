@@ -92,6 +92,9 @@ function detailsView(userId, data, source){
             // CREATE AJAX CALL TO DELETE AL DATA ABOUT THAT PRODUCT
             userLog(getUserId,10,"remove permanently item xxx"+data.inventory_id);
 
+            $('#modalWarningDelete').modal('show');
+
+
 
         }
 

@@ -171,3 +171,20 @@ exports.get_allOut_by_user_and_category = function (user_id,category_id,done) {
     });
 
 }
+
+
+
+exports.deleteOut_Event = function (user_id, inventory_id, done) {
+
+    var params = [inventory_id, user_id];
+    db.get().query("delete from out_event where inventory_id=? and user_id= ?", params, function (err, rows) {
+
+        console.log(rows);
+        if (err)
+            return done(err);
+        else
+            return done(null,rows)
+    });
+
+
+}

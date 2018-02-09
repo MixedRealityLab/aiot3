@@ -170,17 +170,10 @@ exports.deleteIn_Event = function (user_id, inventory_id, done) {
     db.get().query("delete from in_event where inventory_id=? and user_id= ?", params, function (err, rows) {
 
         console.log(rows);
-        if(err)
+        if (err)
             return done(err);
-
-        if(rows.length == 0){
-            return done(new Error("inventory id has no events"));
-        }
-
-        if(rows.length > 0){
-            console.log(rows);
-            return done(null, rows);
-        }
+        else
+            return done(null,rows)
     });
 
 

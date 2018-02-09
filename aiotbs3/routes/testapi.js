@@ -1248,7 +1248,7 @@ router.get('/inventoryIds_by_categories', function(req, res, next) {
 });
 
 router.get('/deleteInEvent', function(req, res, next) {
-    var inventoryId = 9;
+    var inventoryId = 7;
     var userId = 3;
 
     in_events.deleteIn_Event(userId,inventoryId,function(err, data){
@@ -1264,6 +1264,118 @@ router.get('/deleteInEvent', function(req, res, next) {
     });
 });
 
+router.get('/deleteOutEvent', function(req, res, next) {
+    var inventoryId = 7;
+    var userId = 3;
+
+    out_events.deleteOut_Event(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
+
+router.get('/deletePredictionsByInventory', function(req, res, next) {
+    var inventoryId = 7;
+    var userId = 3;
+
+    prediction.deletePrediction(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
+
+router.get('/deleteInventory', function(req, res, next) {
+    var inventoryId = 7;
+    var userId = 3;
+
+    inventory.deleteInventory(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
+
+
+router.get('/removedPermanently', function(req, res, next) {
+    var inventoryId = 197;
+    var userId = 7;
+
+    //delete prediction
+    prediction.deletePrediction(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            //res.send(data);
+            //delete in event
+            in_events.deleteIn_Event(userId,inventoryId,function(err, data){
+                if(err){
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+
+                    console.log(data.length);
+                    //res.send(data);
+                    //delete out_event
+                    out_events.deleteOut_Event(userId,inventoryId,function(err, data){
+                        if(err){
+                            console.log(err);
+                            res.send("there was an error see the console");
+                        }
+                        else {
+                            console.log(data);
+                            //res.send(data);
+                            //delete inventory
+                            inventory.deleteInventory(userId,inventoryId,function(err, data){
+                                if(err){
+                                    console.log(err);
+                                    res.send("there was an error see the console");
+                                }
+                                else {
+                                    console.log("all items deleted");
+                                    console.log(data);
+                                    res.send(data);
+                                }
+                            });
+
+
+                        }
+                    });
+
+
+                }
+            });
+
+
+        }
+    });
+
+
+
+
+
+
+});
 
 
 

@@ -233,4 +233,14 @@ block content
 
 
 
-    
+
+        #modalWarningDelete.modal.fade(role='dialog')
+            .modal-dialog.modal-sm
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal') ×
+                        h4.modal-title Warning
+                    .modal-body
+                        p.alert-danger This item will be permanently removed
+                    .modal-footer
+                        button.btn.btn-danger(type='button', data-dismiss='modal') Remove
