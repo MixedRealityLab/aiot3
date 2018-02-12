@@ -1232,7 +1232,6 @@ router.post('/getTotal_in_out',function(req,res,next){
 
 
 router.post('/userLog',function(req,res,next){
-
     var userId = req.body.userId;
     var timestamp = req.body.timestamp;
     var category =  req.body.category;
@@ -1262,6 +1261,73 @@ router.post('/userLog',function(req,res,next){
 
 router.post('/stopTrack',function(req,res,next){
     var inventoryId = req.body.inventoryId;
+});
+
+
+router.post('/deleteItem', function (req,res, next) {
+    var inventoryId = req.body.inventoryId;
+    var userId =  req.body.userId;
+
+    console.log("delete item");
+    console.log("inventoryId:"+inventoryId);
+    console.log("userId:"+userId);
+
+    //delete item from the system, starting for predictions
+    prediction.deletePrediction(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            //res.send(data);
+            //delete in event
+            in_events.deleteIn_Event(userId,inventoryId,function(err, data){
+                if(err){
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+
+                    console.log(data.length);
+                    //res.send(data);
+                    //delete out_event
+                    out_events.deleteOut_Event(userId,inventoryId,function(err, data){
+                        if(err){
+                            console.log(err);
+                            res.send("there was an error see the console");
+                        }
+                        else {
+                            console.log(data);
+                            //res.send(data);
+                            //delete inventory
+                            inventory.deleteInventory(userId,inventoryId,function(err, data){
+                                if(err){
+                                    console.log(err);
+                                    res.send("there was an error see the console");
+                                }
+                                else {
+                                    console.log("all items deleted");
+                                    console.log(data);
+                                    //res.send(data);
+                                    res.redirect('/');
+
+                                }
+                            });
+
+
+                        }
+                    });
+
+
+                }
+            });
+
+
+        }
+    });
+
+
 
 });
 

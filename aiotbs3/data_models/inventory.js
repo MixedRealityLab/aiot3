@@ -133,8 +133,6 @@ exports.updateInventoryListingStock = function (inventory_id, new_stock_level, d
         else
             console.log(rows);
             return done(null, rows);
-        
-
     }); 
 	
 }
@@ -149,7 +147,6 @@ exports.updatePredictedNeedDate = function (inventory_id, new_predicted_date, ne
         else
             console.log(rows);
         return done(null, rows);
-
 
     });
 

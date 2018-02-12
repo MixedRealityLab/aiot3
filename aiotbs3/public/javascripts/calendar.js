@@ -135,8 +135,12 @@ $(document).ready(function() {
                     callback(events);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status);
-                    alert(thrownError);
+                    //alert(xhr.status);
+                    //alert(thrownError);
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                    userLog(getUserId,19,"status: "+xhr.status +", error description:"+thrownError);
+
 
                 }
 

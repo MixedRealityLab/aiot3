@@ -90,11 +90,19 @@ function detailsView(userId, data, source){
 
         if (idButton == 'btnStop') {
             // CREATE AJAX CALL TO DELETE AL DATA ABOUT THAT PRODUCT
-            userLog(getUserId,10,"remove permanently item xxx"+data.inventory_id);
+            userLog(getUserId,10,"remove permanently item nro:"+data.inventory_id);
 
             $('#modalWarningDelete').modal('show');
+            $('#modalWarningDelete').on('click', function (event) {
 
+                if (event.target.id == 'removeItemButton'){
+                    console.log("remove button");
+                    document.getElementById("inventoryIdDelete").value = data.inventory_id;
+                    document.getElementById("userIdDelete").value = getUserId;
+                    document.getElementById("deleteItemForm").submit();
 
+                }
+            });
 
         }
 

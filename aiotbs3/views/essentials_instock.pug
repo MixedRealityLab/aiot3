@@ -241,6 +241,11 @@ block content
                         button.close(type='button', data-dismiss='modal') ×
                         h4.modal-title Warning
                     .modal-body
-                        p.alert-danger This item will be permanently removed
+                        form#deleteItemForm(method='POST', action='/deleteItem')
+                            p.alert-danger This item will be permanently removed
+                            .form-group
+                                input#inventoryIdDelete.form-control(name='inventoryId', type='hidden',required='')
+                                input#userIdDelete.form-control(name='userId', type='hidden',required='')
+
                     .modal-footer
-                        button.btn.btn-danger(type='button', data-dismiss='modal') Remove
+                        button#removeItemButton.btn.btn-danger(type='button', data-dismiss='modal') Remove
