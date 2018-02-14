@@ -18,6 +18,7 @@ var out_events = require('../data_models/out_events');
 var user = require('../data_models/user.js')
 var tescoData = require("./tescoApi.js");
 var initial_prediction = require("./initialPrediction.js");
+var second_prediction = require ("./secondPrediction.js");
 var inbox = require("./inbox.js");
 var prediction = require("../data_models/prediction.js");
 var user_log =  require("../data_models/user_event_log.js");
@@ -258,7 +259,8 @@ router.post('/checkBarcode', function (req,res, next) {
                             //update inventory success
 
                             //update prediction and save that information in table prediction
-                            initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                            //initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                            second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
                                 if (err){
                                     console.log(err);
                                     //res.send("there was an error see the console");
@@ -460,7 +462,8 @@ router.post('/scanOutProduct', function (req,res, next) {
                                 //update inventory success
 
                                 //update prediction and save that information in table prediction
-                                initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                //initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
                                     if (err){
                                         console.log(err);
                                         //res.send("there was an error see the console");
@@ -569,7 +572,8 @@ router.post('/scanOutProductManual', function (req,res, next) {
                             //update inventory success
 
                             //update prediction and save that information in table prediction
-                            initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                            //initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                            second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
                                 if (err){
                                     console.log(err);
                                     //res.send("there was an error see the console");

@@ -29,6 +29,7 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
             categoryId = dataCategories[0].category_id;
 
             if(categoryId){
+                //******* items grouped *******
                 //if there is a category
                 console.log("category id value"+categoryId);
                 in_events.get_allIn_by_user_and_category(userId,categoryId, function (errIn, dataIn) {
@@ -169,81 +170,43 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
                                         //res.send(data);
 
 
-                                console.log('average:'+ (sum/count).toFixed() + ' days');
+                                        console.log('average:'+ (sum/count).toFixed() + ' days');
 
-                                //take the last scanned-in date and add the average days to generate a predicted date
-                                var averageDays = (sum/count).toFixed();
-                                //here add quantity, if I have two pints of milk then I have to add to the last scanned-in the average days X 2
-                                var lastScanIn = moment(allDates[allDates.length-1].added, "YYYY-MM-DD HH:mm:ss");
+                                        //take the last scanned-in date and add the average days to generate a predicted date
+                                        var averageDays = (sum/count).toFixed();
+                                        //here add quantity, if I have two pints of milk then I have to add to the last scanned-in the average days X 2
+                                        var lastScanIn = moment(allDates[allDates.length-1].added, "YYYY-MM-DD HH:mm:ss");
 
-                                //create a new prediction in table "prediction"
-                                var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-                                //format lastScanIn
-                                lastScanIn = moment(lastScanIn).format('YYYY-MM-DD HH:mm:ss');
-                                //format lastScanOut
-                                lastScanOut = moment(lastScanOut).format('YYYY-MM-DD HH:mm:ss');
+                                        //create a new prediction in table "prediction"
+                                        var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                                        //format lastScanIn
+                                        lastScanIn = moment(lastScanIn).format('YYYY-MM-DD HH:mm:ss');
+                                        //format lastScanOut
+                                        lastScanOut = moment(lastScanOut).format('YYYY-MM-DD HH:mm:ss');
 
-                                var dateOne= moment(lastScanIn,"YYYY-MM-DD").add('days',averageDays);
-                                var predictedRunOut2 = moment(dateOne).format('YYYY-MM-DD HH:mm:ss');
-
-                                var feedback_status = 0; //0=no activity 1=activity
-                                var feedback = null;
-                                var feedback_timestamp = null;
-                                var feedback_after_before = 0; //0=no activity, 1=after, 2= before
-
-                                var data = {"data": allDates,"inventory_id":inventoryList,"predictedRunOut":predictedRunOut2,"averageDays":averageDays,"categoryId":categoryId};
-
-                                console.log("lastScanOut added:"+lastScanOut);
-                                return done(data);
-
-                                //******************************************************************************************************
-                                /*
-                                //updating inventory predicted date
-                                inventory.updatePredictedNeedDate(inventoryId,predictedRunOut2,averageDays,function(err, dataInventory){
-
-                                    if(err){
-                                        //do something
-                                        console.log(err);
-                                        return done("error to update inventory, see the console");
-                                    }
-                                    else {
-                                        //get actual stock level
-                                        inventory.getInventoryById(inventoryId, function(err, dataInventoryId){
-
-                                            if(err){
-                                                console.log(err);
-                                                //res.send("there was an error see the console");
-                                            }
-                                            else {
-
-                                                var stock_level =  dataInventoryId[0].stock_level;
-                                                var metadata = allDates;
-                                                prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,lastScanOut,predictedRunOut2,stock_level,metadata,feedback_status,feedback, feedback_timestamp, feedback_after_before, categoryId, function(err, data){
-                                                    if(err){
-                                                        console.log("prediction problem"+data);
-                                                        console.log(err);
-                                                        return done("there was an error creating a new prediction see the console");
-                                                    }
-                                                    else {
-
-                                                        //console.log(data);
-                                                        console.log("prediction added");
-                                                        return done(data)
-                                                    }
-                                                });
-                                                //end create new prediction
+                                        var dateOne= moment(lastScanIn,"YYYY-MM-DD").add('days',averageDays);
+                                        var predictedRunOut2 = moment(dateOne).format('YYYY-MM-DD HH:mm:ss');
 
 
-                                            }
-                                        });
-                                        //return done(data);//this return is from update inventory
-                                    }
+                                        var data = {"data": allDates,"inventory_id":inventoryList,"predictedRunOut":predictedRunOut2,"averageDays":averageDays,"categoryId":categoryId};
 
-                                });
-                                */
-                                //******************************************************************************************************
+                                        console.log("lastScanOut added:"+lastScanOut);
+
+                                        for(i=0; i< data.inventory_id.length; i++){
+                                            var inventoryId = data.inventory_id[i];
+                                            console.log("inventory id "+i+":"+inventoryId);
 
 
+                                            //******************************************************************************************************
+
+                                            //updating inventory predicted date
+                                            //add a function here
+                                             updateInventoryPrediction(inventoryId,predictedRunOut2,averageDays,categoryId,userId,timestamp,allDates,lastScanIn,lastScanOut);
+
+                                            //******************************************************************************************************
+
+                                        }
+                                        return done(data);
 
                                     }
                                 });
@@ -264,7 +227,7 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
             }
 
             else{
-
+                //without grouping
                 console.log("category id is null, run the algorithm without grouping by inventory categories");
                 //*********
 
@@ -402,18 +365,25 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
                                 var dateOne= moment(lastScanIn,"YYYY-MM-DD").add('days',averageDays);
                                 var predictedRunOut2 = moment(dateOne).format('YYYY-MM-DD HH:mm:ss');
 
-                                var feedback_status = 0; //0=no activity 1=activity
-                                var feedback = null;
-                                var feedback_timestamp = null;
-                                var feedback_after_before = 0; //0=no activity, 1=after, 2= before
+
 
                                 var data = {"data": allDates,"inventory_id":inventoryId,"predictedRunOut":predictedRunOut2,"averageDays":averageDays,"categoryId":categoryId};
 
                                 console.log("lastScanOut added:"+lastScanOut);
-                                return done(data);
+
+                                /*
+                                var feedback_status = 0; //0=no activity 1=activity
+                                var feedback = null;
+                                var feedback_timestamp = null;
+                                var feedback_after_before = 0; //0=no activity, 1=after, 2= before
+                                */
+
+                                //return done(data);
 
 
                                 //******************************************************************************************************
+                                updateInventoryPrediction(inventoryId,predictedRunOut2,averageDays,categoryId,userId,timestamp,allDates,lastScanIn,lastScanOut);
+
                                 /*
                                 //updating inventory predicted date
                                 inventory.updatePredictedNeedDate(inventoryId,predictedRunOut2,averageDays,function(err, dataInventory){
@@ -457,9 +427,9 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
                                     }
 
                                 });
-                                */
-                                //******************************************************************************************************
 
+                                //******************************************************************************************************
+                                */
 
 
 
@@ -477,6 +447,67 @@ exports.getSecondPrediction = function (userId, inventoryId,done) {
 
         }
     });
+
+
+}
+
+
+
+function updateInventoryPrediction(inventoryId,predictedRunOut2,averageDays,categoryId,userId,timestamp,allDates,lastScanIn,lastScanOut){
+
+    console.log(inventoryId+","+predictedRunOut2+","+averageDays+","+categoryId+","+userId+","+timestamp);
+
+
+    //updating inventory predicted date
+
+    inventory.updatePredictedNeedDate(inventoryId,predictedRunOut2,averageDays,function(err, dataInventory){
+
+      if(err){
+          //do something
+          console.log(err);
+          return done("error to update inventory, see the console");
+      }
+      else {
+          //get actual stock level
+          inventory.getInventoryById(inventoryId, function(err, dataInventoryId){
+
+              if(err){
+                  console.log(err);
+                  //res.send("there was an error see the console");
+              }
+              else {
+
+                  var stock_level =  dataInventoryId[0].stock_level;
+                  var metadata = allDates;
+                  var feedback_status = 0; //0=no activity 1=activity
+                  var feedback = null;
+                  var feedback_timestamp = null;
+                  var feedback_after_before = 0; //0=no activity, 1=after, 2= before
+
+
+                  prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,lastScanOut,predictedRunOut2,stock_level,metadata,feedback_status,feedback, feedback_timestamp, feedback_after_before, categoryId, function(err, data){
+                      if(err){
+                          console.log("prediction problem"+data);
+                          console.log(err);
+                          return ("there was an error creating a new prediction see the console");
+                      }
+                      else {
+
+                          //console.log(data);
+                          console.log("prediction added to inventory id"+ inventoryId);
+                          return (data);
+                      }
+                  });
+
+
+
+              }
+          });
+      }
+
+  });
+
+
 
 
 }
