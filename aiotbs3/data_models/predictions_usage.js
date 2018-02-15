@@ -1,6 +1,7 @@
 var db = require("../db/mysql.js");
 
-
+/*
+//*** NOT USED 15-02-18 ***
 //get products scanned out before and after prediction
 exports.getScannedOut_prediction = function (userId,done) {
     var params = [userId];
@@ -43,3 +44,4 @@ exports.getScannedOut_prediction = function (userId,done) {
     });
 
 }
+*/

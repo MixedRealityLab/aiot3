@@ -62,21 +62,59 @@ exports.getInventoryForUserPrediction = function (user_id, done) {
     });
 }
 
+exports.getInventoryForUserPrediction2 = function (user_id, done) {
+    var params = [user_id,user_id];
+    db.get().query("SELECT \"list\" as 'inventory_id',inventory.user_id,inventory.predicted_need_date,categorised_inventory.category_id, categories.CAT2 AS description, categorised_inventory.approved, \"unknow\" as \"stock_level\"\n" +
+        "FROM inventory,product,categorised_inventory,categories\n" +
+        "where inventory.user_id = ?\n" +
+        "and inventory.id = categorised_inventory.inventory_id\n" +
+        "and inventory.product_id=product.id and inventory.stock_delta_day > 1\n" +
+        "and categorised_inventory.approved=1\n" +
+        "and categorised_inventory.category_id= categories.id\n" +
+        "group by inventory.user_id,inventory.predicted_need_date,categorised_inventory.category_id,categories.CAT1,categories.CAT2,categorised_inventory.approved\n" +
+        "UNION DISTINCT\n" +
+        "SELECT inventory.id as 'inventory_id',inventory.user_id,inventory.predicted_need_date,categorised_inventory.category_id,product.description,categorised_inventory.approved, inventory.stock_level\n" +
+        "FROM inventory,product,categorised_inventory\n" +
+        "where inventory.user_id = ?\n" +
+        "and inventory.product_id=product.id\n" +
+        "and inventory.stock_delta_day > 1\n" +
+        "and inventory.id = categorised_inventory.inventory_id\n" +
+        "and category_id is null", params, function (err, rows) {
 
-exports.stopTracking = function(inventory_id, done) {
-	var params = [inventory_id];
-    db.get().query("DELETE FROM inventory where id = ?", params, function (err, rows) {
-        
-        console.log(rows);     
+        console.log(rows);
         if(err)
             return done(err);
 
-        if(rows)
-            return done(null, rows);
-        else
-            return done(null)
+        if(rows.length == 0){
+            return done(new Error("no entries for user"));
+        }
 
-    }); 
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+}
+
+
+
+
+
+
+
+exports.deleteInventory = function (user_id, inventory_id, done) {
+
+    var params = [inventory_id, user_id];
+    db.get().query("delete from inventory where id=? and user_id= ?", params, function (err, rows) {
+
+        console.log(rows);
+        if (err)
+            return done(err);
+        else
+            return done(null,rows)
+    });
+
 }
 
 
@@ -135,8 +173,6 @@ exports.updateInventoryListingStock = function (inventory_id, new_stock_level, d
         else
             console.log(rows);
             return done(null, rows);
-        
-
     }); 
 	
 }
@@ -151,7 +187,6 @@ exports.updatePredictedNeedDate = function (inventory_id, new_predicted_date, ne
         else
             console.log(rows);
         return done(null, rows);
-
 
     });
 

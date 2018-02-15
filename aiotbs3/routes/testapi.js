@@ -16,6 +16,8 @@ var inDescription = require("../not used/InDescription.js");
 var initial_prediction = require("./initialPrediction.js");
 var prediction = require("../data_models/prediction.js");
 var user_log =  require("../data_models/user_event_log.js");
+var categories =  require("../data_models/categories.js");
+var second_prediction = require("./secondPrediction.js");
 
 
 
@@ -216,6 +218,25 @@ router.get('/get_inventory_by_user_prediction', function(req, res, next) {
         }
     });
 });
+
+router.get('/get_inventory_by_user_prediction2', function(req, res, next) {
+    console.log("testing database");
+
+    inventory.getInventoryForUserPrediction2(3, function(err, data){
+
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
+
+
 
 router.get('/stop_tracking', function(req, res, next) {
   console.log("testing database");
@@ -1116,6 +1137,263 @@ router.get('/user_log', function(req, res, next) {
 
         }
     });
+});
+
+router.get('/categories', function(req, res, next) {
+
+    categories.getCategoriesForInventory(40,function(err, dataCategories){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(dataCategories[0].category_id);
+            res.send(dataCategories);
+
+
+        }
+    });
+});
+
+
+router.get('/Inventory_Ids_bycategory', function(req, res, next) {
+    var categoryId = 63;
+    var userId = 3;
+
+    categories.getInventoryIdsForCategory(categoryId,userId,function(err, dataInventoryCategories){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(dataInventoryCategories.length);
+            res.send(dataInventoryCategories);
+
+
+        }
+    });
+});
+
+
+
+router.get('/secondPrediction', function (req,res,next) {
+
+    console.log("testing second prediction");
+    var userId = 3;
+    var inventoryId= 6;  //19=inventory id of semi skimmed milk  //21=avocados check check
+
+    //second_prediction.getSecondPrediction()
+    second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
+        if (err){
+            console.log(err);
+            res.send("there was an error see the console");
+
+        }
+        else {
+            console.log("data prediction");
+            res.send(dataPrediction);
+        }
+
+
+    });
+
+});
+
+
+router.get('/InEvents_by_categories', function(req, res, next) {
+    var categoryId = 63;
+    var userId = 3;
+
+    in_events.get_allIn_by_user_and_category(userId,categoryId,function(err, dataInCategories){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(dataInCategories.length);
+            res.send(dataInCategories);
+
+
+        }
+    });
+});
+
+router.get('/OutEvents_by_categories', function(req, res, next) {
+    var categoryId = 63;
+    var userId = 3;
+
+    out_events.get_allOut_by_user_and_category(userId,categoryId,function(err, dataOutCategories){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(dataOutCategories.length);
+            res.send(dataOutCategories);
+
+
+        }
+    });
+});
+
+
+router.get('/inventoryIds_by_categories', function(req, res, next) {
+    var categoryId = 63;
+    var userId = 3;
+    var inventoryList=[];
+
+    categories.getInventoryIdsForCategory(categoryId,userId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data.length);
+            for (var i=0; i< data.length; i++){
+                inventoryList.push(data[i].inventory_id);
+
+            }
+            console.log(inventoryList);
+            res.send(data);
+
+
+        }
+    });
+});
+
+router.get('/deleteInEvent', function(req, res, next) {
+    var inventoryId = 7;
+    var userId = 3;
+
+    in_events.deleteIn_Event(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            console.log(data.length);
+            res.send(data);
+        }
+    });
+});
+
+router.get('/deleteOutEvent', function(req, res, next) {
+    var inventoryId = 7;
+    var userId = 3;
+
+    out_events.deleteOut_Event(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
+
+router.get('/deletePredictionsByInventory', function(req, res, next) {
+    var inventoryId = 7;
+    var userId = 3;
+
+    prediction.deletePrediction(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
+
+router.get('/deleteInventory', function(req, res, next) {
+    var inventoryId = 7;
+    var userId = 3;
+
+    inventory.deleteInventory(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
+
+
+router.get('/removedPermanently', function(req, res, next) {
+    var inventoryId = 197;
+    var userId = 7;
+
+    //delete prediction
+    prediction.deletePrediction(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            //res.send(data);
+            //delete in event
+            in_events.deleteIn_Event(userId,inventoryId,function(err, data){
+                if(err){
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+
+                    console.log(data.length);
+                    //res.send(data);
+                    //delete out_event
+                    out_events.deleteOut_Event(userId,inventoryId,function(err, data){
+                        if(err){
+                            console.log(err);
+                            res.send("there was an error see the console");
+                        }
+                        else {
+                            console.log(data);
+                            //res.send(data);
+                            //delete inventory
+                            inventory.deleteInventory(userId,inventoryId,function(err, data){
+                                if(err){
+                                    console.log(err);
+                                    res.send("there was an error see the console");
+                                }
+                                else {
+                                    console.log("all items deleted");
+                                    console.log(data);
+                                    res.send(data);
+                                }
+                            });
+
+
+                        }
+                    });
+
+
+                }
+            });
+
+
+        }
+    });
+
+
+
+
+
+
 });
 
 

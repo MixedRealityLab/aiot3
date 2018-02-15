@@ -12,6 +12,7 @@ var prediction = require("../data_models/prediction.js");
 
 exports.getInitialPrediction = function (userId, inventoryId,done) {
     var contador = 0;
+    var categoryId = null;
     in_events.get_allIn_by_user_and_inventory(userId, inventoryId, function (errIn, dataIn) {
 
         if (errIn) {
@@ -174,7 +175,7 @@ exports.getInitialPrediction = function (userId, inventoryId,done) {
 
                                     var stock_level =  dataInventoryId[0].stock_level;
                                     var metadata = allDates;
-                                    prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,lastScanOut,predictedRunOut2,stock_level,metadata,feedback_status,feedback, feedback_timestamp, feedback_after_before, function(err, data){
+                                    prediction.createNew(timestamp,inventoryId,userId,averageDays,lastScanIn,lastScanOut,predictedRunOut2,stock_level,metadata,feedback_status,feedback, feedback_timestamp, feedback_after_before,categoryId, function(err, data){
                                         if(err){
                                             console.log("prediction probleme"+data);
                                             console.log(err);

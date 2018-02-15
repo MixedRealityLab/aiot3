@@ -18,6 +18,7 @@ var out_events = require('../data_models/out_events');
 var user = require('../data_models/user.js')
 var tescoData = require("./tescoApi.js");
 var initial_prediction = require("./initialPrediction.js");
+var second_prediction = require ("./secondPrediction.js");
 var inbox = require("./inbox.js");
 var prediction = require("../data_models/prediction.js");
 var user_log =  require("../data_models/user_event_log.js");
@@ -258,9 +259,11 @@ router.post('/checkBarcode', function (req,res, next) {
                             //update inventory success
 
                             //update prediction and save that information in table prediction
-                            initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                            //initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                            second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
                                 if (err){
                                     console.log(err);
+                                    console.log("not prediction added");
                                     //res.send("there was an error see the console");
                                 }
                                 else {
@@ -460,7 +463,8 @@ router.post('/scanOutProduct', function (req,res, next) {
                                 //update inventory success
 
                                 //update prediction and save that information in table prediction
-                                initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                //initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                                second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
                                     if (err){
                                         console.log(err);
                                         //res.send("there was an error see the console");
@@ -569,7 +573,8 @@ router.post('/scanOutProductManual', function (req,res, next) {
                             //update inventory success
 
                             //update prediction and save that information in table prediction
-                            initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                            //initial_prediction.getInitialPrediction(userId,inventoryId,function (dataPrediction,err) {
+                            second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
                                 if (err){
                                     console.log(err);
                                     //res.send("there was an error see the console");
@@ -843,6 +848,7 @@ router.post('/getInventoryData',function (req,res,next) {
 
 
 
+/* without including grouped predictions
 router.post('/getInventoryDataPrediction',function (req,res,next) {
     var userId=req.body.userId;
     inventory.getInventoryForUserPrediction(userId, function (err, data) {
@@ -857,6 +863,24 @@ router.post('/getInventoryDataPrediction',function (req,res,next) {
         }
     });
 });
+*/
+
+
+router.post('/getInventoryDataPrediction',function (req,res,next) {
+    var userId=req.body.userId;
+    inventory.getInventoryForUserPrediction2(userId, function (err, data) {
+
+        if (err) {
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            res.json(data);
+        }
+    });
+});
+
 
 
 router.post('/getScannedOutBeforePrediction',function (req,res,next) {
@@ -1232,7 +1256,6 @@ router.post('/getTotal_in_out',function(req,res,next){
 
 
 router.post('/userLog',function(req,res,next){
-
     var userId = req.body.userId;
     var timestamp = req.body.timestamp;
     var category =  req.body.category;
@@ -1262,6 +1285,73 @@ router.post('/userLog',function(req,res,next){
 
 router.post('/stopTrack',function(req,res,next){
     var inventoryId = req.body.inventoryId;
+});
+
+
+router.post('/deleteItem', function (req,res, next) {
+    var inventoryId = req.body.inventoryId;
+    var userId =  req.body.userId;
+
+    console.log("delete item");
+    console.log("inventoryId:"+inventoryId);
+    console.log("userId:"+userId);
+
+    //delete item from the system, starting for predictions
+    prediction.deletePrediction(userId,inventoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            //res.send(data);
+            //delete in event
+            in_events.deleteIn_Event(userId,inventoryId,function(err, data){
+                if(err){
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+
+                    console.log(data.length);
+                    //res.send(data);
+                    //delete out_event
+                    out_events.deleteOut_Event(userId,inventoryId,function(err, data){
+                        if(err){
+                            console.log(err);
+                            res.send("there was an error see the console");
+                        }
+                        else {
+                            console.log(data);
+                            //res.send(data);
+                            //delete inventory
+                            inventory.deleteInventory(userId,inventoryId,function(err, data){
+                                if(err){
+                                    console.log(err);
+                                    res.send("there was an error see the console");
+                                }
+                                else {
+                                    console.log("all items deleted");
+                                    console.log(data);
+                                    //res.send(data);
+                                    res.redirect('/');
+
+                                }
+                            });
+
+
+                        }
+                    });
+
+
+                }
+            });
+
+
+        }
+    });
+
+
 
 });
 

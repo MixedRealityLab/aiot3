@@ -1,7 +1,7 @@
 var db = require("../db/mysql.js");
 
 
-exports.createNew = function (timestamp, inventory_id,user_id, days, lastScanIn, lastScanOut,predicted_need_date, stock_level,metadata, feedback_status,feedback, feedback_timestamp, feedback_after_before, done) {
+exports.createNew = function (timestamp, inventory_id,user_id, days, lastScanIn, lastScanOut,predicted_need_date, stock_level,metadata, feedback_status,feedback, feedback_timestamp, feedback_after_before,category_id, done) {
     metaJson = JSON.stringify(metadata);
 
 
@@ -19,7 +19,8 @@ exports.createNew = function (timestamp, inventory_id,user_id, days, lastScanIn,
             "feedback_status": feedback_status,
             "feedback": feedback,
             "feedback_timestamp": feedback_timestamp,
-            "feedback_after_before":feedback_after_before
+            "feedback_after_before":feedback_after_before,
+            "category_id":category_id
 
         }, function(err, rows) {
             if (err)
@@ -52,7 +53,7 @@ exports.getPredictionsForUser = function (user_id, done) {
         "and a.user_id = ?\n" +
         "and a.feedback_status = 0\n" +
         "and product.id = inventory.product_id\n" +
-        "and inventory.id = a.inventory_id ", params, function (err, rows) {
+        "and inventory.id = a.inventory_id", params, function (err, rows) {
 
         console.log(rows);
         if(err)
@@ -91,3 +92,18 @@ exports.updatePredictionFeedback = function (prediction_id, feedback_status, fee
 
 }
 
+
+exports.deletePrediction = function (user_id, inventory_id, done) {
+
+    var params = [inventory_id, user_id];
+    db.get().query("delete from prediction where inventory_id=? and user_id= ?", params, function (err, rows) {
+
+        console.log(rows);
+        if (err)
+            return done(err);
+        else
+            return done(null,rows)
+    });
+
+
+}
