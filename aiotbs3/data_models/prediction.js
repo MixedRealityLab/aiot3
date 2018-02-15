@@ -53,7 +53,7 @@ exports.getPredictionsForUser = function (user_id, done) {
         "and a.user_id = ?\n" +
         "and a.feedback_status = 0\n" +
         "and product.id = inventory.product_id\n" +
-        "and inventory.id = a.inventory_id ", params, function (err, rows) {
+        "and inventory.id = a.inventory_id", params, function (err, rows) {
 
         console.log(rows);
         if(err)

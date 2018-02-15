@@ -1,6 +1,8 @@
 var db = require("../db/mysql.js");
 
+//*** NOT USED 15-02-18***
 //create a new inbox register
+/*
 exports.createNew = function (timestamp, product_id, inventory_id, description, user_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level,last_scanned_out, after_before, status, feedback, done) {
 
     db.get().query("INSERT INTO inbox SET ?",
@@ -56,3 +58,4 @@ exports.getInboxStatus = function (user_id,status,after_before, done) {
 
 
 //update inbox message
+*/

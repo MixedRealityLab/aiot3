@@ -263,6 +263,7 @@ router.post('/checkBarcode', function (req,res, next) {
                             second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
                                 if (err){
                                     console.log(err);
+                                    console.log("not prediction added");
                                     //res.send("there was an error see the console");
                                 }
                                 else {
@@ -847,6 +848,7 @@ router.post('/getInventoryData',function (req,res,next) {
 
 
 
+/* without including grouped predictions
 router.post('/getInventoryDataPrediction',function (req,res,next) {
     var userId=req.body.userId;
     inventory.getInventoryForUserPrediction(userId, function (err, data) {
@@ -861,6 +863,24 @@ router.post('/getInventoryDataPrediction',function (req,res,next) {
         }
     });
 });
+*/
+
+
+router.post('/getInventoryDataPrediction',function (req,res,next) {
+    var userId=req.body.userId;
+    inventory.getInventoryForUserPrediction2(userId, function (err, data) {
+
+        if (err) {
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+
+            res.json(data);
+        }
+    });
+});
+
 
 
 router.post('/getScannedOutBeforePrediction',function (req,res,next) {

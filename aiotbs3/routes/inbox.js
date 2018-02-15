@@ -2,7 +2,6 @@ var request = require('request');
 var express = require('express');
 
 var router = express.Router();
-var predictions_usage = require('../data_models/predictions_usage');
 var prediction =  require('../data_models/prediction');
 var moment = require('moment');
 

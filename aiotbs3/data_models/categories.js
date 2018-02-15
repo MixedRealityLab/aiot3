@@ -9,7 +9,7 @@ exports.getCategoriesForInventory = function (inventory_id, done) {
             return done(err);
 
         if(rows.length == 0){
-            return done(new Error("no entries for user"));
+            return done(new Error("there is not category available for this product"));
         }
 
         if(rows.length > 0){
