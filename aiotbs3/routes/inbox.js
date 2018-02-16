@@ -3,6 +3,7 @@ var express = require('express');
 
 var router = express.Router();
 var prediction =  require('../data_models/prediction');
+var categories = require('../data_models/categories');
 var moment = require('moment');
 
 
@@ -106,10 +107,12 @@ exports.getPredictionsFeedback =  function (userId,done) {
 
 //getting prediction to show as inbox notifications, adding grouped categories
 exports.getPredictionsFeedback2 =  function (userId,done) {
-    var dataBefore = [];
+    var dataBefore= [];
+    var dataBeforeCat = [];
     var dataAfter = [];
+    var dataAfterCat = [];
 
-    prediction.getPredictionsForUser(userId,function(err, data){
+    prediction.getPredictionsForUser2(userId,function(err, data){
         if(err){
             console.log(err);
             console.log("there was an error getting predictions from that specific user");
@@ -117,46 +120,70 @@ exports.getPredictionsFeedback2 =  function (userId,done) {
         }
         else {
 
-            //from data get inventory_id's
-            //identify if that inventory is grouped or not
-            //if isn't grouped
-                //go to complete data before/after array
-            //if is grouped
-                //get the category
-                //get all other inventory ids for that category
-                    //group by that category
-                    //identify if is data before or after
-
-
-
             for (var i=0; i < data.length; i++) {
                 if (data[i].early_late ==0) {
-                    dataBefore.push({
-                        "product_id": data[i].product_id,
-                        "description": data[i].description,
-                        "prediction_id":data[i].id,
-                        "inventory_id":data[i].inventory_id
-                    });
+                    if (data[i].category_id!=null){
+                        dataBeforeCat.push({
+                            "product_id": data[i].product_id,
+                            "description_product": data[i].description,
+                            "prediction_id": data[i].id,
+                            "inventory_id": data[i].inventory_id,
+                            "category_id": data[i].category_id,
+                            "description":data[i].CAT2
+                        });
+
+
+                    }
+                    else {
+                        dataBefore.push({
+                            "product_id": data[i].product_id,
+                            "description": data[i].description,
+                            "prediction_id": data[i].id,
+                            "inventory_id": data[i].inventory_id,
+                            "category_id": data[i].category_id,
+                            "category_description":data[i].CAT2
+                        });
+
+                    }
                 } else {
                     //scanned out after predicted date
                     if (data[i].early_late ==1) {
-                        dataAfter.push({
+                        if (data[i].category_id!=null){
+                            dataAfterCat.push({
+                                "product_id": data[i].product_id,
+                                "description_product": data[i].description,
+                                "prediction_id":data[i].id,
+                                "inventory_id":data[i].inventory_id,
+                                "category_id":data[i].category_id,
+                                "description":data[i].CAT2
+                            });
+
+
+                        }
+                        else{
+                            dataAfter.push({
                             "product_id": data[i].product_id,
                             "description": data[i].description,
                             "prediction_id":data[i].id,
-                            "inventory_id":data[i].inventory_id
+                            "inventory_id":data[i].inventory_id,
+                            "category_id":data[i].category_id,
+                            "category_description":data[i].CAT2
+                            });
+                        }
 
-                        });
                     }
                 }
 
             }
 
+
+
+
             console.log(data);
-            //res.send(data);
-            var data= {"dataBefore":dataBefore,"dataAfter":dataAfter};
+            var data= {"dataBefore":dataBefore ,"dataAfter":dataAfter,"dataBeforeCat":dataBeforeCat, "dataAfterCat":dataAfterCat };
             console.log(data);
             return done(data);
+            //res.send(data);
         }
     });
 

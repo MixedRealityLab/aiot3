@@ -216,20 +216,6 @@ $(document).ready(function() {
                     document.getElementById("inventory_id").value = dataAfter.inventory_id;
                     document.getElementById("feedbackPrediction").submit();
 
-                    //ajax mode not working
-                    //$.ajax({
-                    //    url: '/feedbackPredictionAjax',
-                    //    type: 'POST',
-                    //    data: {feedback_status: 1, feedback_after_before: 1, prediction_id:dataAfter.prediction_id, inventory_id:dataAfter.inventory_id, feedbackText:feedbackText },
-                    //    datatype: 'json',
-                    //    success: function (response) {
-                    //       console.log('success', response);
-                    //        //document.getElementById("statusData").innerHTML = "Server response:" + response.msg;
-                    //    },
-                    //    error: function (xhr, status, error) {
-                    //        alert(xhr.responseText); // error occur
-                    //    }
-                    //});
 
                 }
 

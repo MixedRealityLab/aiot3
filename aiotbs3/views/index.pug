@@ -29,13 +29,18 @@ block content
                         a(href='/')
                             span.glyphicon.glyphicon-home
                             | #{''} Home
-                            //script.
-                                //userLog(3, 15, "home button clicked");
+
 
                     li
                         a(href='#')
                             span.glyphicon.glyphicon-user
                             |  #{user[0].username}
+
+                    li
+                        a(href='#')
+                            span.glyphicon.glyphicon-shopping-cart
+                            | #{''} List
+
                     li
                         a(href='/logout')
                             span.glyphicon.glyphicon-log-in
