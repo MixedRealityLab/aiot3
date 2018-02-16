@@ -48,3 +48,24 @@ exports.getInventoryIdsForCategory = function (category_id,user_id, done) {
     });
 }
 
+
+
+exports.getCategories = function (category_id, done) {
+    var params = [category_id];
+    db.get().query("select * from categories where categories.id= ?", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("no entries for that category"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+}

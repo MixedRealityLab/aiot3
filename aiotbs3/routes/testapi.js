@@ -18,6 +18,8 @@ var prediction = require("../data_models/prediction.js");
 var user_log =  require("../data_models/user_event_log.js");
 var categories =  require("../data_models/categories.js");
 var second_prediction = require("./secondPrediction.js");
+var inbox = require("./inbox.js");
+
 
 
 
@@ -1389,13 +1391,45 @@ router.get('/removedPermanently', function(req, res, next) {
         }
     });
 
+});
 
 
 
+router.get('/getcategories', function(req, res, next) {
+    var categoryId = 63;
 
+    //delete prediction
+    categories.getCategories(categoryId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data[0].CAT2);
+        }
+    });
 
 });
 
+
+
+router.get('/getPredictionFeedback2', function(req, res, next) {
+    var userId = 3;
+
+    //delete prediction
+    inbox.getPredictionsFeedback2(userId,function(data,err){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log(data);
+            res.send(data);
+        }
+    });
+
+});
 
 
 module.exports = router;

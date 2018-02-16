@@ -38,7 +38,7 @@ function detailsView(userId, data, source){
         success: function (response) {
             console.log('success', response);
             document.getElementById("prediction").innerHTML = "Prediction/Run Out: " + response.predictedRunOut;
-            document.getElementById("average").innerHTML = "Average Consumption (days):" + response.averageDays;
+            document.getElementById("average").innerHTML = "Average Consumption (days per item): " + response.averageDays;
         },
         error: function (xhr, status, error) {
             //alert(xhr.responseText); // error occurr, do something with this error

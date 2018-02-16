@@ -73,6 +73,68 @@ exports.getPredictionsForUser = function (user_id, done) {
 
 
 
+exports.getPredictionsForUser2 = function (user_id, done) {
+    var params = [user_id,user_id];
+    db.get().query("select product.id as 'product_id',product.description, a.*, if( a.last_scanOut < a.predicted_need_date ,0,1) as 'early_late', categories.CAT2\n" +
+        "        from prediction a,product,inventory,categories\n" +
+        "        where (\n" +
+        "          select count(*)\n" +
+        "          from prediction b\n" +
+        "          where a.inventory_id = b.inventory_id\n" +
+        "          and  case \n" +
+        "               when a.`timestamp` = b.`timestamp`\n" +
+        "               then a.id < b.id\n" +
+        "               else a.`timestamp` < b.`timestamp`\n" +
+        "               end\n" +
+        "        ) + 1 = 1\n" +
+        "        and a.user_id = ?\n" +
+        "        and a.feedback_status = 0\n" +
+        "        and product.id = inventory.product_id\n" +
+        "        and inventory.id = a.inventory_id\n" +
+        "        and a.category_id= categories.id\n" +
+        "\n" +
+        "union all\n" +
+        "\n" +
+        " select product.id as 'product_id',product.description, a.*, if( a.last_scanOut < a.predicted_need_date ,0,1) as 'early_late', \"NA\" as CAT2\n" +
+        "        from prediction a,product,inventory\n" +
+        "        where (\n" +
+        "          select count(*)\n" +
+        "          from prediction b\n" +
+        "          where a.inventory_id = b.inventory_id\n" +
+        "          and  case \n" +
+        "               when a.`timestamp` = b.`timestamp`\n" +
+        "               then a.id < b.id\n" +
+        "               else a.`timestamp` < b.`timestamp`\n" +
+        "               end\n" +
+        "        ) + 1 = 1\n" +
+        "        and a.user_id = ?\n" +
+        "        and a.feedback_status = 0\n" +
+        "        and product.id = inventory.product_id\n" +
+        "        and inventory.id = a.inventory_id\n" +
+        "        and a.category_id is null\n", params, function (err, rows) {
+
+        console.log(rows);
+        if(err)
+            return done(err);
+
+        if(rows.length == 0){
+            return done(new Error("no entries for user"));
+        }
+
+        if(rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+
+    });
+}
+
+
+
+
+
+
+
 //update feedback status, feedback details, feedback timestamp.
 //feedback_status = 0 (there is not feedback available)
 //feedback_status = 1 (there is feedback available)

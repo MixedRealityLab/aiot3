@@ -885,8 +885,9 @@ router.post('/getInventoryDataPrediction',function (req,res,next) {
 
 router.post('/getScannedOutBeforePrediction',function (req,res,next) {
     var userId=req.body.userId;
-    //inbox.getScannedOutPrediction(userId,function (data,err) {
-    inbox.getPredictionsFeedback(userId,function (data,err) {
+    //inbox.getPredictionsFeedback(userId,function (data,err) {
+    inbox.getPredictionsFeedback2(userId,function (data,err) {
+
 
             if (err){
                 console.log(err);
@@ -905,9 +906,10 @@ router.post('/getScannedOutBeforePrediction',function (req,res,next) {
 
 router.post('/getScannedOutAfterPrediction',function (req,res,next) {
     var userId=req.body.userId;
-    //inbox.getScannedOutPrediction(userId,function (data,err) {
-    inbox.getPredictionsFeedback(userId,function (data,err) {
-        if (err){
+    //inbox.getPredictionsFeedback(userId,function (data,err) {
+    inbox.getPredictionsFeedback2(userId,function (data,err) {
+
+            if (err){
             console.log(err);
             //res.send("there was an error see the console");
 
