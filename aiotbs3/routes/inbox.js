@@ -177,11 +177,67 @@ exports.getPredictionsFeedback2 =  function (userId,done) {
             }
 
 
-
-
-            console.log(data);
+            //grouping all
             var data= {"dataBefore":dataBefore ,"dataAfter":dataAfter,"dataBeforeCat":dataBeforeCat, "dataAfterCat":dataAfterCat };
+
+            /*
+            var dataBeforeAll = [];
+            var dataAfterAll = [];
+
+            for(var i =0; i<data.dataBeforeCat.length; i++){
+                dataBeforeAll.push({
+                    "product_id": data.dataBeforeCat[i].product_id,
+                    "description": data.dataBeforeCat[i].description,
+                    "prediction_id":data.dataBeforeCat[i].id,
+                    "inventory_id":data.dataBeforeCat[i].inventory_id,
+                    "category_id":data.dataBeforeCat[i].category_id,
+                    "category_description":data.dataBeforeCat[i].category_description
+                });
+
+            }
+
+            for(var i =0; i<data.dataBefore.length; i++){
+                dataBeforeAll.push({
+                    "product_id": data.dataBefore[i].product_id,
+                    "description": data.dataBefore[i].description,
+                    "prediction_id":data.dataBefore[i].id,
+                    "inventory_id":data.dataBefore[i].inventory_id,
+                    "category_id":data.dataBefore[i].category_id,
+                    "category_description":data.dataBefore[i].category_description
+                });
+
+            }
+
+            for(var i =0; i<data.dataAfterCat.length; i++){
+                dataAfterAll.push({
+                    "product_id": data.dataAfterCat[i].product_id,
+                    "description": data.dataAfterCat[i].description,
+                    "prediction_id":data.dataAfterCat[i].id,
+                    "inventory_id":data.dataAfterCat[i].inventory_id,
+                    "category_id":data.dataAfterCat[i].category_id,
+                    "category_description":data.dataAfterCat[i].category_description
+                });
+
+            }
+
+            for(var i =0; i<data.dataAfter.length; i++){
+                dataAfterAll.push({
+                    "product_id": data.dataAfter[i].product_id,
+                    "description": data.dataAfter[i].description,
+                    "prediction_id":data.dataAfter[i].id,
+                    "inventory_id":data.dataAfter[i].inventory_id,
+                    "category_id":data.dataAfter[i].category_id,
+                    "category_description":data.dataAfter[i].category_description
+                });
+
+            }
+
+
+
+            var data = {"dataBefore":dataBeforeAll,"dataAfter":dataAfterAll};
+            */
             console.log(data);
+
             return done(data);
             //res.send(data);
         }

@@ -1416,6 +1416,8 @@ router.get('/getcategories', function(req, res, next) {
 
 router.get('/getPredictionFeedback2', function(req, res, next) {
     var userId = 3;
+    var dataBeforeAll = [];
+    var dataAfterAll = [];
 
     //delete prediction
     inbox.getPredictionsFeedback2(userId,function(data,err){
@@ -1425,6 +1427,67 @@ router.get('/getPredictionFeedback2', function(req, res, next) {
         }
         else {
             console.log(data);
+
+            for(var i =0; i<data.dataBeforeCat.length; i++){
+
+
+                dataBeforeAll.push({
+                    "product_id": data.dataBeforeCat[i].product_id,
+                    "description": data.dataBeforeCat[i].description,
+                    "prediction_id":data.dataBeforeCat[i].prediction_id,
+                    "inventory_id":data.dataBeforeCat[i].inventory_id,
+                    "category_id":data.dataBeforeCat[i].category_id,
+                    "category_description":data.dataBeforeCat[i].description
+                });
+
+            }
+
+            for(var i =0; i<data.dataBefore.length; i++){
+                dataBeforeAll.push({
+                    "product_id": data.dataBefore[i].product_id,
+                    "description": data.dataBefore[i].description,
+                    "prediction_id":data.dataBefore[i].prediction_id,
+                    "inventory_id":data.dataBefore[i].inventory_id,
+                    "category_id":data.dataBefore[i].category_id,
+                    "category_description":data.dataBefore[i].category_description
+                });
+
+            }
+
+            for(var i =0; i<data.dataAfterCat.length; i++){
+                dataAfterAll.push({
+                    "product_id": data.dataAfterCat[i].product_id,
+                    "description": data.dataAfterCat[i].description,
+                    "prediction_id":data.dataAfterCat[i].prediction_id,
+                    "inventory_id":data.dataAfterCat[i].inventory_id,
+                    "category_id":data.dataAfterCat[i].category_id,
+                    "category_description":data.dataAfterCat[i].description
+                });
+
+            }
+
+            for(var i =0; i<data.dataAfter.length; i++){
+                dataAfterAll.push({
+                    "product_id": data.dataAfter[i].product_id,
+                    "description": data.dataAfter[i].description,
+                    "prediction_id":data.dataAfter[i].prediction_id,
+                    "inventory_id":data.dataAfter[i].inventory_id,
+                    "category_id":data.dataAfter[i].category_id,
+                    "category_description":data.dataAfter[i].category_description
+                });
+
+            }
+
+            //this will work just in jquery (client side)
+
+            var groupedData = _.groupBy(dataAfterAll, function(d){return d.category_id});
+            console.log(groupedData);
+
+            var data = {"dataBefore":dataBeforeAll,"dataAfter":dataAfterAll};
+            //console.log(data.dataBefore.length);
+            //console.log(data.dataAfter.length);
+
+
             res.send(data);
         }
     });
