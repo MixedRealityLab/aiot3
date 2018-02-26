@@ -19,6 +19,8 @@ var user_log =  require("../data_models/user_event_log.js");
 var categories =  require("../data_models/categories.js");
 var second_prediction = require("./secondPrediction.js");
 var inbox = require("./inbox.js");
+var _ = require('lodash');
+var array = require('lodash/array');
 
 
 
@@ -1419,6 +1421,7 @@ router.get('/getPredictionFeedback2', function(req, res, next) {
     var dataBeforeAll = [];
     var dataAfterAll = [];
 
+
     //delete prediction
     inbox.getPredictionsFeedback2(userId,function(data,err){
         if(err){
@@ -1426,21 +1429,28 @@ router.get('/getPredictionFeedback2', function(req, res, next) {
             res.send("there was an error see the console");
         }
         else {
-            console.log(data);
 
-            for(var i =0; i<data.dataBeforeCat.length; i++){
+            var resultBefore=_.chain(data.dataBeforeCat).groupBy('category_id').map(function(v, i) {
+                return {
+                    category_id: i,
+                    description: _.get(_.find(v, 'description'), 'description'),
+                    product_id: _.map(v, 'product_id'),
+                    inventory_id: _.map(v, 'inventory_id'),
+                    prediction_id:_.map(v, 'prediction_id')
+                }
+            }).value();
 
-
+            for(var i = 0; i<resultBefore.length; i++){
                 dataBeforeAll.push({
-                    "product_id": data.dataBeforeCat[i].product_id,
-                    "description": data.dataBeforeCat[i].description,
-                    "prediction_id":data.dataBeforeCat[i].prediction_id,
-                    "inventory_id":data.dataBeforeCat[i].inventory_id,
-                    "category_id":data.dataBeforeCat[i].category_id,
-                    "category_description":data.dataBeforeCat[i].description
+                    "product_id": resultBefore[i].product_id,
+                    "description": resultBefore[i].description,
+                    "prediction_id":resultBefore[i].prediction_id,
+                    "inventory_id":resultBefore[i].inventory_id,
+                    "category_id":resultBefore[i].category_id,
+                    "category_description":resultBefore[i].description
                 });
-
             }
+
 
             for(var i =0; i<data.dataBefore.length; i++){
                 dataBeforeAll.push({
@@ -1454,14 +1464,25 @@ router.get('/getPredictionFeedback2', function(req, res, next) {
 
             }
 
-            for(var i =0; i<data.dataAfterCat.length; i++){
+
+            var resultAfter=_.chain(data.dataAfterCat).groupBy('category_id').map(function(v, i) {
+                return {
+                    category_id: i,
+                    description: _.get(_.find(v, 'description'), 'description'),
+                    product_id: _.map(v, 'product_id'),
+                    inventory_id: _.map(v, 'inventory_id'),
+                    prediction_id:_.map(v, 'prediction_id')
+                }
+            }).value();
+
+            for(var i =0; i< resultAfter.length; i++){
                 dataAfterAll.push({
-                    "product_id": data.dataAfterCat[i].product_id,
-                    "description": data.dataAfterCat[i].description,
-                    "prediction_id":data.dataAfterCat[i].prediction_id,
-                    "inventory_id":data.dataAfterCat[i].inventory_id,
-                    "category_id":data.dataAfterCat[i].category_id,
-                    "category_description":data.dataAfterCat[i].description
+                    "product_id": resultAfter[i].product_id,
+                    "description": resultAfter[i].description,
+                    "prediction_id":resultAfter[i].prediction_id,
+                    "inventory_id":resultAfter[i].inventory_id,
+                    "category_id":resultAfter[i].category_id,
+                    "category_description":resultAfter[i].description
                 });
 
             }
@@ -1478,15 +1499,11 @@ router.get('/getPredictionFeedback2', function(req, res, next) {
 
             }
 
-            //this will work just in jquery (client side)
-
-            var groupedData = _.groupBy(dataAfterAll, function(d){return d.category_id});
-            console.log(groupedData);
 
             var data = {"dataBefore":dataBeforeAll,"dataAfter":dataAfterAll};
-            //console.log(data.dataBefore.length);
-            //console.log(data.dataAfter.length);
 
+
+            console.log(data.dataBefore[2].product_id);
 
             res.send(data);
         }

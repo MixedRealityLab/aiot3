@@ -635,22 +635,44 @@ router.post('/feedbackPrediction', function (req,res, next) {
     var feedback_after_before = req.body.feedback_after_before;
     var predictionId = req.body.prediction_id;
     var inventoryId =  req.body.inventory_id;
+    var arrayPrediction = JSON.parse("[" + predictionId + "]");
 
     //prediction.updatePredictionFeedback(1,,,,)
-    prediction.updatePredictionFeedback(predictionId,feedback_status,feedback,feedback_timestamp,feedback_after_before,function(err, data){
-        if(err){
-            console.log(err);
-            res.send("there was an error see the console");
-        }
-        else {
 
-            console.log(data);
-            //res.send(data);
-            //res.render('inbox',{ user: req.user});
-            res.redirect('/');
+    // ACA ACA ACA ACA ********
+
+    if(arrayPrediction.length > 1){
+
+        console.log("array of predictions");
+        for (var i=0 ; i< arrayPrediction.length ; i++){
+            console.log("prediction id: "+ arrayPrediction[i]);
 
         }
-    });
+
+
+    }
+    else{
+        console.log("one prediction");
+        console.log(predictionId);
+        //res.redirect('/');
+        /*
+        prediction.updatePredictionFeedback(predictionId,feedback_status,feedback,feedback_timestamp,feedback_after_before,function(err, data){
+            if(err){
+                console.log(err);
+                res.send("there was an error see the console");
+            }
+            else {
+
+                console.log(data);
+                //res.send(data);
+                //res.render('inbox',{ user: req.user});
+                res.redirect('/');
+
+            }
+        });
+        */
+
+    }
 
 });
 
