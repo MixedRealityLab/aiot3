@@ -1292,7 +1292,7 @@ router.post('/getTotal_in_out',function(req,res,next){
 
 });
 
-
+//********** USER LOG *************************
 router.post('/userLog',function(req,res,next){
     var userId = req.body.userId;
     var timestamp = req.body.timestamp;
@@ -1314,16 +1314,24 @@ router.post('/userLog',function(req,res,next){
 });
 
 
+function userLogFunction(userId,category,metadata) {
+    var timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    user_log.createNewUserLog(userId,category,timestamp,metadata,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("there was an error see the console");
+        }
+        else {
+            console.log("log saved");
+            //console.log(data);
+            //res.send(data);
 
-//router.post('/editProduct',function(req,res,next){
-//    var inventoryId = req.body.inventoryId;
-//    var newStockLevel = req.body.newStockLevel;
-//});
+        }
+    });
+
+}
 
 
-router.post('/stopTrack',function(req,res,next){
-    var inventoryId = req.body.inventoryId;
-});
 
 
 router.post('/deleteItem', function (req,res, next) {
@@ -1393,12 +1401,6 @@ router.post('/deleteItem', function (req,res, next) {
 
 });
 
-//router.post('/outByUser',function(req,res,next){
-//    var data = req.body;
-//    //console.log(data);
-//    res.json(data);
-//
-//});
 
 
 
@@ -1438,12 +1440,15 @@ router.post('/login',
         // If this function gets called, authentication was successful.
         // `req.user` contains the authenticated user.
         console.log('Im here login');
+        userLogFunction(req.user[0].id, 1,"Im here login");
         res.redirect('/');
     });
 
 
 
 router.get('/logout', function(req, res){
+        console.log('Im here logout');
+        userLogFunction(req.user[0].id, 16,"Im here logout");
         req.logout();
         res.redirect('/login');
     });
