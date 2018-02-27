@@ -82,7 +82,7 @@ $(document).ready(function() {
     //var infoBefore = table.page.info();
     //var infoAfter =  table2.page.info();
 
-    //console.log(infoAfter);
+    //console.log(infoBefore);
     //document.getElementById("spanbefore").innerText = infoBefore.length;
 
     function processInfoBefore(info) {
@@ -125,6 +125,7 @@ $(document).ready(function() {
 
         dataBefore = table.row($(this).parents('tr')).data();
         userLog(getUserId,6,"click inbox row before prediction");
+        console.log(dataBefore);
 
 
 

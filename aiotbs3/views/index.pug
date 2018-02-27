@@ -18,6 +18,7 @@ block content
 
     else
         input#HideUserId(type='hidden', value=user[0].id)
+
         nav.navbar.navbar-default
             .container-fluid
                 .navbar-header
@@ -36,7 +37,7 @@ block content
                             span.glyphicon.glyphicon-user
                             |  #{user[0].username}
 
-                    li
+                    //li
                         a(href='#')
                             span.glyphicon.glyphicon-shopping-cart
                             | #{''} List
@@ -47,6 +48,8 @@ block content
                             |  Logout
         .container
             //h1 Home Essentials
+            //script.
+                //userLog($("#HideUserId").val(), 1, "login");
             p
             p
                 //| To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.

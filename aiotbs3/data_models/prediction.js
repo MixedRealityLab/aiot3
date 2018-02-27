@@ -92,6 +92,7 @@ exports.getPredictionsForUser2 = function (user_id, done) {
         "        and product.id = inventory.product_id\n" +
         "        and inventory.id = a.inventory_id\n" +
         "        and a.category_id= categories.id\n" +
+        "        and DATE_FORMAT(a.last_scanOut,GET_FORMAT(DATE,'EUR')) != DATE_FORMAT(a.predicted_need_date,GET_FORMAT(DATE,'EUR')) " +
         "\n" +
         "union all\n" +
         "\n" +
@@ -111,7 +112,8 @@ exports.getPredictionsForUser2 = function (user_id, done) {
         "        and a.feedback_status = 0\n" +
         "        and product.id = inventory.product_id\n" +
         "        and inventory.id = a.inventory_id\n" +
-        "        and a.category_id is null\n", params, function (err, rows) {
+        "        and a.category_id is null\n" +
+        "        and DATE_FORMAT(a.last_scanOut,GET_FORMAT(DATE,'EUR')) != DATE_FORMAT(a.predicted_need_date,GET_FORMAT(DATE,'EUR')) ", params, function (err, rows) {
 
         console.log(rows);
         if(err)

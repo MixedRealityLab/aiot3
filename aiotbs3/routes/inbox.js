@@ -5,6 +5,7 @@ var router = express.Router();
 var prediction =  require('../data_models/prediction');
 var categories = require('../data_models/categories');
 var moment = require('moment');
+var _ = require('lodash');
 
 
 /*exports.getScannedOutPrediction = function (userId,done) {
@@ -177,11 +178,86 @@ exports.getPredictionsFeedback2 =  function (userId,done) {
             }
 
 
-
-
-            console.log(data);
+            //grouping all
             var data= {"dataBefore":dataBefore ,"dataAfter":dataAfter,"dataBeforeCat":dataBeforeCat, "dataAfterCat":dataAfterCat };
+
+            var dataBeforeAll = [];
+            var dataAfterAll = [];
+
+            var resultBefore=_.chain(data.dataBeforeCat).groupBy('category_id').map(function(v, i) {
+                return {
+                    category_id: i,
+                    description: _.get(_.find(v, 'description'), 'description'),
+                    product_id: _.map(v, 'product_id'),
+                    inventory_id: _.map(v, 'inventory_id'),
+                    prediction_id:_.map(v, 'prediction_id')
+                }
+            }).value();
+
+            for(var i = 0; i<resultBefore.length; i++){
+                dataBeforeAll.push({
+                    "product_id": resultBefore[i].product_id,
+                    "description": resultBefore[i].description,
+                    "prediction_id":resultBefore[i].prediction_id,
+                    "inventory_id":resultBefore[i].inventory_id,
+                    "category_id":resultBefore[i].category_id,
+                    "category_description":resultBefore[i].description
+                });
+            }
+
+
+            for(var i =0; i<data.dataBefore.length; i++){
+                dataBeforeAll.push({
+                    "product_id": data.dataBefore[i].product_id,
+                    "description": data.dataBefore[i].description,
+                    "prediction_id":data.dataBefore[i].prediction_id,
+                    "inventory_id":data.dataBefore[i].inventory_id,
+                    "category_id":data.dataBefore[i].category_id,
+                    "category_description":data.dataBefore[i].category_description
+                });
+
+            }
+
+
+            var resultAfter=_.chain(data.dataAfterCat).groupBy('category_id').map(function(v, i) {
+                return {
+                    category_id: i,
+                    description: _.get(_.find(v, 'description'), 'description'),
+                    product_id: _.map(v, 'product_id'),
+                    inventory_id: _.map(v, 'inventory_id'),
+                    prediction_id:_.map(v, 'prediction_id')
+                }
+            }).value();
+
+            for(var i =0; i< resultAfter.length; i++){
+                dataAfterAll.push({
+                    "product_id": resultAfter[i].product_id,
+                    "description": resultAfter[i].description,
+                    "prediction_id":resultAfter[i].prediction_id,
+                    "inventory_id":resultAfter[i].inventory_id,
+                    "category_id":resultAfter[i].category_id,
+                    "category_description":resultAfter[i].description
+                });
+
+            }
+
+            for(var i =0; i<data.dataAfter.length; i++){
+                dataAfterAll.push({
+                    "product_id": data.dataAfter[i].product_id,
+                    "description": data.dataAfter[i].description,
+                    "prediction_id":data.dataAfter[i].prediction_id,
+                    "inventory_id":data.dataAfter[i].inventory_id,
+                    "category_id":data.dataAfter[i].category_id,
+                    "category_description":data.dataAfter[i].category_description
+                });
+
+            }
+
+
+            var data = {"dataBefore":dataBeforeAll,"dataAfter":dataAfterAll};
+
             console.log(data);
+
             return done(data);
             //res.send(data);
         }

@@ -19,6 +19,8 @@ var user_log =  require("../data_models/user_event_log.js");
 var categories =  require("../data_models/categories.js");
 var second_prediction = require("./secondPrediction.js");
 var inbox = require("./inbox.js");
+var _ = require('lodash');
+var array = require('lodash/array');
 
 
 
@@ -1416,6 +1418,9 @@ router.get('/getcategories', function(req, res, next) {
 
 router.get('/getPredictionFeedback2', function(req, res, next) {
     var userId = 3;
+    var dataBeforeAll = [];
+    var dataAfterAll = [];
+
 
     //delete prediction
     inbox.getPredictionsFeedback2(userId,function(data,err){
@@ -1424,7 +1429,82 @@ router.get('/getPredictionFeedback2', function(req, res, next) {
             res.send("there was an error see the console");
         }
         else {
-            console.log(data);
+
+            var resultBefore=_.chain(data.dataBeforeCat).groupBy('category_id').map(function(v, i) {
+                return {
+                    category_id: i,
+                    description: _.get(_.find(v, 'description'), 'description'),
+                    product_id: _.map(v, 'product_id'),
+                    inventory_id: _.map(v, 'inventory_id'),
+                    prediction_id:_.map(v, 'prediction_id')
+                }
+            }).value();
+
+            for(var i = 0; i<resultBefore.length; i++){
+                dataBeforeAll.push({
+                    "product_id": resultBefore[i].product_id,
+                    "description": resultBefore[i].description,
+                    "prediction_id":resultBefore[i].prediction_id,
+                    "inventory_id":resultBefore[i].inventory_id,
+                    "category_id":resultBefore[i].category_id,
+                    "category_description":resultBefore[i].description
+                });
+            }
+
+
+            for(var i =0; i<data.dataBefore.length; i++){
+                dataBeforeAll.push({
+                    "product_id": data.dataBefore[i].product_id,
+                    "description": data.dataBefore[i].description,
+                    "prediction_id":data.dataBefore[i].prediction_id,
+                    "inventory_id":data.dataBefore[i].inventory_id,
+                    "category_id":data.dataBefore[i].category_id,
+                    "category_description":data.dataBefore[i].category_description
+                });
+
+            }
+
+
+            var resultAfter=_.chain(data.dataAfterCat).groupBy('category_id').map(function(v, i) {
+                return {
+                    category_id: i,
+                    description: _.get(_.find(v, 'description'), 'description'),
+                    product_id: _.map(v, 'product_id'),
+                    inventory_id: _.map(v, 'inventory_id'),
+                    prediction_id:_.map(v, 'prediction_id')
+                }
+            }).value();
+
+            for(var i =0; i< resultAfter.length; i++){
+                dataAfterAll.push({
+                    "product_id": resultAfter[i].product_id,
+                    "description": resultAfter[i].description,
+                    "prediction_id":resultAfter[i].prediction_id,
+                    "inventory_id":resultAfter[i].inventory_id,
+                    "category_id":resultAfter[i].category_id,
+                    "category_description":resultAfter[i].description
+                });
+
+            }
+
+            for(var i =0; i<data.dataAfter.length; i++){
+                dataAfterAll.push({
+                    "product_id": data.dataAfter[i].product_id,
+                    "description": data.dataAfter[i].description,
+                    "prediction_id":data.dataAfter[i].prediction_id,
+                    "inventory_id":data.dataAfter[i].inventory_id,
+                    "category_id":data.dataAfter[i].category_id,
+                    "category_description":data.dataAfter[i].category_description
+                });
+
+            }
+
+
+            var data = {"dataBefore":dataBeforeAll,"dataAfter":dataAfterAll};
+
+
+            console.log(data.dataBefore[2].product_id);
+
             res.send(data);
         }
     });

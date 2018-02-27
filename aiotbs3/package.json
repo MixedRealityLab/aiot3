@@ -21,6 +21,7 @@
     "express-validation": "^1.0.2",
     "express-validator": "^3.2.1",
     "joi": "^10.6.0",
+    "lodash": "^4.17.5",
     "method-override": "^2.3.9",
     "moment": "^2.18.1",
     "mongoose": "^4.11.1",
