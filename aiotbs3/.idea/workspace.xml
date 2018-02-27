@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.pug" afterPath="$PROJECT_DIR$/views/index.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.pug" afterPath="$PROJECT_DIR$/views/layout.pug" />
-    </list>
+    <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -24,8 +20,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="1451" column="21" lean-forward="true" selection-start-line="1451" selection-start-column="21" selection-end-line="1451" selection-end-column="21" />
+            <state relative-caret-position="522">
+              <caret line="1361" column="33" lean-forward="false" selection-start-line="1361" selection-start-column="33" selection-end-line="1361" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -516,12 +512,12 @@
       <workItem from="1518769436989" duration="18231000" />
       <workItem from="1519385369062" duration="6731000" />
       <workItem from="1519639822147" duration="13561000" />
-      <workItem from="1519723540629" duration="8536000" />
+      <workItem from="1519723540629" duration="8738000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1108739000" />
+    <option name="totallyTimeSpent" value="1108941000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -946,8 +942,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="1451" column="21" lean-forward="true" selection-start-line="1451" selection-start-column="21" selection-end-line="1451" selection-end-column="21" />
+        <state relative-caret-position="522">
+          <caret line="1361" column="33" lean-forward="false" selection-start-line="1361" selection-start-column="33" selection-end-line="1361" selection-end-column="33" />
           <folding />
         </state>
       </provider>
