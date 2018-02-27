@@ -639,7 +639,6 @@ router.post('/feedbackPrediction', function (req,res, next) {
 
     //prediction.updatePredictionFeedback(1,,,,)
 
-    // ACA ACA ACA ACA ********
 
     if(arrayPrediction.length > 1){
 
@@ -647,15 +646,30 @@ router.post('/feedbackPrediction', function (req,res, next) {
         for (var i=0 ; i< arrayPrediction.length ; i++){
             console.log("prediction id: "+ arrayPrediction[i]);
 
+            prediction.updatePredictionFeedback(arrayPrediction[i],feedback_status,feedback,feedback_timestamp,feedback_after_before,function(err, data){
+                if(err){
+                    console.log(err);
+                    res.send("there was an error see the console");
+                }
+                else {
+
+                    console.log(data);
+                    //res.send(data);
+                    //res.render('inbox',{ user: req.user});
+                    //res.redirect('/');
+
+                }
+            });
+
         }
+        console.log("end for");
+        res.redirect('/');
 
 
     }
     else{
         console.log("one prediction");
         console.log(predictionId);
-        //res.redirect('/');
-        /*
         prediction.updatePredictionFeedback(predictionId,feedback_status,feedback,feedback_timestamp,feedback_after_before,function(err, data){
             if(err){
                 console.log(err);
@@ -670,7 +684,7 @@ router.post('/feedbackPrediction', function (req,res, next) {
 
             }
         });
-        */
+
 
     }
 
