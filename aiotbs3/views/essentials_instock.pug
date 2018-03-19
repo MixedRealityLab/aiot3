@@ -183,12 +183,13 @@ block content
         #myModalDate.modal.fade.Absolute-Center.is-Responsive
             .modal-content
                 .modal-header
-                    button.close(type="button", data-dismiss="modal", aria-hidden="true") ×
+                    button#btncloseX.close(type="button", data-dismiss="modal", aria-hidden="true") ×
                     h4.modal-title Used Up Date
                 .container
                 .modal-body
                     //h6#lastused Last scanned-out: mm/dd/yyyy
                     br
+                    p#demo
                     form#scanoutFormManual(method='POST', action='/scanOutProductManual')
                         //.form-group
                         //.containerDate
@@ -203,31 +204,14 @@ block content
                                 span.input-group-addon
                                     span.glyphicon.glyphicon-calendar
 
-                        //.input-group.date
-                            //input#dateIn.form-control(type="text", value ="")
-                            input#dateIn.datepicker.form-control(name='dateScanOutManual', type="text", value ="")
-                            script.
-                                $(function () {
-                                    console.log('selecting datepicker');
-                                    $('.datepicker').datepicker({
-                                        format: 'dd-mm-yyyy',
-                                        endDate: '+0d',
-                                        autoclose: true
-                                    });
-                                });
-                            input#codeProductOutManual.form-control(name='codeProductOut', type='hidden',required='')
-                            input#wastedProductOutManual.form-control(name='wastedProductOut', type='hidden',required='')
-                            input#inventoryIdManual.form-control(name='inventoryId', type='hidden',required='')
-                            input#userIdManual.form-control(name='userId', type='hidden',required='')
-                            input#productIdManual.form-control(name='productId', type='hidden',required='')
-                            .input-group-addon
-                                span.glyphicon.glyphicon-th
-
                     br
                     br
                     br
                 .modal-footer
-                    button#btncloseSO.btn.btn-primary.disabled(type="button", data-dismiss='modal') Save
+                    //button#btncloseSO(onclick='myFunction') OK
+                    //button#btncloseSO.btn.btn-primary.disabled(type="button", data-dismiss='modal') Save
+                    button#btncloseSO.btn.btn-primary.disabled(type="button") Save
+
 
 
 

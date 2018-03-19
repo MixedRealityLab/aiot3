@@ -68,7 +68,7 @@ exports.getInventoryForUserPrediction2 = function (user_id, done) {
         "FROM inventory,product,categorised_inventory,categories\n" +
         "where inventory.user_id = ?\n" +
         "and inventory.id = categorised_inventory.inventory_id\n" +
-        "and inventory.product_id=product.id and inventory.stock_delta_day > 1\n" +
+        "and inventory.product_id=product.id and inventory.stock_delta_day > 0\n" +
         "and categorised_inventory.approved=1\n" +
         "and categorised_inventory.category_id= categories.id\n" +
         "group by inventory.user_id,inventory.predicted_need_date,categorised_inventory.category_id,categories.CAT1,categories.CAT2,categorised_inventory.approved\n" +
@@ -77,7 +77,7 @@ exports.getInventoryForUserPrediction2 = function (user_id, done) {
         "FROM inventory,product,categorised_inventory\n" +
         "where inventory.user_id = ?\n" +
         "and inventory.product_id=product.id\n" +
-        "and inventory.stock_delta_day > 1\n" +
+        "and inventory.stock_delta_day > 0\n" +
         "and inventory.id = categorised_inventory.inventory_id\n" +
         "and category_id is null", params, function (err, rows) {
 

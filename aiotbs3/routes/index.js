@@ -538,12 +538,17 @@ router.post('/scanOutProductManual', function (req,res, next) {
     var outDate1 = (req.body.dateScanOutManual);
     var outDate = moment(outDate1).format('YYYY-MM-DD HH:mm:ss');
 
+
+    console.log('manual scan out:'+outDate1);
+
     if(!outDate1){
+        //show a prompt that a different time should be choosed
+        //add a new promopt here
         res.send("Choose a date after scan-in time");
     }
     else{
         //at the manual scan out process the product always is on the "product" database
-        console.log('the barcode is in the product table');
+        console.log('manual scan out: the barcode is in the product table');
         var productId = req.body.productId;
 
         inventory.getInventoryById(inventoryId, function(err, data){
@@ -851,7 +856,7 @@ router.post('/getInventoryData',function (req,res,next) {
 
 
 
-//get inventory data with getting prediction field (not upgrading prediction each time that this procedure is called)
+//get inventory data including "getting prediction field" (not upgrading prediction each time that this procedure is called)
 router.post('/getInventoryData',function (req,res,next) {
     var userId=req.body.userId;
     inventory_product.getInStock(userId,function(err,data){

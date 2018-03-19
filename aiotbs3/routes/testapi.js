@@ -226,7 +226,7 @@ router.get('/get_inventory_by_user_prediction', function(req, res, next) {
 router.get('/get_inventory_by_user_prediction2', function(req, res, next) {
     console.log("testing database");
 
-    inventory.getInventoryForUserPrediction2(3, function(err, data){
+    inventory.getInventoryForUserPrediction2(7, function(err, data){
 
         if(err){
             console.log(err);
