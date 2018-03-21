@@ -535,7 +535,7 @@ router.post('/scanOutProductManual', function (req,res, next) {
     var wasted = req.body.wastedProductOut;
     var ean = req.body.codeProductOut; //barcode from client side
     var inventoryId = req.body.inventoryId;
-    var outDate1 = (req.body.dateScanOutManual);
+    var outDate1 = req.body.dateIn;
     var outDate = moment(outDate1).format('YYYY-MM-DD HH:mm:ss');
 
 
@@ -544,7 +544,7 @@ router.post('/scanOutProductManual', function (req,res, next) {
     if(!outDate1){
         //show a prompt that a different time should be choosed
         //add a new promopt here
-        res.send("Choose a date after scan-in time");
+        res.send("Date not selected, choose a scan-out date");
     }
     else{
         //at the manual scan out process the product always is on the "product" database
@@ -622,10 +622,6 @@ router.post('/scanOutProductManual', function (req,res, next) {
         });
 
     }
-
-
-
-
 
 
 

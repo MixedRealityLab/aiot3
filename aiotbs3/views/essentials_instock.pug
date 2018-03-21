@@ -179,12 +179,11 @@ block content
                     .modal-footer
 
 
-
         #myModalDate.modal.fade.Absolute-Center.is-Responsive
             .modal-content
                 .modal-header
                     button#btncloseX.close(type="button", data-dismiss="modal", aria-hidden="true") ×
-                    h4.modal-title Used Up Date
+                    h4#modalDateTitle.modal-title Used Up Date
                 .container
                 .modal-body
                     //h6#lastused Last scanned-out: mm/dd/yyyy
@@ -195,7 +194,7 @@ block content
                         //.containerDate
                         .form-group
                             #datetimepicker6.input-group.date
-                                input#dateIn.form-control(type="text",name='dateScanOutManual')
+                                input#dateIn.form-control(type="text",name='dateIn')
                                 input#codeProductOutManual.form-control(name='codeProductOut', type='hidden',required='')
                                 input#wastedProductOutManual.form-control(name='wastedProductOut', type='hidden',required='')
                                 input#inventoryIdManual.form-control(name='inventoryId', type='hidden',required='')
@@ -207,6 +206,12 @@ block content
                     br
                     br
                     br
+                    p
+                    p
+                    p
+                    p
+                    p
+
                 .modal-footer
                     //button#btncloseSO(onclick='myFunction') OK
                     //button#btncloseSO.btn.btn-primary.disabled(type="button", data-dismiss='modal') Save
