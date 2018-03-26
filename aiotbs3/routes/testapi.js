@@ -226,7 +226,7 @@ router.get('/get_inventory_by_user_prediction', function(req, res, next) {
 router.get('/get_inventory_by_user_prediction2', function(req, res, next) {
     console.log("testing database");
 
-    inventory.getInventoryForUserPrediction2(3, function(err, data){
+    inventory.getInventoryForUserPrediction2(7, function(err, data){
 
         if(err){
             console.log(err);
@@ -1185,8 +1185,8 @@ router.get('/Inventory_Ids_bycategory', function(req, res, next) {
 router.get('/secondPrediction', function (req,res,next) {
 
     console.log("testing second prediction");
-    var userId = 3;
-    var inventoryId= 6;  //19=inventory id of semi skimmed milk  //21=avocados check check
+    var userId = 18;
+    var inventoryId= 329;  //19=inventory id of semi skimmed milk  //21=avocados check check
 
     //second_prediction.getSecondPrediction()
     second_prediction.getSecondPrediction(userId,inventoryId,function (dataPrediction,err) {
