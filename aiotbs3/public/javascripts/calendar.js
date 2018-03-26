@@ -7,6 +7,7 @@ $(document).ready(function() {
     var mm = ("0" + (today.getMonth() + 1)).slice(-2);
     var yyyy = today.getFullYear();
     today = yyyy + '-' + mm + '-' + dd;
+    console.log(today);
 
 
     function formatJSONDate(jsonDate) {

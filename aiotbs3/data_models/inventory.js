@@ -1,6 +1,8 @@
 var db = require("../db/mysql.js");
 
 
+//stock_delta_day = 0 when is created
+//need_trigger_stock_level = 1 when is created
 exports.createNew = function (user_id, product_id, stock_level, predicted_need_date, stock_delta_day, need_trigger_stock_level, done) {
    
    db.get().query("INSERT INTO inventory SET ?", 
