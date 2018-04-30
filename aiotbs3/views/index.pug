@@ -32,7 +32,7 @@ block content
                             | #{''} Home
 
                     li
-                        a(href='#')
+                        a(href='#myList' data-toggle='modal' data-target='#myList')
                             span.glyphicon.glyphicon-shopping-cart
                             | #{''} Shopping List
 
@@ -41,7 +41,7 @@ block content
                             span.glyphicon.glyphicon-user
                             |  #{user[0].username}
 
-                        
+
                     li
                         a(href='/logout')
                             span.glyphicon.glyphicon-log-in
@@ -88,3 +88,5 @@ block content
 
                 //#mysl.tab-pane.fade
                     include sl
+
+            include shoppingList

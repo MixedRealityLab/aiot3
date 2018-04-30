@@ -1,0 +1,99 @@
+link(rel='stylesheet', href='/stylesheets/shoppingList.css')
+
+#myList.modal.fade
+    .modal-dialog.modal-lg
+        .modal-content
+            .modal-header
+                button.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
+                h4.modal-title Home Essentials Shopping List
+            .modal-body
+                .container.mb-4
+                    .row
+                        .col-12
+                            .table-responsive
+                                table.table.table-striped
+                                    thead
+                                        tr
+                                            //th(scope='col')
+                                            th(scope='col') Product
+                                            th(scope='col') Status
+                                            th.text-center(scope='col') Quantity
+                                            th.text-right(scope='col') Price
+                                            th
+                                    tbody
+                                        tr
+                                            //td
+                                                img(src='https://dummyimage.com/50x50/55595c/fff')
+                                            td Product Name Dada
+                                            td In stock
+                                            td
+                                                input.form-control(type='text' value='1')
+                                            td.text-right 124,90 &euro;
+                                            td.text-right
+                                                button.btn.btn-sm.btn-danger
+                                                    i.fa.fa-trash
+                                        tr
+                                            //td
+                                                img(src='https://dummyimage.com/50x50/55595c/fff')
+                                            td Product Name Toto
+                                            td In stock
+                                            td
+                                                input.form-control(type='text' value='1')
+                                            td.text-right 33,90 &euro;
+                                            td.text-right
+                                                button.btn.btn-sm.btn-danger
+                                                    i.fa.fa-trash
+                                        tr
+                                            //td
+                                                img(src='https://dummyimage.com/50x50/55595c/fff')
+                                            td Product Name Titi
+                                            td Out of stock
+                                            td
+                                                input.form-control(type='text' value='1')
+                                            td.text-right 70,00 &euro;
+                                            td.text-right
+                                                button.btn.btn-sm.btn-danger
+                                                    i.fa.fa-trash
+                                        tr
+                                            td
+                                            td
+                                            td
+                                            td
+                                            td Sub-Total
+                                            td.text-right 255,90 &euro;
+
+                                        tr
+                                            td
+                                            td
+                                            td
+                                            td
+                                            td
+                                                strong Total
+                                            td.text-right
+                                                strong 346,90 &euro;
+                        .col.mb-2
+                            .row
+                                .col-sm-12.col-md-6
+                                    button.btn.btn-block.btn-light Continue Shopping
+                                .col-sm-12.col-md-6.text-right
+                                    button.btn.btn-lg.btn-block.btn-success.text-uppercase Checkout
+
+
+                //.form-group
+                    //label(for='exampleInputEmail1') Email address
+                    //input#exampleInputEmail1.form-control(placeholder='Enter email' type='email')
+                //.form-group
+                    //label(for='exampleInputPassword1') Password
+                    //input#exampleInputPassword1.form-control(placeholder='Password' type='password')
+
+                //p.text-center
+                    p Your suggested shopping list is ready.
+                    p
+                    //a(href='#') Forgot password?
+                //a.btn.btn-primary.center(href='#') Continue
+            .modal-footer
+                p.text-center
+                    p Level of control of your shopping list?
+                a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Edit/Delete/Add essentials') No Autonomous
+                a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Add new essentials') Semi- Autonomous
+                a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Order essentials autonomously') Autonomous

@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17ddfeca-de29-4c2b-b062-499b80f986fd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/stylesheets/shoppingList.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/shoppingList.pug" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.pug" afterPath="$PROJECT_DIR$/views/index.pug" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -69,36 +72,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="prediction.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data_models/prediction.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1520">
-              <caret line="80" column="31" lean-forward="false" selection-start-line="80" selection-start-column="31" selection-end-line="80" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="essentials.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/essentials.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="35" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="secondPrediction.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/secondPrediction.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2679">
-              <caret line="141" column="36" lean-forward="false" selection-start-line="141" selection-start-column="36" selection-end-line="141" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="calendar.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/calendar.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -109,11 +82,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.pug" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/index.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="498">
-              <caret line="43" column="24" lean-forward="false" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+            <state relative-caret-position="1748">
+              <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.pug" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/layout.pug">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shoppingList.pug" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/shoppingList.pug">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="62" column="23" lean-forward="true" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shoppingList.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/stylesheets/shoppingList.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -124,9 +127,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
-        <option value="Pug File" />
         <option value="JavaScript File" />
+        <option value="Pug File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -173,8 +176,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/bin/www" />
-        <option value="$PROJECT_DIR$/routes/bku" />
         <option value="$PROJECT_DIR$/data_models/user.js" />
         <option value="$PROJECT_DIR$/views/register.pug" />
         <option value="$PROJECT_DIR$/routes/users.js" />
@@ -216,7 +217,6 @@
         <option value="$PROJECT_DIR$/data_models/prediction.js" />
         <option value="$PROJECT_DIR$/routes/inbox.js" />
         <option value="$PROJECT_DIR$/public/javascripts/inbox.js" />
-        <option value="$PROJECT_DIR$/views/layout.pug" />
         <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/views/essentials_instock.pug" />
         <option value="$PROJECT_DIR$/public/javascripts/details.js" />
@@ -224,6 +224,9 @@
         <option value="$PROJECT_DIR$/routes/testapi.js" />
         <option value="$PROJECT_DIR$/data_models/inventory.js" />
         <option value="$PROJECT_DIR$/views/index.pug" />
+        <option value="$PROJECT_DIR$/public/stylesheets/shoppingList.css" />
+        <option value="$PROJECT_DIR$/views/layout.pug" />
+        <option value="$PROJECT_DIR$/views/shoppingList.pug" />
       </list>
     </option>
   </component>
@@ -309,6 +312,12 @@
               <item name="aiotbs3" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="javascripts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aiotbs3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aiotbs3" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="stylesheets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="aiotbs3" type="b2602c69:ProjectViewProjectNode" />
@@ -521,12 +530,12 @@
       <workItem from="1521629723885" duration="12416000" />
       <workItem from="1521725559114" duration="511000" />
       <workItem from="1522061647693" duration="4649000" />
-      <workItem from="1525100380649" duration="140000" />
+      <workItem from="1525100380649" duration="3542000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1164993000" />
+    <option name="totallyTimeSpent" value="1168395000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -573,20 +582,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16397">
-          <caret line="863" column="35" lean-forward="false" selection-start-line="863" selection-start-column="12" selection-end-line="863" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/calendar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2109">
-          <caret line="111" column="31" lean-forward="false" selection-start-line="111" selection-start-column="31" selection-end-line="111" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/inbox.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1083">
@@ -805,13 +800,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="25" column="30" lean-forward="false" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/essentials_instock.pug">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3515">
@@ -929,8 +917,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="43" column="24" lean-forward="false" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+        <state relative-caret-position="1748">
+          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/shoppingList.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/shoppingList.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="62" column="23" lean-forward="true" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
           <folding />
         </state>
       </provider>
