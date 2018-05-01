@@ -1,84 +1,37 @@
-link(rel='stylesheet', href='/stylesheets/shoppingList.css')
+append head
+    script(src='/javascripts/shoppingList.js')
+    link(rel='stylesheet', href='/stylesheets/shoppingList.css')
 
 #myList.modal.fade
     .modal-dialog.modal-lg
         .modal-content
             .modal-header
                 button.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
-                h4.modal-title Home Essentials Shopping List
+                h4.modal-title Essentials suggested for your Shopping List
             .modal-body
-                .container.mb-4
-                    .row
-                        .col-12
-                            .table-responsive
-                                table.table.table-striped
-                                    thead
-                                        tr
-                                            //th(scope='col')
-                                            th(scope='col') Product
-                                            th(scope='col') Status
-                                            th.text-center(scope='col') Quantity
-                                            th.text-right(scope='col') Price
-                                            th
-                                    tbody
-                                        tr
-                                            //td
-                                                img(src='https://dummyimage.com/50x50/55595c/fff')
-                                            td Product Name Dada
-                                            td In stock
-                                            td
-                                                input.form-control(type='text' value='1')
-                                            td.text-right 124,90 &euro;
-                                            td.text-right
-                                                button.btn.btn-sm.btn-danger
-                                                    i.fa.fa-trash
-                                        tr
-                                            //td
-                                                img(src='https://dummyimage.com/50x50/55595c/fff')
-                                            td Product Name Toto
-                                            td In stock
-                                            td
-                                                input.form-control(type='text' value='1')
-                                            td.text-right 33,90 &euro;
-                                            td.text-right
-                                                button.btn.btn-sm.btn-danger
-                                                    i.fa.fa-trash
-                                        tr
-                                            //td
-                                                img(src='https://dummyimage.com/50x50/55595c/fff')
-                                            td Product Name Titi
-                                            td Out of stock
-                                            td
-                                                input.form-control(type='text' value='1')
-                                            td.text-right 70,00 &euro;
-                                            td.text-right
-                                                button.btn.btn-sm.btn-danger
-                                                    i.fa.fa-trash
-                                        tr
-                                            td
-                                            td
-                                            td
-                                            td
-                                            td Sub-Total
-                                            td.text-right 255,90 &euro;
+                .table-responsive
+                    table#shoppinglist_data.table.table-hover(style={'text-align': 'center','color': 'silver'})
 
-                                        tr
-                                            td
-                                            td
-                                            td
-                                            td
-                                            td
-                                                strong Total
-                                            td.text-right
-                                                strong 346,90 &euro;
-                        .col.mb-2
-                            .row
-                                .col-sm-12.col-md-6
-                                    button.btn.btn-block.btn-light Continue Shopping
-                                .col-sm-12.col-md-6.text-right
-                                    button.btn.btn-lg.btn-block.btn-success.text-uppercase Checkout
-
-
+                        thead
+                            tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
+                                td Product
+                                td Stock
+                                td Quantity
+                                //td
+                                //td
+                        td '.$row["productDescription"].'
+                        td '.$row["productStock"].'
+                        td '.$row["productPrediction"].'
+                        //td icon
+                        //td icon
+                        |
+                        |
+                        tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
+                            td test
+                            td Current stock
+                            td Not available
+                            //td icon
+                            //td icon
                 //.form-group
                     //label(for='exampleInputEmail1') Email address
                     //input#exampleInputEmail1.form-control(placeholder='Enter email' type='email')
@@ -92,8 +45,70 @@ link(rel='stylesheet', href='/stylesheets/shoppingList.css')
                     //a(href='#') Forgot password?
                 //a.btn.btn-primary.center(href='#') Continue
             .modal-footer
-                p.text-center
-                    p Level of control of your shopping list?
-                a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Edit/Delete/Add essentials') No Autonomous
-                a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Add new essentials') Semi- Autonomous
-                a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Order essentials autonomously') Autonomous
+                .col-lg.text-center
+                    p(style={'color': 'grey'}) Level of control of your shopping list?
+                    a.btn.btn-primary(href='#noAutonomous', data-toggle='modal') No Autonomous
+                    a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Add new essentials') Semi- Autonomous
+                    a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Order essentials autonomously') Autonomous
+
+
+#noAutonomous.modal.modal-child(data-backdrop-limit='1', tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', data-modal-parent='#myModal')
+    .modal-dialog.modal-lg
+        // Modal content
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal') ×
+                h4.modal-title Essentials suggested for your Shopping List
+            .modal-body
+                p You can add/edit or delete essentials from this suggested shopping list
+                .table-responsive
+                    table#shoppinglist_dataNA.table.table-hover(style={'text-align': 'center'})
+
+                        thead
+                            tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
+                                td Product
+                                td Stock
+                                td Quantity
+                                td
+                                td
+                        td '.$row["productDescription"].'
+                        td '.$row["productStock"].'
+                        td '.$row["productPrediction"].'
+                        td icon
+                        td icon
+                        |
+                        |
+                        tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
+                            td test
+                            td Current stock
+                            td Not available
+                            td icon
+                            td icon
+                a.btn.btn-success(href='#' data-toggle='tooltip' data-placement='top' title='Add new essentials') Add new essentials
+
+            .modal-footer
+                button.btn.btn-primary(data-dismiss='modal', aria-hidden='true') Save & Order
+
+
+
+#semiAutonomous.modal.fade
+    .modal-dialog.modal-lg
+        .modal-header
+            button.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
+            h4.modal-title Home Essentials suggested for your Shopping List
+        .modal-body
+            p.text-center
+                p Modal 2.
+
+        .modal-footer
+
+#Autonomous.modal.fade
+    .modal-dialog.modal-lg
+        .modal-header
+            button.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
+            h4.modal-title Home Essentials suggested for your Shopping List
+        .modal-body
+            p.text-center
+                p Modal 3.
+
+        .modal-footer
