@@ -7,63 +7,44 @@ append head
         .modal-content
             .modal-header
                 button.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
-                h4.modal-title Essentials suggested for your Shopping List
+                h4.modal-title Shopping List: Essentials suggested
             .modal-body
                 .table-responsive
-                    table#shoppinglist_data.table.table-hover(style={'text-align': 'center','color': 'silver'})
-
+                    table#shoppinglist_data.table(style={
+                        'text-align': 'center',
+                        'color': 'silver'
+                    })
                         thead
                             tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
                                 td Product
                                 td Stock
                                 td Quantity
-                                //td
-                                //td
-                        td '.$row["productDescription"].'
-                        td '.$row["productStock"].'
-                        td '.$row["productPrediction"].'
-                        //td icon
-                        //td icon
-                        |
-                        |
-                        tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
-                            td test
-                            td Current stock
-                            td Not available
-                            //td icon
-                            //td icon
-                //.form-group
-                    //label(for='exampleInputEmail1') Email address
-                    //input#exampleInputEmail1.form-control(placeholder='Enter email' type='email')
-                //.form-group
-                    //label(for='exampleInputPassword1') Password
-                    //input#exampleInputPassword1.form-control(placeholder='Password' type='password')
+                        tbody
+                            tr(style="color: #ff6600")
+                                td xxxx
+                                td xxx
+                                td xxx
 
-                //p.text-center
-                    p Your suggested shopping list is ready.
-                    p
-                    //a(href='#') Forgot password?
-                //a.btn.btn-primary.center(href='#') Continue
+
             .modal-footer
                 .col-lg.text-center
-                    p(style={'color': 'grey'}) Level of control of your shopping list?
+                    p(style={'color': 'grey'}) Select level of autonomy of your shopping list
                     a.btn.btn-primary(href='#noAutonomous', data-toggle='modal') No Autonomous
-                    a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Add new essentials') Semi- Autonomous
-                    a.btn.btn-primary(href='#' data-toggle='tooltip' data-placement='top' title='Order essentials autonomously') Autonomous
+                    a.btn.btn-primary(href='#semiAutonomous', data-toggle='modal') Semi-Autonomous
+                    a.btn.btn-primary(href='#Autonomous', data-toggle='modal') Autonomous
 
 
-#noAutonomous.modal.modal-child(data-backdrop-limit='1', tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', data-modal-parent='#myModal')
+#noAutonomous.modal.modal-child(data-backdrop-limit='1', tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', data-modal-parent='#myList')
     .modal-dialog.modal-lg
         // Modal content
         .modal-content
             .modal-header
                 button.close(type='button', data-dismiss='modal') ×
-                h4.modal-title Essentials suggested for your Shopping List
+                h4.modal-title Shopping List: Essentials suggested
             .modal-body
                 p You can add/edit or delete essentials from this suggested shopping list
                 .table-responsive
                     table#shoppinglist_dataNA.table.table-hover(style={'text-align': 'center'})
-
                         thead
                             tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
                                 td Product
@@ -71,44 +52,58 @@ append head
                                 td Quantity
                                 td
                                 td
-                        td '.$row["productDescription"].'
-                        td '.$row["productStock"].'
-                        td '.$row["productPrediction"].'
-                        td icon
-                        td icon
-                        |
-                        |
-                        tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
-                            td test
-                            td Current stock
-                            td Not available
-                            td icon
-                            td icon
+                        tbody
+                            tr(style="color: #ff6600")
+                                td xxxx
+                                td xxx
+                                td xxx
+
                 a.btn.btn-success(href='#' data-toggle='tooltip' data-placement='top' title='Add new essentials') Add new essentials
 
             .modal-footer
                 button.btn.btn-primary(data-dismiss='modal', aria-hidden='true') Save & Order
 
 
-
-#semiAutonomous.modal.fade
+#semiAutonomous.modal.modal-child(data-backdrop-limit='1', tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', data-modal-parent='#myList')
     .modal-dialog.modal-lg
-        .modal-header
-            button.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
-            h4.modal-title Home Essentials suggested for your Shopping List
-        .modal-body
-            p.text-center
-                p Modal 2.
+        // Modal content
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal') ×
+                h4.modal-title Shopping List: Essentials suggested
+            .modal-body
+                p You can add new essentials to this suggested shopping list
 
-        .modal-footer
+                a.btn.btn-success(href='#' data-toggle='tooltip' data-placement='top' title='Add new essentials') Add new essentials
 
-#Autonomous.modal.fade
+            .modal-footer
+                button.btn.btn-primary(data-dismiss='modal', aria-hidden='true') Save & Order
+
+
+#Autonomous.modal.modal-child(data-backdrop-limit='1', tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', data-modal-parent='#myList')
     .modal-dialog.modal-lg
-        .modal-header
-            button.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
-            h4.modal-title Home Essentials suggested for your Shopping List
-        .modal-body
-            p.text-center
-                p Modal 3.
+        // Modal content
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal') ×
+                h4.modal-title Shopping List: Essentials suggested
+            .modal-body
+                p You can order this suggested shopping list
+                table-responsive
+                    table#shoppinglist_autonomous.table.table-hover(style={'text-align': 'center'})
+                        thead
+                            tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
+                                td Product
+                                td Stock
+                                td Quantity
 
-        .modal-footer
+                        tbody
+                            tr(style="color: #ff6600")
+                                td xxxx
+                                td xxx
+                                td xxx
+
+
+            .modal-footer
+                button.btn.btn-primary(data-dismiss='modal', aria-hidden='true') Order this Shopping List
+
