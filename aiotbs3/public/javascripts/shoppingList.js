@@ -33,7 +33,7 @@ $(document).ready(function() {
         },
         "columns": [
             {data: "description"},
-            {data: "stock_level"},//{data: "level"},
+            //{data: "stock_level"},//{data: "level"},
             {data: "predicted_need_date"},
 
         ],
@@ -65,12 +65,12 @@ $(document).ready(function() {
             },
             "columns": [
                 {data: "description"},
-                {data: "stock_level", className: 'editable'},//{data: "level"},
+                //{data: "stock_level", className: 'editable'},//{data: "level"},
                 {data: "predicted_need_date"},
-                {
-                    data: null,
-                    defaultContent: "<button type='buttonEspecial' class='btn btn-success btn-sm'> <i class='glyphicon glyphicon-plus'></i> </button>"
-                },
+                //{
+                //    data: null,
+                //    defaultContent: "<button type='buttonEspecial' class='btn btn-success btn-sm'> <i class='glyphicon glyphicon-plus'></i> </button>"
+                //},
                 {
                     data: null,
                     defaultContent: "<button type='buttonEspecial' class='btn btn-danger btn-sm'> <i class='glyphicon glyphicon-trash'></i> </button>"
@@ -103,7 +103,7 @@ $(document).ready(function() {
             },
             "columns": [
                 {data: "description"},
-                {data: "stock_level", className: 'editable'},//{data: "level"},
+                //{data: "stock_level", className: 'editable'},//{data: "level"},
                 {data: "predicted_need_date"},
 
 
