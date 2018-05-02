@@ -361,7 +361,7 @@ router.get('/add_out_event', function(req, res, next) {
 router.get('/getInventoryDataOut',function (req,res,next) {
 
     //var userId = req.body.userId;
-    var userId = 1;
+    var userId = 3;
     var dataArray = [];
     //var data = {description: "xxx", lastAdded: "07/07/27", usedUp: "16/08/17"};
     out_events.get_most_recent_for_user(userId,5000, function(err, data){

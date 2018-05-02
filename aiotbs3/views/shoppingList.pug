@@ -40,15 +40,15 @@ append head
         .modal-content
             .modal-header
                 button.close(type='button', data-dismiss='modal') ×
-                h4.modal-title Shopping List: Essentials suggested
+                h4.modal-title Shopping List assistant, here your essentials suggested
             .modal-body
-                p You can add a new item or delete  suggested items
+                p You can add a new item or delete  suggested products
                 .table-responsive
                     table#shoppinglist_dataNA.table.table-hover(style={'text-align': 'center'})
                         thead
                             tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
                                 td Product
-                                td Status
+                                td Status in my inventory
                                 //td Quantity
                                 //td
                                 td
@@ -86,7 +86,7 @@ append head
         .modal-content
             .modal-header
                 button.close(type='button', data-dismiss='modal') ×
-                h4.modal-title Shopping List: Essentials suggested
+                h4.modal-title Essentials suggested to include in your shopping list
             .modal-body
                 p You can order this suggested shopping list
                 table-responsive
@@ -94,7 +94,7 @@ append head
                         thead
                             tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
                                 td Product
-                                td Status
+                                td Status in my inventory
                                 //td Quantity
 
                         tbody
@@ -107,3 +107,20 @@ append head
             .modal-footer
                 button.btn.btn-primary(data-dismiss='modal', aria-hidden='true') Order this Shopping List
 
+
+
+
+//#endFeedback.modal.modal-child(data-backdrop-limit='1', tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', data-modal-parent='#myList')
+    .modal-dialog.modal-lg
+        // Modal content
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal') ×
+                h4.modal-title Shopping List: Essentials suggested
+            .modal-body
+                p Thanks for XXX, your shopping list will be ordered today
+
+                a.btn.btn-success(href='#' data-toggle='tooltip' data-placement='top' title='Add new essentials') Add new essentials
+
+            .modal-footer
+                button.btn.btn-primary(data-dismiss='modal', aria-hidden='true') Save & Order

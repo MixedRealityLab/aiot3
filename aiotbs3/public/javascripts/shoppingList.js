@@ -26,7 +26,7 @@ $(document).ready(function() {
         "bInfo": false,
         "ordering": false,
         "ajax": {
-            url: '/getInventoryData',
+            url: '/getInventoryDataOut',
             type: 'POST',
             data: {userId: getUserId}
 
@@ -34,7 +34,8 @@ $(document).ready(function() {
         "columns": [
             {data: "description"},
             //{data: "stock_level"},//{data: "level"},
-            {data: "predicted_need_date"},
+            {data: "stock_level"},
+
 
         ],
         "lengthChange": false,
@@ -58,7 +59,7 @@ $(document).ready(function() {
             "bInfo": false,
             "ordering": false,
             "ajax": {
-                url: '/getInventoryData',
+                url: '/getInventoryDataOut',
                 type: 'POST',
                 data: {userId: getUserId}
 
@@ -66,7 +67,7 @@ $(document).ready(function() {
             "columns": [
                 {data: "description"},
                 //{data: "stock_level", className: 'editable'},//{data: "level"},
-                {data: "predicted_need_date"},
+                {data: "stock_level"},
                 //{
                 //    data: null,
                 //    defaultContent: "<button type='buttonEspecial' class='btn btn-success btn-sm'> <i class='glyphicon glyphicon-plus'></i> </button>"
@@ -96,7 +97,7 @@ $(document).ready(function() {
             "bInfo": false,
             "ordering": false,
             "ajax": {
-                url: '/getInventoryData',
+                url: '/getInventoryDataOut',
                 type: 'POST',
                 data: {userId: getUserId}
 
@@ -104,7 +105,7 @@ $(document).ready(function() {
             "columns": [
                 {data: "description"},
                 //{data: "stock_level", className: 'editable'},//{data: "level"},
-                {data: "predicted_need_date"},
+                {data: "stock_level"},
 
 
             ],
