@@ -22,6 +22,8 @@ var second_prediction = require ("./secondPrediction.js");
 var inbox = require("./inbox.js");
 var prediction = require("../data_models/prediction.js");
 var user_log =  require("../data_models/user_event_log.js");
+var initial_shoppingList = require ("./initialShoppingList");
+
 
 
 
@@ -1402,6 +1404,32 @@ router.post('/deleteItem', function (req,res, next) {
 
 });
 
+
+
+
+//******** SHOPPING LIST
+
+router.post('/getInitialShoppingList',function (req,res,next) {
+    var userId = req.body.userId;
+
+
+    initial_shoppingList.getInitialShoppingList(userId, function (dataShoppingList,err) {
+        if (err) {
+            console.log(err);
+            //console.log("not shopping list ");
+            var data= {"data":{}};
+            res.json(data);
+        }
+        else {
+            console.log('**** CALLING SHOPPING LIST ****');
+            console.log(dataShoppingList);
+            var data= {"data":dataShoppingList};
+            res.json(data);
+        }
+    });
+
+
+});
 
 
 

@@ -22,6 +22,9 @@ var inbox = require("./inbox.js");
 var _ = require('lodash');
 var array = require('lodash/array');
 
+var initial_shoppingList = require ("./initialShoppingList");
+
+
 
 
 
@@ -1510,6 +1513,42 @@ router.get('/getPredictionFeedback2', function(req, res, next) {
     });
 
 });
+
+
+
+router.get('/getInStock_based_onPredictions', function(req, res, next) {
+    var userId = 20;
+
+    //get in stock based on prediction
+    inventory_product.getInStock_based_onPredictions(userId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("no data available");
+        }
+        else {
+            console.log(data);
+            res.send(data);
+        }
+    });
+
+});
+
+router.get('/getInitialShoppingList', function(req, res, next) {
+    var userId = 7;
+
+    initial_shoppingList.getInitialShoppingList(userId, function (dataShoppingList, err) {
+        if (err) {
+            console.log(err);
+            console.log("not shopping list ");
+        }
+        else {
+            //console.log(dataPrediction);
+            res.send(dataShoppingList);
+            console.log("shopping list loaded");
+        }
+    });
+});
+
 
 
 module.exports = router;

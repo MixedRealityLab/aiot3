@@ -1,8 +1,9 @@
 var editor;
 
 $(document).ready(function() {
-    var getUserId = 3;//$("#HideUserId").val();
-    console.log(getUserId);
+    var getUserId = $("#HideUserId").val();
+    //console.log('userId:'+$("#HideUserId").val());
+    console.log('userId:'+getUserId);
 
 
     //modal css work
@@ -26,7 +27,7 @@ $(document).ready(function() {
         "bInfo": false,
         "ordering": false,
         "ajax": {
-            url: '/getInventoryDataOut',
+            url: '/getInitialShoppingList',
             type: 'POST',
             data: {userId: getUserId}
 
@@ -34,7 +35,7 @@ $(document).ready(function() {
         "columns": [
             {data: "description"},
             //{data: "stock_level"},//{data: "level"},
-            {data: "stock_level"},
+            {data: "stock"},
 
 
         ],
@@ -59,7 +60,7 @@ $(document).ready(function() {
             "bInfo": false,
             "ordering": false,
             "ajax": {
-                url: '/getInventoryDataOut',
+                url: '/getInitialShoppingList',
                 type: 'POST',
                 data: {userId: getUserId}
 
@@ -67,7 +68,7 @@ $(document).ready(function() {
             "columns": [
                 {data: "description"},
                 //{data: "stock_level", className: 'editable'},//{data: "level"},
-                {data: "stock_level"},
+                {data: "stock"},
                 //{
                 //    data: null,
                 //    defaultContent: "<button type='buttonEspecial' class='btn btn-success btn-sm'> <i class='glyphicon glyphicon-plus'></i> </button>"
@@ -88,6 +89,37 @@ $(document).ready(function() {
         });
     });
 
+    $('#semiAutonomous').on('shown.bs.modal', function () {
+
+        $.fn.dataTable.tables({visible: true, api: true}).columns.adjust();
+        var ListTableSemiAutonomous = $('#shoppinglist_semiautonomous').DataTable({
+            "bFilter": false,
+            "bInfo": false,
+            "ordering": false,
+            "ajax": {
+                url: '/getInitialShoppingList',
+                type: 'POST',
+                data: {userId: getUserId}
+
+            },
+            "columns": [
+                {data: "description"},
+                //{data: "stock_level", className: 'editable'},//{data: "level"},
+                {data: "stock"},
+
+
+            ],
+            //"order": [[1, 'asc']],
+            "lengthChange": false,
+            "length": 10,
+            "paging": false,
+            "destroy": true,
+            "scrollY": '300px',
+
+        });
+    });
+
+
 
     $('#Autonomous').on('shown.bs.modal', function () {
 
@@ -97,7 +129,7 @@ $(document).ready(function() {
             "bInfo": false,
             "ordering": false,
             "ajax": {
-                url: '/getInventoryDataOut',
+                url: '/getInitialShoppingList',
                 type: 'POST',
                 data: {userId: getUserId}
 
@@ -105,7 +137,7 @@ $(document).ready(function() {
             "columns": [
                 {data: "description"},
                 //{data: "stock_level", className: 'editable'},//{data: "level"},
-                {data: "stock_level"},
+                {data: "stock"},
 
 
             ],

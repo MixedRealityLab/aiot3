@@ -107,5 +107,34 @@ exports.getLastUsed = function (userId,inventoryId,wastedId,done) {
 }
 
 
+//get all items with stock, and based on "today" there will be included all items from actual day to 2 days after of their predicted running out time
+//will be included just item with stock > 0
+//will be included items with predictions
+
+exports.getInStock_based_onPredictions = function (userId,done) {
+    var params = [userId];
+    db.get().query("select inventory.id as 'inventory_id',inventory.product_id,inventory.user_id, inventory.stock_level,inventory.predicted_need_date, inventory.stock_delta_day, inventory.need_trigger_stock_level, if(stock_level>0, 'In-Stock','Out-of-Stock') as 'stock', product.ean, product.brand_name, product.multipack, product.multipack_amount, product.quantity, product.quantity_units, product.metadata,product.description\n" +
+        "from inventory,product\n" +
+        "WHERE inventory.product_id= product.id\n" +
+        "and inventory.stock_level=1\n" +
+        "and user_id=?\n" +
+        "and inventory.predicted_need_date BETWEEN DATE_ADD(DATE(NOW()), INTERVAL 0 DAY) AND DATE_ADD(DATE(NOW()), INTERVAL 2 DAY)",params, function (err, rows) {
+        if (err)
+            return done(err);
+
+        if (rows.length == 0){
+            return done(new Error("User ID does not have data available"));
+        }
+
+        if (rows.length > 0){
+            console.log(rows);
+            return done(null, rows);
+        }
+    });
+
+}
+
+
+
 
 

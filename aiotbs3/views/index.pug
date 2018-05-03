@@ -18,7 +18,6 @@ block content
 
     else
         input#HideUserId(type='hidden', value=user[0].id)
-
         nav.navbar.navbar-default
             .container-fluid
                 .navbar-header
@@ -33,18 +32,6 @@ block content
 
                     li
                         a(href='#myList' data-toggle='modal' data-target='#myList')
-                            span.glyphicon.glyphicon-shopping-cart
-                            | #{''} Shopping List
-                    //.dropdown
-                        button.dropbtn
-                            span.glyphicon.glyphicon-shopping-cart
-                            | #{''} Shopping List
-                            //i.fa.fa-caret-down
-                        .dropdown-content
-                            a(href='#myList' data-toggle='modal' data-target='#myList') Link 1
-                            a(href='#') Link 2
-                            a(href='#') Link 3
-                        //a(href='#myList' data-toggle='modal' data-target='#myList')
                             span.glyphicon.glyphicon-shopping-cart
                             | #{''} Shopping List
 
