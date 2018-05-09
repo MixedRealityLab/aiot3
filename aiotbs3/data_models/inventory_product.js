@@ -118,7 +118,7 @@ exports.getInStock_based_onPredictions = function (userId,done) {
         "WHERE inventory.product_id= product.id\n" +
         "and inventory.stock_level=1\n" +
         "and user_id=?\n" +
-        "and inventory.predicted_need_date BETWEEN DATE_ADD(DATE(NOW()), INTERVAL -10 DAY) AND DATE_ADD(DATE(NOW()), INTERVAL 2 DAY)",params, function (err, rows) {
+        "and inventory.predicted_need_date BETWEEN DATE_ADD(DATE(NOW()), INTERVAL 0 DAY) AND DATE_ADD(DATE(NOW()), INTERVAL 6 DAY) order by predicted_need_date asc",params, function (err, rows) {
         if (err)
             return done(err);
 

@@ -32,6 +32,9 @@ $(document).ready(function() {
             data: {userId: getUserId}
 
         },
+        "columnDefs": [
+            { "visible": false, "targets": 2 }
+        ],
         "columns": [
             {
                 data: null,
@@ -41,15 +44,30 @@ $(document).ready(function() {
                 defaultContent:"<input type=checkbox onchange=\"if ($(this).is(':checked')) { $(this).closest('tr').addClass('used'); } else { $(this).closest('tr').removeClass('used'); } \">"
             },
             {data: "description"},
-            //{data: "stock_level"},//{data: "level"},
+            {data: "stock"},//{data: "level"},
             {data: "predicted_need_date2"},
             {
                 data: null,
-                defaultContent: "<button id='hideButton' type='buttonEspecial' class='btn btn-warning btn-sm'> <i class='glyphicon glyphicon-eye-close'></i> </button>"
+                defaultContent: "<button id='hideButton' type='buttonEspecial' class='btn btn-warning btn-xs'> <i class='glyphicon glyphicon-eye-close'></i> </button>"
             }
 
 
         ],
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+
+            api.column(2, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group"><td colspan="5">'+group+'</td></tr>'
+                    );
+
+                    last = group;
+                }
+            } );
+        },
         "lengthChange": false,
         "length": 10,
         "paging": false,
@@ -57,6 +75,19 @@ $(document).ready(function() {
         "scrollY": '300px'
 
     });
+
+
+
+        // Order by the grouping
+        $('#shoppinglist_data tbody').on( 'click', 'tr.group', function () {
+            var currentOrder = ListTable.order()[0];
+            if ( currentOrder[0] === 2 && currentOrder[1] === 'asc' ) {
+                ListTable.order( [ 2, 'desc' ] ).draw();
+            }
+            else {
+                ListTable.order( [ 2, 'asc' ] ).draw();
+            }
+        } );
 
 
     //hide items from shopping list suggested
@@ -80,6 +111,7 @@ $(document).ready(function() {
         //add a new row in datatable
         ListTable.row.add( {
             "description": newDescription,
+            "stock":" New Items",
             "predicted_need_date2":   " "
         } ).draw();
 

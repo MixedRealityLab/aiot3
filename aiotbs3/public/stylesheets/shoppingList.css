@@ -36,8 +36,14 @@
 
 tr.used{
     background-color: #d2e8a3 !important;
+    text-decoration: line-through;
 }
 
+tr.group,
+tr.group:hover {
+    background-color: #ddd !important;
+
+}
 
 /*
 tr.used td:before {
@@ -50,3 +56,4 @@ tr.used td:before {
     width: 100%;
 }
 */
+
