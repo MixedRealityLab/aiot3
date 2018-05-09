@@ -33,12 +33,19 @@ $(document).ready(function() {
 
         },
         "columns": [
-            {data: "description"},
-            //{data: "stock_level"},//{data: "level"},
-            {data: "stock"},
             {
                 data: null,
-                defaultContent: "<button type='buttonEspecial' class='btn btn-light btn-sm'> <i class='glyphicon glyphicon-eye-close'></i> </button>"
+                //defaultContent: "<div class=\"checkbox\">\n" +
+                //"      <label><input type=\"checkbox\" value=\"\"> </label>\n" +
+                //"    </div>"
+                defaultContent:"<input type=checkbox onchange=\"if ($(this).is(':checked')) { $(this).closest('tr').addClass('used'); } else { $(this).closest('tr').removeClass('used'); } \">"
+            },
+            {data: "description"},
+            //{data: "stock_level"},//{data: "level"},
+            {data: "predicted_need_date2"},
+            {
+                data: null,
+                defaultContent: "<button id='hideButton' type='buttonEspecial' class='btn btn-warning btn-sm'> <i class='glyphicon glyphicon-eye-close'></i> </button>"
             }
 
 
@@ -50,12 +57,36 @@ $(document).ready(function() {
         "scrollY": '300px'
 
     });
+
+
+    //hide items from shopping list suggested
+    $('#shoppinglist_data tbody').on('click', 'button', function () {
+        //var dataHide = ListTable.row($(this).parents('tr')).data(); //to get all data from a row
+        ListTable.row($(this).parents('tr')).remove().draw();
     });
 
 
 
-    //IN STOCK ESSENTIALS DATATABLE
+    //add new essentials button
+    $('.addNew').click(function(){
+        $('#modalNewRow').modal('show');
+    });
 
+    //add description of a new essential
+    $('.addNew2').click(function(){
+        var newDescription = document.getElementById("decriptionNewItem").value;
+        $('#modalNewRow').modal('hide');
 
+        //add a new row in datatable
+        ListTable.row.add( {
+            "description": newDescription,
+            "predicted_need_date2":   " "
+        } ).draw();
+
+        document.getElementById("decriptionNewItem").value = ""; //clear input text
+
+    });
+
+    });
 
 });

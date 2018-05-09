@@ -29,7 +29,7 @@ exports.getInStock = function(userId,done){
 exports.getOutStock = function(userId,done){
     var params = [userId];
 
-    db.get().query("SELECT DATE_FORMAT(MAX(CONVERT_TZ(out_event.timestamp,'+00:00','+00:00')),'%d-%m-%Y, %H:%i:%s') as 'used_up', out_event.inventory_id as 'out_event_inventory_id', DATE_FORMAT(MAX(CONVERT_TZ(in_event.timestamp,'+00:00','+00:00')),'%d-%m-%Y, %H:%i:%s') as 'last_added', inventory.id as 'inventory_id', inventory.product_id as 'inventory_product_id', inventory.user_id, inventory.stock_level,inventory.predicted_need_date as 'predicted_need_dateOriginal', product.id as 'product_id', product.ean, product.brand_name, product.multipack, product.multipack_amount, product.quantity, product.quantity_units, product.metadata,product.description,'Not available yet' as predicted_need_date  from out_event,in_event,inventory,product where out_event.inventory_id=inventory.id and in_event.inventory_id=inventory.id and inventory.user_id = ? and inventory.product_id=product.id and inventory.stock_level=0 GROUP BY out_event.inventory_id",params,function (err,rows) {
+    db.get().query("SELECT DATE_FORMAT(MAX(CONVERT_TZ(out_event.timestamp,'+00:00','+00:00')),'%d-%m-%Y, %H:%i:%s') as 'used_up', out_event.inventory_id as 'out_event_inventory_id', DATE_FORMAT(MAX(CONVERT_TZ(in_event.timestamp,'+00:00','+00:00')),'%d-%m-%Y, %H:%i:%s') as 'last_added', inventory.id as 'inventory_id', inventory.product_id as 'inventory_product_id', inventory.user_id, inventory.stock_level,inventory.predicted_need_date as 'predicted_need_dateOriginal', product.id as 'product_id', product.ean, product.brand_name, product.multipack, product.multipack_amount, product.quantity, product.quantity_units, product.metadata,product.description,'Not available yet' as predicted_need_date  from out_event,in_event,inventory,product where out_event.inventory_id=inventory.id and in_event.inventory_id=inventory.id and inventory.user_id = ? and inventory.product_id=product.id and inventory.stock_level=0 GROUP BY out_event.inventory_id order by used_up asc",params,function (err,rows) {
     //db.get().query("SELECT out_event.timestamp as 'used_up', out_event.inventory_id as 'out_event_inventory_id', in_event.timestamp as 'last_added', inventory.id as 'inventory_id', inventory.product_id as 'inventory_product_id', inventory.user_id, inventory.stock_level,inventory.predicted_need_date as 'predicted_need_dateOriginal', product.id as 'product_id', product.ean, product.brand_name, product.multipack, product.multipack_amount, product.quantity, product.quantity_units, product.metadata,product.description,'Not available yet' as predicted_need_date  from out_event,in_event,inventory,product where out_event.inventory_id=inventory.id and in_event.inventory_id=inventory.id and inventory.user_id = ? and inventory.product_id=product.id and inventory.stock_level=0 GROUP BY out_event.inventory_id",params,function (err,rows) {
 
         if (err)
@@ -113,12 +113,12 @@ exports.getLastUsed = function (userId,inventoryId,wastedId,done) {
 
 exports.getInStock_based_onPredictions = function (userId,done) {
     var params = [userId];
-    db.get().query("select inventory.id as 'inventory_id',inventory.product_id,inventory.user_id, inventory.stock_level,inventory.predicted_need_date, inventory.stock_delta_day, inventory.need_trigger_stock_level, if(stock_level>0, 'In-Stock','Out-of-Stock') as 'stock', product.ean, product.brand_name, product.multipack, product.multipack_amount, product.quantity, product.quantity_units, product.metadata,product.description\n" +
+    db.get().query("select inventory.id as 'inventory_id',inventory.product_id,inventory.user_id, inventory.stock_level,inventory.predicted_need_date,DATE_FORMAT(inventory.predicted_need_date,'%W %D, %b') as 'predicted_need_date2', inventory.stock_delta_day, inventory.need_trigger_stock_level, if(stock_level>0, 'In-Stock','Out-of-Stock') as 'stock', product.ean, product.brand_name, product.multipack, product.multipack_amount, product.quantity, product.quantity_units, product.metadata,product.description\n" +
         "from inventory,product\n" +
         "WHERE inventory.product_id= product.id\n" +
         "and inventory.stock_level=1\n" +
         "and user_id=?\n" +
-        "and inventory.predicted_need_date BETWEEN DATE_ADD(DATE(NOW()), INTERVAL 0 DAY) AND DATE_ADD(DATE(NOW()), INTERVAL 2 DAY)",params, function (err, rows) {
+        "and inventory.predicted_need_date BETWEEN DATE_ADD(DATE(NOW()), INTERVAL -10 DAY) AND DATE_ADD(DATE(NOW()), INTERVAL 2 DAY)",params, function (err, rows) {
         if (err)
             return done(err);
 

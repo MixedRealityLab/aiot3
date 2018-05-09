@@ -12,7 +12,7 @@ exports.getInitialShoppingList = function (userId,done) {
             console.log(err);
             //res.send("there was an error");
             //var data= {"data":{}};
-            var data=[{"description":"Not available","stock":"Not available"}];
+            var data=[{"description":"Not available","predicted_need_date2":"Not available"}];
             res.json(data);
 
         }
@@ -34,7 +34,9 @@ exports.getInitialShoppingList = function (userId,done) {
                             "description":dataOut[i].description,
                             "ean":dataOut[i].ean,
                             "stock_level":dataOut[i].stock_level,
-                            "stock": 'Out-of-Stock'
+                            "stock": 'Out-of-Stock',
+                            "predicted_need_date2":dataOut[i].predicted_need_date,
+                            "predicted_need_date2":moment(dataOut[i].used_up, 'DD-MM-YYYY, hh:mm:ss ').format('dddd Do, MMM')+' (used up)'
                         });
                     }
 
@@ -52,7 +54,10 @@ exports.getInitialShoppingList = function (userId,done) {
                             "description":dataOut[i].description,
                             "ean":dataOut[i].ean,
                             "stock_level":dataOut[i].stock_level,
-                            "stock": 'Out-of-Stock'
+                            "stock": 'Out-of-Stock',
+                            "predicted_need_date2":dataOut[i].predicted_need_date,
+                            "predicted_need_date2":moment(dataOut[i].used_up, 'DD-MM-YYYY, hh:mm:ss ').format('dddd Do, MMM')+' (used up)'
+
                         });
                     }
 
@@ -64,7 +69,9 @@ exports.getInitialShoppingList = function (userId,done) {
                             "description":dataIn[i].description,
                             "ean":dataIn[i].ean,
                             "stock_level":dataIn[i].stock_level,
-                            "stock": dataIn[i].stock
+                            "stock": dataIn[i].stock,
+                            "predicted_need_date":dataIn[i].predicted_need_date,
+                            "predicted_need_date2":dataIn[i].predicted_need_date2+' (run out soon)'
                         });
                     }
 

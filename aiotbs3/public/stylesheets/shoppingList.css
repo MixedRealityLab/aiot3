@@ -33,3 +33,20 @@
 
 }
 
+
+tr.used{
+    background-color: #d2e8a3 !important;
+}
+
+
+/*
+tr.used td:before {
+    content: " ";
+    position: absolute;
+    display: inline-block;
+    padding: 5px 5px;
+    left: 0;
+    border-bottom: 1px solid #111;
+    width: 100%;
+}
+*/

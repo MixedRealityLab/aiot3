@@ -436,7 +436,7 @@ router.get('/getInventoryDataOut',function (req,res,next) {
 router.get('/getOutStock', function(req, res, next) {
     console.log("testing database");
 
-    inventory_product.getOutStock(3,function(err, data){
+    inventory_product.getOutStock(23,function(err, data){
 
         if(err){
             console.log(err);
