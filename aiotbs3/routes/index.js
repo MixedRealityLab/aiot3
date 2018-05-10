@@ -1432,7 +1432,25 @@ router.post('/getInitialShoppingList',function (req,res,next) {
 });
 
 
+/*router.get('/shoppingList2', function(req, res, next){
+    console.log('Im here shopping list');
+    //userLogFunction(req.user[0].id, 16,"Im here logout");
+    //req.logout();
 
+    console.log(req.isAuthenticated());
+    res.render('shoppingList',{ user: req.user});
+    //res.redirect('/sl');
+});*/
+
+
+
+router.get('/shoppingList2',
+    require('connect-ensure-login').ensureLoggedIn(),
+    function(req, res,next){
+        console.log('Im here shopping list');
+        console.log(req.user);
+        res.render('shoppingList2', { user: req.user });
+    });
 
 //************************************ functions *************************************************
 
