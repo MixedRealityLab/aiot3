@@ -28,10 +28,10 @@ $(document).ready(function() {
             {data: "description"},
             {data: "stock"},//{data: "level"},
             {data: "predicted_need_date2"},
-            {
-                data: null,
-                defaultContent: "<button id='hideButton' type='buttonEspecial' class='btn btn-warning btn-xs'> <i class='glyphicon glyphicon-eye-close'></i> </button>"
-            }
+            //{
+            //    data: null,
+            //    defaultContent: "<button id='hideButton' type='buttonEspecial' class='btn btn-warning btn-xs'> <i class='glyphicon glyphicon-eye-close'></i> </button>"
+            //}
 
 
         ],
@@ -94,7 +94,7 @@ $(document).ready(function() {
         ListTable.row.add( {
             "description": newDescription,
             "stock":" New Items",
-            "predicted_need_date2":   " "
+            "predicted_need_date2": "--"
         } ).draw();
 
         document.getElementById("decriptionNewItem").value = ""; //clear input text

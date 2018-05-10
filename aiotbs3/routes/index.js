@@ -1452,6 +1452,7 @@ router.get('/shoppingList2',
         res.render('shoppingList2', { user: req.user });
     });
 
+
 //************************************ functions *************************************************
 
 
