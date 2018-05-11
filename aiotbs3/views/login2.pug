@@ -1,0 +1,38 @@
+extends layout
+
+block content
+    nav.navbar.navbar-inverse
+        .container-fluid
+            .navbar-header
+                //h1 Home Essentials
+                a.navbar-brand(href='#')
+            ul.nav.navbar-nav.navbar-right
+
+    //if success
+        section.success
+            //h2 Successful Validation!
+            //include index
+    //else
+        if errors
+            section.errors
+            ul
+                //each errors
+                li #{this.msg}
+                | {{/each}}
+
+    h2.page-header.text-center Welcome Essentials Login
+    .modal-body.modal-sm.center-block
+        h4 #{message}
+        form(method='POST', action='/login2')
+                .form-group
+                    label Username:
+                    input.form-control(name='username',type='text', required='')
+                .form-group
+                    label Password:
+                    input.form-control(name='password',type='password', required='')
+                br
+                input.btn.btn-primary.center-block(type='submit',value='Login')
+
+        br
+        h3 New User?
+        a(href='/register') Sign Up

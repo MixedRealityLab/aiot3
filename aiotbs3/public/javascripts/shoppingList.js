@@ -1,28 +1,13 @@
-var editor;
+// javascript to generate shopping list without using modal, accessing directly by url
 
 $(document).ready(function() {
+
     var getUserId = $("#HideUserId").val();
     //console.log('userId:'+$("#HideUserId").val());
     console.log('userId:'+getUserId);
 
-
-    //modal css work
-    $('.modal-child').on('show.bs.modal', function () {
-        var modalParent = $(this).attr('data-modal-parent');
-        $(modalParent).css('opacity', 0);
-    });
-
-    $('.modal-child').on('hidden.bs.modal', function () {
-        var modalParent = $(this).attr('data-modal-parent');
-        $(modalParent).css('opacity', 1);
-    });
-
-
-    $('#myList').on('shown.bs.modal', function () {
-    $.fn.dataTable.tables({visible: true, api: true}).columns.adjust();
-
     //IN STOCK ESSENTIALS DATATABLE
-    var ListTable = $('#shoppinglist_data').DataTable({
+    var ListTable = $('#shoppinglist_data2').DataTable({
         "bFilter": false,
         "bInfo": false,
         "ordering": false,
@@ -38,18 +23,15 @@ $(document).ready(function() {
         "columns": [
             {
                 data: null,
-                //defaultContent: "<div class=\"checkbox\">\n" +
-                //"      <label><input type=\"checkbox\" value=\"\"> </label>\n" +
-                //"    </div>"
-                defaultContent:"<input type=checkbox onchange=\"if ($(this).is(':checked')) { $(this).closest('tr').addClass('used'); } else { $(this).closest('tr').removeClass('used'); } \">"
+                defaultContent:"<input type=checkbox onchange=\"if ($(this).is(':checked')) { $(this).closest('tr').addClass('used');} else { $(this).closest('tr').removeClass('used'); } \">"
             },
             {data: "description"},
             {data: "stock"},//{data: "level"},
             {data: "predicted_need_date2"},
-            {
-                data: null,
-                defaultContent: "<button id='hideButton' type='buttonEspecial' class='btn btn-warning btn-xs'> <i class='glyphicon glyphicon-eye-close'></i> </button>"
-            }
+            //{
+            //    data: null,
+            //    defaultContent: "<button id='hideButton' type='buttonEspecial' class='btn btn-warning btn-xs'> <i class='glyphicon glyphicon-eye-close'></i> </button>"
+            //}
 
 
         ],
@@ -68,6 +50,10 @@ $(document).ready(function() {
                 }
             } );
         },
+        "initComplete": function(settings, json) {
+            var data = JSON.stringify(json);
+            userLog(getUserId, 20, "shopping list data: "+data);
+        },
         "lengthChange": false,
         "length": 10,
         "paging": false,
@@ -79,7 +65,7 @@ $(document).ready(function() {
 
 
         // Order by the grouping
-        $('#shoppinglist_data tbody').on( 'click', 'tr.group', function () {
+        $('#shoppinglist_data2 tbody').on( 'click', 'tr.group', function () {
             var currentOrder = ListTable.order()[0];
             if ( currentOrder[0] === 2 && currentOrder[1] === 'asc' ) {
                 ListTable.order( [ 2, 'desc' ] ).draw();
@@ -91,9 +77,17 @@ $(document).ready(function() {
 
 
     //hide items from shopping list suggested
-    $('#shoppinglist_data tbody').on('click', 'button', function () {
+    $('#shoppinglist_data2 tbody').on('click', 'button', function () {
         //var dataHide = ListTable.row($(this).parents('tr')).data(); //to get all data from a row
         ListTable.row($(this).parents('tr')).remove().draw();
+    });
+
+    //get item crossed out and save into user log
+    $('#shoppinglist_data2').on('click', 'input[type="checkbox"]', function() {
+        var data = ListTable.row($(this).parents('tr')).data();
+        //console.log('strikethrough inventory id: '+ data.inventory_id );
+        userLog(getUserId, 20, 'strikethrough inventory id: '+ data.inventory_id );
+
     });
 
 
@@ -108,17 +102,19 @@ $(document).ready(function() {
         var newDescription = document.getElementById("decriptionNewItem").value;
         $('#modalNewRow').modal('hide');
 
+        userLog(getUserId, 20, "New Item: "+ newDescription);
+
         //add a new row in datatable
         ListTable.row.add( {
             "description": newDescription,
             "stock":" New Items",
-            "predicted_need_date2":   " "
+            "predicted_need_date2": "--"
         } ).draw();
 
         document.getElementById("decriptionNewItem").value = ""; //clear input text
 
     });
 
-    });
+
 
 });

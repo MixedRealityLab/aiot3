@@ -1444,13 +1444,37 @@ router.post('/getInitialShoppingList',function (req,res,next) {
 
 
 
-router.get('/shoppingList2',
-    require('connect-ensure-login').ensureLoggedIn(),
+router.get('/shoppingList',
+    //require('connect-ensure-login').ensureLoggedIn(),
     function(req, res,next){
-        console.log('Im here shopping list');
-        console.log(req.user);
-        res.render('shoppingList2', { user: req.user });
+        if (req.isAuthenticated()) {
+            console.log('Im here shopping list');
+            userLogFunction(req.user[0].id, 20,"Im here shopping list");
+            res.render('shoppingList', { user: req.user });
+
+        }
+        else{
+            console.log('***NO AUTH***');
+            res.render('login2');
+
+        }
     });
+//login 2 just created to redirect from shopping list
+router.get('/login2',
+    function(req, res){
+        res.render('login2');
+    });
+
+
+router.post('/login2',
+    passport.authenticate('local', { failureRedirect: '/login' }),
+    function(req, res) {
+        // If this function gets called, authentication was successful.
+        // `req.user` contains the authenticated user.
+        console.log('Im here login2');
+        res.redirect('/shoppingList');
+    });
+
 
 
 //************************************ functions *************************************************
