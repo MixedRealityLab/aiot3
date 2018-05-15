@@ -22,6 +22,9 @@ var inbox = require("./inbox.js");
 var _ = require('lodash');
 var array = require('lodash/array');
 
+var initial_shoppingList = require ("./initialShoppingList");
+
+
 
 
 
@@ -361,7 +364,7 @@ router.get('/add_out_event', function(req, res, next) {
 router.get('/getInventoryDataOut',function (req,res,next) {
 
     //var userId = req.body.userId;
-    var userId = 1;
+    var userId = 3;
     var dataArray = [];
     //var data = {description: "xxx", lastAdded: "07/07/27", usedUp: "16/08/17"};
     out_events.get_most_recent_for_user(userId,5000, function(err, data){
@@ -433,7 +436,7 @@ router.get('/getInventoryDataOut',function (req,res,next) {
 router.get('/getOutStock', function(req, res, next) {
     console.log("testing database");
 
-    inventory_product.getOutStock(3,function(err, data){
+    inventory_product.getOutStock(23,function(err, data){
 
         if(err){
             console.log(err);
@@ -1510,6 +1513,42 @@ router.get('/getPredictionFeedback2', function(req, res, next) {
     });
 
 });
+
+
+
+router.get('/getInStock_based_onPredictions', function(req, res, next) {
+    var userId = 20;
+
+    //get in stock based on prediction
+    inventory_product.getInStock_based_onPredictions(userId,function(err, data){
+        if(err){
+            console.log(err);
+            res.send("no data available");
+        }
+        else {
+            console.log(data);
+            res.send(data);
+        }
+    });
+
+});
+
+router.get('/getInitialShoppingList', function(req, res, next) {
+    var userId = 7;
+
+    initial_shoppingList.getInitialShoppingList(userId, function (dataShoppingList, err) {
+        if (err) {
+            console.log(err);
+            console.log("not shopping list ");
+        }
+        else {
+            //console.log(dataPrediction);
+            res.send(dataShoppingList);
+            console.log("shopping list loaded");
+        }
+    });
+});
+
 
 
 module.exports = router;

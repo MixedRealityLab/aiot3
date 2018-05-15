@@ -22,6 +22,8 @@ var second_prediction = require ("./secondPrediction.js");
 var inbox = require("./inbox.js");
 var prediction = require("../data_models/prediction.js");
 var user_log =  require("../data_models/user_event_log.js");
+var initial_shoppingList = require ("./initialShoppingList");
+
 
 
 
@@ -1403,6 +1405,75 @@ router.post('/deleteItem', function (req,res, next) {
 });
 
 
+
+
+//******** SHOPPING LIST
+
+router.post('/getInitialShoppingList',function (req,res,next) {
+    var userId = req.body.userId;
+
+
+    initial_shoppingList.getInitialShoppingList(userId, function (dataShoppingList,err) {
+        if (err) {
+            console.log(err);
+            //console.log("not shopping list ");
+            var data= {"data":{}};
+            res.json(data);
+        }
+        else {
+            console.log('**** CALLING SHOPPING LIST ****');
+            console.log(dataShoppingList);
+            var data= {"data":dataShoppingList};
+            res.json(data);
+        }
+    });
+
+
+});
+
+
+/*router.get('/shoppingList2', function(req, res, next){
+    console.log('Im here shopping list');
+    //userLogFunction(req.user[0].id, 16,"Im here logout");
+    //req.logout();
+
+    console.log(req.isAuthenticated());
+    res.render('shoppingList',{ user: req.user});
+    //res.redirect('/sl');
+});*/
+
+
+
+router.get('/shoppingList',
+    //require('connect-ensure-login').ensureLoggedIn(),
+    function(req, res,next){
+        if (req.isAuthenticated()) {
+            console.log('Im here shopping list');
+            userLogFunction(req.user[0].id, 20,"Im here shopping list");
+            res.render('shoppingList', { user: req.user });
+
+        }
+        else{
+            console.log('***NO AUTH***');
+            res.render('login2');
+
+        }
+    });
+//login 2 just created to redirect from shopping list
+router.get('/login2',
+    function(req, res){
+        res.render('login2');
+    });
+
+
+router.post('/login2',
+    passport.authenticate('local', { failureRedirect: '/login' }),
+    function(req, res) {
+        // If this function gets called, authentication was successful.
+        // `req.user` contains the authenticated user.
+        console.log('Im here login2');
+        res.redirect('/shoppingList');
+    });
 
 
 

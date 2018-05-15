@@ -1,0 +1,111 @@
+append head
+    script(src='/javascripts/shoppingListModal.js')
+    link(rel='stylesheet', href='/stylesheets/shoppingList.css')
+
+
+.container
+
+    br
+    input#HideUserId(type='hidden', value=user.id)
+    #myList.modal.fade
+        .modal-dialog.modal-lg
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal') ×
+                    h4.modal-title Home Essentials Shopping List
+                .modal-body
+                    //p You can new essentials or hide suggested items.
+                    .table-responsive
+                        table#shoppinglist_data.table.table-hover(style={'width':'100%', 'text-align': 'center'})
+                            thead
+                                tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
+                                    td
+                                    td Product
+                                    td Stock
+                                    td Status
+                                    //td Quantity
+                                    //td
+                                    td
+                            tbody
+                                tr(style="color: #ff6600")
+                                    td xxxx
+                                    td xxx
+                                    td xxx
+
+                    //button#addNewRow.btn.btn-success.addNew Add new essentials
+
+                .modal-footer
+                    button#addNewRow.btn.btn-success.addNew Add new essentials
+                    //button.btn.btn-primary(data-dismiss='modal', aria-hidden='true') Save & Order
+
+
+
+
+
+            //.modal-content
+                .modal-header
+                    button.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
+                    h4.modal-title Home Essentials Shopping List
+
+                .modal-body
+                    .table-responsive
+                        table#shoppinglist_data.table(style={
+                            'text-align': 'center',
+                            'color': 'silver'
+                        })
+                            thead
+                                tr(style={'font-size': '18px', 'font-weight': 'bold', 'text-align': 'center'})
+                                    td Product
+                                    td Status in my inventory
+                                    //td Quantity
+                            tbody
+                                tr(style="color: #ff6600")
+                                    td xxxx
+                                    td xxx
+                                    //td xxx
+
+
+                .modal-footer
+                    .col-lg.text-center
+                        p(style={'color': 'grey'}) Select level of autonomy of your shopping list
+                        a.btn.btn-primary(href='#noAutonomous', data-toggle='modal') No Autonomous
+                        a.btn.btn-primary(href='#semiAutonomous', data-toggle='modal') Semi-Autonomous
+                        a.btn.btn-primary(href='#Autonomous', data-toggle='modal') Autonomous
+
+
+    #modalNewRow.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                // Modal Header
+                .modal-header
+                    button.close(type='button', data-dismiss='modal')
+                        span(aria-hidden='true') ×
+                        span.sr-only Close
+                    h4#myModalLabel.modal-title
+                        | Add a new item
+                // Modal Body
+                .modal-body
+                    label(for='decriptionNewItem') Description
+                    input#decriptionNewItem.form-control(placeholder='Description')
+                    p
+                    button#addNewRow2.btn.btn-primary.addNew2(type='button')
+                        | Add
+
+                    //form(role='form')
+                        .form-group
+                            label(for='exampleInputEmail1') Email address
+                            input#exampleInputEmail1.form-control(type='email', placeholder='Enter email')
+                        .form-group
+                            label(for='exampleInputPassword1') Password
+                            input#exampleInputPassword1.form-control(type='password', placeholder='Password')
+                        .checkbox
+                            label
+                                input(type='checkbox')
+                                |  Check me out
+                        button.btn.btn-default(type='submit') Add
+                // Modal Footer
+                //.modal-footer
+                    //button.btn.btn-default(type='button', data-dismiss='modal')
+                        | Close
+                    button#addNewRow2.btn.btn-primary(type='button')
+                        | Add
