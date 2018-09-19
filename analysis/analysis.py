@@ -380,7 +380,7 @@ class Scans:
                 elif scan.action == 'out':
                     scanOuts = len(scanOutData[householdId][scan.item])
                     scanIns = len(scanInData[householdId][scan.item])
-                    
+
                     if scanIns > scanOuts:
                         scanInToUse = matchedScanIns[householdId][scan.item]
                         if scanInToUse < scanIns:
@@ -399,7 +399,7 @@ class Scans:
                 if len(cycleData[householdId][item]) > 1:
                     itemDataWithCycles[householdId][item] = data
 
-            output = (" ↳ [%s] Across %d items, collated %d scan ins and %d scan outs, of which %d were matched" 
+            output = (" ↳ [%s] Across %d items, collated %d scan ins and %d scan outs, of which %d were matched"
                 % (Data.households()[householdId], len(itemData[householdId]), numScanIns[householdId],
                     numScanOuts[householdId], numMatchedScanIns[householdId]))
             output += ("\n ↳       Furthermore, %d items have one complete cycle and %d have two or more" % (
@@ -446,7 +446,7 @@ class Predictions:
                 data[householdId][prediction.item][prediction.timestamp] = prediction
                 numPredictions[householdId] += 1
 
-            output = (" ↳ [%s] Across %d items, collated %d predictions" 
+            output = (" ↳ [%s] Across %d items, collated %d predictions"
                 % (Data.households()[householdId], len(data[householdId]), numPredictions[householdId]))
             print output
 
@@ -569,7 +569,7 @@ class Errors:
         plt.margins(y=0)
 
         fig = plt.gcf()
-        fig.set_size_inches(11, 7.5) 
+        fig.set_size_inches(11, 7.5)
         fig.savefig("graph-errorsByHousehold.pdf", pad_inches=0, bbox_inches='tight', dpi=220)
         plt.close()
 
