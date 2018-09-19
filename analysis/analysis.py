@@ -187,16 +187,18 @@ class Events:
         self.parse(rawData)
 
     def parse(self, rawData = None):
-        self._parse(rawData or {})
+        self.graphData, self.totalsByDay, self.totals, self.averageUse, self.daysBetweenEvents = self._parse(rawData or {})
 
     def _parse(self, rawData):
-        (self.GraphXYData, self.totalsByDay, self.totals) = self._retabulate(rawData)
-        self.averageUse = self._calcAverages(self.totalsByDay)
+        graphData, totalsByDay, totals = self._retabulate(rawData)
+        averageUse, daysBetweenEvents = self._calcAverages(totalsByDay)
 
         if skipEventGraphGeneration is True:
             print "Skipping event graph regeneration"
         else:
-            self._generateGraphs(self.GraphXYData)
+            self._generateGraphs(graphData)
+
+        return (graphData, totalsByDay, totals, averageUse, daysBetweenEvents)
 
     def _retabulate(self, eventData):
         print "Retabulating event data..."
@@ -220,7 +222,7 @@ class Events:
                 totals[householdId] += 1
 
             print " ↳ [%s] Tabulated %d events" % (Data.households()[householdId], totals[householdId])
-        return (GraphXYData, totalsByDay, totals)
+        return (graphData, totalsByDay, totals)
 
     def _calcAverages(self, totalsByDay):
         print "Recalculating average use..."
