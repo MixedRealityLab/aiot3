@@ -694,13 +694,13 @@ with open('rawData-cycleTimeAndErrorByItem.csv', 'wb') as f:
             dataRows.append(dataRow)
 
     wr = csv.writer(f)
-    wr.writerow(["householdId", "item"] + (["cycleTime", "error", "abs. error"] * maxNumCycles))
+    wr.writerow(["householdId", "item"] + (["cycleTime", "error", "absError"] * maxNumCycles))
     for row in dataRows:
         wr.writerow(row)
 
 
 
-# OUTPUT EACHERROR
+# OUTPUT EACH ERROR
 print "Outputting raw errors by item..."
 with open('rawData-cycleErrorByItem.csv', 'wb') as f:
     errorData = Data.errors().data
@@ -794,7 +794,7 @@ with open('summaryData-cyclesAndErrorsByItem.csv', 'wb') as f:
             dataRows.append(dataRow)
 
     wr = csv.writer(f)
-    wr.writerow(["Household", "Item", "Post-hoc category", "# Scan ins", "# Scan outs", "# cycles", "Sum cycles", "Mean cycle", "Sum abs. errors", "# errors", "Mean abs. error", "Median abs. error", "sd abs. error"])
+    wr.writerow(["household", "item", "postHocCategory", "numScanIns", "numScanOuts", "numCycles", "sumCycles", "meanCycle", "sumAbsErrors", "numErrors", "meanAbsError", "medianAbsError", "sdAbsError"])
     for row in dataRows:
         wr.writerow(row)
 
@@ -834,7 +834,7 @@ with open('summaryData-cyclesAndErrorsByHousehold.csv', 'wb') as f:
         dataRows.append([householdId, numItems, numItemsCycle, numItemsCycles, numCycles, meanCycle, numErrors, meanAbsError, sdAbsError])
 
     wr = csv.writer(f)
-    wr.writerow(["Household", "# items", "# items w/cycle", "#items w/2+ cycles", "# cycles", "Mean cycle", "# errors", "Mean abs. error", "sd abs. error"])
+    wr.writerow(["household", "numItems", "numItems1Cycle", "numItems2Cycles", "numCycles", "meanCycle", "numErrors", "meanAbsError", "sdAbsError"])
     for row in dataRows:
         wr.writerow(row)
 
