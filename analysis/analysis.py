@@ -227,19 +227,24 @@ class Events:
     def _calcAverages(self, totalsByDay):
         print "Recalculating average use..."
         averageUse = Data.zeroPerHousehold()
+        daysBetweenEvents = Data.emptyListPerHousehold()
         for householdId, eventsPerDay in totalsByDay.iteritems():
-            daysBetweenEvents = []
             runningDaysWithoutEvents = 0
+            firstDay = True
 
             for day, numEvents in eventsPerDay.iteritems():
                 if numEvents == 0:
                     runningDaysWithoutEvents += 1
                 else:
-                    daysBetweenEvents.append(runningDaysWithoutEvents)
+                    if firstDay is False:
+                        daysBetweenEvents[householdId].append(runningDaysWithoutEvents)
+                    else:
+                        firstDay = False
                     runningDaysWithoutEvents = 0
 
-            averageUse[householdId] = sum(daysBetweenEvents) / (len(daysBetweenEvents) * 1.0)
+            averageUse[householdId] = sum(daysBetweenEvents[householdId]) / (len(daysBetweenEvents[householdId]) * 1.0)
             print " ↳ [%s] Average days between events was %.2f" % (Data.households()[householdId], averageUse[householdId])
+        return (averageUse, daysBetweenEvents)
 
     def _generateGraphs(self, GraphXYData):
         print "Regenerating event graphs..."
