@@ -19,8 +19,8 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-skipEventGraphGeneration = True
-skipErrorGraphGeneration = True
+skipEventGraphGeneration = False
+skipErrorGraphGeneration = False
 
 # MYSQL SETUP
 mysqlConnection = mysql.connector.connect(host='localhost', user='username', database='password')
