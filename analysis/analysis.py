@@ -89,6 +89,10 @@ class Data:
         return Data._householdIds
 
     @staticmethod
+    def household(householdId):
+        return Data.households()[householdId]
+
+    @staticmethod
     def events(events = None):
         if events is not None:
             Data._events = events
@@ -206,7 +210,7 @@ class Events:
         totalsByDay = Data.zeroPerHouseholdPerDay()
         totals = Data.zeroPerHousehold()
         for householdId, events in eventData.iteritems():
-            numDays = Data.households()[householdId].numDays
+            numDays = Data.household(householdId).numDays
             for event in events:
                 if event.day < 0 or event.day >= numDays:
                     continue
@@ -221,7 +225,7 @@ class Events:
                 totalsByDay[householdId][event.day] += 1
                 totals[householdId] += 1
 
-            print " ↳ [%s] Tabulated %d events" % (Data.households()[householdId], totals[householdId])
+            print " ↳ [%s] Tabulated %d events" % (Data.household(householdId), totals[householdId])
         return (graphData, totalsByDay, totals)
 
     def _calcAverages(self, totalsByDay):
@@ -243,7 +247,7 @@ class Events:
                     runningDaysWithoutEvents = 0
 
             averageUse[householdId] = sum(daysBetweenEvents[householdId]) / (len(daysBetweenEvents[householdId]) * 1.0)
-            print " ↳ [%s] Average days between events was %.2f" % (Data.households()[householdId], averageUse[householdId])
+            print " ↳ [%s] Average days between events was %.2f" % (Data.household(householdId), averageUse[householdId])
         return (averageUse, daysBetweenEvents)
 
     def _generateGraphs(self, GraphXYData):
@@ -255,7 +259,7 @@ class Events:
                 maxInteractions = max(maxInteractions, max(values))
 
         for householdId, data in GraphXYData.iteritems():
-            household = Data.households()[householdId]
+            household = Data.household(householdId)
             print " ↳ [%s] Plotting..." % (household)
             plt.clf()
 
@@ -337,7 +341,7 @@ class Event:
     def __init__(self, householdId, timestamp, activity):
         self.householdId = householdId
         self.timestamp = timestamp
-        self.day = Data.households()[householdId].day(timestamp)
+        self.day = Data.household(householdId).day(timestamp)
         self.activity = activity
 
 class Scans:
@@ -400,7 +404,7 @@ class Scans:
                     itemDataWithCycles[householdId][item] = data
 
             output = (" ↳ [%s] Across %d items, collated %d scan ins and %d scan outs, of which %d were matched"
-                % (Data.households()[householdId], len(itemData[householdId]), numScanIns[householdId],
+                % (Data.household(householdId), len(itemData[householdId]), numScanIns[householdId],
                     numScanOuts[householdId], numMatchedScanIns[householdId]))
             output += ("\n ↳       Furthermore, %d items have one complete cycle and %d have two or more" % (
                 len(itemDataWithCycle[householdId]), len(itemDataWithCycles[householdId])))
@@ -422,7 +426,7 @@ class Scan:
         if category is not None:
             self.item = category
 
-        self.day = Data.households()[householdId].day(timestamp)
+        self.day = Data.household(householdId).day(timestamp)
 
 class Predictions:
     def __init__(self, rawData = None):
@@ -447,7 +451,7 @@ class Predictions:
                 numPredictions[householdId] += 1
 
             output = (" ↳ [%s] Across %d items, collated %d predictions"
-                % (Data.households()[householdId], len(data[householdId]), numPredictions[householdId]))
+                % (Data.household(householdId), len(data[householdId]), numPredictions[householdId]))
             print output
 
         return (data, numPredictions)
@@ -473,7 +477,7 @@ class Prediction:
         if category is not None:
             self.item = category
 
-        self.day = Data.households()[householdId].day(timestamp)
+        self.day = Data.household(householdId).day(timestamp)
         self.useUnitBy = dateNeeded - datetime.timedelta(days=self.daysTillRunOut) + datetime.timedelta(days=self.averageUseInDays)
 
 class Errors:
@@ -530,7 +534,7 @@ class Errors:
         dataPoints = []
 
         for householdId, data in graphData.iteritems():
-            dataLabels.append(Data.households()[householdId].tex())
+            dataLabels.append(Data.household(householdId).tex())
             dataPoints.append(data.y)
 
         plt.clf()
@@ -682,7 +686,7 @@ with open('rawData-eventsByHousehold.csv', 'wb') as f:
     dataRows = []
     maxNumGaps = 0
     for householdId, gapsBetweenEvents in eventData.iteritems():
-        dataRows.append([str(Data.households()[householdId])] + gapsBetweenEvents)
+        dataRows.append([str(Data.household(householdId))] + gapsBetweenEvents)
         maxNumGaps = max(maxNumGaps, len(gapsBetweenEvents))
 
     wr = csv.writer(f)
@@ -703,7 +707,7 @@ with open('rawData-cycleTimeAndErrorByItem.csv', 'wb') as f:
     for householdId, items in errorData.iteritems():
         for item, errors in items.iteritems():
             numCycles = 0
-            dataRow = [householdId, item]
+            dataRow = [Data.household(householdId), item]
             for error in errors:
                 numCycles += 1
                 dataRow += [error.cycleTime, error.error, error.absError]
@@ -728,7 +732,7 @@ with open('rawData-cycleErrorByItem.csv', 'wb') as f:
     for householdId, items in errorData.iteritems():
         for item, errors in items.iteritems():
             numCycles = 0
-            dataRow = [householdId, item]
+            dataRow = [Data.household(householdId), item]
             for error in errors:
                 numCycles += 1
                 dataRow += [error.error]
@@ -753,7 +757,7 @@ with open('rawData-cycleTimeByItem.csv', 'wb') as f:
     for householdId, items in cycleData.iteritems():
         for item, cycles in items.iteritems():
             numCycles = 0
-            dataRow = [householdId, item]
+            dataRow = [Data.household(householdId), item]
             for cycle in cycles:
                 numCycles += 1
                 dataRow += [cycle]
@@ -765,7 +769,6 @@ with open('rawData-cycleTimeByItem.csv', 'wb') as f:
     wr.writerow(["householdId", "item"] + (["cycleTime"] * maxNumCycles))
     for row in dataRows:
         wr.writerow(row)
-
 
 
 
@@ -806,7 +809,7 @@ with open('summaryData-cyclesAndErrorsByItem.csv', 'wb') as f:
                 medianError = numpy.median(absErrors)
                 sdError = numpy.std(absErrors)
 
-            dataRow = [householdId, item, "", numScanIns, numScanOuts, numCycles, sumCycleTime, meanCycleTime, sumErrors, numErrors, meanError, medianError, sdError]
+            dataRow = [Data.household(householdId), item, "", numScanIns, numScanOuts, numCycles, sumCycleTime, meanCycleTime, sumErrors, numErrors, meanError, medianError, sdError]
             maxNumCycles = max(maxNumCycles, numCycles)
 
             dataRows.append(dataRow)
@@ -849,7 +852,7 @@ with open('summaryData-cyclesAndErrorsByHousehold.csv', 'wb') as f:
         numItemsCycle = len(Data.scans().itemDataWithCycle[householdId])
         numItemsCycles = len(Data.scans().itemDataWithCycles[householdId])
 
-        dataRows.append([householdId, numItems, numItemsCycle, numItemsCycles, numCycles, meanCycle, numErrors, meanAbsError, sdAbsError])
+        dataRows.append([Data.household(householdId), numItems, numItemsCycle, numItemsCycles, numCycles, meanCycle, numErrors, meanAbsError, sdAbsError])
 
     wr = csv.writer(f)
     wr.writerow(["household", "numItems", "numItems1Cycle", "numItems2Cycles", "numCycles", "meanCycle", "numErrors", "meanAbsError", "sdAbsError"])
