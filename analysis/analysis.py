@@ -675,8 +675,26 @@ Data.predictions(Predictions(predictionData))
 
 
 # OUTPUT EACH GAP BETWEEN EVENTS WITH HOME ESSENTIALS BY HOUSEHOLD
-print "Outputting raw events with Home Essentials by household..."
-with open('rawData-eventsByHousehold.csv', 'wb') as f:
+print "Outputting raw numbers of interactions by day with Home Essentials by household..."
+with open('rawData-eventsByHouseholdByDay.csv', 'wb') as f:
+    eventData = Data.events().totalsByDay
+
+    dataRows = []
+    maxDays = 0
+    for householdId, days in eventData.iteritems():
+        dataRows.append([str(Data.household(householdId))] + days.values())
+        maxDays = max(maxDays, len(days))
+
+    wr = csv.writer(f)
+    wr.writerow(["household"] + (["day" + str(i) for i in range(0,maxDays)]))
+    for row in dataRows:
+        wr.writerow(row)
+
+
+
+# OUTPUT EACH GAP BETWEEN EVENTS WITH HOME ESSENTIALS BY HOUSEHOLD
+print "Outputting raw gaps between days with interaction with Home Essentials by household..."
+with open('rawData-eventGapsByHousehold.csv', 'wb') as f:
     eventData = Data.events().daysBetweenEvents
 
     dataRows = []
