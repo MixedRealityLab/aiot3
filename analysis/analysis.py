@@ -585,6 +585,9 @@ class Error:
 
 
 
+# IMPORT DATA ##########################################################################################################
+
+
 
 # HOUSEHOLD DATA
 Data.households({
@@ -602,10 +605,8 @@ Data.households({
 
 
 
-
-
-# EVENT DATA
-print "Importing event data..."
+# COLLATE EVENT DATA
+print "Collating event data..."
 cursor = mysqlConnection.cursor()
 query = ("SELECT e.`user_id`, e.`user_id`- %d AS `householdId`, e.`timestamp`, c.`category` "
     "FROM `user_event` AS e "
@@ -619,7 +620,6 @@ query = ("SELECT e.`user_id`, e.`user_id`- %d AS `householdId`, e.`timestamp`, c
     "ORDER BY `user_id`" % (userIdParticipantOffset, startAtUserId, userIdParticipantOffset, startAtUserId))
 cursor.execute(query)
 
-
 eventData = Data.emptyListPerHousehold()
 for (userId, householdId, timestamp, activity) in cursor:
     eventData[householdId].append(Event(householdId, timestamp, activity.replace(' ', '').replace('_', '')))
@@ -627,9 +627,7 @@ Data.events(Events(eventData))
 
 
 
-
-
-# IMPORTANT SCAN DATA
+# COLLATE SCAN DATA
 print "Collating scan in/out data..."
 cursor = mysqlConnection.cursor()
 query = ("SELECT inv.`user_id`- %d AS `householdId`, `timestamp`, (SELECT CONCAT(CAT1, ' ', CAT2) AS 'categoryName' FROM categorised_inventory AS ci LEFT JOIN categories AS c ON c.id = ci.category_id WHERE ci.inventory_id = inv.id) AS categoryName, CONCAT('#', inv.`id`, ' (', prod.`brand_name`, ') ', prod.`description`) AS product, 'in' AS `action`, `old_stock`, `new_stock`, `new_stock`-`old_stock` AS 'delta_stock' FROM `inventory` AS inv "
@@ -644,16 +642,11 @@ query = ("SELECT inv.`user_id`- %d AS `householdId`, `timestamp`, (SELECT CONCAT
     "ORDER BY `householdId`, action, `categoryName`, `product`, `timestamp`") % (userIdParticipantOffset, startAtUserId, userIdParticipantOffset, startAtUserId)
 cursor.execute(query)
 
-
 scanData = Data.emptyListPerHousehold()
 for (householdId, timestamp, category, product, action, oldStock, newStock, deltaStock) in cursor:
     if product is not None:
         scanData[householdId].append(Scan(householdId, timestamp, category, product, action, oldStock, newStock, deltaStock))
 Data.scans(Scans(scanData))
-
-
-
-
 
 
 
@@ -669,12 +662,15 @@ query = ("SELECT DISTINCT(pred.`id`),  inv.`user_id`- %d AS `householdId`, pred.
     "ORDER BY pred.`user_id`, cat.`CAT1`, cat.`CAT2`, pred.`timestamp`, `product`" % (userIdParticipantOffset, startAtUserId))
 cursor.execute(query)
 
-
 predictionData = Data.emptyListPerHousehold()
 for (id, householdId, timestamp, category, product, lastScanIn, lastScanOut, daysTillRunOut, averageUseInDays, currentStock, daysTillNeededFromLastScanIn, dateNeeded, daysRemaining, feedback) in cursor:
     if product is not None:
         predictionData[householdId].append(Prediction(id, householdId, timestamp, category, product, lastScanIn, lastScanOut, daysTillRunOut, averageUseInDays, currentStock, daysTillNeededFromLastScanIn, dateNeeded, daysRemaining, feedback))
 Data.predictions(Predictions(predictionData))
+
+
+
+# EXPRT DATA ###########################################################################################################
 
 
 
@@ -690,10 +686,9 @@ with open('rawData-eventsByHousehold.csv', 'wb') as f:
         maxNumGaps = max(maxNumGaps, len(gapsBetweenEvents))
 
     wr = csv.writer(f)
-    wr.writerow(["householdId"] + (["gapsBetweenEvents"] * maxNumGaps))
+    wr.writerow(["household"] + (["gap" + str(i) + "BetweenEvents" for i in range(0,maxNumGaps)]))
     for row in dataRows:
         wr.writerow(row)
-
 
 
 
@@ -716,7 +711,7 @@ with open('rawData-cycleTimeAndErrorByItem.csv', 'wb') as f:
             dataRows.append(dataRow)
 
     wr = csv.writer(f)
-    wr.writerow(["householdId", "item"] + (["cycleTime", "error", "absError"] * maxNumCycles))
+    wr.writerow(["household", "item"] + list(itertools.chain(*[("cycleTime" + str(i), "error" + str(i), "absError" + str(i)) for i in range(0,maxNumCycles)])))
     for row in dataRows:
         wr.writerow(row)
 
@@ -741,7 +736,7 @@ with open('rawData-cycleErrorByItem.csv', 'wb') as f:
             dataRows.append(dataRow)
 
     wr = csv.writer(f)
-    wr.writerow(["householdId", "item"] + (["error"] * maxNumCycles))
+    wr.writerow(["household", "item"] + (["error" + str(i) + "BetweenEvents" for i in range(0,maxNumCycles)]))
     for row in dataRows:
         wr.writerow(row)
 
@@ -766,7 +761,7 @@ with open('rawData-cycleTimeByItem.csv', 'wb') as f:
             dataRows.append(dataRow)
 
     wr = csv.writer(f)
-    wr.writerow(["householdId", "item"] + (["cycleTime"] * maxNumCycles))
+    wr.writerow(["household", "item"] + (["cycleTime" + str(i) for i in range(0,maxNumCycles)]))
     for row in dataRows:
         wr.writerow(row)
 
@@ -858,5 +853,11 @@ with open('summaryData-cyclesAndErrorsByHousehold.csv', 'wb') as f:
     wr.writerow(["household", "numItems", "numItems1Cycle", "numItems2Cycles", "numCycles", "meanCycle", "numErrors", "meanAbsError", "sdAbsError"])
     for row in dataRows:
         wr.writerow(row)
+
+
+
+# GOODBYE, CRUEL WORLD #################################################################################################
+
+
 
 print "Done."
